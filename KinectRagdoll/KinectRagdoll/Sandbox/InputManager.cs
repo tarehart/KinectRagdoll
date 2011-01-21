@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Dynamics.Joints;
 
 namespace KinectTest2.Sandbox
 {
@@ -11,91 +13,195 @@ namespace KinectTest2.Sandbox
     {
 
         private KinectRagdollGame game;
-        private bool shiftClick;
+        private FixedMouseJoint _fixedMouseJoint;
+        private InputHelper inputHelper;
+        private Vector2 dragStartWorld;
+        private Vector2 dragStartPixel;
+        public Rectangle selectionRectangle;
+        public bool selectingRectangle;
+        public static bool DisregardInputEvents;
 
         public InputManager(KinectRagdollGame game)
         {
             this.game = game;
-
+            inputHelper = new InputHelper();
         }
 
         
         public void Update()
         {
+            if (DisregardInputEvents)
+            {
+                return;
+            }
 
-            checkExit();
+            inputHelper.Update();
 
-            //checkBallSpawn();
+            //checkExit();
+            if (inputHelper.IsPauseGame())
+            {
+                game.Exit();
+            }
+
+            Mouse();
+
+            if (selectingRectangle)
+            {
+                selectionRectangle = SelectArea.produceRectangle(dragStartPixel, inputHelper.MousePosition);
+            }
+
 
             CheckFormLaunches();
 
-            CheckEnterStates();
-
-            CheckLeaveStates();
-
         }
 
-        private void CheckLeaveStates()
+        
+
+       
+
+        private void CheckFormLaunches()
         {
-            if (!(Mouse.GetState().LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed))
-            {
-                if (shiftClick)
-                {
-
-                    if (Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftShift))
-                    {
-                        shiftClick = false;
-                        Vector2 position = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
-                        position = game.projectionHelper.PixelToFarseer(position);
-                        try
-                        {
-                            FormManager.Rectangle.PlaceFixture(position, game.farseerManager.world);
-                        }
-                        catch (Exception e)
-                        {
-
-                        }
-                    }
-                }
-            }
-        }
-
-        private void CheckEnterStates()
-        {
-            if (Mouse.GetState().LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed &&
-                Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftShift))
-            {
-                shiftClick = true;
-            }
-        }
-
-        private static void CheckFormLaunches()
-        {
-            if (Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.R))
+            if (inputHelper.IsKeyDown(Keys.R))
             {
                 FormManager.Rectangle.Show();
             }
 
-            if (Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.P))
+            if (inputHelper.IsKeyDown(Keys.P))
             {
                 FormManager.Property.Show();
             }
         }
 
-        private void checkBallSpawn()
-        {
-            if (Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Enter))
-            {
-                game.farseerManager.dropBall();
+       
 
+
+        private void Mouse()
+        {
+
+            
+
+            Vector2 position = game.projectionHelper.PixelToFarseer(inputHelper.MousePosition);
+
+            if (inputHelper.IsOldButtonPress(MouseButtons.LeftButton))
+            {
+                MouseUp(position);
+            }
+            else if (inputHelper.IsNewButtonPress(MouseButtons.LeftButton))
+            {
+                if (inputHelper.IsKeyDown(Keys.LeftShift))
+                {
+                    PlaceFixture(position);
+                }
+                else
+                {
+                    MouseDown(position);
+                }
+            }
+
+            if (_fixedMouseJoint != null)
+            {
+                _fixedMouseJoint.WorldAnchorB = position;
+            }
+
+
+            if (inputHelper.IsNewButtonPress(MouseButtons.RightButton)) {
+                FormManager.Property.setSelectedObject(game.farseerManager.world.TestPoint(position));
             }
         }
 
-        private void checkExit()
+        private void PlaceFixture(Vector2 position)
         {
-            // Allows the game to exit
-            if (Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Escape))
-                game.Exit();
+            FormManager.Rectangle.PlaceFixture(position, game.farseerManager.world);
+        }
+
+        private void MouseDown(Vector2 p)
+        {
+            if (_fixedMouseJoint != null)
+            {
+                return;
+            }
+
+            Fixture savedFixture = game.farseerManager.world.TestPoint(p);
+
+            if (savedFixture != null)
+            {
+                Body body = savedFixture.Body;
+                _fixedMouseJoint = new FixedMouseJoint(body, p);
+                _fixedMouseJoint.MaxForce = 1000.0f * body.Mass;
+                game.farseerManager.world.AddJoint(_fixedMouseJoint);
+                body.Awake = true;
+            }
+            else // start a selection rectangle
+            {
+                dragStartWorld = p;
+                dragStartPixel = inputHelper.MousePosition;
+                selectingRectangle = true;
+            }
+        }
+
+        private void MouseUp(Vector2 p)
+        {
+
+            if (_fixedMouseJoint != null)
+            {
+                game.farseerManager.world.RemoveJoint(_fixedMouseJoint);
+                _fixedMouseJoint = null;
+            }
+
+            if (selectingRectangle)
+            {
+                selectingRectangle = false;
+                if (!game.projectionHelper.InsidePixelBounds(inputHelper.MousePosition)) return;
+                SelectArea s = new SelectArea(dragStartWorld, p);
+                List<Object> selected = new List<object>();
+                foreach (Body b in game.farseerManager.world.BodyList)
+                {
+                    if (s.Contains(b.Position))
+                        selected.Add(b);
+                }
+
+                foreach (Joint j in game.farseerManager.world.JointList)
+                {
+                    if (s.Contains(j.WorldAnchorA))
+                        selected.Add(j);
+                }
+
+                if (selected.Count > 0)
+                {
+                    FormManager.Property.setPendingObjects(selected);
+                    if (!FormManager.Property.Visible)
+                        FormManager.Property.Show();
+
+                }
+            }
+        }
+
+
+        class SelectArea
+        {
+            private float Xmin;
+            private float Xmax;
+            private float Ymin;
+            private float Ymax;
+
+            public SelectArea(Vector2 dragStart, Vector2 dragFinish)
+            {
+                Xmin = Math.Min(dragStart.X, dragFinish.X);
+                Xmax = Math.Max(dragStart.X, dragFinish.X);
+                Ymin = Math.Min(dragStart.Y, dragFinish.Y);
+                Ymax = Math.Max(dragStart.Y, dragFinish.Y);
+            }
+
+            public bool Contains(Vector2 v)
+            {
+                return v.X > Xmin && v.X < Xmax && v.Y > Ymin && v.Y < Ymax;
+            }
+
+            public static Rectangle produceRectangle(Vector2 a, Vector2 b)
+            {
+                SelectArea s = new SelectArea(a, b);
+                return new Rectangle((int)s.Xmin, (int)s.Ymin, (int)(s.Xmax - s.Xmin), (int)(s.Ymax - s.Ymin));
+            }
         }
 
     }

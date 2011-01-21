@@ -16,14 +16,11 @@ namespace KinectTest2.Sandbox
 {
     public partial class PropertyEditorForm : GameForm
     {
-        private static Stack<List<Object>> history = new Stack<List<Object>>();
+        private Stack<Object> history = new Stack<Object>();
         private FarseerManager farseerManager;
-        private object oldTexture;
-        private object oldHoverTexture;
-        private object lastHovered;
         private DebugMaterial selectTexture;
-        private DebugMaterial hoverTexture;
-        private MyComboBox comboBox;
+        private DebugMaterial pendingTexture;
+        private Dictionary<Object, DebugMaterial> materialBank = new Dictionary<object, DebugMaterial>();
 
         public PropertyEditorForm()
         {
@@ -31,66 +28,82 @@ namespace KinectTest2.Sandbox
 
 
             this.farseerManager = FarseerManager.Main;
-            SetObject(farseerManager.world);
+            setSelectedObject(farseerManager.world);
 
-           selectTexture = new DebugMaterial(MaterialType.Stars)
+            selectTexture = new DebugMaterial(MaterialType.Stars)
             {
                 Color = Microsoft.Xna.Framework.Color.Red,
                 Scale = 2f
             };
 
-           comboBox = new MyComboBox();
-           Controls.Add(comboBox);
-           comboBox.Location = comboPlaceholder.Location;
-           comboBox.Width = comboPlaceholder.Width;
-           comboBox.Height = comboPlaceholder.Height;
-           comboPlaceholder.Visible = false;
+            pendingTexture = new DebugMaterial(MaterialType.Dots)
+            {
+                Color = Microsoft.Xna.Framework.Color.Yellow,
+                Scale = 2f
+            };
 
-           
-           comboBox.SelectedIndexChanged += new EventHandler(comboBox_SelectedIndexChanged);
-           comboBox.DropdownItemSelected += new MyComboBox.DropdownItemSelectedEventHandler(comboBox_DropdownItemSelected);
         }
 
-        void comboBox_SelectedIndexChanged(object sender, EventArgs e)
+
+
+
+        public void setSelectedObject(Object o, bool noHistory = false)
         {
 
-            if (comboBox.SelectedIndex < 0 || comboBox.SelectedIndex > comboBox.Items.Count) return;
+            prepareForObjChange(noHistory);
 
-            Object o = comboBox.Items[comboBox.SelectedIndex];
-            List<Object> list = new List<object>();
-            list.Add(o);
-            history.Push(list);
+
             grid.SelectedObject = o;
+            doHighlighting(null, o);
+
         }
 
+        
 
-
-
-
-        void comboBox_SelectedValueChanged(object sender, EventArgs e)
+        public void setSelectedObjects(IEnumerable<object> objects, bool noHistory = false, bool maintainSelection = false)
         {
-            //List<Object> list = new List<object>();
-            //list.Add(comboBox.SelectedValue);
-            //history.Push(list);
-            //grid.SelectedObject = comboBox.SelectedValue;
+            prepareForObjChange(noHistory, maintainSelection);
+
+            grid.SelectedObjects = objects.ToArray<object>();
+
+            foreach (Object b in objects)
+            {
+                doHighlighting(null, b);
+            }
+
         }
 
-        void comboBox_DropdownItemSelected(object sender, MyComboBox.DropdownItemSelectedEventArgs e)
+
+        private void prepareForObjChange(bool noHistory, bool maintainSelection = false)
         {
+            if (!noHistory)
+            {
+                if (grid.SelectedObject != null)
+                {
+                    history.Push(grid.SelectedObject);
+                }
+                else if (grid.SelectedObjects != null && grid.SelectedObjects.Length > 0)
+                {
+                    history.Push(grid.SelectedObjects);
+                }
+            }
 
-            if (e.SelectedItem < 0 || e.SelectedItem > comboBox.Items.Count) return;
+            if (!maintainSelection)
+                selectNone_Click(null, null);
 
-            Object o = comboBox.Items[e.SelectedItem];
-            doHighlighting(lastHovered, comboBox.Items[e.SelectedItem]);
-            lastHovered = o;
+            object[] highlighted = materialBank.Keys.ToArray<object>();
+            foreach (Object b in highlighted)
+            {
+                doHighlighting(b, null);
+            }
         }
+
+       
 
         private void zoomIn_Click(object sender, EventArgs e)
         {
 
             if (grid.SelectedGridItem.Value == null) return;
-
-            if (TryLists(grid.SelectedGridItem.Value)) return;
 
             if (grid.SelectedGridItem.Value is IEnumerable<object>) {
                 return;
@@ -98,35 +111,25 @@ namespace KinectTest2.Sandbox
 
             if (HasProperties(grid.SelectedGridItem.Value.GetType()))
             {
-                List<Object> list = new List<object>();
-                list.Add(grid.SelectedGridItem.Value);
-                history.Push(list);
-                grid.SelectedObject = grid.SelectedGridItem.Value;
+                setSelectedObject(grid.SelectedGridItem.Value);
             }
         }
 
-        private bool TryLists(object p)
-        {
-            Type t = grid.SelectedGridItem.Value.GetType();
-            
-            if (t == typeof(List<Body>))
-            {
-                List<Object> list = new List<Object>();
-                List<Body> bodies = (List<Body>)p;
-                list.AddRange(bodies);
-                history.Push(list);
-                grid.SelectedObjects = list.ToArray();
-                return true;
-            }
-
-            return false;
-        }
 
         private void zoomOut_Click(object sender, EventArgs e)
         {
             if (history.Count > 0)
             {
-                grid.SelectedObjects = history.Pop().ToArray();
+                Object o = history.Pop();
+                if (o is IEnumerable<object>)
+                {
+                    IEnumerable<object> list = (IEnumerable<object>)o;
+                    setSelectedObjects(list, true);
+                }
+                else
+                {
+                    setSelectedObject(o, true);
+                }
             }
         }
 
@@ -144,16 +147,16 @@ namespace KinectTest2.Sandbox
             return type.GetProperties().Length > 0;
         }
 
-        internal void SetObject(object o)
-        {
-            grid.SelectedObject = o;
+        //internal void SetObject(object o)
+        //{
+        //    grid.SelectedObject = o;
 
-            history.Clear();
-            List<Object> list = new List<Object>();
-            list.Add(o);
-            history.Push(list);
+        //    history.Clear();
+        //    List<Object> list = new List<Object>();
+        //    list.Add(o);
+        //    history.Push(list);
             
-        }
+        //}
 
         private void grid_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
         {
@@ -163,7 +166,7 @@ namespace KinectTest2.Sandbox
             {
 
                 IEnumerable<Object> list = (IEnumerable<Object>)e.NewSelection.Value;
-                PopulateComboBox(list);
+                PopulateSelectList(list);
             }
 
             if (e.NewSelection.Value is JointEdge)
@@ -176,7 +179,7 @@ namespace KinectTest2.Sandbox
                     j = j.Next;
                 }
 
-                PopulateComboBox(joints);
+                PopulateSelectList(joints);
 
             }
 
@@ -189,24 +192,33 @@ namespace KinectTest2.Sandbox
 
         }
 
-        private void PopulateComboBox(IEnumerable<Object> list)
+        private void PopulateSelectList(IEnumerable<Object> list)
         {
-            Controls.Remove(comboBox);
-            comboBox = new MyComboBox();
-            Controls.Add(comboBox);
-            comboBox.Location = comboPlaceholder.Location;
-            comboBox.Width = comboPlaceholder.Width;
-            comboBox.Height = comboPlaceholder.Height;
+            //Controls.Remove(comboBox);
+            //comboBox = new MyComboBox();
+            //Controls.Add(comboBox);
+            //comboBox.Location = comboPlaceholder.Location;
+            //comboBox.Width = comboPlaceholder.Width;
+            //comboBox.Height = comboPlaceholder.Height;
 
-            comboBox.Items.AddRange(list.ToArray<object>());
-            comboBox.SelectedText = "Values available";
+            //comboBox.Items.AddRange(list.ToArray<object>());
+            //comboBox.SelectedText = "Values available";
 
-            comboBox.SelectedIndexChanged += new EventHandler(comboBox_SelectedIndexChanged);
-            comboBox.DropdownItemSelected += new MyComboBox.DropdownItemSelectedEventHandler(comboBox_DropdownItemSelected);
+            //comboBox.SelectedIndexChanged += new EventHandler(comboBox_SelectedIndexChanged);
+            //comboBox.DropdownItemSelected += new MyComboBox.DropdownItemSelectedEventHandler(comboBox_DropdownItemSelected);
+
+            selectNone_Click(null, null);
+            multipleSelect.Items.Clear();
+
+            multipleSelect.Items.AddRange(list.ToArray<object>());
+
+            selectFromList.Text = "Go to Selected";
+
      
         }
 
-        private void doHighlighting(Object old, Object newObj)
+
+        private void doHighlighting(Object old, Object newObj, bool pending = false)
         {
             if (old != null)
             {
@@ -215,14 +227,19 @@ namespace KinectTest2.Sandbox
                 if (tOld == typeof(Body))
                 {
                     Body b = (Body)old;
-                    if (oldTexture != null)
-                        b.FixtureList[0].UserData = oldTexture;
+                    if (b.FixtureList != null)
+                    {
+                        if (materialBank.ContainsKey(b.FixtureList[0]))
+                            b.FixtureList[0].UserData = materialBank[b.FixtureList[0]];
+                        materialBank.Remove(b.FixtureList[0]);
+                    }
                 }
                 else if (tOld == typeof(Fixture))
                 {
                     Fixture f = (Fixture)old;
-                    if (oldTexture != null)
-                        f.UserData = oldTexture;
+                    if (materialBank.ContainsKey(f))
+                        f.UserData = materialBank[f];
+                    materialBank.Remove(f);
                 }
             }
 
@@ -235,14 +252,33 @@ namespace KinectTest2.Sandbox
                 if (tNew == typeof(Body))
                 {
                     Body b = (Body)newObj;
-                    oldTexture = b.FixtureList[0].UserData;
-                    b.FixtureList[0].UserData = selectTexture;
+                    if (b.FixtureList != null)
+                    {
+                        if (!materialBank.ContainsKey(b.FixtureList[0]))
+                            materialBank.Add(b.FixtureList[0], (DebugMaterial)b.FixtureList[0].UserData);
+                        if (pending)
+                        {
+                            b.FixtureList[0].UserData = pendingTexture;
+                        }
+                        else
+                        {
+                            b.FixtureList[0].UserData = selectTexture;
+                        }
+                    }
                 }
                 else if (tNew == typeof(Fixture))
                 {
                     Fixture f = (Fixture)newObj;
-                    oldTexture = f.UserData;
-                    f.UserData = selectTexture;
+                    if (!materialBank.ContainsKey(f))
+                        materialBank.Add(f, (DebugMaterial)f.UserData);
+                    if (pending)
+                    {
+                        f.UserData = pendingTexture;
+                    }
+                    else
+                    {
+                        f.UserData = selectTexture;
+                    }
                 }
                 else if (newObj is Joint)
                 {
@@ -252,6 +288,103 @@ namespace KinectTest2.Sandbox
 
 
             }
+        }
+
+        private void selectAll_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < multipleSelect.Items.Count; i++) {
+                multipleSelect.SetItemChecked(i, true);
+            }
+        }
+
+        private void selectNone_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < multipleSelect.Items.Count; i++)
+            {
+                multipleSelect.SetItemChecked(i, false);
+            }
+        }
+
+        private void selectFromList_Click(object sender, EventArgs e)
+        {
+            if (multipleSelect.CheckedIndices.Count == 0) return;
+
+            if (multipleSelect.CheckedIndices.Count == 1)
+            {
+                setSelectedObject(multipleSelect.CheckedItems[0]);
+            }
+            else
+            {
+                
+                object[] objs = new object[multipleSelect.CheckedItems.Count];
+                multipleSelect.CheckedItems.CopyTo(objs, 0);
+                setSelectedObjects(objs, false, true);
+            }
+        }
+
+        private void multipleSelect_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            Object value = multipleSelect.Items[e.Index];
+
+            if (e.NewValue == CheckState.Checked)
+            {
+                doHighlighting(null, value, true);
+            }
+            else
+            {
+                doHighlighting(value, null, true);
+            }
+
+            int numChecked = multipleSelect.CheckedIndices.Count - 1;
+            if (e.NewValue == CheckState.Checked) numChecked += 2;
+
+
+            if (numChecked > 1)
+            {
+                selectFromList.Text = "Batch Edit Selected";
+            }
+            else
+            {
+                selectFromList.Text = "Go to Selected";
+            }
+        }
+
+        private void selectWorld_Click(object sender, EventArgs e)
+        {
+            setSelectedObject(farseerManager.world);
+        }
+
+        private void deleteSelected_Click(object sender, EventArgs e)
+        {
+            List<Object> toRemove = new List<object>();
+
+            foreach (Object o in multipleSelect.CheckedItems)
+            {
+                if (o is Fixture || o is Body || o is Joint)
+                {
+                    doHighlighting(o, null); // remove from material bank
+                    toRemove.Add(o);
+
+                    if (o is Fixture)
+                        farseerManager.world.RemoveBody(((Fixture)o).Body);
+                    else if (o is Body)
+                        farseerManager.world.RemoveBody((Body)o);
+                    else if (o is Joint)
+                        farseerManager.world.RemoveJoint((Joint)o);
+                }
+            }
+
+            foreach (Object o in toRemove)
+            {
+                multipleSelect.Items.Remove(o);
+            }
+        }
+
+
+        internal void setPendingObjects(List<object> selected)
+        {
+            PopulateSelectList(selected);
+            selectAll_Click(null, null);
         }
     }
 }

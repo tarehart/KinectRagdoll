@@ -8,6 +8,9 @@ namespace KinectTest2.Sandbox
 {
     public class GameForm : Form
     {
+        
+
+        
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
             this.Hide();
@@ -15,5 +18,17 @@ namespace KinectTest2.Sandbox
             base.OnClosing(e);
         }
 
+        protected override void  OnMouseEnter(EventArgs e)
+        {
+ 
+            InputManager.DisregardInputEvents = true;
+            base.OnMouseEnter(e);
+        }
+
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            InputManager.DisregardInputEvents = false;
+            base.OnMouseLeave(e);
+        }
     }
 }

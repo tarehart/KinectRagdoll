@@ -27,5 +27,10 @@ namespace KinectTest2.Sandbox
             return new Vector2(v.X, v.Y);
         }
 
+
+        internal bool InsidePixelBounds(Vector2 v)
+        {
+            return v.X > 0 && v.Y > 0 && v.X < viewport.Width && v.Y < viewport.Height;
+        }
     }
 }

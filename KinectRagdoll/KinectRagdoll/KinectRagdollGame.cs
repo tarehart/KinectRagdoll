@@ -43,6 +43,7 @@ namespace KinectTest2
         BasicEffect farseerEffect;
         VertexDeclaration vertexDeclaration;
         Model myModel;
+        Texture2D selectionRec;
 
         
 
@@ -165,6 +166,7 @@ namespace KinectTest2
             graphicsDevice = GraphicsDevice;
 
             myModel = Content.Load<Model>("Models\\cube");
+            selectionRec = Content.Load<Texture2D>("Materials\\squares");
 
             ragdollManager.LoadContent(Content);
             farseerManager.LoadContent(GraphicsDevice, Content, kinectManager);
@@ -228,6 +230,8 @@ namespace KinectTest2
             spriteBatch.Draw(kinectManager.depthTex, new Rectangle(50, 50, 640, 480), Color.White);
             farseerManager.Draw();
             spriteBatch.Draw(renderTarget, new Vector2(0, 0), null, Color.White, 0, new Vector2(0, 0), 1, SpriteEffects.FlipVertically, 1);
+            if(inputManager.selectingRectangle)
+                spriteBatch.Draw(selectionRec, inputManager.selectionRectangle, new Color(100, 100, 255, 100));
             spriteBatch.End();
 
 
