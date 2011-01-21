@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+  <Asset Type="Pipeline:BuildItemCollection">
+    <Item>
+      <Source>Common\blank.png</Source>
+      <Name>Common\blank</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\Farseer Physics Engine 3.2 SimpleSamples XNA\DemoBase 3.2 XNA\bin\x86\Debug\Content\Common\blank.xnb</Output>
+      <Time>2011-01-09T18:55:26.4564855-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Common\gradient.png</Source>
+      <Name>Common\gradient</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\Farseer Physics Engine 3.2 SimpleSamples XNA\DemoBase 3.2 XNA\bin\x86\Debug\Content\Common\gradient.xnb</Output>
+      <Time>2011-01-09T18:55:26.4694857-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Common\logo.png</Source>
+      <Name>Common\logo</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\Farseer Physics Engine 3.2 SimpleSamples XNA\DemoBase 3.2 XNA\bin\x86\Debug\Content\Common\logo.xnb</Output>
+      <Time>2011-01-09T18:55:26.4844859-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\detailsFont.spritefont</Source>
+      <Name>Fonts\detailsFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\Farseer Physics Engine 3.2 SimpleSamples XNA\DemoBase 3.2 XNA\bin\x86\Debug\Content\Fonts\detailsFont.xnb</Output>
+      <Time>2011-01-09T18:55:26.5014862-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\diagnosticFont.spritefont</Source>
+      <Name>Fonts\diagnosticFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\Farseer Physics Engine 3.2 SimpleSamples XNA\DemoBase 3.2 XNA\bin\x86\Debug\Content\Fonts\diagnosticFont.xnb</Output>
+      <Time>2011-01-09T18:55:26.5134864-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\frameRateCounterFont.spritefont</Source>
+      <Name>Fonts\frameRateCounterFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\Farseer Physics Engine 3.2 SimpleSamples XNA\DemoBase 3.2 XNA\bin\x86\Debug\Content\Fonts\frameRateCounterFont.xnb</Output>
+      <Time>2011-01-09T18:55:26.5274866-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\gamefont.spritefont</Source>
+      <Name>Fonts\gamefont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\Farseer Physics Engine 3.2 SimpleSamples XNA\DemoBase 3.2 XNA\bin\x86\Debug\Content\Fonts\gamefont.xnb</Output>
+      <Time>2011-01-09T18:55:26.5404869-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Fonts\menufont.spritefont</Source>
+      <Name>Fonts\menufont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\Farseer Physics Engine 3.2 SimpleSamples XNA\DemoBase 3.2 XNA\bin\x86\Debug\Content\Fonts\menufont.xnb</Output>
+      <Time>2011-01-09T18:55:26.5524871-05:00</Time>
+    </Item>
+    <BuildSuccessful>true</BuildSuccessful>
+    <Settings>
+      <TargetPlatform>Windows</TargetPlatform>
+      <TargetProfile>Reach</TargetProfile>
+      <BuildConfiguration>Debug</BuildConfiguration>
+      <CompressContent>false</CompressContent>
+      <RootDirectory>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\Farseer Physics Engine 3.2 SimpleSamples XNA\DemoBase 3.2 XNA\Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\Farseer Physics Engine 3.2 SimpleSamples XNA\DemoBase 3.2 XNA\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\Farseer Physics Engine 3.2 SimpleSamples XNA\DemoBase 3.2 XNA\Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\Farseer Physics Engine 3.2 SimpleSamples XNA\DemoBase 3.2 XNA\bin\x86\Debug\Content\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2010-08-23T13:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
+        <Value>2010-08-23T13:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2010-08-23T13:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2010-08-23T13:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2010-08-23T13:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Value>2010-08-23T13:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2010-12-30T21:02:05.7514648-05:00</Value>
+      </Assembly>
+    </Assemblies>
+  </Asset>
+</XnaContent>

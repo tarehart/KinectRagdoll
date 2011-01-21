@@ -9,9 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinectTest2", "KinectTest2\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinectTest2Content", "KinectTest2\KinectTest2Content\KinectTest2Content.contentproj", "{4381BC2A-BBE5-40FF-9CEB-8BBD343757FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Farseer Physics 3.2 XNA", "..\Farseer Physics Engine 3.2 SimpleSamples XNA\Farseer Physics Engine 3.2 XNA\Farseer Physics 3.2 XNA.csproj", "{0A850700-1ABB-4288-A391-6726B90EBEB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Farseer Physics 3.2 XNA", "FarseerSource\Farseer Physics Engine 3.2 XNA\Farseer Physics 3.2 XNA.csproj", "{0A850700-1ABB-4288-A391-6726B90EBEB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebugView 3.2 XNA", "..\Farseer Physics Engine 3.2 SimpleSamples XNA\DebugView 3.2 XNA\DebugView 3.2 XNA.csproj", "{FC7845FA-13FE-4FF8-822A-A577F3F59B00}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebugView 3.2 XNA", "FarseerSource\DebugView 3.2 XNA\DebugView 3.2 XNA.csproj", "{FC7845FA-13FE-4FF8-822A-A577F3F59B00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
