@@ -1,0 +1,40 @@
+Kinect Ragdoll
+==============
+
+This program lets you control a 2D ragdoll using a Kinect. I might develop it into an
+obstacle course / time trial type of game, plus just a physics sandbox.
+
+
+How to play
+-----------
+1. Launch the game
+2. Follow this sequence:
+	- Stand back from your Kinect, the background turns green.
+	- Raise your hands like a referee signaling a field goal, the background turns yellow.
+	- Hold that pose for a few seconds, the background turns beige and you now control the ragdoll.
+3. Put your chest out and head back to fire thrusters out of your hands and feet
+4. There's currently no object to the game.
+
+
+
+Adding Physics Props
+--------------------
+- Press 'R' to open the rectangle form, then fill it out. Hold 'Shift' and click on the game screen to place a rectangle.
+- Press 'P' to open the properties form. Use it to modify the physics properties of objects.
+
+
+
+Tips
+-----------
+- You will go limp for a while if you take a hard hit to the head.
+- If you've fallen and you can't get up, try putting your hands above your head and then swinging them down to your sides.
+- The thrusters get stronger the more you lean your head back. The game compares the position of your head to your 'torso'.
+- The game gently tries to rotate the ragdoll so that it's leaning at the same angle you are.
+- One player at a time for now.
+
+
+To Do
+-----------
+- Decent sandbox editing / saving / loading
+- Some kind of objective mode
+- Alternative things to control (tank?)
