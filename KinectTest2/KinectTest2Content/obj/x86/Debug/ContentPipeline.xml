@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+  <Asset Type="Pipeline:BuildItemCollection">
+    <Item>
+      <Source>Models\cube.fbx</Source>
+      <Name>Models\cube</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Models\cube.xnb</Output>
+      <Time>2011-01-09T15:27:41.5905917-05:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\Models\cube_0.xml</Key>
+        <Value>2011-01-09T15:30:52.5406485-05:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>Models\cube.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Models\cube_0.xml</Output>
+      <Time>2011-01-09T15:27:41.5905917-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Materials\blank.png</Source>
+      <Name>Materials\blank</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\blank.xnb</Output>
+      <Time>2011-01-09T20:24:22.2162119-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Materials\circles.png</Source>
+      <Name>Materials\circles</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\circles.xnb</Output>
+      <Time>2011-01-09T20:24:22.2182119-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Materials\dots.png</Source>
+      <Name>Materials\dots</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\dots.xnb</Output>
+      <Time>2011-01-09T20:24:22.220212-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Materials\face1.png</Source>
+      <Name>Materials\face1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\face1.xnb</Output>
+      <Time>2011-01-09T20:24:22.222212-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Materials\face2.png</Source>
+      <Name>Materials\face2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\face2.xnb</Output>
+      <Time>2011-01-09T20:24:22.224212-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Materials\line.png</Source>
+      <Name>Materials\line</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\line.xnb</Output>
+      <Time>2011-01-09T20:24:22.2352121-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Materials\pavement.png</Source>
+      <Name>Materials\pavement</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\pavement.xnb</Output>
+      <Time>2011-01-09T20:24:22.2352121-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Materials\squares.png</Source>
+      <Name>Materials\squares</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\squares.xnb</Output>
+      <Time>2011-01-09T20:24:22.2352121-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Materials\stars.png</Source>
+      <Name>Materials\stars</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\stars.xnb</Output>
+      <Time>2011-01-09T20:24:22.2352121-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Materials\tiles.png</Source>
+      <Name>Materials\tiles</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\tiles.xnb</Output>
+      <Time>2011-01-09T20:24:22.2452121-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Materials\waves.png</Source>
+      <Name>Materials\waves</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\waves.xnb</Output>
+      <Time>2011-01-09T20:24:22.2452121-05:00</Time>
+    </Item>
+    <Item>
+      <Source>font.spritefont</Source>
+      <Name>font</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\font.xnb</Output>
+      <Time>2011-01-09T20:24:37.7224612-05:00</Time>
+    </Item>
+    <Item>
+      <Source>thrust.png</Source>
+      <Name>thrust</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\thrust.xnb</Output>
+      <Time>2011-01-17T17:24:32.4799748-05:00</Time>
+    </Item>
+    <BuildSuccessful>true</BuildSuccessful>
+    <Settings>
+      <TargetPlatform>Windows</TargetPlatform>
+      <TargetProfile>HiDef</TargetProfile>
+      <BuildConfiguration>Debug</BuildConfiguration>
+      <CompressContent>false</CompressContent>
+      <RootDirectory>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2010-08-23T13:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
+        <Value>2010-08-23T13:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2010-08-23T13:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2010-08-23T13:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2010-08-23T13:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Value>2010-08-23T13:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2010-12-30T21:02:05.7514648-05:00</Value>
+      </Assembly>
+    </Assemblies>
+  </Asset>
+</XnaContent>
