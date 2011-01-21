@@ -1,2 +1,3 @@
 C:\Users\Tyler\Documents\Visual Studio 2010\Projects\Farseer Physics Engine 3.2 SimpleSamples XNA\DebugView 3.2 XNA\Content\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectTest2\FarseerSource\DebugView 3.2 XNA\Content\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\FarseerSource\DebugView 3.2 XNA\Content\obj\x86\Debug\ResolveAssemblyReference.cache

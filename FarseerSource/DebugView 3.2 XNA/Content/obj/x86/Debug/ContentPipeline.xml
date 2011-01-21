@@ -7,7 +7,7 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectTest2\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\font.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\font.xnb</Output>
       <Time>2011-01-09T18:55:26.1114797-05:00</Time>
     </Item>
     <Item>
@@ -16,7 +16,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectTest2\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\circles.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\circles.xnb</Output>
       <Time>2011-01-09T18:55:26.1414802-05:00</Time>
     </Item>
     <Item>
@@ -25,7 +25,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectTest2\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\dots.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\dots.xnb</Output>
       <Time>2011-01-09T18:55:26.1564805-05:00</Time>
     </Item>
     <Item>
@@ -34,7 +34,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectTest2\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\face1.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\face1.xnb</Output>
       <Time>2011-01-09T18:55:26.1694807-05:00</Time>
     </Item>
     <Item>
@@ -43,7 +43,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectTest2\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\face2.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\face2.xnb</Output>
       <Time>2011-01-09T18:55:26.1844809-05:00</Time>
     </Item>
     <Item>
@@ -52,7 +52,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectTest2\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\squares.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\squares.xnb</Output>
       <Time>2011-01-09T18:55:26.2254816-05:00</Time>
     </Item>
     <Item>
@@ -61,7 +61,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectTest2\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\stars.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\stars.xnb</Output>
       <Time>2011-01-09T18:55:26.2404819-05:00</Time>
     </Item>
     <Item>
@@ -70,7 +70,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectTest2\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\tiles.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\tiles.xnb</Output>
       <Time>2011-01-09T18:55:26.2534821-05:00</Time>
     </Item>
     <Item>
@@ -79,7 +79,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectTest2\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\waves.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\waves.xnb</Output>
       <Time>2011-01-09T18:55:26.2664823-05:00</Time>
     </Item>
     <Item>
@@ -88,7 +88,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectTest2\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\line.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\line.xnb</Output>
       <Time>2011-01-09T18:55:26.1974811-05:00</Time>
     </Item>
     <Item>
@@ -97,7 +97,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectTest2\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\blank.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\blank.xnb</Output>
       <Time>2011-01-09T18:55:26.12848-05:00</Time>
     </Item>
     <Item>
@@ -106,7 +106,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectTest2\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\pavement.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\Materials\pavement.xnb</Output>
       <Time>2011-01-09T18:55:26.2124814-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
@@ -115,10 +115,10 @@
       <TargetProfile>Reach</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectTest2\FarseerSource\DebugView 3.2 XNA\Content\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectTest2\FarseerSource\DebugView 3.2 XNA\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectTest2\FarseerSource\DebugView 3.2 XNA\Content\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectTest2\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\FarseerSource\DebugView 3.2 XNA\Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\FarseerSource\DebugView 3.2 XNA\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\FarseerSource\DebugView 3.2 XNA\Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\FarseerSource\DebugView 3.2 XNA\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>

@@ -7,11 +7,11 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Models\cube.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2\bin\x86\Debug\Content\Models\cube.xnb</Output>
       <Time>2011-01-09T15:27:41.5905917-05:00</Time>
       <Dependency>
         <Key>obj\x86\Debug\Models\cube_0.xml</Key>
-        <Value>2011-01-20T22:41:25.626966-05:00</Value>
+        <Value>2011-01-20T23:01:36.6611048-05:00</Value>
       </Dependency>
     </Item>
     <Item>
@@ -20,7 +20,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\blank.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\blank.xnb</Output>
       <Time>2011-01-09T20:24:22.2162119-05:00</Time>
     </Item>
     <Item>
@@ -29,7 +29,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\circles.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\circles.xnb</Output>
       <Time>2011-01-09T20:24:22.2182119-05:00</Time>
     </Item>
     <Item>
@@ -38,7 +38,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\dots.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\dots.xnb</Output>
       <Time>2011-01-09T20:24:22.220212-05:00</Time>
     </Item>
     <Item>
@@ -47,7 +47,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\face1.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\face1.xnb</Output>
       <Time>2011-01-09T20:24:22.222212-05:00</Time>
     </Item>
     <Item>
@@ -56,7 +56,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\face2.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\face2.xnb</Output>
       <Time>2011-01-09T20:24:22.224212-05:00</Time>
     </Item>
     <Item>
@@ -65,7 +65,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\line.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\line.xnb</Output>
       <Time>2011-01-09T20:24:22.2352121-05:00</Time>
     </Item>
     <Item>
@@ -74,7 +74,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\pavement.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\pavement.xnb</Output>
       <Time>2011-01-09T20:24:22.2352121-05:00</Time>
     </Item>
     <Item>
@@ -83,7 +83,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\squares.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\squares.xnb</Output>
       <Time>2011-01-09T20:24:22.2352121-05:00</Time>
     </Item>
     <Item>
@@ -92,7 +92,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\stars.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\stars.xnb</Output>
       <Time>2011-01-09T20:24:22.2352121-05:00</Time>
     </Item>
     <Item>
@@ -101,7 +101,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\tiles.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\tiles.xnb</Output>
       <Time>2011-01-09T20:24:22.2452121-05:00</Time>
     </Item>
     <Item>
@@ -110,7 +110,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\waves.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2\bin\x86\Debug\Content\Materials\waves.xnb</Output>
       <Time>2011-01-09T20:24:22.2452121-05:00</Time>
     </Item>
     <Item>
@@ -119,7 +119,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\thrust.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2\bin\x86\Debug\Content\thrust.xnb</Output>
       <Time>2011-01-17T17:24:32.4799748-05:00</Time>
     </Item>
     <Item>
@@ -128,7 +128,7 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\font.xnb</Output>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2\bin\x86\Debug\Content\font.xnb</Output>
       <Time>2011-01-09T20:24:37.7224612-05:00</Time>
     </Item>
     <Item>
@@ -144,10 +144,10 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2Content\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2Content\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\Tyler\documents\visual studio 2010\Projects\KinectTest2\KinectTest2\KinectTest2\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
