@@ -66,7 +66,7 @@ namespace KinectTest2.Kinect
 
             context.StartGeneratingAll();
 
-            depthTex = new Texture2D(Game1.graphicsDevice, 320, 240);
+            depthTex = new Texture2D(KinectRagdollGame.graphicsDevice, 320, 240);
 
 
             this.shouldRun = true;
@@ -162,9 +162,9 @@ namespace KinectTest2.Kinect
 
                             for (int i = 0; i < 16; i++)
                             {
-                                if (Game1.graphicsDevice.Textures[i] == depthTex)
+                                if (KinectRagdollGame.graphicsDevice.Textures[i] == depthTex)
                                 {
-                                    Game1.graphicsDevice.Textures[i] = null;
+                                    KinectRagdollGame.graphicsDevice.Textures[i] = null;
                                     break;
                                 }
                             }

@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual C# Express 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinectTest2", "KinectTest2\KinectTest2\KinectTest2.csproj", "{F470FA3B-FD88-44CC-9B24-F0D15C9FCB48}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinectRagdoll", "KinectTest2\KinectTest2\KinectRagdoll.csproj", "{F470FA3B-FD88-44CC-9B24-F0D15C9FCB48}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0A850700-1ABB-4288-A391-6726B90EBEB9} = {0A850700-1ABB-4288-A391-6726B90EBEB9}
 		{FC7845FA-13FE-4FF8-822A-A577F3F59B00} = {FC7845FA-13FE-4FF8-822A-A577F3F59B00}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinectTest2Content", "KinectTest2\KinectTest2Content\KinectTest2Content.contentproj", "{4381BC2A-BBE5-40FF-9CEB-8BBD343757FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinectRagdollContent", "KinectTest2\KinectTest2Content\KinectRagdollContent.contentproj", "{4381BC2A-BBE5-40FF-9CEB-8BBD343757FB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Farseer Physics 3.2 XNA", "FarseerSource\Farseer Physics Engine 3.2 XNA\Farseer Physics 3.2 XNA.csproj", "{0A850700-1ABB-4288-A391-6726B90EBEB9}"
 EndProject

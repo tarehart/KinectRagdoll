@@ -18,7 +18,7 @@ namespace KinectTest2
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Microsoft.Xna.Framework.Game
+    public class KinectRagdollGame : Microsoft.Xna.Framework.Game
     {
 
         public static int WIDTH = 1280;
@@ -49,7 +49,7 @@ namespace KinectTest2
         public static GraphicsDevice graphicsDevice;
         
 
-        public Game1()
+        public KinectRagdollGame()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = WIDTH;

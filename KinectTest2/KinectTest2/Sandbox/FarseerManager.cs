@@ -111,7 +111,7 @@ namespace KinectTest2.Kinect
 
         public void dropBall()
         {
-            int x = rand.Next(Game1.WIDTH);
+            int x = rand.Next(KinectRagdollGame.WIDTH);
 
             DebugMaterial material = new DebugMaterial(MaterialType.Waves)
             {

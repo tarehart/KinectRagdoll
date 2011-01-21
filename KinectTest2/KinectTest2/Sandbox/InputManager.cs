@@ -10,10 +10,10 @@ namespace KinectTest2.Sandbox
     public class InputManager
     {
 
-        private Game1 game;
+        private KinectRagdollGame game;
         private bool shiftClick;
 
-        public InputManager(Game1 game)
+        public InputManager(KinectRagdollGame game)
         {
             this.game = game;
 

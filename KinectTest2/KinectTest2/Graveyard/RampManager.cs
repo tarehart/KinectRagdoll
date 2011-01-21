@@ -61,7 +61,7 @@ namespace KinectTest2.Kinect
         private int StripeIndex(int seg, int stripeLength)
         {
             int x = seg * PIX_PER_LINE;
-            return x * stripeLength / Game1.WIDTH ;
+            return x * stripeLength / KinectRagdollGame.WIDTH ;
         }
 
 
@@ -77,7 +77,7 @@ namespace KinectTest2.Kinect
 
             for (int i = 0; i < topStripe.Length; i += 5)
             {
-                int x = i * Game1.WIDTH / topStripe.Length;
+                int x = i * KinectRagdollGame.WIDTH / topStripe.Length;
                 int y = topStripe[i];
                 verts.Add(new Vector2(x, y));
             }
