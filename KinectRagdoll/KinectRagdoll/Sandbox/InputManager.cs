@@ -20,6 +20,8 @@ namespace KinectTest2.Sandbox
         public Rectangle selectionRectangle;
         public bool selectingRectangle;
         public static bool DisregardInputEvents;
+        private Fixture savedFixture;
+        private bool dragging;
 
         public InputManager(KinectRagdollGame game)
         {
@@ -70,6 +72,11 @@ namespace KinectTest2.Sandbox
             {
                 FormManager.Property.Show();
             }
+
+            if (inputHelper.IsKeyDown(Keys.J))
+            {
+                FormManager.Joint.Show();
+            }
         }
 
        
@@ -81,6 +88,13 @@ namespace KinectTest2.Sandbox
             
 
             Vector2 position = game.projectionHelper.PixelToFarseer(inputHelper.MousePosition);
+
+            if (dragging)
+            {
+                Vector2 lastPosition = new Vector2(inputHelper.LastMouseState.X, inputHelper.LastMouseState.Y);
+                lastPosition = game.projectionHelper.PixelToFarseer(lastPosition);
+                savedFixture.Body.Position += position - lastPosition;
+            }
 
             if (inputHelper.IsOldButtonPress(MouseButtons.LeftButton))
             {
@@ -111,7 +125,9 @@ namespace KinectTest2.Sandbox
 
         private void PlaceFixture(Vector2 position)
         {
-            FormManager.Rectangle.PlaceFixture(position, game.farseerManager.world);
+
+            Object o = FormManager.ActiveFixtureForm.PlacePhysicsObject(position, game.farseerManager.world);
+            FormManager.Property.setSelectedObject(o);
         }
 
         private void MouseDown(Vector2 p)
@@ -121,15 +137,22 @@ namespace KinectTest2.Sandbox
                 return;
             }
 
-            Fixture savedFixture = game.farseerManager.world.TestPoint(p);
+            savedFixture = game.farseerManager.world.TestPoint(p);
 
             if (savedFixture != null)
             {
                 Body body = savedFixture.Body;
-                _fixedMouseJoint = new FixedMouseJoint(body, p);
-                _fixedMouseJoint.MaxForce = 1000.0f * body.Mass;
-                game.farseerManager.world.AddJoint(_fixedMouseJoint);
-                body.Awake = true;
+                if (!body.IsStatic)
+                {
+                    _fixedMouseJoint = new FixedMouseJoint(body, p);
+                    _fixedMouseJoint.MaxForce = 1000.0f * body.Mass;
+                    game.farseerManager.world.AddJoint(_fixedMouseJoint);
+                    body.Awake = true;
+                }
+                else
+                {
+                    dragging = true;
+                }
             }
             else // start a selection rectangle
             {
@@ -141,6 +164,8 @@ namespace KinectTest2.Sandbox
 
         private void MouseUp(Vector2 p)
         {
+
+            dragging = false;
 
             if (_fixedMouseJoint != null)
             {

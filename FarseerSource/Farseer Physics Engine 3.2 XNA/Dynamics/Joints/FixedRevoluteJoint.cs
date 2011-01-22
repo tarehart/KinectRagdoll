@@ -27,6 +27,7 @@ using System;
 using System.Diagnostics;
 using FarseerPhysics.Common;
 using Microsoft.Xna.Framework;
+using System.Runtime.Serialization;
 
 namespace FarseerPhysics.Dynamics.Joints
 {
@@ -38,19 +39,28 @@ namespace FarseerPhysics.Dynamics.Joints
     /// to drive the relative rotation about the shared point. A maximum motor torque
     /// is provided so that infinite forces are not generated.
     /// </summary>
+    [DataContract(Name = "FixedRevoluteJoint", Namespace = "http://www.imcool.com")]
     public class FixedRevoluteJoint : Joint
     {
+        [DataMember()]
         private bool _enableLimit;
+        [DataMember()]
         private bool _enableMotor;
         private Vector3 _impulse;
+        [DataMember()]
         private LimitState _limitState;
+        [DataMember()]
         private float _lowerAngle;
         private Mat33 _mass; // effective mass for point-to-point constraint.
+        [DataMember()]
         private float _maxMotorTorque;
         private float _motorImpulse;
         private float _motorMass; // effective mass for motor/limit angular constraint.
+        [DataMember()]
         private float _motorSpeed;
+        [DataMember()]
         private float _upperAngle;
+        [DataMember()]
         private Vector2 _worldAnchor;
 
         /// <summary>
@@ -87,19 +97,23 @@ namespace FarseerPhysics.Dynamics.Joints
             _limitState = LimitState.Inactive;
         }
 
+       
         public override Vector2 WorldAnchorA
         {
             get { return BodyA.GetWorldPoint(LocalAnchorA); }
         }
 
+        
         public override Vector2 WorldAnchorB
         {
             get { return _worldAnchor; }
             set { _worldAnchor = value; }
         }
 
+        [DataMember()]
         public Vector2 LocalAnchorA { get; set; }
 
+        [DataMember()]
         public float ReferenceAngle { get; set; }
 
         /// <summary>

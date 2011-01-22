@@ -31,6 +31,8 @@ using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Common;
 using FarseerPhysics.Dynamics.Contacts;
 using Microsoft.Xna.Framework;
+using System.Runtime.Serialization;
+using FarseerPhysics.DebugViews;
 
 namespace FarseerPhysics.Dynamics
 {
@@ -83,12 +85,18 @@ namespace FarseerPhysics.Dynamics
         public int ProxyId;
     }
 
+    [DataContract(Name = "CollisionFilter", Namespace = "http://www.imcool.com")]
     public class CollisionFilter
     {
+        [DataMember()]
         private Category _collidesWith;
+        [DataMember()]
         private Category _collisionCategories;
+        [DataMember()]
         private short _collisionGroup;
+        [DataMember()]
         private Dictionary<int, bool> _collisionIgnores = new Dictionary<int, bool>();
+        [DataMember()]
         private Fixture _fixture;
 
         public CollisionFilter(Fixture fixture)
@@ -314,6 +322,7 @@ namespace FarseerPhysics.Dynamics
     /// Fixtures are created via Body.CreateFixture.
     /// Warning: You cannot reuse fixtures.
     /// </summary>
+    [DataContract(Name = "Fixture", Namespace = "http://www.imcool.com")]
     public class Fixture : IDisposable
     {
         private static int _fixtureIdCounter;
@@ -329,6 +338,7 @@ namespace FarseerPhysics.Dynamics
         /// </summary>
         public BeforeCollisionEventHandler BeforeCollision;
 
+        [DataMember()]
         public CollisionFilter CollisionFilter { get; private set; }
 
         /// <summary>
@@ -343,7 +353,9 @@ namespace FarseerPhysics.Dynamics
         /// </summary>
         public OnSeparationEventHandler OnSeparation;
 
+        [DataMember()]
         public FixtureProxy[] Proxies;
+        
         public int ProxyCount;
 
         public Fixture(Body body, Shape shape)
@@ -351,7 +363,7 @@ namespace FarseerPhysics.Dynamics
         {
         }
 
-        public Fixture(Body body, Shape shape, Object userData)
+        public Fixture(Body body, Shape shape, DebugMaterial userData)
         {
             CollisionFilter = new CollisionFilter(this);
 
@@ -420,42 +432,50 @@ namespace FarseerPhysics.Dynamics
         /// number of vertices because this will crash some collision caching mechanisms.
         /// </summary>
         /// <value>The shape.</value>
+        [DataMember()]
         public Shape Shape { get; private set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this fixture is a sensor.
         /// </summary>
         /// <value><c>true</c> if this instance is a sensor; otherwise, <c>false</c>.</value>
+        [DataMember()]
         public bool IsSensor { get; set; }
 
         /// <summary>
         /// Get the parent body of this fixture. This is null if the fixture is not attached.
         /// </summary>
         /// <value>The body.</value>
+        [DataMember()]
         public Body Body { get; internal set; }
 
         /// <summary>
         /// Set the user data. Use this to store your application specific data.
         /// </summary>
         /// <value>The user data.</value>
-        public object UserData { get; set; }
+        [DataMember()]
+        //[KnownType(typeof(DebugMaterial))]
+        public DebugMaterial UserData { get; set; }
 
         /// <summary>
         /// Get or set the coefficient of friction.
         /// </summary>
         /// <value>The friction.</value>
+        [DataMember()]
         public float Friction { get; set; }
 
         /// <summary>
         /// Get or set the coefficient of restitution.
         /// </summary>
         /// <value>The restitution.</value>
+        [DataMember()]
         public float Restitution { get; set; }
 
         /// <summary>
         /// Gets a unique ID for this fixture.
         /// </summary>
         /// <value>The fixture id.</value>
+        [DataMember()]
         public int FixtureId { get; private set; }
 
         #region IDisposable Members

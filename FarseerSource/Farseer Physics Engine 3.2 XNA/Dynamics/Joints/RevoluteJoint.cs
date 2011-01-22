@@ -27,6 +27,7 @@ using System;
 using System.Diagnostics;
 using FarseerPhysics.Common;
 using Microsoft.Xna.Framework;
+using System.Runtime.Serialization;
 
 namespace FarseerPhysics.Dynamics.Joints
 {
@@ -38,24 +39,33 @@ namespace FarseerPhysics.Dynamics.Joints
     /// to drive the relative rotation about the shared point. A maximum motor torque
     /// is provided so that infinite forces are not generated.
     /// </summary>
+    [DataContract(Name = "RevoluteJoint", Namespace = "http://www.imcool.com")]
     public class RevoluteJoint : Joint
     {
+        [DataMember()]
         public Vector2 LocalAnchorA;
-
+        [DataMember()]
         public Vector2 LocalAnchorB;
+        [DataMember()]
         private bool _enableLimit;
+        [DataMember()]
         private bool _enableMotor;
         private Vector3 _impulse;
+        [DataMember()]
         private LimitState _limitState;
+        [DataMember()]
         private float _lowerAngle;
         private Mat33 _mass; // effective mass for point-to-point constraint.
+        [DataMember()]
         private float _maxMotorTorque;
         private float _motorImpulse;
         private float _motorMass; // effective mass for motor/limit angular constraint.
+        [DataMember()]
         private float _motorSpeed;
         private float _referenceAngle;
         private float _tmpFloat1;
         private Vector2 _tmpVector1, _tmpVector2;
+        [DataMember()]
         private float _upperAngle;
 
         /// <summary>
@@ -103,6 +113,7 @@ namespace FarseerPhysics.Dynamics.Joints
             set { Debug.Assert(false, "You can't set the world anchor on this joint type."); }
         }
 
+        [DataMember()]
         public float ReferenceAngle
         {
             get { return _referenceAngle; }

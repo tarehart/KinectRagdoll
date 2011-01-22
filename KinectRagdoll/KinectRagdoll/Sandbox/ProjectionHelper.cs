@@ -32,5 +32,12 @@ namespace KinectTest2.Sandbox
         {
             return v.X > 0 && v.Y > 0 && v.X < viewport.Width && v.Y < viewport.Height;
         }
+
+        internal Vector2 FarseerToPixel(Vector2 position)
+        {
+            Vector3 v = new Vector3(position, 0);
+            v = viewport.Project(v, farseerToPixel, Matrix.Identity, Matrix.Identity);
+            return new Vector2(v.X, v.Y);
+        }
     }
 }

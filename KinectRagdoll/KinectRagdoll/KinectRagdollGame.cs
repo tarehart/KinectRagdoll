@@ -43,6 +43,7 @@ namespace KinectTest2
         BasicEffect farseerEffect;
         VertexDeclaration vertexDeclaration;
         Model myModel;
+        Model thingModel;
         Texture2D selectionRec;
 
         
@@ -59,7 +60,7 @@ namespace KinectTest2
            
             Content.RootDirectory = "Content";
             kinectManager = new KinectManager();
-            farseerManager = new FarseerManager(true);
+            farseerManager = new FarseerManager(true, this);
             ragdollManager = new RagdollManager();
             inputManager = new InputManager(this);
             
@@ -166,10 +167,11 @@ namespace KinectTest2
             graphicsDevice = GraphicsDevice;
 
             myModel = Content.Load<Model>("Models\\cube");
+            thingModel = Content.Load<Model>("Models\\thing");
             selectionRec = Content.Load<Texture2D>("Materials\\squares");
 
             ragdollManager.LoadContent(Content);
-            farseerManager.LoadContent(GraphicsDevice, Content, kinectManager);
+            farseerManager.LoadContent();
 
 
             InitializeTransform();
@@ -188,6 +190,10 @@ namespace KinectTest2
         /// </summary>
         protected override void UnloadContent()
         {
+            if (farseerManager.createNew)
+            {
+                Serializer.Save(farseerManager.world, this);
+            }
             kinectManager.Close();
         }
 
@@ -219,33 +225,35 @@ namespace KinectTest2
         {
             
             SetupRendering();
+            
 
             RenderTarget2D renderTarget = RenderFarseerEffectsTexture();
 
             GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, kinectManager.bkColor, 1.0f, 0);
 
-            DrawHeadTrackingDemo();
+            DrawHeadTrackingDemo(gameTime);
 
-            spriteBatch.Begin();
-            spriteBatch.Draw(kinectManager.depthTex, new Rectangle(50, 50, 640, 480), Color.White);
-            farseerManager.Draw();
-            spriteBatch.Draw(renderTarget, new Vector2(0, 0), null, Color.White, 0, new Vector2(0, 0), 1, SpriteEffects.FlipVertically, 1);
-            if(inputManager.selectingRectangle)
-                spriteBatch.Draw(selectionRec, inputManager.selectionRectangle, new Color(100, 100, 255, 100));
-            spriteBatch.End();
+            DrawSprites(renderTarget);
 
 
             base.Draw(gameTime);
         }
 
+        private void DrawSprites(RenderTarget2D renderTarget)
+        {
+            spriteBatch.Begin();
+            spriteBatch.Draw(kinectManager.depthTex, new Rectangle(50, 50, 640, 480), Color.White);
+            farseerManager.DrawBasics();
+            spriteBatch.Draw(renderTarget, new Vector2(0, 0), null, Color.White, 0, new Vector2(0, 0), 1, SpriteEffects.FlipVertically, 1);
+            if (inputManager.selectingRectangle)
+                spriteBatch.Draw(selectionRec, inputManager.selectionRectangle, new Color(100, 100, 255, 100));
+            farseerManager.DrawFrontEffects(spriteBatch);
+            spriteBatch.End();
+        }
+
         private void SetupRendering()
         {
-            DepthStencilState depthState = new DepthStencilState();
-            depthState.DepthBufferEnable = true;
-            depthState.DepthBufferWriteEnable = true;
-            depthState.StencilEnable = true;
-
-            GraphicsDevice.DepthStencilState = depthState;
+            
 
             farseerEffect.Projection = farseerProjection;
             farseerEffect.View = farseerView;
@@ -255,34 +263,56 @@ namespace KinectTest2
             farseerEffect.VertexColorEnabled = true;
 
 
-            Vector3 headView = kinectManager.skeletonInfo.head;
+            Vector3 headLoc = kinectManager.skeletonInfo.head;
+            Vector3 screenCenter = new Vector3(-250, 100, 350);
 
-            headView.X += 250;
-            headView.Y -= 100;
-            //headView.Normalize();
-            //headView *= 10;
-            headView.Z *= 2;
+            Vector3 screenToHead = headLoc - screenCenter;
 
-            headView *= .01f;
+            screenToHead *= .01f;
+            screenToHead.Z *= 3;
+
+            //headLoc.X += 250;
+            //headLoc.Y -= 100;
+            //headLoc.Z *= 2;
+
+            //headLoc *= .01f;
+
 
             projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
-                (float)Math.Atan(10 / headView.Z),
+                (float)Math.Atan(10 / screenToHead.Z),
                 (float)GraphicsDevice.Viewport.Width /
                 (float)GraphicsDevice.Viewport.Height,
                 1.0f, 100.0f);
 
-            viewMatrix = Matrix.CreateLookAt(headView, Vector3.Zero, Vector3.Up);
+            viewMatrix = Matrix.CreateLookAt(screenToHead, Vector3.Zero, Vector3.Up);
         }
 
-        private void DrawHeadTrackingDemo()
+        private void DrawHeadTrackingDemo(GameTime gametime)
         {
-            DrawCube(new Vector3(0, 0, -5));
+            DepthStencilState depthState = new DepthStencilState();
+            depthState.DepthBufferEnable = true;
+            depthState.DepthBufferWriteEnable = true;
+            depthState.StencilEnable = true;
 
-            DrawCube(new Vector3(0, 0, 0));
+            GraphicsDevice.DepthStencilState = depthState;
 
-            DrawCube(new Vector3(2, 0, 5));
+            DrawMesh(thingModel, new Vector3(0, 0, -5), 1);
 
-            DrawCube((kinectManager.skeletonInfo.rightHand - kinectManager.skeletonInfo.head) * .02f + new Vector3(-4, 4, 10));
+            for (int i = -1; i <= 1; i++)
+            {
+                for (int j = -1; j <= 1; j++)
+                {
+                    DrawMesh(myModel, new Vector3(i, j, (float) Math.Sin(gametime.TotalGameTime.TotalMilliseconds / 1000f) * (i + j * 2) - 4), .2f);
+                }
+            }
+            
+            //DrawCube(new Vector3(0, 0, -5));
+
+            //DrawCube(new Vector3(0, 0, 0));
+
+            //DrawCube(new Vector3(2, 0, 5));
+
+            //DrawCube((kinectManager.skeletonInfo.rightHand - kinectManager.skeletonInfo.head) * .02f + new Vector3(-4, 4, 10));
         }
 
         private RenderTarget2D RenderFarseerEffectsTexture()
@@ -303,25 +333,43 @@ namespace KinectTest2
             return renderTarget;
         }
 
-        
-
-        private void DrawCube(Vector3 location)
+        private void DrawMesh(Model m, Vector3 location, float scale)
         {
             // Draw the model. A model can have multiple meshes, so loop.
-            foreach (ModelMesh mesh in myModel.Meshes)
+            foreach (ModelMesh mesh in m.Meshes)
             {
                 // This is where the mesh orientation is set, as well 
                 // as our camera and projection.
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     effect.EnableDefaultLighting();
-                    effect.World = Matrix.CreateTranslation(location);
+                    effect.World = Matrix.CreateRotationX(MathHelper.ToRadians(-90)) * Matrix.CreateScale(scale) * Matrix.CreateTranslation(location);
                     effect.View = viewMatrix;
                     effect.Projection = projectionMatrix;
                 }
                 // Draw the mesh, using the effects set above.
                 mesh.Draw();
             }
+
         }
+
+        //private void DrawCube(Vector3 location, float scale)
+        //{
+        //    // Draw the model. A model can have multiple meshes, so loop.
+        //    foreach (ModelMesh mesh in myModel.Meshes)
+        //    {
+        //        // This is where the mesh orientation is set, as well 
+        //        // as our camera and projection.
+        //        foreach (BasicEffect effect in mesh.Effects)
+        //        {
+        //            effect.EnableDefaultLighting();
+        //            effect.World = Matrix.CreateScale(scale) * Matrix.CreateTranslation(location);
+        //            effect.View = viewMatrix;
+        //            effect.Projection = projectionMatrix;
+        //        }
+        //        // Draw the mesh, using the effects set above.
+        //        mesh.Draw();
+        //    }
+        //}
     }
 }

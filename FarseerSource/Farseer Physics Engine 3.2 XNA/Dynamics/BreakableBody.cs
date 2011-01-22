@@ -30,6 +30,7 @@ using FarseerPhysics.Common;
 using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
+using FarseerPhysics.DebugViews;
 
 namespace FarseerPhysics.Dynamics
 {
@@ -52,7 +53,7 @@ namespace FarseerPhysics.Dynamics
         {
         }
 
-        public BreakableBody(IEnumerable<Vertices> vertices, World world, float density, Object userData)
+        public BreakableBody(IEnumerable<Vertices> vertices, World world, float density, DebugMaterial userData)
         {
             _world = world;
             _world.ContactManager.PostSolve += PostSolve;

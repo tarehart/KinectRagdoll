@@ -72,7 +72,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(101, 147);
+            this.checkBox1.Location = new System.Drawing.Point(101, 150);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(51, 17);
             this.checkBox1.TabIndex = 3;
@@ -136,11 +136,11 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(41, 190);
+            this.label6.Location = new System.Drawing.Point(29, 190);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(133, 13);
+            this.label6.Size = new System.Drawing.Size(162, 13);
             this.label6.TabIndex = 11;
-            this.label6.Text = "Click in game to place";
+            this.label6.Text = "Shift-click in game to place";
             // 
             // RectangleForm
             // 

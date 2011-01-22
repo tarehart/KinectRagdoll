@@ -1,4 +1,5 @@
 Content\Models\cube.xnb
+Content\Models\thing.xnb
 Content\Materials\blank.xnb
 Content\Materials\circles.xnb
 Content\Materials\dots.xnb
@@ -11,17 +12,6 @@ Content\Materials\stars.xnb
 Content\Materials\tiles.xnb
 Content\Materials\waves.xnb
 Content\thrust.xnb
+Content\Materials\target.xnb
 Content\font.xnb
-Content\font.xnb
-Content\Materials\circles.xnb
-Content\Materials\dots.xnb
-Content\Materials\face1.xnb
-Content\Materials\face2.xnb
-Content\Materials\squares.xnb
-Content\Materials\stars.xnb
-Content\Materials\tiles.xnb
-Content\Materials\waves.xnb
-Content\Materials\line.xnb
-Content\Materials\blank.xnb
-Content\Materials\pavement.xnb
 Data\openni.xml

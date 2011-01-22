@@ -3,7 +3,7 @@
   <Asset Type="Graphics:NodeContent">
     <Name>blend_root</Name>
     <Identity>
-      <SourceFilename>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2Content\Models\cube.fbx</SourceFilename>
+      <SourceFilename>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdollContent\Models\cube.fbx</SourceFilename>
       <SourceTool>FbxImporter</SourceTool>
     </Identity>
     <Transform>100 0 0 0 0 100 0 0 0 0 100 0 0 0 0 1</Transform>
@@ -31,7 +31,7 @@
     <Resource ID="#Resource1" Type="Graphics:BasicMaterialContent">
       <Name>Material</Name>
       <Identity>
-        <SourceFilename>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2Content\Models\cube.fbx</SourceFilename>
+        <SourceFilename>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdollContent\Models\cube.fbx</SourceFilename>
         <SourceTool>FbxImporter</SourceTool>
       </Identity>
       <OpaqueData>

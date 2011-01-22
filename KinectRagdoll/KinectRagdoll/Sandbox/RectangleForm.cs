@@ -13,7 +13,7 @@ using FarseerPhysics.DebugViews;
 
 namespace KinectTest2.Sandbox
 {
-    public partial class RectangleForm : FixtureForm
+    public partial class RectangleForm : PhysicsObjectForm
     {
 
 
@@ -26,8 +26,9 @@ namespace KinectTest2.Sandbox
         {
             get
             {
-                float f = -1;
+                float f = 1;
                 float.TryParse(width.Text, out f);
+                if (f <= 0) return 1;
                 return f;
             }
         }
@@ -36,8 +37,9 @@ namespace KinectTest2.Sandbox
         {
             get
             {
-                float f = -1;
+                float f = 1;
                 float.TryParse(height.Text, out f);
+                if (f <= 0) return 1;
                 return f;
             }
         }
@@ -65,12 +67,14 @@ namespace KinectTest2.Sandbox
         }
 
 
-        public override void PlaceFixture(Vector2 position, World world)
+        public override Object PlacePhysicsObject(Vector2 position, World world)
         {
             DebugMaterial m = new DebugMaterial(MaterialType.Stars);
             Fixture f = FixtureFactory.CreateRectangle(world, RWidth, RHeight, 1, position, m);
             f.Body.Rotation = RRotation;
             f.Body.BodyType = RBodyType;
+
+            return f;
         }
 
     }

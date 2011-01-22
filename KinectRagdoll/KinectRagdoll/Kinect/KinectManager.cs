@@ -17,6 +17,8 @@ namespace KinectTest2.Kinect
     public class KinectManager
     {
 
+        public bool useKinect = false;
+
         Context context;
         private DepthGenerator depth;
         private HandsGenerator hands;
@@ -46,7 +48,12 @@ namespace KinectTest2.Kinect
 
         public void InitKinect()
         {
-           
+
+            depthTex = new Texture2D(KinectRagdollGame.graphicsDevice, 320, 240);
+
+
+            if (!useKinect) return;
+
             context = new Context(@"Data\openni.xml");
             depth = context.FindExistingNode(NodeType.Depth) as DepthGenerator;
             hands = context.FindExistingNode(NodeType.Hands) as HandsGenerator;
@@ -66,8 +73,7 @@ namespace KinectTest2.Kinect
 
             context.StartGeneratingAll();
 
-            depthTex = new Texture2D(KinectRagdollGame.graphicsDevice, 320, 240);
-
+            
 
             this.shouldRun = true;
             this.readerThread = new Thread(ReaderThread);

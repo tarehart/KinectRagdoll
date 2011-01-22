@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
-using FarseerPhysics.DebugViews;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Dynamics.Joints;
 using KinectTest2.Sandbox;
+using FarseerPhysics.DebugViews;
 
 namespace KinectTest2.Kinect
 {
@@ -18,21 +18,45 @@ namespace KinectTest2.Kinect
 
         public World world;
         private DebugViewXNA debugview;
-        private KinectManager kinectManager;
         private Matrix projection;
-        private Fixture jointCursor;
-        private Joint cursedJoint;
+        public HashSet<Joint> selectedJoints = new HashSet<Joint>();
+        public HashSet<Joint> pendingJoints = new HashSet<Joint>();
+        private KinectRagdollGame game;
+        private Texture2D pointTex;
 
         private Random rand;
 
         public static FarseerManager Main = null;
 
-        public FarseerManager(bool main)
+        public bool createNew = false;
+
+        public FarseerManager(bool main, KinectRagdollGame game)
         {
+            
+            //world.ContactManager = new ContactManager();
+
             world = new World(new Vector2(0, -15));
-            //world = new World(new Vector2(0, 0));
+
+            
+
             debugview = new DebugViewXNA(world);
             debugview.Flags = FarseerPhysics.DebugViewFlags.TexturedShape;
+
+            //World loaded = Serializer.readFromDataContract("graph.xml");
+            //world.JointList.AddRange(loaded.JointList);
+            //world.BodyList.AddRange(loaded.BodyList);
+
+            
+
+
+            this.game = game;
+            //world = new World(new Vector2(0, 0));
+            
+            
+
+
+
+
             rand = new Random();
 
             if (main)
@@ -44,34 +68,26 @@ namespace KinectTest2.Kinect
 
 
 
-        public void LoadContent(GraphicsDevice device, ContentManager content, KinectManager kinectManager)
+        public void LoadContent()
         {
 
-            this.kinectManager = kinectManager;
-            debugview.LoadContent(device, content);
+            
+            debugview.LoadContent(game.GraphicsDevice, game.Content);
+
+            if (!createNew)
+            {
+                SaveFile sf = Serializer.readFromDataContract("save.xml");
+                sf.PopulateWorld(world);
+            }
 
             //projection = Matrix.CreateOrthographicOffCenter(0, device.Viewport.Width, device.Viewport.Height, 0, -1, 1);
-
+            pointTex = game.Content.Load<Texture2D>("Materials\\target");
             
             addBounds();
             addSpinningDeath();
         }
 
-        public void setJointCursor(Joint j)
-        {
-            DebugMaterial material = new DebugMaterial(MaterialType.Waves)
-            {
-                Color = Color.Red,
-                Scale = 4
-            };
-            if (jointCursor != null) {
-                world.RemoveBody(jointCursor.Body);
-            }
-            jointCursor = FixtureFactory.CreateCircle(world, 1, 0, material);
-            jointCursor.CollisionFilter.CollidesWith = Category.None;
-            cursedJoint = j;
-            
-        }
+       
 
         public void addBounds()
         {
@@ -135,18 +151,38 @@ namespace KinectTest2.Kinect
 
             world.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f, (1f / 30f)));
             debugview.Update(gameTime);
-            if (jointCursor != null && cursedJoint != null)
-            {
-                jointCursor.Body.Position = cursedJoint.WorldAnchorA;
-            }
+            
         }
 
-        public void Draw()
+        public void DrawBasics()
         {
 
             
             debugview.RenderDebugData(ref projection);
             
+        }
+
+        public void DrawFrontEffects(SpriteBatch sb)
+        {
+            DrawSelectedJoints(sb);
+
+        }
+
+        private void DrawSelectedJoints(SpriteBatch sb)
+        {
+            foreach (Joint j in selectedJoints)
+            {
+                Vector2 pixelLoc = game.projectionHelper.FarseerToPixel(j.WorldAnchorA);
+                sb.Draw(pointTex, pixelLoc, null, Color.Red, 0, Vector2.One * pointTex.Width / 2, .2f, SpriteEffects.None, 0);
+
+            }
+
+            foreach (Joint j in pendingJoints)
+            {
+                Vector2 pixelLoc = game.projectionHelper.FarseerToPixel(j.WorldAnchorA);
+                sb.Draw(pointTex, pixelLoc, null, Color.Yellow, 0, Vector2.One * pointTex.Width / 2, .2f, SpriteEffects.None, 0);
+
+            }
         }
 
 

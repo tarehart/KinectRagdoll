@@ -222,9 +222,9 @@ namespace KinectTest2.Sandbox
         {
             if (old != null)
             {
-                Type tOld = old.GetType();
+                //Type tOld = old.GetType();
 
-                if (tOld == typeof(Body))
+                if (old is Body)
                 {
                     Body b = (Body)old;
                     if (b.FixtureList != null)
@@ -234,22 +234,28 @@ namespace KinectTest2.Sandbox
                         materialBank.Remove(b.FixtureList[0]);
                     }
                 }
-                else if (tOld == typeof(Fixture))
+                else if (old is Fixture)
                 {
                     Fixture f = (Fixture)old;
                     if (materialBank.ContainsKey(f))
                         f.UserData = materialBank[f];
                     materialBank.Remove(f);
                 }
+                else if (old is Joint)
+                {
+                    Joint j = (Joint)old;
+                    farseerManager.selectedJoints.Remove(j);
+                    farseerManager.pendingJoints.Remove(j);
+                }
             }
 
             if (newObj != null)
             {
 
-                Type tNew = newObj.GetType();
+                //Type tNew = newObj.GetType();
 
 
-                if (tNew == typeof(Body))
+                if (newObj is Body)
                 {
                     Body b = (Body)newObj;
                     if (b.FixtureList != null)
@@ -266,7 +272,7 @@ namespace KinectTest2.Sandbox
                         }
                     }
                 }
-                else if (tNew == typeof(Fixture))
+                else if (newObj is Fixture)
                 {
                     Fixture f = (Fixture)newObj;
                     if (!materialBank.ContainsKey(f))
@@ -283,27 +289,23 @@ namespace KinectTest2.Sandbox
                 else if (newObj is Joint)
                 {
                     Joint j = (Joint)newObj;
-                    farseerManager.setJointCursor(j);
+                    if (pending)
+                    {
+                        farseerManager.pendingJoints.Add(j);
+                        farseerManager.selectedJoints.Remove(j);
+                    }
+                    else
+                    {
+                        farseerManager.selectedJoints.Add(j);
+                        farseerManager.pendingJoints.Remove(j);
+                    }
                 }
 
 
             }
         }
 
-        private void selectAll_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < multipleSelect.Items.Count; i++) {
-                multipleSelect.SetItemChecked(i, true);
-            }
-        }
-
-        private void selectNone_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < multipleSelect.Items.Count; i++)
-            {
-                multipleSelect.SetItemChecked(i, false);
-            }
-        }
+        
 
         private void selectFromList_Click(object sender, EventArgs e)
         {
@@ -385,6 +387,78 @@ namespace KinectTest2.Sandbox
         {
             PopulateSelectList(selected);
             selectAll_Click(null, null);
+        }
+
+        private void selectAll_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < multipleSelect.Items.Count; i++)
+            {
+                multipleSelect.SetItemChecked(i, true);
+            }
+        }
+
+        private void selectNone_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < multipleSelect.Items.Count; i++)
+            {
+                multipleSelect.SetItemChecked(i, false);
+            }
+        }
+
+        private void selectBodies_Click(object sender, EventArgs e)
+        {
+            selectNone_Click(sender, e);
+            
+            for (int i = 0; i < multipleSelect.Items.Count; i++)
+            {
+                if (multipleSelect.Items[i] is Body)
+                    multipleSelect.SetItemChecked(i, true);
+            }
+        }
+
+        private void selectJoints_Click(object sender, EventArgs e)
+        {
+
+            selectNone_Click(sender, e);
+            
+            for (int i = 0; i < multipleSelect.Items.Count; i++)
+            {
+                if (multipleSelect.Items[i] is Joint)
+                    multipleSelect.SetItemChecked(i, true);
+            }
+        }
+
+        private void freezeSelected_Click(object sender, EventArgs e)
+        {
+            foreach (Object o in multipleSelect.CheckedItems)
+            {
+                if (o is Fixture)
+                {
+                    ((Fixture)o).Body.IsStatic = true;
+                }
+                else if (o is Body)
+                {
+                    ((Body)o).IsStatic = true;
+
+                }
+                
+            }
+        }
+
+        private void unfreezeSelected_Click(object sender, EventArgs e)
+        {
+            foreach (Object o in multipleSelect.CheckedItems)
+            {
+                if (o is Fixture)
+                {
+                    ((Fixture)o).Body.IsStatic = false;
+                }
+                else if (o is Body)
+                {
+                    ((Body)o).IsStatic = false;
+
+                }
+            }
         }
     }
 }

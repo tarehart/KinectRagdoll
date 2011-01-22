@@ -6,6 +6,7 @@ using FarseerPhysics.Common.Decomposition;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Joints;
 using Microsoft.Xna.Framework;
+using FarseerPhysics.DebugViews;
 
 namespace FarseerPhysics.Factories
 {
@@ -82,7 +83,7 @@ namespace FarseerPhysics.Factories
         /// <param name="copies">The copies.</param>
         /// <returns></returns>
         public static List<Body> EvenlyDistributeShapesAlongPath(World world, Path path, IEnumerable<Shape> shapes,
-                                                                 BodyType type, int copies, Object userData)
+                                                                 BodyType type, int copies, DebugMaterial userData)
         {
             List<Vector3> centers = path.SubdivideEvenly(copies);
             List<Body> bodyList = new List<Body>();
@@ -124,7 +125,7 @@ namespace FarseerPhysics.Factories
         /// <param name="copies">The copies.</param>
         /// <returns></returns>
         public static List<Body> EvenlyDistributeShapesAlongPath(World world, Path path, Shape shape, BodyType type,
-                                                                 int copies, Object userData)
+                                                                 int copies, DebugMaterial userData)
         {
             List<Shape> shapes = new List<Shape>(1);
             shapes.Add(shape);

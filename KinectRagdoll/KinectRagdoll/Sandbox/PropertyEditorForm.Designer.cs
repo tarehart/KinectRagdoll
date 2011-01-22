@@ -36,6 +36,10 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.listLabel = new System.Windows.Forms.Label();
             this.multipleSelect = new System.Windows.Forms.CheckedListBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.deleteSelected = new System.Windows.Forms.Button();
             this.selectNone = new System.Windows.Forms.Button();
             this.selectAll = new System.Windows.Forms.Button();
@@ -128,12 +132,16 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.button4);
+            this.splitContainer2.Panel2.Controls.Add(this.button3);
+            this.splitContainer2.Panel2.Controls.Add(this.button2);
+            this.splitContainer2.Panel2.Controls.Add(this.button1);
             this.splitContainer2.Panel2.Controls.Add(this.deleteSelected);
             this.splitContainer2.Panel2.Controls.Add(this.selectNone);
             this.splitContainer2.Panel2.Controls.Add(this.selectAll);
             this.splitContainer2.Panel2.Controls.Add(this.selectFromList);
             this.splitContainer2.Size = new System.Drawing.Size(594, 198);
-            this.splitContainer2.SplitterDistance = 450;
+            this.splitContainer2.SplitterDistance = 369;
             this.splitContainer2.TabIndex = 0;
             // 
             // listLabel
@@ -154,13 +162,58 @@
             this.multipleSelect.FormattingEnabled = true;
             this.multipleSelect.Location = new System.Drawing.Point(3, 25);
             this.multipleSelect.Name = "multipleSelect";
-            this.multipleSelect.Size = new System.Drawing.Size(444, 169);
+            this.multipleSelect.Size = new System.Drawing.Size(363, 169);
             this.multipleSelect.TabIndex = 0;
             this.multipleSelect.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.multipleSelect_ItemCheck);
             // 
+            // button4
+            // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.Location = new System.Drawing.Point(117, 55);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(99, 23);
+            this.button4.TabIndex = 7;
+            this.button4.Text = "Unfreeze";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.unfreezeSelected_Click);
+            // 
+            // button3
+            // 
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button3.Location = new System.Drawing.Point(115, 25);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(101, 23);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "Freeze";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.freezeSelected_Click);
+            // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Location = new System.Drawing.Point(8, 171);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(101, 23);
+            this.button2.TabIndex = 5;
+            this.button2.Text = "Select Joints";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.selectJoints_Click);
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(8, 142);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(101, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Select Bodies";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.selectBodies_Click);
+            // 
             // deleteSelected
             // 
-            this.deleteSelected.Location = new System.Drawing.Point(3, 75);
+            this.deleteSelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteSelected.Location = new System.Drawing.Point(9, 84);
             this.deleteSelected.Name = "deleteSelected";
             this.deleteSelected.Size = new System.Drawing.Size(102, 23);
             this.deleteSelected.TabIndex = 3;
@@ -170,8 +223,8 @@
             // 
             // selectNone
             // 
-            this.selectNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.selectNone.Location = new System.Drawing.Point(4, 171);
+            this.selectNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.selectNone.Location = new System.Drawing.Point(116, 171);
             this.selectNone.Name = "selectNone";
             this.selectNone.Size = new System.Drawing.Size(102, 23);
             this.selectNone.TabIndex = 2;
@@ -181,8 +234,8 @@
             // 
             // selectAll
             // 
-            this.selectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.selectAll.Location = new System.Drawing.Point(4, 142);
+            this.selectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.selectAll.Location = new System.Drawing.Point(115, 142);
             this.selectAll.Name = "selectAll";
             this.selectAll.Size = new System.Drawing.Size(102, 23);
             this.selectAll.TabIndex = 1;
@@ -192,9 +245,10 @@
             // 
             // selectFromList
             // 
-            this.selectFromList.Location = new System.Drawing.Point(3, 25);
+            this.selectFromList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.selectFromList.Location = new System.Drawing.Point(8, 25);
             this.selectFromList.Name = "selectFromList";
-            this.selectFromList.Size = new System.Drawing.Size(103, 35);
+            this.selectFromList.Size = new System.Drawing.Size(103, 53);
             this.selectFromList.TabIndex = 0;
             this.selectFromList.Text = "Go to Selected";
             this.selectFromList.UseVisualStyleBackColor = true;
@@ -235,5 +289,9 @@
         private System.Windows.Forms.Button selectFromList;
         private System.Windows.Forms.Button selectWorld;
         private System.Windows.Forms.Button deleteSelected;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button4;
     }
 }

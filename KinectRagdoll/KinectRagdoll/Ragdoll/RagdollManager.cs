@@ -89,5 +89,15 @@ namespace KinectTest2.Kinect
 
         }
 
+
+        internal bool OwnsBody(Body b)
+        {
+            return false;
+        }
+
+        internal bool OwnsJoint(FarseerPhysics.Dynamics.Joints.Joint j)
+        {
+            return false;
+        }
     }
 }

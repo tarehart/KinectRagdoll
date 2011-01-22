@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Runtime.Serialization;
 
 namespace FarseerPhysics.DebugViews
 {
@@ -66,6 +67,7 @@ namespace FarseerPhysics.DebugViews
         }
     }
 
+    [DataContract(Name = "DebugMat", Namespace = "http://www.imcool.com")]
     public class DebugMaterial
     {
         public DebugMaterial(MaterialType type)
@@ -85,10 +87,15 @@ namespace FarseerPhysics.DebugViews
             }
         }
 
+        [DataMember()]
         public Color Color { get; set; }
+        [DataMember()]
         public float Depth { get; set; }
+        [DataMember()]
         public MaterialType Type { get; private set; }
+        [DataMember()]
         public bool CenterOnBody { get; set; }
+        [DataMember()]
         public float Scale { get; set; }
     }
 }

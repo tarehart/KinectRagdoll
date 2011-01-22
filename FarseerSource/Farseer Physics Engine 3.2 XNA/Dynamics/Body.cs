@@ -34,6 +34,8 @@ using FarseerPhysics.Controllers;
 using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Dynamics.Joints;
 using Microsoft.Xna.Framework;
+using System.Runtime.Serialization;
+using FarseerPhysics.DebugViews;
 
 namespace FarseerPhysics.Dynamics
 {
@@ -72,6 +74,7 @@ namespace FarseerPhysics.Dynamics
         IgnoreGravity = (1 << 7),
     }
 
+    [DataContract(Name="Body", Namespace="http://www.imcool.com")]
     public class Body : IDisposable
     {
         internal float AngularVelocityInternal;
@@ -83,10 +86,13 @@ namespace FarseerPhysics.Dynamics
         internal Vector2 LinearVelocityInternal;
         public PhysicsLogicFilter PhysicsLogicFilter = new PhysicsLogicFilter();
         internal float SleepTime;
+        [DataMember()]
         internal Sweep Sweep; // the swept motion for CCD
         internal float Torque;
         internal World World;
+        [DataMember()]
         internal Transform Xf; // the body origin transform
+        [DataMember()]
         private BodyType _bodyType;
         private float _inertia;
         private float _mass;
@@ -114,6 +120,11 @@ namespace FarseerPhysics.Dynamics
             world.AddBody(this);
         }
 
+        public void setWorld(World w)
+        {
+            World = w;
+        }
+
         /// <summary>
         /// Gets the total number revolutions the body has made.
         /// </summary>
@@ -127,6 +138,7 @@ namespace FarseerPhysics.Dynamics
         /// Gets or sets the body type.
         /// </summary>
         /// <value>The type of body.</value>
+        
         public BodyType BodyType
         {
             get { return _bodyType; }
@@ -164,6 +176,7 @@ namespace FarseerPhysics.Dynamics
         /// Get or sets the linear velocity of the center of mass.
         /// </summary>
         /// <value>The linear velocity.</value>
+        [DataMember()]
         public Vector2 LinearVelocity
         {
             set
@@ -187,6 +200,7 @@ namespace FarseerPhysics.Dynamics
         /// Gets or sets the angular velocity. Radians/second.
         /// </summary>
         /// <value>The angular velocity.</value>
+        [DataMember()]
         public float AngularVelocity
         {
             set
@@ -210,12 +224,14 @@ namespace FarseerPhysics.Dynamics
         /// Gets or sets the linear damping.
         /// </summary>
         /// <value>The linear damping.</value>
+        [DataMember()]
         public float LinearDamping { get; set; }
 
         /// <summary>
         /// Gets or sets the angular damping.
         /// </summary>
         /// <value>The angular damping.</value>
+        [DataMember()]
         public float AngularDamping { get; set; }
 
         /// <summary>
@@ -381,6 +397,7 @@ namespace FarseerPhysics.Dynamics
         /// Gets all the fixtures attached to this body.
         /// </summary>
         /// <value>The fixture list.</value>
+        [DataMember()]
         public List<Fixture> FixtureList { get; internal set; }
 
         /// <summary>
@@ -401,7 +418,7 @@ namespace FarseerPhysics.Dynamics
         /// Set the user data. Use this to store your application specific data.
         /// </summary>
         /// <value>The user data.</value>
-        public object UserData { get; set; }
+        public Object UserData { get; set; }
 
         /// <summary>
         /// Get the world body origin position.
@@ -580,7 +597,7 @@ namespace FarseerPhysics.Dynamics
         /// <param name="shape">The shape.</param>
         /// <param name="userData">Application specific data</param>
         /// <returns></returns>
-        public Fixture CreateFixture(Shape shape, Object userData)
+        public Fixture CreateFixture(Shape shape, DebugMaterial userData)
         {
             return new Fixture(this, shape, userData);
         }
@@ -1110,6 +1127,10 @@ namespace FarseerPhysics.Dynamics
                     {
                         return false;
                     }
+                }
+                if (jn.Next == JointList)
+                {
+                    return true;
                 }
             }
 

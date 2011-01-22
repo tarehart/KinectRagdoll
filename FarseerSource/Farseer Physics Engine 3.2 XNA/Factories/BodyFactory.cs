@@ -1,6 +1,7 @@
 ﻿using System;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
+using FarseerPhysics.DebugViews;
 
 namespace FarseerPhysics.Factories
 {
@@ -14,7 +15,7 @@ namespace FarseerPhysics.Factories
             return CreateBody(world, null);
         }
 
-        public static Body CreateBody(World world, Object userData)
+        public static Body CreateBody(World world, DebugMaterial userData)
         {
             Body body = new Body(world, userData);
             return body;
@@ -25,7 +26,7 @@ namespace FarseerPhysics.Factories
             return CreateBody(world, position, null);
         }
 
-        public static Body CreateBody(World world, Vector2 position, Object userData)
+        public static Body CreateBody(World world, Vector2 position, DebugMaterial userData)
         {
             Body body = CreateBody(world, userData);
             body.Position = position;

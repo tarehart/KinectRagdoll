@@ -25,6 +25,7 @@
 
 using FarseerPhysics.Common;
 using Microsoft.Xna.Framework;
+using System.Runtime.Serialization;
 
 namespace FarseerPhysics.Collision.Shapes
 {
@@ -69,6 +70,9 @@ namespace FarseerPhysics.Collision.Shapes
     /// Shapes used for simulation in World are created automatically when a Fixture
     /// is created. Shapes may encapsulate a one or more child shapes.
     /// </summary>
+    [DataContract(Name = "Shape", Namespace = "http://www.imcool.com")]
+    [KnownType(typeof(PolygonShape))]
+    [KnownType(typeof(CircleShape))]
     public abstract class Shape
     {
         public MassData MassData;
@@ -76,8 +80,10 @@ namespace FarseerPhysics.Collision.Shapes
         /// <summary>
         /// Radius of the Shape
         /// </summary>
+        [DataMember()]
         public float Radius;
 
+        [DataMember()]
         internal float _density;
 
         protected Shape(float density)

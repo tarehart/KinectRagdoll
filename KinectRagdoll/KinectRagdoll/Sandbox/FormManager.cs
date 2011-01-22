@@ -12,6 +12,9 @@ namespace KinectTest2.Sandbox
 
         private static RectangleForm rectangleForm;
         private static PropertyEditorForm propertyForm;
+        private static JointForm jointForm;
+
+        private static PhysicsObjectForm activeFixtureForm;
 
         public static RectangleForm Rectangle
         {
@@ -35,7 +38,20 @@ namespace KinectTest2.Sandbox
 
         }
 
+        public static JointForm Joint
+        {
+            get
+            {
+                if (jointForm == null)
+                    jointForm = new JointForm();
+                return jointForm;
+            }
+
+        }
 
 
+
+
+        public static PhysicsObjectForm ActiveFixtureForm { get { return activeFixtureForm; } set { activeFixtureForm = value; } }
     }
 }

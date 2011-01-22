@@ -32,6 +32,7 @@ using FarseerPhysics.Controllers;
 using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Dynamics.Joints;
 using Microsoft.Xna.Framework;
+using System.Runtime.Serialization;
 
 namespace FarseerPhysics.Dynamics
 {
@@ -242,8 +243,10 @@ namespace FarseerPhysics.Dynamics
             JointList = new List<Joint>(32);
         }
 
+        
         public List<Controller> Controllers { get; private set; }
 
+        [DataMember()]
         public List<BreakableBody> BreakableBodyList { get; private set; }
 
         public float UpdateTime { get; private set; }
@@ -280,6 +283,7 @@ namespace FarseerPhysics.Dynamics
         /// Change the global gravity vector.
         /// </summary>
         /// <value>The gravity.</value>
+        [DataMember()]
         public Vector2 Gravity;
 
         /// <summary>
@@ -313,8 +317,10 @@ namespace FarseerPhysics.Dynamics
         /// the next body in the world list. A null body indicates the end of the list.
         /// </summary>
         /// <value>Thehead of the world body list.</value>
+        [DataMember()]
         public List<Body> BodyList { get; private set; }
 
+        [DataMember()]
         public List<Joint> JointList { get; private set; }
 
         /// <summary>
@@ -913,6 +919,10 @@ namespace FarseerPhysics.Dynamics
                     {
                         if (je.Joint.IslandFlag)
                         {
+                            if (je.Next == b.JointList)
+                            {
+                                break;
+                            }
                             continue;
                         }
 
@@ -944,6 +954,11 @@ namespace FarseerPhysics.Dynamics
                         {
                             Island.Add(je.Joint);
                             je.Joint.IslandFlag = true;
+                        }
+
+                        if (je.Next == b.JointList)
+                        {
+                            break;
                         }
                     }
                 }

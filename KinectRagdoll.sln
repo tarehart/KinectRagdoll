@@ -4,14 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinectRagdoll", "KinectRagdoll\KinectRagdoll\KinectRagdoll.csproj", "{F470FA3B-FD88-44CC-9B24-F0D15C9FCB48}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0A850700-1ABB-4288-A391-6726B90EBEB9} = {0A850700-1ABB-4288-A391-6726B90EBEB9}
-		{FC7845FA-13FE-4FF8-822A-A577F3F59B00} = {FC7845FA-13FE-4FF8-822A-A577F3F59B00}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinectRagdollContent", "KinectRagdoll\KinectRagdollContent\KinectRagdollContent.contentproj", "{4381BC2A-BBE5-40FF-9CEB-8BBD343757FB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Farseer Physics 3.2 XNA", "FarseerSource\Farseer Physics Engine 3.2 XNA\Farseer Physics 3.2 XNA.csproj", "{0A850700-1ABB-4288-A391-6726B90EBEB9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebugView 3.2 XNA", "FarseerSource\DebugView 3.2 XNA\DebugView 3.2 XNA.csproj", "{FC7845FA-13FE-4FF8-822A-A577F3F59B00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,12 +34,6 @@ Global
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Release|Any CPU.ActiveCfg = Release|x86
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Release|x86.ActiveCfg = Release|x86
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Release|x86.Build.0 = Release|x86
-		{FC7845FA-13FE-4FF8-822A-A577F3F59B00}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{FC7845FA-13FE-4FF8-822A-A577F3F59B00}.Debug|x86.ActiveCfg = Debug|x86
-		{FC7845FA-13FE-4FF8-822A-A577F3F59B00}.Debug|x86.Build.0 = Debug|x86
-		{FC7845FA-13FE-4FF8-822A-A577F3F59B00}.Release|Any CPU.ActiveCfg = Release|x86
-		{FC7845FA-13FE-4FF8-822A-A577F3F59B00}.Release|x86.ActiveCfg = Release|x86
-		{FC7845FA-13FE-4FF8-822A-A577F3F59B00}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

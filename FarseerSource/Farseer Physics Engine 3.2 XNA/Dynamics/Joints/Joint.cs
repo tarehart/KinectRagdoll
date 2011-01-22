@@ -26,6 +26,8 @@
 using System;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
+using System.Runtime.Serialization;
+using FarseerPhysics.DebugViews;
 
 namespace FarseerPhysics.Dynamics.Joints
 {
@@ -117,16 +119,23 @@ namespace FarseerPhysics.Dynamics.Joints
         public JointEdge Prev;
     }
 
+    [DataContract(Name = "Joint", Namespace = "http://www.imcool.com")]
+    [KnownType(typeof(FixedRevoluteJoint))]
+    [KnownType(typeof(RevoluteJoint))]
     public abstract class Joint
     {
         /// <summary>
         /// The Breakpoint simply indicates the maximum Value the JointError can be before it breaks.
         /// The default value is float.MaxValue
         /// </summary>
+        [DataMember()]
         public float Breakpoint = float.MaxValue;
 
+        [DataMember()]
         internal JointEdge EdgeA;
+        [DataMember()]
         internal JointEdge EdgeB;
+        [DataMember()]
         public bool Enabled = true;
         protected float InvIA;
         protected float InvIB;
@@ -165,18 +174,21 @@ namespace FarseerPhysics.Dynamics.Joints
         /// Gets or sets the type of the joint.
         /// </summary>
         /// <value>The type of the joint.</value>
+        [DataMember()]
         public JointType JointType { get; protected set; }
 
         /// <summary>
         /// Get the first body attached to this joint.
         /// </summary>
         /// <value></value>
+        [DataMember()]
         public Body BodyA { get; set; }
 
         /// <summary>
         /// Get the second body attached to this joint.
         /// </summary>
         /// <value></value>
+        [DataMember()]
         public Body BodyB { get; set; }
 
         /// <summary>
@@ -195,7 +207,7 @@ namespace FarseerPhysics.Dynamics.Joints
         /// Set the user data pointer.
         /// </summary>
         /// <value>The data.</value>
-        public object UserData { get; set; }
+        public Object userData { get; set; }
 
         /// <summary>
         /// Short-cut function to determine if either body is inactive.
