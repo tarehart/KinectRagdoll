@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Dynamics;
 
-namespace KinectTest2.Kinect
+namespace KinectRagdoll.Kinect
 {
     class OutlineManager
     {

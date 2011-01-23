@@ -7,7 +7,7 @@ using System.IO;
 using FarseerPhysics.Dynamics.Joints;
 using Microsoft.Xna.Framework;
 
-namespace KinectTest2.Sandbox
+namespace KinectRagdoll.Sandbox
 {
     class Serializer
     {

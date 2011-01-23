@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using xn;
 
-namespace KinectTest2.Kinect
+namespace KinectRagdoll.Kinect
 {
     public class SkeletonInfo
     {

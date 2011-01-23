@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace KinectTest2.Sandbox
+namespace KinectRagdoll.Sandbox
 {
 
 

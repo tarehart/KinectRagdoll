@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Joints;
 
-namespace KinectTest2.Sandbox
+namespace KinectRagdoll.Sandbox
 {
     public partial class JointForm : PhysicsObjectForm
     {

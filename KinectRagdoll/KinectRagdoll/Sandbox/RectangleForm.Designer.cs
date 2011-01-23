@@ -1,4 +1,4 @@
-﻿namespace KinectTest2.Sandbox
+﻿namespace KinectRagdoll.Sandbox
 {
     partial class RectangleForm
     {

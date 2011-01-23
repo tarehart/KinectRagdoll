@@ -7,9 +7,9 @@ using FarseerPhysics.Dynamics.Joints;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.DebugViews;
 using FarseerPhysics.Factories;
-using KinectTest2.Sandbox;
+using KinectRagdoll.Sandbox;
 
-namespace KinectTest2.Kinect
+namespace KinectRagdoll.Kinect
 {
     public abstract class Ragdoll
     {

@@ -9,7 +9,7 @@ using xn;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
-namespace KinectTest2.Kinect
+namespace KinectRagdoll.Kinect
 {
     public class RagdollManager
     {

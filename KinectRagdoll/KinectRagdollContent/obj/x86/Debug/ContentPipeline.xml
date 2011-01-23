@@ -167,6 +167,51 @@
       <Output>obj\x86\Debug\Models\thing_0.xml</Output>
       <Time>2011-01-21T21:45:44.4432444-05:00</Time>
     </Item>
+    <Item>
+      <Source>nailtool.png</Source>
+      <Name>nailtool</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\nailtool.xnb</Output>
+      <Time>2011-01-23T13:32:21.0186276-05:00</Time>
+    </Item>
+    <Item>
+      <Source>rectangletool.png</Source>
+      <Name>rectangletool</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\rectangletool.xnb</Output>
+      <Time>2011-01-23T13:32:21.0206276-05:00</Time>
+    </Item>
+    <Item>
+      <Source>toolbox.png</Source>
+      <Name>toolbox</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\toolbox.xnb</Output>
+      <Time>2011-01-23T14:40:00.4664489-05:00</Time>
+    </Item>
+    <Item>
+      <Source>pointertool.png</Source>
+      <Name>pointertool</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\pointertool.xnb</Output>
+      <Time>2011-01-23T14:40:00.4654489-05:00</Time>
+    </Item>
+    <Item>
+      <Source>jointtool.png</Source>
+      <Name>jointtool</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\jointtool.xnb</Output>
+      <Time>2011-01-23T15:20:58.4702749-05:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

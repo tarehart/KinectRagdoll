@@ -9,11 +9,12 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using KinectTest2.Kinect;
-using KinectTest2.Sandbox;
 using ManagedNite;
+using KinectRagdoll;
+using KinectRagdoll.Kinect;
+using KinectRagdoll.Sandbox;
 
-namespace KinectTest2
+namespace KinectRagdoll
 {
     /// <summary>
     /// This is the main type for your game
@@ -30,6 +31,7 @@ namespace KinectTest2
         public InputManager inputManager;
         public ProjectionHelper projectionHelper;
         public RagdollManager ragdollManager;
+        public Toolbox toolbox;
 
         GraphicsDeviceManager graphics;
         Color bkColor;
@@ -44,7 +46,7 @@ namespace KinectTest2
         VertexDeclaration vertexDeclaration;
         Model myModel;
         Model thingModel;
-        Texture2D selectionRec;
+        
 
         
 
@@ -63,6 +65,7 @@ namespace KinectTest2
             farseerManager = new FarseerManager(true, this);
             ragdollManager = new RagdollManager();
             inputManager = new InputManager(this);
+            toolbox = new Toolbox(this);
             
 
             this.IsMouseVisible = true;
@@ -168,11 +171,11 @@ namespace KinectTest2
 
             myModel = Content.Load<Model>("Models\\cube");
             thingModel = Content.Load<Model>("Models\\thing");
-            selectionRec = Content.Load<Texture2D>("Materials\\squares");
+            
 
             ragdollManager.LoadContent(Content);
             farseerManager.LoadContent();
-
+            toolbox.LoadContent();
 
             InitializeTransform();
             InitializeEffect();
@@ -245,8 +248,7 @@ namespace KinectTest2
             spriteBatch.Draw(kinectManager.depthTex, new Rectangle(50, 50, 640, 480), Color.White);
             farseerManager.DrawBasics();
             spriteBatch.Draw(renderTarget, new Vector2(0, 0), null, Color.White, 0, new Vector2(0, 0), 1, SpriteEffects.FlipVertically, 1);
-            if (inputManager.selectingRectangle)
-                spriteBatch.Draw(selectionRec, inputManager.selectionRectangle, new Color(100, 100, 255, 100));
+            toolbox.Draw(spriteBatch);
             farseerManager.DrawFrontEffects(spriteBatch);
             spriteBatch.End();
         }

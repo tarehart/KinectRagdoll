@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 
-namespace KinectTest2.Sandbox
+namespace KinectRagdoll.Sandbox
 {
     public class PhysicsObjectForm : GameForm
     {

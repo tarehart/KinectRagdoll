@@ -10,7 +10,7 @@ using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Common;
 using FarseerPhysics.DebugViews;
 
-namespace KinectTest2.Kinect
+namespace KinectRagdoll.Kinect
 {
     class RampManager
     {

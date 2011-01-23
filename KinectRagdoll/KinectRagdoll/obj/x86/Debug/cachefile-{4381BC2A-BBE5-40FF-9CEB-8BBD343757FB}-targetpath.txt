@@ -14,3 +14,8 @@ Content\Materials\waves.xnb
 Content\thrust.xnb
 Content\Materials\target.xnb
 Content\font.xnb
+Content\nailtool.xnb
+Content\rectangletool.xnb
+Content\toolbox.xnb
+Content\pointertool.xnb
+Content\jointtool.xnb

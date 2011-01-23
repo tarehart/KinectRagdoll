@@ -12,7 +12,7 @@ using System.Windows.Threading;
 using Microsoft.Xna.Framework.Graphics;
 
 
-namespace KinectTest2.Kinect
+namespace KinectRagdoll.Kinect
 {
     public class KinectManager
     {

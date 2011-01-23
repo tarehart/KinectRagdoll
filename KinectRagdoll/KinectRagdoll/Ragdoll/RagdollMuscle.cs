@@ -11,7 +11,7 @@ using FarseerPhysics.DebugViews;
 using Microsoft.Xna.Framework.Graphics;
 
 
-namespace KinectTest2.Kinect
+namespace KinectRagdoll.Kinect
 {
     class RagdollMuscle: Ragdoll
     {

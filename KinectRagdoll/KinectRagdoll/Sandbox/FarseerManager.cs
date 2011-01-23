@@ -8,10 +8,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Dynamics.Joints;
-using KinectTest2.Sandbox;
+using KinectRagdoll.Sandbox;
 using FarseerPhysics.DebugViews;
 
-namespace KinectTest2.Kinect
+namespace KinectRagdoll.Kinect
 {
     public class FarseerManager
     {

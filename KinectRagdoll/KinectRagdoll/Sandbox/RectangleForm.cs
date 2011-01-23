@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.DebugViews;
 
-namespace KinectTest2.Sandbox
+namespace KinectRagdoll.Sandbox
 {
     public partial class RectangleForm : PhysicsObjectForm
     {

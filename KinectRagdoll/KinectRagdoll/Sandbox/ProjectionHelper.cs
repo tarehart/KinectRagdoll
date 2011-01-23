@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace KinectTest2.Sandbox
+namespace KinectRagdoll.Sandbox
 {
     public class ProjectionHelper
     {

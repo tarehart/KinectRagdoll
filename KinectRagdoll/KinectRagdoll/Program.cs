@@ -1,6 +1,6 @@
 using System;
 
-namespace KinectTest2
+namespace KinectRagdoll
 {
 #if WINDOWS || XBOX
     static class Program

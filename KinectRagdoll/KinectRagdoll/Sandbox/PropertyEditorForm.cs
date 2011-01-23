@@ -10,9 +10,9 @@ using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.DebugViews;
 using FarseerPhysics.Dynamics.Joints;
-using KinectTest2.Kinect;
+using KinectRagdoll.Kinect;
 
-namespace KinectTest2.Sandbox
+namespace KinectRagdoll.Sandbox
 {
     public partial class PropertyEditorForm : GameForm
     {
@@ -96,6 +96,9 @@ namespace KinectTest2.Sandbox
             {
                 doHighlighting(b, null);
             }
+
+            farseerManager.pendingJoints.Clear();
+            farseerManager.selectedJoints.Clear();
         }
 
        
@@ -343,11 +346,11 @@ namespace KinectTest2.Sandbox
 
             if (numChecked > 1)
             {
-                selectFromList.Text = "Batch Edit Selected";
+                selectFromList.Text = "Batch Edit Properties";
             }
             else
             {
-                selectFromList.Text = "Go to Selected";
+                selectFromList.Text = "Edit Properties";
             }
         }
 
@@ -430,6 +433,16 @@ namespace KinectTest2.Sandbox
 
         private void freezeSelected_Click(object sender, EventArgs e)
         {
+            FreezeSelected();
+        }
+
+        private void unfreezeSelected_Click(object sender, EventArgs e)
+        {
+            UnfreezeSelected();
+        }
+
+        internal void FreezeSelected()
+        {
             foreach (Object o in multipleSelect.CheckedItems)
             {
                 if (o is Fixture)
@@ -441,11 +454,11 @@ namespace KinectTest2.Sandbox
                     ((Body)o).IsStatic = true;
 
                 }
-                
+
             }
         }
 
-        private void unfreezeSelected_Click(object sender, EventArgs e)
+        internal void UnfreezeSelected()
         {
             foreach (Object o in multipleSelect.CheckedItems)
             {

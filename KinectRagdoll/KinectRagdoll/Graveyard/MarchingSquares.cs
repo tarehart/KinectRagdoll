@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace KinectTest2.Kinect
+namespace KinectRagdoll.Kinect
 {
     class MarchingSquares
     {

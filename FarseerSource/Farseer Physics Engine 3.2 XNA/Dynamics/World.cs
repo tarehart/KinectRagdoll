@@ -389,7 +389,7 @@ namespace FarseerPhysics.Dynamics
         public void RemoveJoint(Joint joint)
         {
             //You are removing a joint twice?
-            Debug.Assert(!_jointRemoveList.Contains(joint));
+            //Debug.Assert(!_jointRemoveList.Contains(joint));
 
             if (!_jointRemoveList.Contains(joint))
                 _jointRemoveList.Add(joint);
