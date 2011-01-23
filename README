@@ -19,9 +19,27 @@ How to play
 
 Adding Physics Props
 --------------------
-- Press 'R' to open the rectangle form, then fill it out. Hold 'Shift' and click on the game screen to place a rectangle.
-- Press 'P' to open the properties form. Use it to modify the physics properties of objects.
+Use the toolbar at the top. Click one of the icons to start using the tool.
+- Pointer tool: drag on background to select objects, drag on object to move it.
+- Rectangle tool: drag to create a rectangle
+- Nail tool: click to add a nail that pivots an object on the background
+- Joint tool: click to add a joint between two objects.
 
+Note: nails and joints can be turned into motors via the property editor.
+
+
+Making Selections
+-----------------
+Select the pointer tool and drag a rectangle to make a selection. The selected objects will turn yellow and appear listed in the selection editor.
+
+You can modify your selection with the checkboxes in the selection editor, and perform various operations on the selected objects.
+
+
+Using the Property Editor
+-------------------------
+The property editor can change the attributes of any physics object. To begin editing an object, you must highlight it in red by either right-clicking it or choosing edit from the selection editor.
+
+You can navigate to other objects within the property editor by highlighting an object and clicking "Go to selected".
 
 
 Tips
