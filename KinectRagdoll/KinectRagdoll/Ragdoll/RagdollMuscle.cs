@@ -20,9 +20,14 @@ namespace KinectRagdoll.Kinect
         //protected TargetJoint rightElbow;
 
         protected int sleepTimer = 0;
+        protected int postThrustTimer = 0;
         protected bool asleep = false;
         public bool thrustOn = false;
+        private float feetThrust;
+        private float rightHandThrust;
+        private float leftHandThrust;
         Random rand = new Random();
+        private int POST_THRUST_TIME = 100;
         
 
         public RagdollMuscle(World world, Vector2 position) : base(world, position)
@@ -68,8 +73,16 @@ namespace KinectRagdoll.Kinect
                 {
                     wakeUp();
                 }
-                return;
             }
+
+            if (postThrustTimer > 0)
+            {
+                postThrustTimer--;
+                if (postThrustTimer == 0)
+                    _body.Body.LinearDamping = 0;
+            }
+
+            Thrust();
         }
 
         private void knockOut()
@@ -83,6 +96,7 @@ namespace KinectRagdoll.Kinect
             jLeftLegBody.MotorEnabled = false;
             jRightLeg.MotorEnabled = false;
             jRightLegBody.MotorEnabled = false;
+            _body.Body.LinearDamping = 0;
         }
 
         private void wakeUp()
@@ -96,6 +110,7 @@ namespace KinectRagdoll.Kinect
             jLeftLegBody.MotorEnabled = true;
             jRightLeg.MotorEnabled = true;
             jRightLegBody.MotorEnabled = true;
+            _body.Body.LinearDamping = .9f;
         }
 
 
@@ -167,7 +182,7 @@ namespace KinectRagdoll.Kinect
 
         protected override void CreateExtraJoints(World world)
         {
-            _body.Body.LinearDamping = .9f;
+            
         }
 
         protected override void CreateArmJoints(World world)
@@ -267,13 +282,13 @@ namespace KinectRagdoll.Kinect
 
        
 
-        public void Thrust(float thrustFactor)
+        private void Thrust()
         {
-            if (asleep) return;
-            applyLimbThrust(_lowerLeftLeg, Math.PI / 2, 3 * thrustFactor);
-            applyLimbThrust(_lowerRightLeg, Math.PI / 2, 3 * thrustFactor);
-            applyLimbThrust(_lowerRightArm, Math.PI / 2, 4f * thrustFactor);
-            applyLimbThrust(_lowerLeftArm, Math.PI / 2, 4f * thrustFactor);
+            if (asleep && !thrustOn) return;
+            applyLimbThrust(_lowerLeftLeg, Math.PI / 2, 3 * feetThrust);
+            applyLimbThrust(_lowerRightLeg, Math.PI / 2, 3 * feetThrust);
+            applyLimbThrust(_lowerRightArm, Math.PI / 2, 4f * rightHandThrust);
+            applyLimbThrust(_lowerLeftArm, Math.PI / 2, 4f * leftHandThrust);
         }
 
         private void applyLimbThrust(Fixture limb, double angleOffset, float thrustFactor)
@@ -302,15 +317,15 @@ namespace KinectRagdoll.Kinect
         {
             if (thrustOn && !asleep)
             {
-                drawLimbThrust(_lowerLeftLeg, sb);
-                drawLimbThrust(_lowerRightLeg, sb);
-                drawLimbThrust(_lowerLeftArm, sb);
-                drawLimbThrust(_lowerRightArm, sb);
+                drawLimbThrust(_lowerLeftLeg, sb, feetThrust);
+                drawLimbThrust(_lowerRightLeg, sb, feetThrust);
+                drawLimbThrust(_lowerLeftArm, sb, leftHandThrust);
+                drawLimbThrust(_lowerRightArm, sb, rightHandThrust);
                 
             }
         }
 
-        public void drawLimbThrust(Fixture limb, SpriteBatch sb)
+        public void drawLimbThrust(Fixture limb, SpriteBatch sb, float thrustFactor)
         {
 
             Vector2 limbLoc = limb.Body.Position;
@@ -318,8 +333,34 @@ namespace KinectRagdoll.Kinect
             Vector2 vec = new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot));
             SpriteEffects effect = SpriteEffects.None;
             if (rand.Next(2) == 0) effect = SpriteEffects.FlipHorizontally;
-            sb.Draw(RagdollManager.thrustTex, limbLoc - vec * 1.5f, null, Color.White, limb.Body.Rotation + (float) Math.PI, new Vector2(64, 64), .012f, effect, 0);
+            sb.Draw(RagdollManager.thrustTex, limbLoc - vec * 1.5f, null, Color.White, limb.Body.Rotation + (float) Math.PI, new Vector2(64, 64), .012f * thrustFactor, effect, 0);
             
+        }
+
+        internal void StartThrust(float feetThrust, float rightHandThrust, float leftHandThrust)
+        {
+            thrustOn = true;
+
+            if (rightHandThrust < 0) rightHandThrust = 0;
+            if (leftHandThrust < 0) leftHandThrust = 0;
+            if (feetThrust < 0) feetThrust = 0;
+
+            this.feetThrust = feetThrust;
+            //this.rightHandThrust = rightHandThrust + feetThrust;
+            //this.leftHandThrust = leftHandThrust + feetThrust;
+            this.rightHandThrust = feetThrust;
+            this.leftHandThrust = feetThrust;
+
+            
+
+            postThrustTimer = POST_THRUST_TIME;
+            _body.Body.LinearDamping = .9f;
+        }
+
+        internal void StopThrust()
+        {
+            thrustOn = false;
+            feetThrust = 0;
         }
     }
 }

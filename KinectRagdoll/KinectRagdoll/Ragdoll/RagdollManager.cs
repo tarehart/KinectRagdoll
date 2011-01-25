@@ -70,13 +70,16 @@ namespace KinectRagdoll.Kinect
             if (info.torso.Z < info.head.Z)
             {
                 //kinect.bkColor = Color.Orange;
-                ragdoll.Thrust((info.head.Z - info.torso.Z) * .02f);
-                ragdoll.thrustOn = true;
+                
+                ragdoll.StartThrust(
+                    (info.head.Z - info.torso.Z) * .02f,
+                    (info.rightHand.Z - info.torso.Z) * .0008f,
+                    (info.leftHand.Z - info.torso.Z) * .0008f);
             }
             else
             {
                 //kinect.bkColor = Color.Beige;
-                ragdoll.thrustOn = false;
+                ragdoll.StopThrust();
                 
             }
 
@@ -98,6 +101,11 @@ namespace KinectRagdoll.Kinect
         internal bool OwnsJoint(FarseerPhysics.Dynamics.Joints.Joint j)
         {
             return false;
+        }
+
+        internal Vector2 getRagdollCenter()
+        {
+            return ragdoll.Body.Position;
         }
     }
 }

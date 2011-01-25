@@ -17,7 +17,7 @@ namespace KinectRagdoll.Kinect
     public class KinectManager
     {
 
-        public bool useKinect = false;
+        public bool useKinect = true;
 
         Context context;
         private DepthGenerator depth;

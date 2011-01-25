@@ -154,11 +154,11 @@ namespace KinectRagdoll.Kinect
             
         }
 
-        public void DrawBasics()
+        public void DrawBasics(ref Matrix view)
         {
 
             
-            debugview.RenderDebugData(ref projection);
+            debugview.RenderDebugData(ref projection, ref view);
             
         }
 
