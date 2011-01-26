@@ -59,7 +59,11 @@ namespace KinectRagdoll.Tools
             {
                 Vector2 lastPosition = new Vector2(inputHelper.LastMouseState.X, inputHelper.LastMouseState.Y);
                 lastPosition = game.projectionHelper.PixelToFarseer(lastPosition);
-                savedFixture.Body.Position += position - lastPosition;
+                Vector2 dragVec = position - lastPosition;
+                if (!FormManager.Property.tryGroupDrag(savedFixture, dragVec))
+                {
+                    savedFixture.Body.Position += position - lastPosition;
+                }
             }
 
             if (inputHelper.IsOldButtonPress(MouseButtons.LeftButton))

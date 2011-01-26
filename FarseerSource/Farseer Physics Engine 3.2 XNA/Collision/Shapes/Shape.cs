@@ -75,6 +75,7 @@ namespace FarseerPhysics.Collision.Shapes
     [KnownType(typeof(CircleShape))]
     public abstract class Shape
     {
+        
         public MassData MassData;
 
         /// <summary>

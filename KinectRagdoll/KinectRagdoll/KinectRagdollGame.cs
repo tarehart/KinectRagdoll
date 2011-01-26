@@ -195,7 +195,7 @@ namespace KinectRagdoll
         {
             if (farseerManager.createNew)
             {
-                Serializer.Save(farseerManager.world, this);
+                Serializer.Save(farseerManager.world, this, "save.xml");
             }
             kinectManager.Close();
         }

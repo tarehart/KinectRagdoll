@@ -95,6 +95,7 @@ namespace FarseerPhysics.Dynamics
         [DataMember()]
         private BodyType _bodyType;
         private float _inertia;
+        [DataMember()]
         private float _mass;
 
         public Body(World world) : this(world, null)

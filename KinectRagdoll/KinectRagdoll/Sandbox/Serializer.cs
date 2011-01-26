@@ -32,10 +32,10 @@ namespace KinectRagdoll.Sandbox
             return g;
         }
 
-        public static void Save(World w, KinectRagdollGame g)
+        public static void Save(World w, KinectRagdollGame g, String filename)
         {
 
-            FileStream writer = new FileStream("save.xml", FileMode.Create);
+            FileStream writer = new FileStream(filename, FileMode.Create);
 
             SaveFile sf = new SaveFile();
             foreach (Body b in w.BodyList) {
@@ -55,18 +55,33 @@ namespace KinectRagdoll.Sandbox
             
             
             sf.gravity = w.Gravity;
- 
+
+            WriteSaveFile(writer, sf);
+
+        }
+
+        private static void WriteSaveFile(FileStream writer, SaveFile sf)
+        {
             DataContractSerializer ser = new DataContractSerializer(
                 typeof(SaveFile), null, Int32.MaxValue, false, true, null);
             ser.WriteObject(writer, sf);
             writer.Close();
+        }
 
+        public static void SetClipboard(SaveFile s)
+        {
+            FileStream writer = new FileStream("clipboard.xml", FileMode.Create);
+            WriteSaveFile(writer, s);
+        }
+
+        public static SaveFile GetClipboard()
+        {
+            return readFromDataContract("clipboard.xml");
         }
 
 
-
-
     }
+
 
     [DataContract(Name = "SaveFile", Namespace = "http://www.imcool.com")]
     public class SaveFile
@@ -79,13 +94,6 @@ namespace KinectRagdoll.Sandbox
         public Vector2 gravity;
 
 
-        public World createWorld()
-        {
-            World w = new World(gravity);
-
-            return w;
-
-        }
 
 
         public void PopulateWorld(World w) {
@@ -102,7 +110,9 @@ namespace KinectRagdoll.Sandbox
                     w.FixtureAdded(f);
                 }
 
+                float mass = b.Mass;
                 b.ResetMassData();
+                b.Mass = mass;
                 b.Enabled = true;
                 b.Awake = true;
                 w.AddBody(b);

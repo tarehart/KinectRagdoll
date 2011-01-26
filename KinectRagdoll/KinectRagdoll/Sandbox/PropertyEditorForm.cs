@@ -11,6 +11,8 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.DebugViews;
 using FarseerPhysics.Dynamics.Joints;
 using KinectRagdoll.Kinect;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace KinectRagdoll.Sandbox
 {
@@ -21,6 +23,8 @@ namespace KinectRagdoll.Sandbox
         private DebugMaterial selectTexture;
         private DebugMaterial pendingTexture;
         private Dictionary<Object, DebugMaterial> materialBank = new Dictionary<object, DebugMaterial>();
+        private SaveFile clipBoard;
+
 
         public PropertyEditorForm()
         {
@@ -361,28 +365,7 @@ namespace KinectRagdoll.Sandbox
 
         private void deleteSelected_Click(object sender, EventArgs e)
         {
-            List<Object> toRemove = new List<object>();
-
-            foreach (Object o in multipleSelect.CheckedItems)
-            {
-                if (o is Fixture || o is Body || o is Joint)
-                {
-                    doHighlighting(o, null); // remove from material bank
-                    toRemove.Add(o);
-
-                    if (o is Fixture)
-                        farseerManager.world.RemoveBody(((Fixture)o).Body);
-                    else if (o is Body)
-                        farseerManager.world.RemoveBody((Body)o);
-                    else if (o is Joint)
-                        farseerManager.world.RemoveJoint((Joint)o);
-                }
-            }
-
-            foreach (Object o in toRemove)
-            {
-                multipleSelect.Items.Remove(o);
-            }
+            DeleteSelected();
         }
 
 
@@ -472,6 +455,181 @@ namespace KinectRagdoll.Sandbox
 
                 }
             }
+        }
+
+        internal void DeleteSelected()
+        {
+            List<Object> toRemove = new List<object>();
+
+            foreach (Object o in multipleSelect.CheckedItems)
+            {
+                if (o is Fixture || o is Body || o is Joint)
+                {
+                    doHighlighting(o, null); // remove from material bank
+                    toRemove.Add(o);
+
+                    if (o is Fixture)
+                        farseerManager.world.RemoveBody(((Fixture)o).Body);
+                    else if (o is Body)
+                        farseerManager.world.RemoveBody((Body)o);
+                    else if (o is Joint)
+                        farseerManager.world.RemoveJoint((Joint)o);
+                }
+            }
+
+            foreach (Object o in toRemove)
+            {
+                multipleSelect.Items.Remove(o);
+            }
+        }
+
+        internal void RotateSelected(float p)
+        {
+            float radians = p * (float)Math.PI/(120 * 48);
+            Matrix rot = Matrix.CreateRotationZ(radians);
+            Vector3 centerOfMass = getGroupPosition(multipleSelect.CheckedItems);
+            Matrix toCenter = Matrix.CreateTranslation(-centerOfMass);
+            Matrix andBack = Matrix.CreateTranslation(centerOfMass);
+
+            Matrix total = toCenter * rot * andBack;
+
+            foreach (object o in multipleSelect.CheckedItems)
+            {
+                if (o is Body || o is FixedRevoluteJoint)
+                {
+
+                    if (o is Body)
+                    {
+                        Body b = (Body)o;
+                        b.Position = Vector2.Transform(b.Position, total);
+                        b.Rotation += radians;
+                    }
+                    else if (o is FixedRevoluteJoint)
+                    {
+                        FixedRevoluteJoint j = (FixedRevoluteJoint)o;
+                        j.WorldAnchorB = Vector2.Transform(j.WorldAnchorB, total);
+                    }
+                }
+            }
+
+
+        }
+
+        private Vector3 getGroupPosition(CheckedListBox.CheckedItemCollection collection)
+        {
+            object[] arr = new object[collection.Count];
+            collection.CopyTo(arr, 0);
+            return getGroupPosition(arr);
+        }
+
+        private Vector3 getGroupPosition(IEnumerable<Object> objects)
+        {
+
+            Vector2 total = new Vector2();
+            int count = 0;
+
+            foreach (object o in objects)
+            {
+                
+                if (o is Body)
+                {
+                    Body b = (Body)o;
+                    total += b.Position;
+                    count++;
+                }
+                else if (o is FixedRevoluteJoint)
+                {
+                    FixedRevoluteJoint j = (FixedRevoluteJoint)o;
+                    total += j.WorldAnchorB;
+                    count++;
+                }
+               
+            }
+
+            total /= count;
+            return new Vector3(total.X, total.Y, 0);
+        }
+
+        internal bool tryGroupDrag(Fixture savedFixture, Vector2 dragVec)
+        {
+            if (multipleSelect.CheckedItems.Contains(savedFixture) ||
+                multipleSelect.CheckedItems.Contains(savedFixture.Body))
+            {
+                foreach (object o in multipleSelect.CheckedItems)
+                {
+                    if (o is Fixture)
+                    {
+                        ((Fixture)o).Body.Position += dragVec;
+                    }
+                    else if (o is Body)
+                    {
+                        ((Body)o).Position += dragVec;
+                    }
+                    else if (o is FixedRevoluteJoint)
+                    {
+                        ((FixedRevoluteJoint)o).WorldAnchorB += dragVec;
+                    }
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        internal void CopySelected()
+        {
+           
+            SaveFile clipBoard = new SaveFile();
+
+            
+
+            foreach (Object o in multipleSelect.CheckedItems)
+            {
+
+                doHighlighting(o, null);
+
+                if (o is Body)
+                {
+                    clipBoard.bodyList.Add((Body)o);
+                }
+                else if (o is Joint)
+                {
+                    clipBoard.jointList.Add((Joint)o);
+                }
+            }
+
+            Serializer.SetClipboard(clipBoard);
+
+           
+        }
+
+        
+
+        internal void PasteSelected(Vector2 mouseLoc)
+        {
+            SaveFile cloned = Serializer.GetClipboard();
+
+            if (cloned != null)
+            {
+
+                Vector3 center = getGroupPosition(cloned.bodyList);
+
+                Vector2 offset = new Vector2(mouseLoc.X - center.X, mouseLoc.Y - center.Y);
+
+                cloned.PopulateWorld(farseerManager.world);
+
+                foreach (Body b in cloned.bodyList)
+                {
+                    b.Position += offset;
+                }
+
+                
+
+            }
+
         }
     }
 }
