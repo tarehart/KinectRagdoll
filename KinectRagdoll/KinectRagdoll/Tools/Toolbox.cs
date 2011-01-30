@@ -42,6 +42,7 @@ namespace KinectRagdoll.Sandbox
             AddButton("rectangletool", new RectangleTool(game, recDraw), 1);
             AddButton("nailtool", new NailTool(game), 2);
             AddButton("jointtool", new JointTool(game), 3);
+            AddButton("objectivetool", new ObjectiveTool(game), 4);
 
             
         }

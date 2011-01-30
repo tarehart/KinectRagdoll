@@ -13,6 +13,8 @@ using ManagedNite;
 using KinectRagdoll;
 using KinectRagdoll.Kinect;
 using KinectRagdoll.Sandbox;
+using KinectRagdoll.Drawing;
+using KinectRagdoll.Rules;
 
 namespace KinectRagdoll
 {
@@ -32,6 +34,8 @@ namespace KinectRagdoll
         public ProjectionHelper projectionHelper;
         public RagdollManager ragdollManager;
         public Toolbox toolbox;
+        public SpriteHelper spriteHelper;
+        public ObjectiveManager objectiveManager;
 
         GraphicsDeviceManager graphics;
         Color bkColor;
@@ -66,6 +70,8 @@ namespace KinectRagdoll
             ragdollManager = new RagdollManager();
             inputManager = new InputManager(this);
             toolbox = new Toolbox(this);
+            spriteHelper = new SpriteHelper();
+            objectiveManager = new ObjectiveManager();
             
 
             this.IsMouseVisible = true;
@@ -169,6 +175,8 @@ namespace KinectRagdoll
             spriteBatch = new SpriteBatch(GraphicsDevice);
             graphicsDevice = GraphicsDevice;
 
+            SpriteHelper.LoadContent(Content);
+
             myModel = Content.Load<Model>("Models\\cube");
             thingModel = Content.Load<Model>("Models\\thing");
             
@@ -182,8 +190,7 @@ namespace KinectRagdoll
             
             
             kinectManager.InitKinect();
-            ragdollManager.Init(farseerManager.world, kinectManager);
-
+            
             
         }
 
@@ -214,6 +221,7 @@ namespace KinectRagdoll
             inputManager.Update();
             ragdollManager.Update(kinectManager.skeletonInfo);
             farseerManager.Update(gameTime);
+            objectiveManager.Update();
 
             base.Update(gameTime);
         }
@@ -251,6 +259,7 @@ namespace KinectRagdoll
             spriteBatch.Draw(renderTarget, new Vector2(0, 0), null, Color.White, 0, new Vector2(0, 0), 1, SpriteEffects.FlipVertically, 1);
             toolbox.Draw(spriteBatch);
             farseerManager.DrawFrontEffects(spriteBatch);
+            objectiveManager.Draw(spriteBatch);
             spriteBatch.End();
         }
 
@@ -268,28 +277,34 @@ namespace KinectRagdoll
             farseerEffect.VertexColorEnabled = true;
 
 
-            Vector3 headLoc = kinectManager.skeletonInfo.head;
-            Vector3 screenCenter = new Vector3(-250, 100, 350);
+            if (kinectManager.skeletonInfo.head.Z != 0)
+            {
 
-            Vector3 screenToHead = headLoc - screenCenter;
+                Vector3 headLoc = kinectManager.skeletonInfo.head;
+                Vector3 screenCenter = new Vector3(-250, 100, 350);
 
-            screenToHead *= .01f;
-            screenToHead.Z *= 3;
+                Vector3 screenToHead = headLoc - screenCenter;
 
-            //headLoc.X += 250;
-            //headLoc.Y -= 100;
-            //headLoc.Z *= 2;
+                screenToHead *= .01f;
+                screenToHead.Z *= 3;
 
-            //headLoc *= .01f;
+                //headLoc.X += 250;
+                //headLoc.Y -= 100;
+                //headLoc.Z *= 2;
+
+                //headLoc *= .01f;
 
 
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
-                (float)Math.Atan(10 / screenToHead.Z),
-                (float)GraphicsDevice.Viewport.Width /
-                (float)GraphicsDevice.Viewport.Height,
-                1.0f, 100.0f);
 
-            viewMatrix = Matrix.CreateLookAt(screenToHead, Vector3.Zero, Vector3.Up);
+
+                projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
+                    (float)Math.Atan(10 / screenToHead.Z),
+                    (float)GraphicsDevice.Viewport.Width /
+                    (float)GraphicsDevice.Viewport.Height,
+                    1.0f, 100.0f);
+
+                viewMatrix = Matrix.CreateLookAt(screenToHead, Vector3.Zero, Vector3.Up);
+            }
         }
 
         private Matrix createFarseerView()

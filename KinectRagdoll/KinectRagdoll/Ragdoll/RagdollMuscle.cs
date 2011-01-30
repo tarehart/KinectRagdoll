@@ -9,35 +9,171 @@ using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Factories;
 using FarseerPhysics.DebugViews;
 using Microsoft.Xna.Framework.Graphics;
+using System.Runtime.Serialization;
+using KinectRagdoll.Drawing;
+using System.Diagnostics;
 
 
 namespace KinectRagdoll.Kinect
 {
-    class RagdollMuscle: Ragdoll
+    [DataContract(Name = "RagdollMuscle", Namespace = "http://www.imcool.com")]
+    public class RagdollMuscle: Ragdoll
     {
 
         //protected TargetJoint rightShoulder;
         //protected TargetJoint rightElbow;
-
+        [DataMember()]
         protected int sleepTimer = 0;
+        [DataMember()]
         protected int postThrustTimer = 0;
+        [DataMember()]
         protected bool asleep = false;
+        [DataMember()]
         public bool thrustOn = false;
         private float feetThrust;
         private float rightHandThrust;
         private float leftHandThrust;
         Random rand = new Random();
         private int POST_THRUST_TIME = 100;
-        
 
-        public RagdollMuscle(World world, Vector2 position) : base(world, position)
+        private bool rightGrip;
+        private bool leftGrip;
+        private World world;
+
+
+        private RevoluteJoint jRightGrip;
+        private RevoluteJoint jLeftGrip;
+
+        private const float slowDamping = .9f;
+        private const float grabPlane = -400f;
+        private const float releasePlane = -70f;
+        private const float grabVel = -20;
+
+        private int rightHandGrabGrace;
+        private int leftHandGrabGrace;
+        private const int grabGrace = 30;
+       
+
+        public RagdollMuscle(World w, Vector2 position) : base(w, position)
         {
-
+            this.world = w;
             _head.AfterCollision += HeadCollision;
             
 
         }
 
+        public override void Update(SkeletonInfo info)
+        {
+
+            
+            base.Update(info);
+
+            tick();
+
+            if (!asleep)
+            {
+
+                if (!rightGrip &&
+                    info.rightHand.Z < info.torso.Z + grabPlane &&
+                    info.RightHandVel.Z < grabVel)
+                {
+                    rightHandGrabGrace = grabGrace;
+                    //TryRightGrip();
+                }
+
+                if (rightHandGrabGrace > 0)
+                {
+                    TryRightGrip();
+                }
+                else if (rightGrip && info.rightHand.Z > info.torso.Z + releasePlane)
+                {
+                    ReleaseRightGrip();
+                }
+
+                if (!leftGrip &&
+                    info.leftHand.Z < info.torso.Z + grabPlane &&
+                    info.LeftHandVel.Z < grabVel)
+                {
+                    leftHandGrabGrace = grabGrace;
+                    //TryLeftGrip();
+                }
+                if (leftHandGrabGrace > 0)
+                {
+                    TryLeftGrip();
+                }
+                else if (leftGrip && info.leftHand.Z > info.torso.Z + releasePlane)
+                {
+                    ReleaseLeftGrip();
+                }
+
+
+                if (info.torso.Z < info.head.Z)
+                {
+                    StartThrust(
+                        (info.head.Z - info.torso.Z) * .02f,
+                        (info.rightHand.Z - info.torso.Z) * .0008f,
+                        (info.leftHand.Z - info.torso.Z) * .0008f);
+                }
+                else
+                {
+                    StopThrust();
+
+                }
+            }
+        }
+
+        private void TryLeftGrip()
+        {
+            Vector2 elbowLoc = jLeftArm.WorldAnchorA;
+            Vector2 forearmLoc = _lowerLeftArm.Body.Position;
+            Vector2 gripLoc = forearmLoc + (forearmLoc - elbowLoc) * 2;
+
+            Fixture f = world.TestPoint(gripLoc);
+            if (f != null)
+            {
+                if (jLeftGrip != null) world.RemoveJoint(jLeftGrip);
+                jLeftGrip = new RevoluteJoint(_lowerLeftArm.Body, f.Body, _lowerLeftArm.Body.GetLocalPoint(gripLoc), f.Body.GetLocalPoint(gripLoc));
+                world.AddJoint(jLeftGrip);
+                leftGrip = true;
+            }
+        }
+
+        private void ReleaseLeftGrip()
+        {
+            if (jLeftGrip != null) world.RemoveJoint(jLeftGrip);
+            jLeftGrip = null;
+            leftGrip = false;
+        }
+
+        private void ReleaseRightGrip()
+        {
+            if (jRightGrip != null) world.RemoveJoint(jRightGrip);
+            jRightGrip = null;
+            rightGrip = false;
+        }
+
+        private void TryRightGrip()
+        {
+            Vector2 elbowLoc = jRightArm.WorldAnchorA;
+            Vector2 forearmLoc = _lowerRightArm.Body.Position;
+            Vector2 gripLoc = forearmLoc + (forearmLoc - elbowLoc) * 2;
+
+            Fixture f = world.TestPoint(gripLoc);
+            if (f != null)
+            {
+                if (jRightGrip != null) world.RemoveJoint(jRightGrip);
+                jRightGrip = new RevoluteJoint(_lowerRightArm.Body, f.Body, _lowerRightArm.Body.GetLocalPoint(gripLoc), f.Body.GetLocalPoint(gripLoc));
+                world.AddJoint(jRightGrip);
+                rightGrip = true;
+            }
+        }
+
+
+        public void PostLoad(World w)
+        {
+            rand = new Random();
+            world = w;
+        }
 
         public void HeadCollision(Fixture f1, Fixture f2, Contact contact)
         {
@@ -83,6 +219,9 @@ namespace KinectRagdoll.Kinect
             }
 
             Thrust();
+
+            if (leftHandGrabGrace > 0) leftHandGrabGrace--;
+            if (rightHandGrabGrace > 0) rightHandGrabGrace--;
         }
 
         private void knockOut()
@@ -97,6 +236,10 @@ namespace KinectRagdoll.Kinect
             jRightLeg.MotorEnabled = false;
             jRightLegBody.MotorEnabled = false;
             _body.Body.LinearDamping = 0;
+            StopThrust();
+            _body.Body.AngularDamping = 0;
+            ReleaseLeftGrip();
+            ReleaseRightGrip();
         }
 
         private void wakeUp()
@@ -110,7 +253,7 @@ namespace KinectRagdoll.Kinect
             jLeftLegBody.MotorEnabled = true;
             jRightLeg.MotorEnabled = true;
             jRightLegBody.MotorEnabled = true;
-            _body.Body.LinearDamping = .9f;
+            _body.Body.LinearDamping = slowDamping;
         }
 
 
@@ -122,12 +265,12 @@ namespace KinectRagdoll.Kinect
             float personAngle = (float)(Math.Atan2(vec.Y, vec.X) - Math.PI / 2);
             float ragdollAngle = _body.Body.Rotation;
             float diff = getRadDiff(ragdollAngle, personAngle);
-            float torque = 200;
+            float torque = 150;
             if (diff < 0) torque *= -1;
             if (thrustOn) torque *= 2;
 
             _body.Body.ApplyTorque(torque);
-            _body.Body.AngularDamping = .5f;
+            _body.Body.AngularDamping = 5f;
 
         }
 
@@ -175,8 +318,8 @@ namespace KinectRagdoll.Kinect
         protected void setJointMotor(RevoluteJoint joint, float targetAngle)
         {
             float radDiff = getRadDiff(joint.JointAngle, targetAngle);
-            joint.MotorSpeed = radDiff * 20;
-            joint.MaxMotorTorque = 1500;
+            joint.MotorSpeed = radDiff * 10;
+            joint.MaxMotorTorque = 1700;
 
         }
 
@@ -270,12 +413,23 @@ namespace KinectRagdoll.Kinect
 
         private float getRadDiff(float p, float targetAngle)
         {
+
+
             float a = targetAngle - p;
+            while (a < -Math.PI) a += 2 * (float)Math.PI;
+            while (a > Math.PI) a -= 2 * (float)Math.PI;
+            
+            //float a = targetAngle - p;
+            //a %= (float)Math.PI * 2;
 
-            a %= 2 * (float)Math.PI;
+            //if (a > Math.PI)
+            //{
 
-            if (a > Math.PI) a = (float)Math.PI - a;
+            //    a -= 2 * (float)Math.PI;
+                    
+            //}
 
+            Debug.Assert(Math.Abs(a) <= Math.PI);
             return a;
         }
 
@@ -284,7 +438,7 @@ namespace KinectRagdoll.Kinect
 
         private void Thrust()
         {
-            if (asleep && !thrustOn) return;
+            if (asleep || !thrustOn) return;
             applyLimbThrust(_lowerLeftLeg, Math.PI / 2, 3 * feetThrust);
             applyLimbThrust(_lowerRightLeg, Math.PI / 2, 3 * feetThrust);
             applyLimbThrust(_lowerRightArm, Math.PI / 2, 4f * rightHandThrust);
@@ -323,6 +477,19 @@ namespace KinectRagdoll.Kinect
                 drawLimbThrust(_lowerRightArm, sb, rightHandThrust);
                 
             }
+
+            if (leftGrip)
+            {
+                //Vector2 pixelLoc = game.projectionHelper.FarseerToPixel(jLeftGrip.WorldAnchorA);
+                SpriteHelper.DrawCircle(sb, jLeftGrip.WorldAnchorA, 1, Color.OrangeRed);
+            }
+
+            if (rightGrip)
+            {
+                //Vector2 pixelLoc = game.projectionHelper.FarseerToPixel(jRightGrip.WorldAnchorA);
+                SpriteHelper.DrawCircle(sb, jRightGrip.WorldAnchorA, 1, Color.OrangeRed);
+            }
+
         }
 
         public void drawLimbThrust(Fixture limb, SpriteBatch sb, float thrustFactor)
@@ -354,7 +521,7 @@ namespace KinectRagdoll.Kinect
             
 
             postThrustTimer = POST_THRUST_TIME;
-            _body.Body.LinearDamping = .9f;
+            _body.Body.LinearDamping = slowDamping;
         }
 
         internal void StopThrust()

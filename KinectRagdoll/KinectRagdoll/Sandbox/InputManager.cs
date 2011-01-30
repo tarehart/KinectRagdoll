@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Joints;
 using KinectRagdoll.Sandbox;
+using System.Threading;
+using System.IO;
 
 namespace KinectRagdoll.Sandbox
 {
@@ -100,12 +102,46 @@ namespace KinectRagdoll.Sandbox
                 FormManager.Property.PasteSelected(game.projectionHelper.PixelToFarseer(inputHelper.MousePosition));
             }
 
+            if (inputHelper.IsNewKeyPress(Keys.S) && inputHelper.IsKeyDown(Keys.LeftControl))
+            {
+
+                Thread saveThread = new Thread(DoSave);
+                saveThread.SetApartmentState(ApartmentState.STA);
+                saveThread.Start();
+                
+            }
+
+            if (inputHelper.IsNewKeyPress(Keys.O) && inputHelper.IsKeyDown(Keys.LeftControl))
+            {
+                Thread openThread = new Thread(DoOpen);
+                openThread.SetApartmentState(ApartmentState.STA);
+                openThread.Start();
+            }
+
             if (inputHelper.MouseScrollWheelVelocity != 0)
             {
                 FormManager.Property.RotateSelected(inputHelper.MouseScrollWheelVelocity);
             }
         }
-       
 
+        private void DoSave()
+        {
+
+            Serializer.Save(game.farseerManager.world, game, "pendingsave.xml");
+            if (FormManager.Save.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                File.Delete(FormManager.Save.FileName);
+                File.Copy("pendingsave.xml", FormManager.Save.FileName);
+            }
+        }
+
+        private void DoOpen()
+        {
+
+            if (FormManager.Open.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                game.farseerManager.LoadWorld(FormManager.Open.FileName);
+            }
+        }
     }
 }

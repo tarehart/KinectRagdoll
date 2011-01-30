@@ -151,7 +151,7 @@
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\font.xnb</Output>
-      <Time>2011-01-09T20:24:37.7224612-05:00</Time>
+      <Time>2011-01-29T17:41:39.0524207-05:00</Time>
     </Item>
     <Item>
       <Source>Models\cube.fbx</Source>
@@ -211,6 +211,33 @@
       <Options>None</Options>
       <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\jointtool.xnb</Output>
       <Time>2011-01-23T15:20:58.4702749-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Generics\circle.png</Source>
+      <Name>Generics\circle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Generics\circle.xnb</Output>
+      <Time>2011-01-29T16:43:25.9492405-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Generics\arrow.png</Source>
+      <Name>Generics\arrow</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Generics\arrow.xnb</Output>
+      <Time>2011-01-29T16:50:28.7730661-05:00</Time>
+    </Item>
+    <Item>
+      <Source>objectivetool.png</Source>
+      <Name>objectivetool</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\objectivetool.xnb</Output>
+      <Time>2011-01-29T17:17:50.1100005-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

@@ -14,21 +14,18 @@ namespace KinectRagdoll.Kinect
     public class RagdollManager
     {
 
-        private RagdollMuscle ragdoll;
-        private KinectManager kinect;
+        internal RagdollMuscle ragdoll;
 
         public static Texture2D thrustTex;
 
         public RagdollManager()
         {
-
         }
 
-        public void Init(World world, KinectManager kinect)
+        public void CreateNewRagdoll(KinectRagdollGame game)
         {
 
-            ragdoll = new RagdollMuscle(world, Vector2.Zero);
-            this.kinect = kinect;
+            ragdoll = new RagdollMuscle(game.farseerManager.world, Vector2.Zero);
 
         }
 
@@ -41,54 +38,15 @@ namespace KinectRagdoll.Kinect
         public void Update(SkeletonInfo info)
         {
 
-           
-            Vector3 vec = info.rightHand - info.rightShoulder;
-            Vector2 v2 = info.project(vec, ragdoll.height);
-            ragdoll.setShoulderToRightHand(v2);
-
-            float pracScaler = v2.X / vec.X;
-
-            vec = info.leftHand - info.leftShoulder;
-            v2 = info.project(vec, ragdoll.height);
-            ragdoll.setShoulderToLeftHand(v2);
-
-            vec = info.rightFoot - info.rightHip;
-            v2 = info.project(vec, ragdoll.height);
-            ragdoll.setHipToRightFoot(v2);
-
-            vec = info.leftFoot - info.leftHip;
-            v2 = info.project(vec, ragdoll.height);
-            ragdoll.setHipToLeftFoot(v2);
-
-            vec = info.head - info.torso;
-            v2 = info.project(vec, ragdoll.height);
-            ragdoll.setChestToHead(v2);
-
-            ragdoll.tick();
-
-
-            if (info.torso.Z < info.head.Z)
-            {
-                //kinect.bkColor = Color.Orange;
-                
-                ragdoll.StartThrust(
-                    (info.head.Z - info.torso.Z) * .02f,
-                    (info.rightHand.Z - info.torso.Z) * .0008f,
-                    (info.leftHand.Z - info.torso.Z) * .0008f);
-            }
-            else
-            {
-                //kinect.bkColor = Color.Beige;
-                ragdoll.StopThrust();
-                
-            }
+            if (ragdoll != null)
+                ragdoll.Update(info);
 
         }
 
         public void Draw(SpriteBatch sb)
         {
-            
-            ragdoll.Draw(sb);
+            if (ragdoll != null)
+                ragdoll.Draw(sb);
 
         }
 
@@ -105,7 +63,10 @@ namespace KinectRagdoll.Kinect
 
         internal Vector2 getRagdollCenter()
         {
+            if (ragdoll == null) return Vector2.Zero;
             return ragdoll.Body.Position;
         }
+
+        
     }
 }

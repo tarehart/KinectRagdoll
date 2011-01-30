@@ -626,6 +626,14 @@ namespace KinectRagdoll.Sandbox
                     b.Position += offset;
                 }
 
+                foreach (Joint j in cloned.jointList)
+                {
+                    if (j is FixedRevoluteJoint)
+                    {
+                        ((FixedRevoluteJoint)j).WorldAnchorB += offset;
+                    }
+                }
+
                 
 
             }

@@ -1271,5 +1271,16 @@ namespace FarseerPhysics.DebugViews
         }
 
         #endregion
+
+        public void AttachToWorld(Dynamics.World world)
+        {
+
+            World = world;
+            _texturedEdges.Clear();
+            _texturedObjects.Clear();
+            world.ContactManager.PreSolve += PreSolve;
+            world.FixtureAdded += AddFixture;
+            world.FixtureRemoved += RemoveFixture;
+        }
     }
 }

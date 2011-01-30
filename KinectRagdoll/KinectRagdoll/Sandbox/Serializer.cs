@@ -6,6 +6,7 @@ using System.Xml;
 using System.IO;
 using FarseerPhysics.Dynamics.Joints;
 using Microsoft.Xna.Framework;
+using KinectRagdoll.Kinect;
 
 namespace KinectRagdoll.Sandbox
 {
@@ -56,6 +57,8 @@ namespace KinectRagdoll.Sandbox
             
             sf.gravity = w.Gravity;
 
+            sf.ragdoll = g.ragdollManager.ragdoll;
+
             WriteSaveFile(writer, sf);
 
         }
@@ -92,8 +95,8 @@ namespace KinectRagdoll.Sandbox
         public List<Body> bodyList = new List<Body>();
         [DataMember()]
         public Vector2 gravity;
-
-
+        [DataMember()]
+        public RagdollMuscle ragdoll;
 
 
         public void PopulateWorld(World w) {
@@ -111,7 +114,7 @@ namespace KinectRagdoll.Sandbox
                 }
 
                 float mass = b.Mass;
-                b.ResetMassData();
+                //b.ResetMassData();
                 b.Mass = mass;
                 b.Enabled = true;
                 b.Awake = true;

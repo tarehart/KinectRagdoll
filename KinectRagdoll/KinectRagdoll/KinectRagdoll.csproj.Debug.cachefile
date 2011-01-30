@@ -19,4 +19,7 @@ Content\rectangletool.xnb
 Content\toolbox.xnb
 Content\pointertool.xnb
 Content\jointtool.xnb
+Content\Generics\circle.xnb
+Content\Generics\arrow.xnb
+Content\objectivetool.xnb
 Data\openni.xml

@@ -17,7 +17,7 @@ namespace KinectRagdoll.Kinect
     public class KinectManager
     {
 
-        public bool useKinect = false;
+        public bool useKinect = true;
 
         Context context;
         private DepthGenerator depth;
@@ -73,7 +73,7 @@ namespace KinectRagdoll.Kinect
 
             context.StartGeneratingAll();
 
-            
+            skeletonInfo = new SkeletonInfo(skeletonCapability, false);
 
             this.shouldRun = true;
             this.readerThread = new Thread(ReaderThread);
@@ -107,7 +107,8 @@ namespace KinectRagdoll.Kinect
 
             if (skeletonCapability.IsTracking(myUser))
             {
-                skeletonInfo = new SkeletonInfo(skeletonCapability, myUser, false);
+                
+                skeletonInfo.Update(myUser);
 
 
             }

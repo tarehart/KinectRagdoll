@@ -81,7 +81,9 @@ namespace FarseerPhysics.Dynamics
         public ControllerFilter ControllerFilter = new ControllerFilter();
         internal BodyFlags Flags;
         internal Vector2 Force;
+        [DataMember()]
         internal float InvI;
+        [DataMember()]
         internal float InvMass;
         internal Vector2 LinearVelocityInternal;
         public PhysicsLogicFilter PhysicsLogicFilter = new PhysicsLogicFilter();
@@ -94,6 +96,7 @@ namespace FarseerPhysics.Dynamics
         internal Transform Xf; // the body origin transform
         [DataMember()]
         private BodyType _bodyType;
+        [DataMember()]
         private float _inertia;
         [DataMember()]
         private float _mass;
@@ -664,6 +667,8 @@ namespace FarseerPhysics.Dynamics
         /// <param name="rotation">The world rotation in radians.</param>
         public void SetTransform(ref Vector2 position, float rotation)
         {
+            Debug.Assert(!float.IsNaN(position.X));
+            
             SetTransformIgnoreContacts(ref position, rotation);
 
             World.ContactManager.FindNewContacts();

@@ -126,6 +126,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Drawing\SpriteHelper.cs" />
+    <Compile Include="Rules\Objective.cs" />
+    <Compile Include="Rules\ObjectiveManager.cs" />
+    <Compile Include="Rules\StopwatchObjective.cs" />
     <Compile Include="Sandbox\DragArea.cs" />
     <Compile Include="Tools\JointTool.cs" />
     <Compile Include="Tools\NailTool.cs" />
@@ -170,6 +174,7 @@
     <Compile Include="Sandbox\PropertyEditorForm.Designer.cs">
       <DependentUpon>PropertyEditorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools\ObjectiveTool.cs" />
     <Compile Include="Tools\PointerTool.cs" />
     <Compile Include="Tools\RectangleTool.cs" />
     <Compile Include="Sandbox\Serializer.cs" />

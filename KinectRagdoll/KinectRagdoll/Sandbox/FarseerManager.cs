@@ -28,14 +28,14 @@ namespace KinectRagdoll.Kinect
 
         public static FarseerManager Main = null;
 
-        public bool createNew = false;
+        public bool createNew = true;
 
         public FarseerManager(bool main, KinectRagdollGame game)
         {
             
             //world.ContactManager = new ContactManager();
 
-            world = new World(new Vector2(0, -15));
+            world = new World(new Vector2(0, -20));
 
             
 
@@ -76,15 +76,30 @@ namespace KinectRagdoll.Kinect
 
             if (!createNew)
             {
-                SaveFile sf = Serializer.readFromDataContract("save.xml");
-                sf.PopulateWorld(world);
+                LoadWorld("save.xml");
+            }
+            else
+            {
+                game.ragdollManager.CreateNewRagdoll(game);
+                addBounds();
+                addSpinningDeath();
             }
 
             //projection = Matrix.CreateOrthographicOffCenter(0, device.Viewport.Width, device.Viewport.Height, 0, -1, 1);
             pointTex = game.Content.Load<Texture2D>("Materials\\target");
             
-            addBounds();
-            addSpinningDeath();
+            
+        }
+
+        public void LoadWorld(String filename)
+        {
+
+            SaveFile sf = Serializer.readFromDataContract(filename);
+            world = new World(sf.gravity);
+            debugview.AttachToWorld(world);
+            sf.PopulateWorld(world);
+            game.ragdollManager.ragdoll = sf.ragdoll;
+            game.ragdollManager.ragdoll.PostLoad(world);
         }
 
        

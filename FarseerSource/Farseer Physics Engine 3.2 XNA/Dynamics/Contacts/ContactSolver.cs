@@ -193,6 +193,9 @@ namespace FarseerPhysics.Dynamics.Contacts
 
                     float kNormal = bodyA.InvMass + bodyB.InvMass + bodyA.InvI*rnA + bodyB.InvI*rnB;
 
+                    // just a hack right here
+                    //if (float.IsNaN(kNormal)) return;
+
                     Debug.Assert(kNormal > Settings.Epsilon);
                     ccp.NormalMass = 1.0f/kNormal;
 

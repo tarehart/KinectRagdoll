@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using xn;
+using System.Diagnostics;
 
 namespace KinectRagdoll.Kinect
 {
@@ -19,14 +20,27 @@ namespace KinectRagdoll.Kinect
         public Vector3 leftShoulder;
         public Vector3 rightHip;
         public Vector3 leftHip;
+
+        private Vector3 oldRightHand;
+        private Vector3 oldLeftHand;
         
 
         private SkeletonCapability sc;
         private uint myUser;
+        private bool mirror;
 
         private float skelHeight = 1;
 
         public SkeletonInfo()
+        {
+            MakeScarecrow();
+
+            //mirrorMe();
+            
+
+        }
+
+        private void MakeScarecrow()
         {
             leftHand = new Vector3(-500, 250, 1000);
             rightHand = new Vector3(500, 250, 1000);
@@ -38,17 +52,35 @@ namespace KinectRagdoll.Kinect
             leftHip = new Vector3(-150, -400, 1000);
             rightFoot = new Vector3(200, -600, 1000);
             leftFoot = new Vector3(-200, -600, 1000);
-
-            //mirrorMe();
-            
-
         }
 
-        public SkeletonInfo(SkeletonCapability sc, uint myUser, bool mirror)
+        public Vector3 RightHandVel
+        {
+            get { return rightHand - oldRightHand; }
+        }
+
+        public Vector3 LeftHandVel
+        {
+            get { return leftHand - oldLeftHand; }
+        }
+
+        public SkeletonInfo(SkeletonCapability sc, bool mirror)
+        {
+            this.sc = sc;
+            this.mirror = mirror;
+
+            MakeScarecrow();
+            
+        }
+
+        public void Update(uint myUser)
         {
 
-            this.sc = sc;
             this.myUser = myUser;
+            oldRightHand = rightHand;
+            oldLeftHand = leftHand;
+
+
             SkeletonJointPosition p = new SkeletonJointPosition();
 
             sc.GetSkeletonJointPosition(myUser, SkeletonJoint.Head, ref p);
@@ -136,6 +168,9 @@ namespace KinectRagdoll.Kinect
 
         public Vector2 project(Vector3 vec, float desiredHeight)
         {
+
+            Debug.Assert(skelHeight != 0);
+
             Vector2 v = new Vector2(vec.X, vec.Y);
             v *= desiredHeight / skelHeight;
 

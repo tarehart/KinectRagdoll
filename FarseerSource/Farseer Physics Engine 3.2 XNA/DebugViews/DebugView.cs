@@ -98,7 +98,7 @@ namespace FarseerPhysics
             World = world;
         }
 
-        protected World World { get; private set; }
+        protected World World { get; set; }
 
         /// <summary>
         /// Gets or sets the debug view flags.
