@@ -22,8 +22,8 @@ namespace KinectRagdoll.Kinect
 
         //protected TargetJoint rightShoulder;
         //protected TargetJoint rightElbow;
-        [DataMember()]
         protected int sleepTimer = 0;
+        protected int wakeTimer = 0;
         [DataMember()]
         protected int postThrustTimer = 0;
         [DataMember()]
@@ -35,6 +35,7 @@ namespace KinectRagdoll.Kinect
         private float leftHandThrust;
         Random rand = new Random();
         private int POST_THRUST_TIME = 100;
+        private const int WAKE_TIME = 40;
 
         private bool rightGrip;
         private bool leftGrip;
@@ -56,10 +57,17 @@ namespace KinectRagdoll.Kinect
 
         public RagdollMuscle(World w, Vector2 position) : base(w, position)
         {
+
+            Init(w);
+
+        }
+
+        public void Init(World w)
+        {
             this.world = w;
             _head.AfterCollision += HeadCollision;
-            
-
+            rand = new Random();
+        
         }
 
         public override void Update(SkeletonInfo info)
@@ -169,11 +177,7 @@ namespace KinectRagdoll.Kinect
         }
 
 
-        public void PostLoad(World w)
-        {
-            rand = new Random();
-            world = w;
-        }
+       
 
         public void HeadCollision(Fixture f1, Fixture f2, Contact contact)
         {
@@ -208,6 +212,17 @@ namespace KinectRagdoll.Kinect
                 if (sleepTimer <= 0)
                 {
                     wakeUp();
+                }
+            }
+            else
+            {
+                wakeTimer++;
+                if (wakeTimer == WAKE_TIME)
+                {
+                    foreach (Fixture f in _allFixtures)
+                    {
+                        f.CollisionFilter.CollisionGroup = 0;
+                    }
                 }
             }
 
@@ -254,6 +269,13 @@ namespace KinectRagdoll.Kinect
             jRightLeg.MotorEnabled = true;
             jRightLegBody.MotorEnabled = true;
             _body.Body.LinearDamping = slowDamping;
+
+            wakeTimer = 0;
+            foreach (Fixture f in _allFixtures)
+            {
+                f.CollisionFilter.CollisionGroup = -1;
+            }
+
         }
 
 

@@ -99,7 +99,7 @@ namespace KinectRagdoll.Kinect
             debugview.AttachToWorld(world);
             sf.PopulateWorld(world);
             game.ragdollManager.ragdoll = sf.ragdoll;
-            game.ragdollManager.ragdoll.PostLoad(world);
+            game.ragdollManager.ragdoll.Init(world);
             game.objectiveManager.SetObjectives(sf.objectives);
         }
 

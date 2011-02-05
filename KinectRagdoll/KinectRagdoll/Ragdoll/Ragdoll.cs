@@ -61,7 +61,7 @@ namespace KinectRagdoll.Kinect
         protected RevoluteJoint jLeftLegBody;
 
         [DataMember()]
-        private List<Fixture> _allFixtures;
+        protected List<Fixture> _allFixtures;
 
         //protected World world;
 
@@ -174,6 +174,7 @@ namespace KinectRagdoll.Kinect
            // _upperLeftArm.Body.Mass = 2;
             _upperLeftArm.Body.Rotation = -1.4f;
             _upperLeftArm.Body.Position = position + new Vector2(-2, -1.8f);
+            
 
             //Right Arm
             _lowerRightArm = FixtureFactory.CreateRectangle(world, .7f, elbowDistance, ArmDensity, matBody);
@@ -190,6 +191,7 @@ namespace KinectRagdoll.Kinect
             //_upperRightArm.Body.Mass = 2;
             _upperRightArm.Body.Rotation = 1.4f;
             _upperRightArm.Body.Position = position + new Vector2(2, -1.8f);
+            
 
             //Left Leg
             _lowerLeftLeg = FixtureFactory.CreateRectangle(world, .7f, 2f, LegDensity, matBody);
@@ -212,12 +214,18 @@ namespace KinectRagdoll.Kinect
             //_lowerRightLeg.Body.Mass = 2;
             _lowerRightLeg.Friction = .5f;
             _lowerRightLeg.Body.Position = position + new Vector2(0.6f, -8);
+            
 
             _upperRightLeg = FixtureFactory.CreateRectangle(world, .7f, 2f, LegDensity, matBody);
             _upperRightLeg.Body.BodyType = BodyType.Dynamic;
             _upperRightLeg.Body.AngularDamping = LimbAngularDamping;
             //_upperRightLeg.Body.Mass = 2;
             _upperRightLeg.Body.Position = position + new Vector2(0.6f, -6);
+
+
+            _upperRightArm.CollisionFilter.IgnoreCollisionWith(_head);
+            _upperLeftArm.CollisionFilter.IgnoreCollisionWith(_head);
+            
 
 
             _allFixtures = new List<Fixture>();
@@ -304,7 +312,7 @@ namespace KinectRagdoll.Kinect
         {
             RevoluteJoint jHeadBody = new RevoluteJoint(_head.Body, _body.Body,
                                                         new Vector2(0, -1), new Vector2(0, 2));
-            jHeadBody.CollideConnected = false;
+            jHeadBody.CollideConnected = true;
             world.AddJoint(jHeadBody);
         }
 

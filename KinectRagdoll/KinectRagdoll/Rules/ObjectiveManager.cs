@@ -100,7 +100,7 @@ namespace KinectRagdoll.Rules
             if (countdown.IsRunning)
             {
                 long timeremaining = countdownSecs * 1000 - countdown.ElapsedMilliseconds;
-                SpriteHelper.DrawText(sb, new Microsoft.Xna.Framework.Vector2(100, 100), "" + (timeremaining / 1000 + 1), Color.Black);
+                SpriteHelper.DrawText(sb, new Microsoft.Xna.Framework.Vector2(400, 400), "" + (timeremaining / 1000 + 1), Color.Red);
             }
             else if (countup.ElapsedMilliseconds > 0)
             {
