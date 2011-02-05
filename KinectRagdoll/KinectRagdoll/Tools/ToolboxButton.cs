@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using KinectRagdoll.Drawing;
 
 namespace KinectRagdoll.Sandbox
 {
@@ -22,6 +23,10 @@ namespace KinectRagdoll.Sandbox
         }
         internal void Draw(SpriteBatch sb)
         {
+            if (Active)
+            {
+                SpriteHelper.DrawRectangle(sb, drawRectangle, Color.Orange);
+            }
             sb.Draw(texture, drawRectangle, Color.White);
         }
 
@@ -31,5 +36,7 @@ namespace KinectRagdoll.Sandbox
             return drawRectangle.Contains((int)clickPixel.X, (int)clickPixel.Y);
             
         }
+
+        public bool Active { get; set; }
     }
 }

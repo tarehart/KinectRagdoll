@@ -40,7 +40,9 @@ namespace KinectRagdoll.Sandbox
         }
 
 
-        
-        
+
+
+
+        public float diagonal { get { return Vector2.Distance(center, topLeft) * 2; } }
     }
 }

@@ -13,6 +13,7 @@ namespace KinectRagdoll.Drawing
 
         public static Texture2D circleTex;
         public static Texture2D arrowTex;
+        public static Texture2D rectangleTex;
         public static SpriteFont font;
 
        
@@ -21,6 +22,7 @@ namespace KinectRagdoll.Drawing
         {
             circleTex = content.Load<Texture2D>("Generics\\circle");
             arrowTex = content.Load<Texture2D>("Generics\\arrow");
+            rectangleTex = content.Load<Texture2D>("Generics\\rectangle");
             font = content.Load<SpriteFont>("font");
 
         }
@@ -48,5 +50,10 @@ namespace KinectRagdoll.Drawing
             sb.DrawString(font, text, loc, c);
         }
 
+
+        public static void DrawRectangle(SpriteBatch sb, Rectangle rectangle, Color color)
+        {
+            sb.Draw(rectangleTex, rectangle, color);
+        }
     }
 }

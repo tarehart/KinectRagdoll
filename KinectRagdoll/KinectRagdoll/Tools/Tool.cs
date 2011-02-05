@@ -6,7 +6,7 @@ using KinectRagdoll.Sandbox;
 using KinectRagdoll;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace KinectRagdoll.Sandbox
+namespace KinectRagdoll.Tools
 {
     public abstract class Tool
     {

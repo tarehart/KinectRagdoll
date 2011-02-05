@@ -22,4 +22,6 @@ Content\jointtool.xnb
 Content\Generics\circle.xnb
 Content\Generics\arrow.xnb
 Content\objectivetool.xnb
+Content\Generics\rectangle.xnb
+Content\circletool.xnb
 Data\openni.xml

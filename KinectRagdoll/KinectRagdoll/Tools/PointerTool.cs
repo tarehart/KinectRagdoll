@@ -22,6 +22,7 @@ namespace KinectRagdoll.Tools
         private Fixture savedFixture;
         private bool dragging;
         Texture2D selectionRec;
+        private Vector2 prevWorldLoc;
 
         public PointerTool(KinectRagdollGame game, Texture2D selectionRec)
             : base(game)
@@ -55,9 +56,36 @@ namespace KinectRagdoll.Tools
 
             Vector2 position = game.projectionHelper.PixelToFarseer(inputHelper.MousePosition);
 
+
+            
+            if (inputHelper.IsNewButtonPress(MouseButtons.RightButton))
+            {
+                Fixture f = game.farseerManager.world.TestPoint(position);
+                FormManager.Property.setSelectedObject(f);
+                if (f != null)
+                {
+                    FormManager.Property.setPendingObjects(new List<object> { f.Body });
+                }
+
+            }
+
+
             if (dragging)
             {
-                Vector2 lastPosition = new Vector2(inputHelper.LastMouseState.X, inputHelper.LastMouseState.Y);
+
+                Vector2 lastPosition;
+
+                if (prevWorldLoc.X == 0 && prevWorldLoc.Y == 0)
+                {
+                    lastPosition = new Vector2(inputHelper.LastMouseState.X, inputHelper.LastMouseState.Y);
+                }
+                else
+                {
+                    lastPosition = game.projectionHelper.FarseerToPixel(prevWorldLoc);
+                }
+                
+                prevWorldLoc = position;
+
                 lastPosition = game.projectionHelper.PixelToFarseer(lastPosition);
                 Vector2 dragVec = position - lastPosition;
                 if (!FormManager.Property.tryGroupDrag(savedFixture, dragVec))
@@ -126,6 +154,7 @@ namespace KinectRagdoll.Tools
         {
 
             InputHelper inputHelper = game.inputManager.inputHelper;
+            prevWorldLoc = new Vector2();
 
             dragging = false;
 

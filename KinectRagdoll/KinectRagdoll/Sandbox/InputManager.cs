@@ -44,17 +44,7 @@ namespace KinectRagdoll.Sandbox
             }
 
 
-            Vector2 position = game.projectionHelper.PixelToFarseer(inputHelper.MousePosition);
-            if (inputHelper.IsNewButtonPress(MouseButtons.RightButton))
-            {
-                Fixture f = game.farseerManager.world.TestPoint(position);
-                FormManager.Property.setSelectedObject(f);
-                if (f != null)
-                {
-                    FormManager.Property.setPendingObjects(new List<object> { f.Body });
-                }
-                
-            }
+            
 
             game.toolbox.Update();
 
@@ -100,6 +90,11 @@ namespace KinectRagdoll.Sandbox
             if (inputHelper.IsNewKeyPress(Keys.V) && inputHelper.IsKeyDown(Keys.LeftControl))
             {
                 FormManager.Property.PasteSelected(game.projectionHelper.PixelToFarseer(inputHelper.MousePosition));
+            }
+
+            if (inputHelper.IsNewKeyPress(Keys.RightShift))
+            {
+                game.objectiveManager.Countdown(3);
             }
 
             if (inputHelper.IsNewKeyPress(Keys.S) && inputHelper.IsKeyDown(Keys.LeftControl))

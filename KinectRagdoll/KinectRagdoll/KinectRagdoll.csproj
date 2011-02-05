@@ -131,6 +131,7 @@
     <Compile Include="Rules\ObjectiveManager.cs" />
     <Compile Include="Rules\StopwatchObjective.cs" />
     <Compile Include="Sandbox\DragArea.cs" />
+    <Compile Include="Tools\CircleTool.cs" />
     <Compile Include="Tools\JointTool.cs" />
     <Compile Include="Tools\NailTool.cs" />
     <Compile Include="Sandbox\PhysicsObjectForm.cs">
@@ -176,8 +177,9 @@
     </Compile>
     <Compile Include="Tools\ObjectiveTool.cs" />
     <Compile Include="Tools\PointerTool.cs" />
-    <Compile Include="Tools\RectangleTool.cs" />
+    <Compile Include="Tools\DraggedTool.cs" />
     <Compile Include="Sandbox\Serializer.cs" />
+    <Compile Include="Tools\RectangleTool.cs" />
     <Compile Include="Tools\Tool.cs" />
     <Compile Include="Tools\Toolbox.cs" />
     <Compile Include="Tools\ToolboxButton.cs" />

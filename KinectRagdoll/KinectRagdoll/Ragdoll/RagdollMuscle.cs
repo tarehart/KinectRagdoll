@@ -529,5 +529,7 @@ namespace KinectRagdoll.Kinect
             thrustOn = false;
             feetThrust = 0;
         }
+
+        
     }
 }

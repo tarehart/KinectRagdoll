@@ -34,7 +34,7 @@ namespace KinectRagdoll
         public ProjectionHelper projectionHelper;
         public RagdollManager ragdollManager;
         public Toolbox toolbox;
-        public SpriteHelper spriteHelper;
+        //public SpriteHelper spriteHelper;
         public ObjectiveManager objectiveManager;
 
         GraphicsDeviceManager graphics;
@@ -70,8 +70,8 @@ namespace KinectRagdoll
             ragdollManager = new RagdollManager();
             inputManager = new InputManager(this);
             toolbox = new Toolbox(this);
-            spriteHelper = new SpriteHelper();
-            objectiveManager = new ObjectiveManager();
+            //spriteHelper = new SpriteHelper();
+            objectiveManager = new ObjectiveManager(this);
             
 
             this.IsMouseVisible = true;
@@ -253,7 +253,9 @@ namespace KinectRagdoll
 
         private void DrawSprites(RenderTarget2D renderTarget)
         {
-            spriteBatch.Begin();
+            BlendState b = new BlendState();
+            
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
             spriteBatch.Draw(kinectManager.depthTex, new Rectangle(50, 50, 640, 480), Color.White);
             farseerManager.DrawBasics(ref farseerView);
             spriteBatch.Draw(renderTarget, new Vector2(0, 0), null, Color.White, 0, new Vector2(0, 0), 1, SpriteEffects.FlipVertically, 1);
@@ -311,13 +313,30 @@ namespace KinectRagdoll
         {
             // All vectors here are in farseer coordinates.
 
-            Vector2 center = ragdollManager.getRagdollCenter();
+            Vector2 center;
+            float horizontalBound;
+            float verticalBound;
+
+            if (ragdollManager.CameraShouldTrack)
+            {
+                center = ragdollManager.getRagdollCenter();
+                horizontalBound = 10;
+                verticalBound = 10;
+            }
+            else
+            {
+                center = projectionHelper.PixelToFarseer(inputManager.inputHelper.MousePosition);
+                horizontalBound = 35;
+                verticalBound = 25;
+            }
 
             //Rectangle safeZone = new Rectangle(-20, -15, 40, 30);
-            float top = -farseerView.Translation.Y + 10;
-            float bottom = -farseerView.Translation.Y - 10;
-            float left = -farseerView.Translation.X - 10;
-            float right = -farseerView.Translation.X + 10;
+            
+
+            float top = -farseerView.Translation.Y + verticalBound;
+            float bottom = -farseerView.Translation.Y - verticalBound;
+            float left = -farseerView.Translation.X - horizontalBound;
+            float right = -farseerView.Translation.X + horizontalBound;
 
             Vector3 translate = new Vector3();
             if (center.X < left) translate.X = center.X - left;
@@ -329,6 +348,7 @@ namespace KinectRagdoll
 
             translate.X = CurveFunc(translate.X, 20);
             translate.Y = CurveFunc(translate.Y, 20);
+
 
             Matrix m = Matrix.CreateTranslation(farseerView.Translation.X - translate.X, farseerView.Translation.Y - translate.Y, 0);
 

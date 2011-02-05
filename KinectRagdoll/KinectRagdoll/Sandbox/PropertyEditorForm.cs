@@ -37,13 +37,13 @@ namespace KinectRagdoll.Sandbox
             selectTexture = new DebugMaterial(MaterialType.Stars)
             {
                 Color = Microsoft.Xna.Framework.Color.Red,
-                Scale = 2f
+                Scale = 8f
             };
 
-            pendingTexture = new DebugMaterial(MaterialType.Dots)
+            pendingTexture = new DebugMaterial(MaterialType.Stars)
             {
                 Color = Microsoft.Xna.Framework.Color.Yellow,
-                Scale = 2f
+                Scale = 8f
             };
 
         }

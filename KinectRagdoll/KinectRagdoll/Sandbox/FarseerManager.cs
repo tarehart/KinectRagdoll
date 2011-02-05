@@ -100,6 +100,7 @@ namespace KinectRagdoll.Kinect
             sf.PopulateWorld(world);
             game.ragdollManager.ragdoll = sf.ragdoll;
             game.ragdollManager.ragdoll.PostLoad(world);
+            game.objectiveManager.SetObjectives(sf.objectives);
         }
 
        

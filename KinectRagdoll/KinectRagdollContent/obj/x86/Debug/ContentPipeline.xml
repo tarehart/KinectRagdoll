@@ -219,7 +219,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Generics\circle.xnb</Output>
-      <Time>2011-01-29T16:43:25.9492405-05:00</Time>
+      <Time>2011-02-05T13:32:36.0552588-05:00</Time>
     </Item>
     <Item>
       <Source>Generics\arrow.png</Source>
@@ -238,6 +238,24 @@
       <Options>None</Options>
       <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\objectivetool.xnb</Output>
       <Time>2011-01-29T17:17:50.1100005-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Generics\rectangle.png</Source>
+      <Name>Generics\rectangle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Generics\rectangle.xnb</Output>
+      <Time>2011-02-05T13:32:24.7500717-05:00</Time>
+    </Item>
+    <Item>
+      <Source>circletool.png</Source>
+      <Name>circletool</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\circletool.xnb</Output>
+      <Time>2011-02-05T13:34:23.3320048-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

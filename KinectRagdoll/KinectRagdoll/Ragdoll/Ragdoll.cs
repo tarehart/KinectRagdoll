@@ -307,5 +307,10 @@ namespace KinectRagdoll.Kinect
             jHeadBody.CollideConnected = false;
             world.AddJoint(jHeadBody);
         }
+
+        public bool OwnsFixture(Fixture f)
+        {
+            return _allFixtures.Contains(f);
+        }
     }
 }

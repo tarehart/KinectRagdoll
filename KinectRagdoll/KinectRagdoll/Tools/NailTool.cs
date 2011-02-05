@@ -9,7 +9,7 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Joints;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace KinectRagdoll.Sandbox
+namespace KinectRagdoll.Tools
 {
     class NailTool : Tool
     {

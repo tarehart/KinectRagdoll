@@ -67,6 +67,8 @@ namespace KinectRagdoll.Kinect
             return ragdoll.Body.Position;
         }
 
-        
+
+
+        public bool CameraShouldTrack { get { return !ragdoll.Body.IsStatic; } }
     }
 }

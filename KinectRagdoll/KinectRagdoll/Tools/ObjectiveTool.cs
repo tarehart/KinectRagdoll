@@ -6,6 +6,8 @@ using KinectRagdoll.Sandbox;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using KinectRagdoll.Rules;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.DebugViews;
 
 namespace KinectRagdoll.Tools
 {
@@ -27,10 +29,32 @@ namespace KinectRagdoll.Tools
              {
                  Vector2 position = game.projectionHelper.PixelToFarseer(input.MousePosition);
 
-                 Objective o = new StopwatchObjective(game, position, 100);
-                 game.objectiveManager.AddObjective(o);
+                 List<Fixture> list = game.farseerManager.world.TestPointAll(position);
 
-                 o.Begin();
+                 if (list.Count > 0)
+                 {
+                     Fixture f = list[0];
+                     StopwatchObjective o = new StopwatchObjective(game, f);
+                     game.objectiveManager.objectives.Add(o);
+                 }
+             }
+             else if (input.IsNewButtonPress(MouseButtons.RightButton))
+             {
+                 Vector2 position = game.projectionHelper.PixelToFarseer(input.MousePosition);
+
+                 List<Fixture> list = game.farseerManager.world.TestPointAll(position);
+
+                 foreach (Fixture f in list)
+                 {
+                     foreach (Objective o in game.objectiveManager.objectives)
+                     {
+                         if (((StopwatchObjective)o).fixture == f)
+                         {
+                             game.objectiveManager.objectives.Remove(o);
+                             break;
+                         }
+                     }
+                 }
 
              }
             
