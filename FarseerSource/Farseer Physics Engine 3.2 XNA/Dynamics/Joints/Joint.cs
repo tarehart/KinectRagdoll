@@ -221,6 +221,7 @@ namespace FarseerPhysics.Dynamics.Joints
         /// <summary>
         /// Set this flag to true if the attached bodies should collide.
         /// </summary>
+        [DataMember()]
         public bool CollideConnected { get; set; }
 
         /// <summary>

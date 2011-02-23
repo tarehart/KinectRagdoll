@@ -18,7 +18,7 @@ namespace KinectRagdoll.Kinect
 {
     [DataContract(Name = "RagdollMuscle", Namespace = "http://www.imcool.com")]
     public class RagdollMuscle: Ragdoll
-    {
+    { 
 
         //protected TargetJoint rightShoulder;
         //protected TargetJoint rightElbow;
@@ -47,7 +47,7 @@ namespace KinectRagdoll.Kinect
 
         private const float slowDamping = .9f;
         private const float grabPlane = -400f;
-        private const float releasePlane = -70f;
+        private const float releasePlane = -300f;
         private const float grabVel = -20;
 
         private int rightHandGrabGrace;
@@ -115,18 +115,23 @@ namespace KinectRagdoll.Kinect
                 }
 
 
-                if (info.torso.Z < info.head.Z)
-                {
-                    StartThrust(
-                        (info.head.Z - info.torso.Z) * .02f,
-                        (info.rightHand.Z - info.torso.Z) * .0008f,
-                        (info.leftHand.Z - info.torso.Z) * .0008f);
-                }
-                else
-                {
-                    StopThrust();
+                float thrust = (((info.leftHand.Z + info.rightHand.Z) / 2) - info.torso.Z) * .004f;
+                if (thrust > 0) 
+                    StartThrust(thrust);
+                else StopThrust();
 
-                }
+                //if (info.torso.Z < info.head.Z)
+                //{
+                //    StartThrust(
+                //        (info.head.Z - info.torso.Z) * .02f,
+                //        (info.rightHand.Z - info.torso.Z) * .0008f,
+                //        (info.leftHand.Z - info.torso.Z) * .0008f);
+                //}
+                //else
+                //{
+                //    StopThrust();
+
+                //}
             }
         }
 
@@ -273,7 +278,8 @@ namespace KinectRagdoll.Kinect
             wakeTimer = 0;
             foreach (Fixture f in _allFixtures)
             {
-                f.CollisionFilter.CollisionGroup = -1;
+                if (f != _head)
+                    f.CollisionFilter.CollisionGroup = -1;
             }
 
         }
@@ -341,7 +347,7 @@ namespace KinectRagdoll.Kinect
         {
             float radDiff = getRadDiff(joint.JointAngle, targetAngle);
             joint.MotorSpeed = radDiff * 10;
-            joint.MaxMotorTorque = 1700;
+            joint.MaxMotorTorque = 2500;
 
         }
 
@@ -526,6 +532,24 @@ namespace KinectRagdoll.Kinect
             
         }
 
+        internal void StartThrust(float allThrust)
+        {
+            if (allThrust < 0)
+            {
+                StopThrust();
+                return;
+            }
+            thrustOn = true;
+
+            this.feetThrust = allThrust;
+            this.rightHandThrust = allThrust;
+            this.leftHandThrust = allThrust;
+
+            postThrustTimer = POST_THRUST_TIME;
+            _body.Body.LinearDamping = slowDamping;
+
+        }
+
         internal void StartThrust(float feetThrust, float rightHandThrust, float leftHandThrust)
         {
             thrustOn = true;
@@ -535,10 +559,9 @@ namespace KinectRagdoll.Kinect
             if (feetThrust < 0) feetThrust = 0;
 
             this.feetThrust = feetThrust;
-            //this.rightHandThrust = rightHandThrust + feetThrust;
-            //this.leftHandThrust = leftHandThrust + feetThrust;
-            this.rightHandThrust = feetThrust;
-            this.leftHandThrust = feetThrust;
+            this.rightHandThrust = rightHandThrust;
+            this.leftHandThrust = leftHandThrust;
+           
 
             
 

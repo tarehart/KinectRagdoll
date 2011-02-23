@@ -242,7 +242,7 @@ namespace KinectRagdoll
 
             GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, kinectManager.bkColor, 1.0f, 0);
 
-            DrawHeadTrackingDemo(gameTime);
+            //DrawHeadTrackingDemo(gameTime);
 
             DrawSprites(renderTarget);
 

@@ -97,6 +97,12 @@ namespace KinectRagdoll.Sandbox
                 game.objectiveManager.Countdown(3);
             }
 
+            if (inputHelper.IsNewKeyPress(Keys.K))
+            {
+                game.kinectManager.useKinect = true;
+                game.kinectManager.InitKinect();
+            }
+
             if (inputHelper.IsNewKeyPress(Keys.S) && inputHelper.IsKeyDown(Keys.LeftControl))
             {
 
