@@ -20,6 +20,8 @@ namespace KinectRagdoll.Kinect
         public Vector3 leftShoulder;
         public Vector3 rightHip;
         public Vector3 leftHip;
+        public Vector3 centerHip;
+        public Vector3 centerShoulder;
 
         private Vector3 oldRightHand;
         private Vector3 oldLeftHand;
@@ -80,6 +82,8 @@ namespace KinectRagdoll.Kinect
             oldRightHand = rightHand;
             oldLeftHand = leftHand;
 
+            pToV(data.Joints[JointID.HipCenter].Position, ref centerHip);
+            pToV(data.Joints[JointID.ShoulderCenter].Position, ref centerShoulder);
 
             pToV(data.Joints[JointID.Head].Position, ref head);
             
@@ -163,5 +167,16 @@ namespace KinectRagdoll.Kinect
             return v;
         }
 
+        /// <summary>
+        /// In radians
+        /// </summary>
+        public float Rotation
+        {
+            get
+            {
+                Vector3 upSpine = centerShoulder - centerHip;
+                return (float) (Math.Atan2(upSpine.Y, upSpine.X) - Math.PI / 2);
+            }
+        }
     }
 }

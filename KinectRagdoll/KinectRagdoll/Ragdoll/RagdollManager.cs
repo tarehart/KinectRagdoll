@@ -26,12 +26,14 @@ namespace KinectRagdoll.Kinect
         {
 
             ragdoll = new RagdollMuscle(game.farseerManager.world, Vector2.Zero);
+            
 
         }
 
         public void LoadContent(ContentManager content)
         {
             thrustTex = content.Load<Texture2D>("thrust");
+            
         }
 
 
@@ -39,7 +41,9 @@ namespace KinectRagdoll.Kinect
         {
 
             if (ragdoll != null)
+            {
                 ragdoll.Update(info);
+            }
 
         }
 

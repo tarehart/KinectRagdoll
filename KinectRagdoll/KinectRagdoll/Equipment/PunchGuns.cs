@@ -113,16 +113,11 @@ namespace KinectRagdoll.Equipment
         private Vector2 projectToFarseer(Vector3 hand, SkeletonInfo info)
         {
             Vector2 v = info.project(hand, RagdollBase.height);
-            
-
             Matrix m = Matrix.CreateRotationZ(ragdoll.Body.Rotation);
-
             v = Vector2.Transform(v, m);
-
             v += ragdoll.Body.Position;
 
             return v;
-
         }
 
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch sb)

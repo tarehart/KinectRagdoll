@@ -189,6 +189,9 @@ namespace KinectRagdoll
             
             
             kinectManager.InitKinect();
+            kinectManager.initDepthTex();
+
+            ragdollManager.ragdoll.setDepthTex(kinectManager.depthTex);
             
             
         }
@@ -203,7 +206,6 @@ namespace KinectRagdoll
             {
                 Serializer.Save(farseerManager.world, this, "save.xml");
             }
-            kinectManager.Close();
         }
 
 
@@ -255,7 +257,7 @@ namespace KinectRagdoll
             BlendState b = new BlendState();
             
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
-            spriteBatch.Draw(kinectManager.depthTex, new Rectangle(50, 50, 640, 480), Color.White);
+            //spriteBatch.Draw(kinectManager.depthTex, new Rectangle(50, 50, 640, 480), Color.White);
             farseerManager.DrawBasics(ref farseerView);
             spriteBatch.Draw(renderTarget, new Vector2(0, 0), null, Color.White, 0, new Vector2(0, 0), 1, SpriteEffects.FlipVertically, 1);
             toolbox.Draw(spriteBatch);

@@ -38,6 +38,11 @@ namespace KinectRagdoll.Ragdoll
         
         private World world;
 
+        private Texture2D depthTex;
+        private Vector2 depthTexLoc;
+        private float depthTexRot;
+        private float depthTexScale;
+
 
         
 
@@ -50,6 +55,8 @@ namespace KinectRagdoll.Ragdoll
             Init(w);
             equipment.Add(new JetPack(this));
             equipment.Add(new PunchGuns(this, world));
+
+            
 
         }
 
@@ -68,6 +75,10 @@ namespace KinectRagdoll.Ragdoll
             base.Update(info);
 
             tick();
+
+            depthTexLoc = new Vector2(info.torso.X, info.torso.Y - .13f) * depthTex.Height * .5f + new Vector2(depthTex.Width / 2, depthTex.Height / 2); // this will need to be more complex
+            depthTexRot = _body.Body.Rotation - info.Rotation;
+            depthTexScale = info.torso.Z * .035f;
 
             
             if (!asleep)
@@ -345,13 +356,27 @@ namespace KinectRagdoll.Ragdoll
             {
                 e.Draw(sb);
             }
+
+            if (depthTex != null)
+            {
+                //sb.Draw(depthTex, _body.Body.Position, null, Color.White, depthTexRot, depthTexLoc, .2f, SpriteEffects.FlipVertically, .5f);
+
+                sb.Draw(depthTex, _body.Body.Position, null, new Color(1, 1, 1, .7f), depthTexRot, depthTexLoc, depthTexScale, SpriteEffects.FlipVertically, 0);
+
+                //sb.Draw(depthTex, new Vector2(-10, -10), Color.Blue);
+            }
             
         }
 
-        
 
-        
 
-        
+
+
+
+
+        internal void setDepthTex(Texture2D depthTex)
+        {
+            this.depthTex = depthTex;
+        }
     }
 }

@@ -10,7 +10,7 @@ How to play
 1. Download and install the Kinect for Windows SDK (http://research.microsoft.com/en-us/um/redmond/projects/kinectsdk/download.aspx)
 2. Plug in a Kinect
 3. Launch the game
-4. Put your chest out and head back to fire thrusters out of your hands and feet
+4. Put your arms out and behind you to fire thrusters out of your hands and feet
 5. Punch your hands up, down, and to the sides to shoot bullets
 6. There's currently no object to the game.
 
@@ -45,7 +45,7 @@ Tips
 -----------
 - You will go limp for a while if you take a hard hit to the head.
 - If you've fallen and you can't get up, try putting your hands above your head and then swinging them down to your sides.
-- The thrusters get stronger the more you lean your head back. The game compares the position of your head to your 'torso'.
+- The thrusters get stronger the more you put your hands back. The game compares the position of your hands to your 'torso'.
 - The game gently tries to rotate the ragdoll so that it's leaning at the same angle you are.
 - One player at a time for now.
 
