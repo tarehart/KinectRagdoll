@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using ManagedNite;
 using KinectRagdoll;
 using KinectRagdoll.Kinect;
 using KinectRagdoll.Sandbox;
@@ -283,11 +282,11 @@ namespace KinectRagdoll
             {
 
                 Vector3 headLoc = kinectManager.skeletonInfo.head;
-                Vector3 screenCenter = new Vector3(-250, 100, 350);
+                Vector3 screenCenter = new Vector3(0, .2f, 0);
 
                 Vector3 screenToHead = headLoc - screenCenter;
 
-                screenToHead *= .01f;
+                //screenToHead *= .01f;
                 screenToHead.Z *= 3;
 
                 //headLoc.X += 250;

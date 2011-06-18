@@ -5,9 +5,9 @@ using System.Text;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
-using xn;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using KinectRagdoll.Ragdoll;
 
 namespace KinectRagdoll.Kinect
 {

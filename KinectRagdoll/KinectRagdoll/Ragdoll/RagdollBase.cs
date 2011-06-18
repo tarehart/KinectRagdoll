@@ -9,11 +9,12 @@ using FarseerPhysics.DebugViews;
 using FarseerPhysics.Factories;
 using KinectRagdoll.Sandbox;
 using System.Runtime.Serialization;
+using KinectRagdoll.Kinect;
 
-namespace KinectRagdoll.Kinect
+namespace KinectRagdoll.Ragdoll
 {
     [DataContract(Name = "Ragdoll", Namespace = "http://www.imcool.com")]
-    public abstract class Ragdoll
+    public abstract class RagdollBase
     {
         protected const float ArmDensity = .5f;
         protected const float LegDensity = .8f;
@@ -21,44 +22,44 @@ namespace KinectRagdoll.Kinect
         protected static float elbowDistance = 2;
 
         [DataMember()]
-        protected Fixture _body;
+        internal Fixture _body { get; private set; }
         [DataMember()]
-        protected Fixture _head;
+        internal Fixture _head { get; private set; }
 
         [DataMember()]
-        protected Fixture _lowerLeftArm;
+        internal Fixture _lowerLeftArm { get; private set; }
         [DataMember()]
-        protected Fixture _lowerLeftLeg;
+        internal Fixture _lowerLeftLeg { get; private set; }
         [DataMember()]
-        protected Fixture _lowerRightArm;
+        internal Fixture _lowerRightArm { get; private set; }
         [DataMember()]
-        protected Fixture _lowerRightLeg;
+        internal Fixture _lowerRightLeg { get; private set; }
 
         [DataMember()]
-        protected Fixture _upperLeftArm;
+        internal Fixture _upperLeftArm { get; private set; }
         [DataMember()]
-        protected Fixture _upperLeftLeg;
+        internal Fixture _upperLeftLeg { get; private set; }
         [DataMember()]
-        protected Fixture _upperRightArm;
+        internal Fixture _upperRightArm { get; private set; }
         [DataMember()]
-        protected Fixture _upperRightLeg;
+        internal Fixture _upperRightLeg { get; private set; }
 
         [DataMember()]
-        protected RevoluteJoint jRightArm;
+        internal RevoluteJoint jRightArm;
         [DataMember()]
-        protected RevoluteJoint jRightArmBody;
+        internal RevoluteJoint jRightArmBody;
         [DataMember()]
-        protected RevoluteJoint jLeftArm;
+        internal RevoluteJoint jLeftArm;
         [DataMember()]
-        protected RevoluteJoint jLeftArmBody;
+        internal RevoluteJoint jLeftArmBody;
         [DataMember()]
-        protected RevoluteJoint jRightLeg;
+        internal RevoluteJoint jRightLeg;
         [DataMember()]
-        protected RevoluteJoint jRightLegBody;
+        internal RevoluteJoint jRightLegBody;
         [DataMember()]
-        protected RevoluteJoint jLeftLeg;
+        internal RevoluteJoint jLeftLeg;
         [DataMember()]
-        protected RevoluteJoint jLeftLegBody;
+        internal RevoluteJoint jLeftLegBody;
 
         [DataMember()]
         protected List<Fixture> _allFixtures;
@@ -69,7 +70,7 @@ namespace KinectRagdoll.Kinect
         public static float height = 10;
 
 
-        public Ragdoll(World world, Vector2 position)
+        public RagdollBase(World world, Vector2 position)
         {
             //this.world = world;
             CreateBody(world, position);
@@ -81,25 +82,25 @@ namespace KinectRagdoll.Kinect
         {
 
             Vector3 vec = info.rightHand - info.rightShoulder;
-            Vector2 v2 = info.project(vec, Ragdoll.height);
+            Vector2 v2 = info.project(vec, RagdollBase.height);
             setShoulderToRightHand(v2);
 
-            float pracScaler = v2.X / vec.X;
+            //float pracScaler = v2.X / vec.X;
 
             vec = info.leftHand - info.leftShoulder;
-            v2 = info.project(vec, Ragdoll.height);
+            v2 = info.project(vec, RagdollBase.height);
             setShoulderToLeftHand(v2);
 
             vec = info.rightFoot - info.rightHip;
-            v2 = info.project(vec, Ragdoll.height);
+            v2 = info.project(vec, RagdollBase.height);
             setHipToRightFoot(v2);
 
             vec = info.leftFoot - info.leftHip;
-            v2 = info.project(vec, Ragdoll.height);
+            v2 = info.project(vec, RagdollBase.height);
             setHipToLeftFoot(v2);
 
             vec = info.head - info.torso;
-            v2 = info.project(vec, Ragdoll.height);
+            v2 = info.project(vec, RagdollBase.height);
             setChestToHead(v2);
 
             

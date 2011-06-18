@@ -8,9 +8,9 @@ using FarseerPhysics.DebugViews;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Dynamics.Joints;
 
-namespace KinectRagdoll.Kinect
+namespace KinectRagdoll.Ragdoll
 {
-    public class RagdollAttractor : Ragdoll
+    public class RagdollAttractor : RagdollBase
     {
 
    

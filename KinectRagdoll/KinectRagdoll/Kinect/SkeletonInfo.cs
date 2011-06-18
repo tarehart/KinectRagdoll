@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using xn;
 using System.Diagnostics;
+using Microsoft.Research.Kinect.Nui;
 
 namespace KinectRagdoll.Kinect
 {
@@ -25,7 +25,7 @@ namespace KinectRagdoll.Kinect
         private Vector3 oldLeftHand;
         
 
-        private SkeletonCapability sc;
+        //private SkeletonCapability sc;
         private uint myUser;
         private bool mirror;
 
@@ -64,60 +64,46 @@ namespace KinectRagdoll.Kinect
             get { return leftHand - oldLeftHand; }
         }
 
-        public SkeletonInfo(SkeletonCapability sc, bool mirror)
+        public SkeletonInfo(bool mirror)
         {
-            this.sc = sc;
+            //this.sc = sc;
             this.mirror = mirror;
 
             MakeScarecrow();
             
         }
 
-        public void Update(uint myUser)
+        public void Update(SkeletonData data)
         {
 
-            this.myUser = myUser;
+            //this.myUser = myUser;
             oldRightHand = rightHand;
             oldLeftHand = leftHand;
 
 
-            SkeletonJointPosition p = new SkeletonJointPosition();
+            pToV(data.Joints[JointID.Head].Position, ref head);
+            
 
-            sc.GetSkeletonJointPosition(myUser, SkeletonJoint.Head, ref p);
-            pToV(p.position, ref head);
+            pToV(data.Joints[JointID.HandRight].Position, ref rightHand);
+           
 
-            sc.GetSkeletonJointPosition(myUser, SkeletonJoint.RightHand, ref p);
-            pToV(p.position, ref rightHand);
+            pToV(data.Joints[JointID.HandLeft].Position, ref leftHand);
+            
 
-            sc.GetSkeletonJointPosition(myUser, SkeletonJoint.LeftHand, ref p);
-            pToV(p.position, ref leftHand);
+            pToV(data.Joints[JointID.Spine].Position, ref torso);
+            
 
-            sc.GetSkeletonJointPosition(myUser, SkeletonJoint.Torso, ref p);
-            pToV(p.position, ref torso);
+            pToV(data.Joints[JointID.FootLeft].Position, ref leftFoot);
 
-            sc.GetSkeletonJointPosition(myUser, SkeletonJoint.LeftFoot, ref p);
-            pToV(p.position, ref leftFoot);
+            pToV(data.Joints[JointID.FootRight].Position, ref rightFoot);
 
-            sc.GetSkeletonJointPosition(myUser, SkeletonJoint.RightFoot, ref p);
-            pToV(p.position, ref rightFoot);
+            pToV(data.Joints[JointID.ShoulderLeft].Position, ref leftShoulder);
 
-            sc.GetSkeletonJointPosition(myUser, SkeletonJoint.LeftFoot, ref p);
-            pToV(p.position, ref leftFoot);
+            pToV(data.Joints[JointID.ShoulderRight].Position, ref rightShoulder);
 
-            sc.GetSkeletonJointPosition(myUser, SkeletonJoint.RightFoot, ref p);
-            pToV(p.position, ref rightFoot);
+            pToV(data.Joints[JointID.HipLeft].Position, ref leftHip);
 
-            sc.GetSkeletonJointPosition(myUser, SkeletonJoint.LeftShoulder, ref p);
-            pToV(p.position, ref leftShoulder);
-
-            sc.GetSkeletonJointPosition(myUser, SkeletonJoint.RightShoulder, ref p);
-            pToV(p.position, ref rightShoulder);
-
-            sc.GetSkeletonJointPosition(myUser, SkeletonJoint.LeftHip, ref p);
-            pToV(p.position, ref leftHip);
-
-            sc.GetSkeletonJointPosition(myUser, SkeletonJoint.RightHip, ref p);
-            pToV(p.position, ref rightHip);
+            pToV(data.Joints[JointID.HipRight].Position, ref rightHip);
 
             if (mirror)
             {
@@ -127,7 +113,7 @@ namespace KinectRagdoll.Kinect
            
 
             
-            skelHeight = (head - leftHip).Length() * 2.5f;
+            skelHeight = (head - leftHip).Length() * 2.4f;
 
             
         }
@@ -158,7 +144,7 @@ namespace KinectRagdoll.Kinect
             return v;
         }*/
 
-        private void pToV(Point3D p, ref Vector3 v)
+        private void pToV(Vector p, ref Vector3 v)
         {
             v.X = p.X;
             v.Y = p.Y;

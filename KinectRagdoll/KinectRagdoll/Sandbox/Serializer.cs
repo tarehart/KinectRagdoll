@@ -8,6 +8,7 @@ using FarseerPhysics.Dynamics.Joints;
 using Microsoft.Xna.Framework;
 using KinectRagdoll.Kinect;
 using KinectRagdoll.Rules;
+using KinectRagdoll.Ragdoll;
 
 namespace KinectRagdoll.Sandbox
 {
@@ -110,7 +111,6 @@ namespace KinectRagdoll.Sandbox
             foreach (Body b in bodyList) {
                 
                 b.setWorld(w);
-                
 
                 foreach (Fixture f in b.FixtureList)
                 {

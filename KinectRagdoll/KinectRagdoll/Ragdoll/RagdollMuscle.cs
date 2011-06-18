@@ -12,53 +12,44 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Runtime.Serialization;
 using KinectRagdoll.Drawing;
 using System.Diagnostics;
+using KinectRagdoll.Kinect;
+using KinectRagdoll.MyMath;
+using KinectRagdoll.Equipment;
 
 
-namespace KinectRagdoll.Kinect
+namespace KinectRagdoll.Ragdoll
 {
     [DataContract(Name = "RagdollMuscle", Namespace = "http://www.imcool.com")]
-    public class RagdollMuscle: Ragdoll
+    public class RagdollMuscle: RagdollBase
     { 
 
         //protected TargetJoint rightShoulder;
         //protected TargetJoint rightElbow;
         protected int sleepTimer = 0;
         protected int wakeTimer = 0;
+
         [DataMember()]
-        protected int postThrustTimer = 0;
-        [DataMember()]
-        protected bool asleep = false;
-        [DataMember()]
-        public bool thrustOn = false;
-        private float feetThrust;
-        private float rightHandThrust;
-        private float leftHandThrust;
+        internal bool asleep { get; private set; }
+        
         Random rand = new Random();
-        private int POST_THRUST_TIME = 100;
+        
         private const int WAKE_TIME = 40;
 
-        private bool rightGrip;
-        private bool leftGrip;
+        
         private World world;
 
 
-        private RevoluteJoint jRightGrip;
-        private RevoluteJoint jLeftGrip;
+        
 
-        private const float slowDamping = .9f;
-        private const float grabPlane = -400f;
-        private const float releasePlane = -300f;
-        private const float grabVel = -20;
-
-        private int rightHandGrabGrace;
-        private int leftHandGrabGrace;
-        private const int grabGrace = 30;
+        private List<AbstractEquipment> equipment = new List<AbstractEquipment>();
        
 
         public RagdollMuscle(World w, Vector2 position) : base(w, position)
         {
 
             Init(w);
+            equipment.Add(new JetPack(this));
+            equipment.Add(new PunchGuns(this, world));
 
         }
 
@@ -78,108 +69,18 @@ namespace KinectRagdoll.Kinect
 
             tick();
 
+            
             if (!asleep)
             {
-
-                if (!rightGrip &&
-                    info.rightHand.Z < info.torso.Z + grabPlane &&
-                    info.RightHandVel.Z < grabVel)
+                foreach (AbstractEquipment e in equipment)
                 {
-                    rightHandGrabGrace = grabGrace;
-                    //TryRightGrip();
+                    e.Update(info);
                 }
-
-                if (rightHandGrabGrace > 0)
-                {
-                    TryRightGrip();
-                }
-                else if (rightGrip && info.rightHand.Z > info.torso.Z + releasePlane)
-                {
-                    ReleaseRightGrip();
-                }
-
-                if (!leftGrip &&
-                    info.leftHand.Z < info.torso.Z + grabPlane &&
-                    info.LeftHandVel.Z < grabVel)
-                {
-                    leftHandGrabGrace = grabGrace;
-                    //TryLeftGrip();
-                }
-                if (leftHandGrabGrace > 0)
-                {
-                    TryLeftGrip();
-                }
-                else if (leftGrip && info.leftHand.Z > info.torso.Z + releasePlane)
-                {
-                    ReleaseLeftGrip();
-                }
-
-
-                float thrust = (((info.leftHand.Z + info.rightHand.Z) / 2) - info.torso.Z) * .004f;
-                if (thrust > 0) 
-                    StartThrust(thrust);
-                else StopThrust();
-
-                //if (info.torso.Z < info.head.Z)
-                //{
-                //    StartThrust(
-                //        (info.head.Z - info.torso.Z) * .02f,
-                //        (info.rightHand.Z - info.torso.Z) * .0008f,
-                //        (info.leftHand.Z - info.torso.Z) * .0008f);
-                //}
-                //else
-                //{
-                //    StopThrust();
-
-                //}
             }
+            
         }
 
-        private void TryLeftGrip()
-        {
-            Vector2 elbowLoc = jLeftArm.WorldAnchorA;
-            Vector2 forearmLoc = _lowerLeftArm.Body.Position;
-            Vector2 gripLoc = forearmLoc + (forearmLoc - elbowLoc) * 2;
-
-            Fixture f = world.TestPoint(gripLoc);
-            if (f != null)
-            {
-                if (jLeftGrip != null) world.RemoveJoint(jLeftGrip);
-                jLeftGrip = new RevoluteJoint(_lowerLeftArm.Body, f.Body, _lowerLeftArm.Body.GetLocalPoint(gripLoc), f.Body.GetLocalPoint(gripLoc));
-                world.AddJoint(jLeftGrip);
-                leftGrip = true;
-            }
-        }
-
-        private void ReleaseLeftGrip()
-        {
-            if (jLeftGrip != null) world.RemoveJoint(jLeftGrip);
-            jLeftGrip = null;
-            leftGrip = false;
-        }
-
-        private void ReleaseRightGrip()
-        {
-            if (jRightGrip != null) world.RemoveJoint(jRightGrip);
-            jRightGrip = null;
-            rightGrip = false;
-        }
-
-        private void TryRightGrip()
-        {
-            Vector2 elbowLoc = jRightArm.WorldAnchorA;
-            Vector2 forearmLoc = _lowerRightArm.Body.Position;
-            Vector2 gripLoc = forearmLoc + (forearmLoc - elbowLoc) * 2;
-
-            Fixture f = world.TestPoint(gripLoc);
-            if (f != null)
-            {
-                if (jRightGrip != null) world.RemoveJoint(jRightGrip);
-                jRightGrip = new RevoluteJoint(_lowerRightArm.Body, f.Body, _lowerRightArm.Body.GetLocalPoint(gripLoc), f.Body.GetLocalPoint(gripLoc));
-                world.AddJoint(jRightGrip);
-                rightGrip = true;
-            }
-        }
+        
 
 
        
@@ -231,18 +132,13 @@ namespace KinectRagdoll.Kinect
                 }
             }
 
-            if (postThrustTimer > 0)
-            {
-                postThrustTimer--;
-                if (postThrustTimer == 0)
-                    _body.Body.LinearDamping = 0;
-            }
+            
 
-            Thrust();
-
-            if (leftHandGrabGrace > 0) leftHandGrabGrace--;
-            if (rightHandGrabGrace > 0) rightHandGrabGrace--;
+            
         }
+
+        public event EventHandler KnockOut;
+        public event EventHandler WakeUp;
 
         private void knockOut()
         {
@@ -255,11 +151,9 @@ namespace KinectRagdoll.Kinect
             jLeftLegBody.MotorEnabled = false;
             jRightLeg.MotorEnabled = false;
             jRightLegBody.MotorEnabled = false;
-            _body.Body.LinearDamping = 0;
-            StopThrust();
-            _body.Body.AngularDamping = 0;
-            ReleaseLeftGrip();
-            ReleaseRightGrip();
+
+            KnockOut(this, null);
+           
         }
 
         private void wakeUp()
@@ -273,7 +167,10 @@ namespace KinectRagdoll.Kinect
             jLeftLegBody.MotorEnabled = true;
             jRightLeg.MotorEnabled = true;
             jRightLegBody.MotorEnabled = true;
-            _body.Body.LinearDamping = slowDamping;
+
+            WakeUp(this, null);
+
+            
 
             wakeTimer = 0;
             foreach (Fixture f in _allFixtures)
@@ -292,10 +189,9 @@ namespace KinectRagdoll.Kinect
 
             float personAngle = (float)(Math.Atan2(vec.Y, vec.X) - Math.PI / 2);
             float ragdollAngle = _body.Body.Rotation;
-            float diff = getRadDiff(ragdollAngle, personAngle);
+            float diff = MathHelp.getRadDiff(ragdollAngle, personAngle);
             float torque = 150;
             if (diff < 0) torque *= -1;
-            if (thrustOn) torque *= 2;
 
             _body.Body.ApplyTorque(torque);
             _body.Body.AngularDamping = 5f;
@@ -345,7 +241,7 @@ namespace KinectRagdoll.Kinect
 
         protected void setJointMotor(RevoluteJoint joint, float targetAngle)
         {
-            float radDiff = getRadDiff(joint.JointAngle, targetAngle);
+            float radDiff = MathHelp.getRadDiff(joint.JointAngle, targetAngle);
             joint.MotorSpeed = radDiff * 10;
             joint.MaxMotorTorque = 2500;
 
@@ -439,141 +335,22 @@ namespace KinectRagdoll.Kinect
             return handAngle - (float)Math.PI / 2 + elbowAngle / 2;
         }
 
-        private float getRadDiff(float p, float targetAngle)
-        {
-
-
-            float a = targetAngle - p;
-            while (a < -Math.PI) a += 2 * (float)Math.PI;
-            while (a > Math.PI) a -= 2 * (float)Math.PI;
-            
-            //float a = targetAngle - p;
-            //a %= (float)Math.PI * 2;
-
-            //if (a > Math.PI)
-            //{
-
-            //    a -= 2 * (float)Math.PI;
-                    
-            //}
-
-            Debug.Assert(Math.Abs(a) <= Math.PI);
-            return a;
-        }
-
-
-       
-
-        private void Thrust()
-        {
-            if (asleep || !thrustOn) return;
-            applyLimbThrust(_lowerLeftLeg, Math.PI / 2, 3 * feetThrust);
-            applyLimbThrust(_lowerRightLeg, Math.PI / 2, 3 * feetThrust);
-            applyLimbThrust(_lowerRightArm, Math.PI / 2, 4f * rightHandThrust);
-            applyLimbThrust(_lowerLeftArm, Math.PI / 2, 4f * leftHandThrust);
-        }
-
-        private void applyLimbThrust(Fixture limb, double angleOffset, float thrustFactor)
-        {
-            float rot = limb.Body.Rotation + (float)angleOffset;
-            Vector2 vec = new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot));
-            limb.Body.ApplyLinearImpulse(vec * thrustFactor);
-
-            //DebugMaterial matBody = new DebugMaterial(MaterialType.Squares)
-            //{
-            //    Color = Color.DeepSkyBlue,
-            //    Scale = 8f
-            //};
-
-            //limb.Body.BodyType = BodyType.Static;
-
-            //Fixture c = FixtureFactory.CreateCircle(world, .5f, .01f, vec * 10 + limb.Body.Position, matBody);
-            //c.CollisionFilter.CollidesWith = Category.None;
-
-            //c = FixtureFactory.CreateCircle(world, .2f, .01f, limb.Body.Position, matBody);
-            //c.CollisionFilter.CollidesWith = Category.None;
-
-        }
+        
 
         public void Draw(SpriteBatch sb)
         {
-            if (thrustOn && !asleep)
+
+
+            foreach (AbstractEquipment e in equipment)
             {
-                drawLimbThrust(_lowerLeftLeg, sb, feetThrust);
-                drawLimbThrust(_lowerRightLeg, sb, feetThrust);
-                drawLimbThrust(_lowerLeftArm, sb, leftHandThrust);
-                drawLimbThrust(_lowerRightArm, sb, rightHandThrust);
-                
+                e.Draw(sb);
             }
-
-            if (leftGrip)
-            {
-                //Vector2 pixelLoc = game.projectionHelper.FarseerToPixel(jLeftGrip.WorldAnchorA);
-                SpriteHelper.DrawCircle(sb, jLeftGrip.WorldAnchorA, 1, Color.OrangeRed);
-            }
-
-            if (rightGrip)
-            {
-                //Vector2 pixelLoc = game.projectionHelper.FarseerToPixel(jRightGrip.WorldAnchorA);
-                SpriteHelper.DrawCircle(sb, jRightGrip.WorldAnchorA, 1, Color.OrangeRed);
-            }
-
-        }
-
-        public void drawLimbThrust(Fixture limb, SpriteBatch sb, float thrustFactor)
-        {
-
-            Vector2 limbLoc = limb.Body.Position;
-            float rot = limb.Body.Rotation + (float)Math.PI / 2;
-            Vector2 vec = new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot));
-            SpriteEffects effect = SpriteEffects.None;
-            if (rand.Next(2) == 0) effect = SpriteEffects.FlipHorizontally;
-            sb.Draw(RagdollManager.thrustTex, limbLoc - vec * 1.5f, null, Color.White, limb.Body.Rotation + (float) Math.PI, new Vector2(64, 64), .012f * thrustFactor, effect, 0);
             
         }
 
-        internal void StartThrust(float allThrust)
-        {
-            if (allThrust < 0)
-            {
-                StopThrust();
-                return;
-            }
-            thrustOn = true;
+        
 
-            this.feetThrust = allThrust;
-            this.rightHandThrust = allThrust;
-            this.leftHandThrust = allThrust;
-
-            postThrustTimer = POST_THRUST_TIME;
-            _body.Body.LinearDamping = slowDamping;
-
-        }
-
-        internal void StartThrust(float feetThrust, float rightHandThrust, float leftHandThrust)
-        {
-            thrustOn = true;
-
-            if (rightHandThrust < 0) rightHandThrust = 0;
-            if (leftHandThrust < 0) leftHandThrust = 0;
-            if (feetThrust < 0) feetThrust = 0;
-
-            this.feetThrust = feetThrust;
-            this.rightHandThrust = rightHandThrust;
-            this.leftHandThrust = leftHandThrust;
-           
-
-            
-
-            postThrustTimer = POST_THRUST_TIME;
-            _body.Body.LinearDamping = slowDamping;
-        }
-
-        internal void StopThrust()
-        {
-            thrustOn = false;
-            feetThrust = 0;
-        }
+        
 
         
     }
