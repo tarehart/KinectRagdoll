@@ -7,13 +7,12 @@ obstacle course / time trial type of game, plus just a physics sandbox. Windows 
 
 How to play
 -----------
-1. Launch the game
-2. Follow this sequence:
-	- Stand back from your Kinect, the background turns green.
-	- Raise your hands like a referee signaling a field goal, the background turns yellow.
-	- Hold that pose for a few seconds, the background turns beige and you now control the ragdoll.
-3. Put your chest out and head back to fire thrusters out of your hands and feet
-4. There's currently no object to the game.
+1. Download and install the Kinect for Windows SDK (http://research.microsoft.com/en-us/um/redmond/projects/kinectsdk/download.aspx)
+2. Plug in a Kinect
+3. Launch the game
+4. Put your chest out and head back to fire thrusters out of your hands and feet
+5. Punch your hands up, down, and to the sides to shoot bullets
+6. There's currently no object to the game.
 
 
 
@@ -53,6 +52,7 @@ Tips
 
 To Do
 -----------
-- Decent sandbox editing / saving / loading
-- Some kind of objective mode
+- Objectives
+- Equipment/powerups
+- Sounds
 - Alternative things to control (tank?)
