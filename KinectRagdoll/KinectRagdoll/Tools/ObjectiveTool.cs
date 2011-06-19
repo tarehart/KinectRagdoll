@@ -48,11 +48,18 @@ namespace KinectRagdoll.Tools
                  {
                      foreach (Objective o in game.objectiveManager.objectives)
                      {
-                         if (((StopwatchObjective)o).fixture == f)
+                         if (o.GetType() == typeof(StopwatchObjective))
                          {
-                             game.objectiveManager.objectives.Remove(o);
-                             break;
+                             StopwatchObjective so = (StopwatchObjective)o;
+                             if (so.fixture == f)
+                             {
+                                 game.objectiveManager.objectives.Remove(o);
+                                 if (so.oldMaterial != null)
+                                    f.UserData = so.oldMaterial;
+                                 break;
+                             }
                          }
+                         
                      }
                  }
 

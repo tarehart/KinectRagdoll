@@ -51,7 +51,7 @@ namespace KinectRagdoll.Rules
             countdownSecs = seconds;
             countdown.Restart();
             countup.Reset();
-            game.farseerManager.world.Enabled = false;
+            game.ragdollManager.ragdoll.Body.BodyType = FarseerPhysics.Dynamics.BodyType.Static;
         }
 
 
@@ -66,7 +66,7 @@ namespace KinectRagdoll.Rules
                 if (timeremaining < 0)
                 {
                     countdown.Stop();
-                    game.farseerManager.world.Enabled = true;
+                    game.ragdollManager.ragdoll.Body.BodyType = FarseerPhysics.Dynamics.BodyType.Dynamic;
                     countup.Start();
                     foreach (Objective o in objectives)
                     {

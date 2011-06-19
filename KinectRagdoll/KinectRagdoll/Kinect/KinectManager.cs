@@ -67,8 +67,11 @@ namespace KinectRagdoll.Kinect
                 if (data.TrackingState == SkeletonTrackingState.Tracked)
                 {
                     skeletonInfo.Update(data);
+                    return;
                 }
             }
+
+            skeletonInfo.Tracking = false;
             
         }
 
@@ -89,6 +92,8 @@ namespace KinectRagdoll.Kinect
             byte[] cBytes = GetColorBytes(depth);
 
             depthTex.SetData<byte>(cBytes);
+
+            skeletonInfo.Tracking = trackingPlayer;
 
         }
 

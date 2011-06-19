@@ -100,6 +100,7 @@ namespace KinectRagdoll.Kinect
             sf.PopulateWorld(world);
             game.ragdollManager.ragdoll = sf.ragdoll;
             game.ragdollManager.ragdoll.Init(world);
+            game.ragdollManager.ragdoll.setDepthTex(game.kinectManager.depthTex);
             game.objectiveManager.SetObjectives(sf.objectives);
         }
 

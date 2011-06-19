@@ -24,8 +24,8 @@ namespace KinectRagdoll.Equipment
         private int leftCooldown = 0;
 
         private const int COOLDOWN = 20;
-        private const float FIRING_THRESHOLD = .3f;
-        private const float EXTENSION_THRESHOLD = 3f;
+        private const float FIRING_THRESHOLD = .4f;
+        private const float EXTENSION_THRESHOLD = 3.5f;
 
         public PunchGuns(RagdollBase ragdoll, World world)
         {
@@ -99,7 +99,9 @@ namespace KinectRagdoll.Equipment
 
         private bool awayFromBody(Vector2 hand, Vector2 handVel)
         {
-            Vector2 bodyToHand = hand - ragdoll.Body.Position;
+
+            Vector2 centerShoulders = (ragdoll.Body.Position + ragdoll._head.Body.Position) / 2;
+            Vector2 bodyToHand = hand - centerShoulders;
             if (bodyToHand.LengthSquared() > EXTENSION_THRESHOLD)
             {
                 handVel.Normalize();
@@ -130,8 +132,6 @@ namespace KinectRagdoll.Equipment
 
             private Fixture bullet;
             private World world;
-            private int bounceCount;
-            
 
             DebugMaterial matBullet = new DebugMaterial(MaterialType.Blank)
             {
@@ -142,7 +142,7 @@ namespace KinectRagdoll.Equipment
             public PunchBullet(Vector2 loc, Vector2 vel, World world)
             {
                 this.world = world;
-                bullet = FixtureFactory.CreateCircle(world, .4f, 1, matBullet);
+                bullet = FixtureFactory.CreateCircle(world, .4f, 5, matBullet);
                 bullet.Body.Position = loc;
                 bullet.Body.BodyType = BodyType.Dynamic;
                 bullet.Body.LinearVelocity = vel * 70;

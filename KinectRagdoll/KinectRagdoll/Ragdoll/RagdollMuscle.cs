@@ -44,17 +44,16 @@ namespace KinectRagdoll.Ragdoll
         private float depthTexScale;
 
 
-        
 
-        private List<AbstractEquipment> equipment = new List<AbstractEquipment>();
+
+        private List<AbstractEquipment> equipment;
        
 
         public RagdollMuscle(World w, Vector2 position) : base(w, position)
         {
 
             Init(w);
-            equipment.Add(new JetPack(this));
-            equipment.Add(new PunchGuns(this, world));
+            
 
             
 
@@ -65,13 +64,16 @@ namespace KinectRagdoll.Ragdoll
             this.world = w;
             _head.AfterCollision += HeadCollision;
             rand = new Random();
+
+            equipment = new List<AbstractEquipment>();
+            equipment.Add(new JetPack(this));
+            equipment.Add(new PunchGuns(this, world));
         
         }
 
         public override void Update(SkeletonInfo info)
         {
 
-            
             base.Update(info);
 
             tick();
@@ -201,11 +203,11 @@ namespace KinectRagdoll.Ragdoll
             float personAngle = (float)(Math.Atan2(vec.Y, vec.X) - Math.PI / 2);
             float ragdollAngle = _body.Body.Rotation;
             float diff = MathHelp.getRadDiff(ragdollAngle, personAngle);
-            float torque = 150;
+            float torque = 500;
             if (diff < 0) torque *= -1;
 
             _body.Body.ApplyTorque(torque);
-            _body.Body.AngularDamping = 5f;
+            _body.Body.AngularDamping = 10f;
 
         }
 

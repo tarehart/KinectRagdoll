@@ -28,7 +28,7 @@ namespace KinectRagdoll.Kinect
         
 
         //private SkeletonCapability sc;
-        private uint myUser;
+        private bool _tracking;
         private bool mirror;
 
         private float skelHeight = 1;
@@ -44,16 +44,16 @@ namespace KinectRagdoll.Kinect
 
         private void MakeScarecrow()
         {
-            leftHand = new Vector3(-500, 250, 1000);
-            rightHand = new Vector3(500, 250, 1000);
-            leftShoulder = new Vector3(-150, -50, 1000);
-            rightShoulder = new Vector3(150, -50, 1000);
-            head = new Vector3(0, 150, 1000);
-            torso = new Vector3(0, -300, 1000);
-            rightHip = new Vector3(150, -400, 1000);
-            leftHip = new Vector3(-150, -400, 1000);
-            rightFoot = new Vector3(200, -600, 1000);
-            leftFoot = new Vector3(-200, -600, 1000);
+            leftHand = new Vector3(-.3f, .2f, 2);
+            rightHand = new Vector3(.3f, .2f, 2);
+            leftShoulder = new Vector3(-.1f, .5f, 2);
+            rightShoulder = new Vector3(.1f, .5f, 2);
+            head = new Vector3(0, .8f, 2);
+            torso = new Vector3(0, .25f, 2);
+            rightHip = new Vector3(.1f, .1f, 2);
+            leftHip = new Vector3(-.1f, .1f, 2);
+            rightFoot = new Vector3(.2f, -.8f, 2);
+            leftFoot = new Vector3(-.2f, -.8f, 2);
         }
 
         public Vector3 RightHandVel
@@ -77,6 +77,8 @@ namespace KinectRagdoll.Kinect
 
         public void Update(SkeletonData data)
         {
+
+            Tracking = true;
 
             //this.myUser = myUser;
             oldRightHand = rightHand;
@@ -175,7 +177,27 @@ namespace KinectRagdoll.Kinect
             get
             {
                 Vector3 upSpine = centerShoulder - centerHip;
-                return (float) (Math.Atan2(upSpine.Y, upSpine.X) - Math.PI / 2);
+                if (upSpine != Vector3.Zero)
+                {
+                    return (float)(Math.Atan2(upSpine.Y, upSpine.X) - Math.PI / 2);
+                }
+                return 0;
+            }
+        }
+
+        public bool Tracking
+        {
+            get
+            {
+                return _tracking;
+            }
+            set
+            {
+                _tracking = value;
+                if (!_tracking)
+                {
+                    MakeScarecrow();
+                }
             }
         }
     }
