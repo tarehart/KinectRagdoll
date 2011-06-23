@@ -14,6 +14,9 @@ using KinectRagdoll.Kinect;
 using KinectRagdoll.Sandbox;
 using KinectRagdoll.Drawing;
 using KinectRagdoll.Rules;
+using System.ComponentModel;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace KinectRagdoll
 {
@@ -30,6 +33,7 @@ namespace KinectRagdoll
         public KinectManager kinectManager;
         public FarseerManager farseerManager;
         public InputManager inputManager;
+        public ActionCenter actionCenter;
         public ProjectionHelper projectionHelper;
         public RagdollManager ragdollManager;
         public Toolbox toolbox;
@@ -64,9 +68,14 @@ namespace KinectRagdoll
 
            
             Content.RootDirectory = "Content";
+
+            FarseerTextures.Init();
+            
             kinectManager = new KinectManager();
             farseerManager = new FarseerManager(true, this);
             ragdollManager = new RagdollManager();
+            FarseerTextures.SetRagdollManager(ragdollManager);
+            actionCenter = new ActionCenter(this);
             inputManager = new InputManager(this);
             toolbox = new Toolbox(this);
             //spriteHelper = new SpriteHelper();
@@ -192,6 +201,8 @@ namespace KinectRagdoll
             kinectManager.initDepthTex();
 
             ragdollManager.ragdoll.setDepthTex(kinectManager.depthTex);
+
+            
             
             
         }
@@ -224,6 +235,11 @@ namespace KinectRagdoll
             farseerManager.Update(gameTime);
             objectiveManager.Update();
 
+            if (!kinectManager.IsKinectRunning)
+            {
+                kinectManager.InitKinect();
+            }
+
             base.Update(gameTime);
         }
 
@@ -250,14 +266,20 @@ namespace KinectRagdoll
             projectionHelper.Update(farseerView);
 
             base.Draw(gameTime);
+
+
+            
+            
         }
+
+       
 
         private void DrawSprites(RenderTarget2D renderTarget)
         {
             BlendState b = new BlendState();
             
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
-            //spriteBatch.Draw(kinectManager.depthTex, new Rectangle(50, 50, 640, 480), Color.White);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+            spriteBatch.Draw(kinectManager.depthTex, new Rectangle(GraphicsDevice.PresentationParameters.BackBufferWidth - 640, 0, 640, 480), new Color(1, 1, 1, .5f));
             farseerManager.DrawBasics(ref farseerView);
             spriteBatch.Draw(renderTarget, new Vector2(0, 0), null, Color.White, 0, new Vector2(0, 0), 1, SpriteEffects.FlipVertically, 1);
             toolbox.Draw(spriteBatch);
@@ -458,5 +480,6 @@ namespace KinectRagdoll
         //        mesh.Draw();
         //    }
         //}
+
     }
 }

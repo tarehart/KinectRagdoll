@@ -13,114 +13,24 @@ using System.Timers;
 
 namespace KinectRagdoll.Equipment
 {
-    public class PunchGuns : AbstractEquipment
+    public class PunchGuns : PunchEquipment
     {
 
-        private Vector2 leftPrev;
-        private Vector2 rightPrev;
-        private RagdollBase ragdoll;
-        private World world;
-        private int rightCooldown = 0;
-        private int leftCooldown = 0;
-
-        private const int COOLDOWN = 20;
-        private const float FIRING_THRESHOLD = .4f;
-        private const float EXTENSION_THRESHOLD = 3.5f;
-
-        public PunchGuns(RagdollBase ragdoll, World world)
+        public PunchGuns(RagdollMuscle ragdoll, World world, int cooldown) : base(ragdoll, world, cooldown)
         {
-            this.ragdoll = ragdoll;
-            this.world = world;
+           
         }
 
-        public override void Update(Kinect.SkeletonInfo info)
-        {
+        
 
-            Vector2 left = projectToFarseer(info.leftHand - info.torso, info);
-            Vector2 right = projectToFarseer(info.rightHand - info.torso, info);
-
-            if (rightCooldown > 0)
-            {
-                rightCooldown--;
-            }
-            else
-            {
-                
-                Vector2 rightVel = right - rightPrev;
-
-                if (rightVel.LengthSquared() > FIRING_THRESHOLD)
-                {
-                    if (awayFromBody(right, rightVel))
-                    {
-                        fire(right, rightVel);
-                        rightCooldown = COOLDOWN;
-                    }
-                }
-
-            }
-
-
-
-            if (leftCooldown > 0)
-            {
-                leftCooldown--;
-            }
-            else
-            {
-               
-                Vector2 leftVel = left - leftPrev;
-
-                if (leftVel.LengthSquared() > FIRING_THRESHOLD)
-                {
-                    if (awayFromBody(left, leftVel))
-                    {
-                        fire(left, leftVel);
-                        leftCooldown = COOLDOWN;
-                    }
-                }
-            }
-
-
-
-            rightPrev = right;
-            leftPrev = left;
-
-
-
-        }
-
-        private void fire(Vector2 hand, Vector2 handVel)
+        protected override void fire(Vector2 hand, Vector2 handVel, bool rightHand)
         {
             Vector2 velNorm = handVel;
             velNorm.Normalize();
             new PunchBullet(hand + velNorm * 1f, handVel, world);
             
         }
-
-        private bool awayFromBody(Vector2 hand, Vector2 handVel)
-        {
-
-            Vector2 centerShoulders = (ragdoll.Body.Position + ragdoll._head.Body.Position) / 2;
-            Vector2 bodyToHand = hand - centerShoulders;
-            if (bodyToHand.LengthSquared() > EXTENSION_THRESHOLD)
-            {
-                handVel.Normalize();
-                bodyToHand.Normalize();
-                return Vector2.Dot(handVel, bodyToHand) > .5f;
-            }
-
-            return false;
-        }
-
-        private Vector2 projectToFarseer(Vector3 hand, SkeletonInfo info)
-        {
-            Vector2 v = info.project(hand, RagdollBase.height);
-            Matrix m = Matrix.CreateRotationZ(ragdoll.Body.Rotation);
-            v = Vector2.Transform(v, m);
-            v += ragdoll.Body.Position;
-
-            return v;
-        }
+       
 
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch sb)
         {

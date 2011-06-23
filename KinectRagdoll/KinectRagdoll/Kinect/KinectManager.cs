@@ -17,14 +17,14 @@ namespace KinectRagdoll.Kinect
     public class KinectManager
     {
 
-        public bool useKinect = false;
+        //public bool useKinect = false;
 
         Runtime nui;
        
         public Texture2D depthTex;
         public SkeletonInfo skeletonInfo = new SkeletonInfo();
 
-        public Microsoft.Xna.Framework.Color bkColor = Microsoft.Xna.Framework.Color.White;
+        public Microsoft.Xna.Framework.Color bkColor = new Microsoft.Xna.Framework.Color(230, 230, 230);
         Random rand = new Random();
         private bool trackingPlayer = false;
 
@@ -47,15 +47,24 @@ namespace KinectRagdoll.Kinect
             
 
 
-            if (!useKinect || nui != null) return;
+            if (nui != null) return;
 
-            nui = new Runtime();
-            nui.Initialize(RuntimeOptions.UseDepthAndPlayerIndex | RuntimeOptions.UseSkeletalTracking | RuntimeOptions.UseColor);
-            nui.VideoStream.Open(ImageStreamType.Video, 2, ImageResolution.Resolution640x480, ImageType.Color);
-            nui.DepthStream.Open(ImageStreamType.Depth, 2, ImageResolution.Resolution320x240, ImageType.DepthAndPlayerIndex);
+            try
+            {
 
-            nui.DepthFrameReady += new EventHandler<ImageFrameReadyEventArgs>(nui_DepthFrameReady);
-            nui.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(nui_SkeletonFrameReady);
+                nui = new Runtime();
+                nui.Initialize(RuntimeOptions.UseDepthAndPlayerIndex | RuntimeOptions.UseSkeletalTracking | RuntimeOptions.UseColor);
+                nui.VideoStream.Open(ImageStreamType.Video, 2, ImageResolution.Resolution640x480, ImageType.Color);
+                nui.DepthStream.Open(ImageStreamType.Depth, 2, ImageResolution.Resolution320x240, ImageType.DepthAndPlayerIndex);
+
+                nui.DepthFrameReady += new EventHandler<ImageFrameReadyEventArgs>(nui_DepthFrameReady);
+                nui.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(nui_SkeletonFrameReady);
+
+            }
+            catch (InvalidOperationException)
+            {
+                nui = null;
+            }
 
         }
 
@@ -191,5 +200,7 @@ namespace KinectRagdoll.Kinect
         }
 
 
+
+        public bool IsKinectRunning { get { return nui != null; } }
     }
 }

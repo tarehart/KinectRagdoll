@@ -271,6 +271,8 @@
             this.Controls.Add(this.splitContainer1);
             this.Name = "PropertyEditorForm";
             this.Text = "Form1";
+            this.Activated += new System.EventHandler(this.PropertyEditorForm_Activated);
+            this.Deactivate += new System.EventHandler(this.PropertyEditorForm_Deactivate);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();

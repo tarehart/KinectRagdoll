@@ -54,8 +54,10 @@ namespace KinectRagdoll.Tools
                              if (so.fixture == f)
                              {
                                  game.objectiveManager.objectives.Remove(o);
-                                 if (so.oldMaterial != null)
-                                    f.UserData = so.oldMaterial;
+
+                                 FarseerTextures.RestoreTexture(f);
+                                 //if (so.oldMaterial != null)
+                                 //   f.UserData = so.oldMaterial;
                                  break;
                              }
                          }

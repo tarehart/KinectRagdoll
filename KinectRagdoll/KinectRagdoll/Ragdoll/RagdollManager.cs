@@ -26,6 +26,7 @@ namespace KinectRagdoll.Kinect
         {
 
             ragdoll = new RagdollMuscle(game.farseerManager.world, Vector2.Zero);
+            CameraShouldTrack = true;
             
 
         }
@@ -55,9 +56,9 @@ namespace KinectRagdoll.Kinect
         }
 
 
-        internal bool OwnsBody(Body b)
+        internal bool OwnsFixture(Fixture f)
         {
-            return false;
+            return ragdoll.OwnsFixture(f);
         }
 
         internal bool OwnsJoint(FarseerPhysics.Dynamics.Joints.Joint j)
@@ -73,6 +74,11 @@ namespace KinectRagdoll.Kinect
 
 
 
-        public bool CameraShouldTrack { get { return !ragdoll.Body.IsStatic; } }
+        public bool CameraShouldTrack { get; set; }
+
+        internal bool OwnsBody(Body b)
+        {
+            return ragdoll.OwnsBody(b);
+        }
     }
 }

@@ -22,11 +22,10 @@ namespace KinectRagdoll.Tools
 
         protected override Fixture CreateFixture(DragArea d)
         {
-            DebugMaterial m = new DebugMaterial(MaterialType.Waves);
-            m.Scale = 4;
-            m.Color = Color.Green;
+           
 
-            Fixture f = FixtureFactory.CreateRectangle(game.farseerManager.world, d.width, d.height, 1, d.center, m);
+            Fixture f = FixtureFactory.CreateRectangle(game.farseerManager.world, d.width, d.height, 1, d.center, new DebugMaterial(MaterialType.Waves));
+            FarseerTextures.ApplyTexture(f, FarseerTextures.TextureType.Normal);
             return f;
         }
 

@@ -30,7 +30,7 @@ namespace KinectRagdoll.Sandbox
         
         public void Update()
         {
-            if (DisregardInputEvents)
+            if (DisregardInputEvents || !game.IsActive)
             {
                 return;
             }
@@ -64,27 +64,27 @@ namespace KinectRagdoll.Sandbox
         {
             if (inputHelper.IsNewKeyPress(Keys.F))
             {
-                FormManager.Property.FreezeSelected();
+                game.actionCenter.PerformAction(ActionCenter.Actions.Freeze);
             }
 
             if (inputHelper.IsNewKeyPress(Keys.P))
             {
-                FormManager.Property.Show();
+                game.actionCenter.PerformAction(ActionCenter.Actions.PropertyEditor);
             }
 
             if (inputHelper.IsNewKeyPress(Keys.R))
             {
-                FormManager.Property.UnfreezeSelected();
+                game.actionCenter.PerformAction(ActionCenter.Actions.Release);
             }
 
             if (inputHelper.IsNewKeyPress(Keys.Delete))
             {
-                FormManager.Property.DeleteSelected();
+                game.actionCenter.PerformAction(ActionCenter.Actions.Delete);
             }
 
             if (inputHelper.IsNewKeyPress(Keys.C) && inputHelper.IsKeyDown(Keys.LeftControl))
             {
-                FormManager.Property.CopySelected();
+                game.actionCenter.PerformAction(ActionCenter.Actions.Copy);
             }
 
             if (inputHelper.IsNewKeyPress(Keys.V) && inputHelper.IsKeyDown(Keys.LeftControl))
@@ -92,57 +92,35 @@ namespace KinectRagdoll.Sandbox
                 FormManager.Property.PasteSelected(game.projectionHelper.PixelToFarseer(inputHelper.MousePosition));
             }
 
-            if (inputHelper.IsNewKeyPress(Keys.RightShift))
+            if (inputHelper.IsNewKeyPress(Keys.Space))
             {
-                game.objectiveManager.Countdown(3);
+                game.actionCenter.PerformAction(ActionCenter.Actions.StartTimer);
             }
 
-            if (inputHelper.IsNewKeyPress(Keys.K))
-            {
-                game.kinectManager.useKinect = true;
-                game.kinectManager.InitKinect();
-            }
+            
 
             if (inputHelper.IsNewKeyPress(Keys.S) && inputHelper.IsKeyDown(Keys.LeftControl))
             {
 
-                Thread saveThread = new Thread(DoSave);
-                saveThread.SetApartmentState(ApartmentState.STA);
-                saveThread.Start();
+                game.actionCenter.PerformAction(ActionCenter.Actions.Save);
                 
             }
 
             if (inputHelper.IsNewKeyPress(Keys.O) && inputHelper.IsKeyDown(Keys.LeftControl))
             {
-                Thread openThread = new Thread(DoOpen);
-                openThread.SetApartmentState(ApartmentState.STA);
-                openThread.Start();
+                game.actionCenter.PerformAction(ActionCenter.Actions.Open);
             }
 
             if (inputHelper.MouseScrollWheelVelocity != 0)
             {
                 FormManager.Property.RotateSelected(inputHelper.MouseScrollWheelVelocity);
             }
+
+           
+
+                
         }
 
-        private void DoSave()
-        {
-
-            Serializer.Save(game.farseerManager.world, game, "pendingsave.xml");
-            if (FormManager.Save.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                File.Delete(FormManager.Save.FileName);
-                File.Copy("pendingsave.xml", FormManager.Save.FileName);
-            }
-        }
-
-        private void DoOpen()
-        {
-
-            if (FormManager.Open.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                game.farseerManager.LoadWorld(FormManager.Open.FileName);
-            }
-        }
+        
     }
 }

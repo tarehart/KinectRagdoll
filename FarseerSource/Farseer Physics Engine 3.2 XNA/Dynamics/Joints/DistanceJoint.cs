@@ -27,6 +27,7 @@ using System;
 using System.Diagnostics;
 using FarseerPhysics.Common;
 using Microsoft.Xna.Framework;
+using System.Runtime.Serialization;
 
 namespace FarseerPhysics.Dynamics.Joints
 {
@@ -50,16 +51,20 @@ namespace FarseerPhysics.Dynamics.Joints
     /// to remain at a fixed distance from each other. You can view
     /// this as a massless, rigid rod.
     /// </summary>
+    [DataContract(Name = "DistanceJoint", Namespace = "http://www.imcool.com")]
     public class DistanceJoint : Joint
     {
         /// <summary>
         /// The local anchor point relative to bodyA's origin.
         /// </summary>
+        
+        [DataMember()]
         public Vector2 LocalAnchorA;
 
         /// <summary>
         /// The local anchor point relative to bodyB's origin.
         /// </summary>
+        [DataMember()]
         public Vector2 LocalAnchorB;
 
         private float _bias;
@@ -98,16 +103,19 @@ namespace FarseerPhysics.Dynamics.Joints
         /// The natural length between the anchor points.
         /// Manipulating the length can lead to non-physical behavior when the frequency is zero.
         /// </summary>
+        [DataMember()]
         public float Length { get; set; }
 
         /// <summary>
         /// The mass-spring-damper frequency in Hertz.
         /// </summary>
+        [DataMember()]
         public float Frequency { get; set; }
 
         /// <summary>
         /// The damping ratio. 0 = no damping, 1 = critical damping.
         /// </summary>
+        [DataMember()]
         public float DampingRatio { get; set; }
 
         public override sealed Vector2 WorldAnchorA

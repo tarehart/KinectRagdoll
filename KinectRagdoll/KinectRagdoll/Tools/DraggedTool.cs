@@ -57,6 +57,7 @@ namespace KinectRagdoll.Tools
                     if (input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftShift))
                     {
                         f.Body.BodyType = BodyType.Dynamic;
+                        FarseerTextures.ApplyTexture(f, FarseerTextures.TextureType.Normal);
                     }
                 }
             }

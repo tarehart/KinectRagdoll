@@ -110,28 +110,33 @@ namespace KinectRagdoll.Kinect
         {
             int thickness = 5;
 
-            DebugMaterial material = new DebugMaterial(MaterialType.Waves)
-            {
-                Color = Color.OliveDrab,
-                Scale = 4
-            };
-            FixtureFactory.CreateRectangle(world, 70, thickness, 1, new Vector2(0, -25), material);
-            FixtureFactory.CreateRectangle(world, 70, thickness, 1, new Vector2(0, 25), material);
-            FixtureFactory.CreateRectangle(world, thickness, 50, 1, new Vector2(35, 0), material);
-            FixtureFactory.CreateRectangle(world, thickness, 50, 1, new Vector2(-35, 0), material);
+
+            FarseerTextures.ApplyTexture(
+                FixtureFactory.CreateRectangle(world, 70, thickness, 1, new Vector2(0, -25)),
+                FarseerTextures.TextureType.Normal);
+
+            FarseerTextures.ApplyTexture(
+                FixtureFactory.CreateRectangle(world, 70, thickness, 1, new Vector2(0, 25)),
+                FarseerTextures.TextureType.Normal);
+
+            FarseerTextures.ApplyTexture(
+                FixtureFactory.CreateRectangle(world, thickness, 50, 1, new Vector2(35, 0)),
+                FarseerTextures.TextureType.Normal);
+
+            FarseerTextures.ApplyTexture(
+                FixtureFactory.CreateRectangle(world, thickness, 50, 1, new Vector2(-35, 0)),
+                FarseerTextures.TextureType.Normal);
 
 
         }
 
         public void addSpinningDeath()
         {
-            DebugMaterial material = new DebugMaterial(MaterialType.Waves)
-            {
-                Color = Color.OliveDrab,
-                Scale = 4
-            };
-            Fixture rec = FixtureFactory.CreateRectangle(world, 20, 2, 1, new Vector2(10, 0), material);
+            
+            Fixture rec = FixtureFactory.CreateRectangle(world, 20, 2, 1, new Vector2(10, 0));
+            
             rec.Body.BodyType = BodyType.Dynamic;
+            FarseerTextures.ApplyTexture(rec, FarseerTextures.TextureType.Normal);
 
             FixedRevoluteJoint joint = new FixedRevoluteJoint(rec.Body, Vector2.Zero, new Vector2(20, 0));
             joint.MotorEnabled = true;
@@ -146,13 +151,10 @@ namespace KinectRagdoll.Kinect
         {
             int x = rand.Next(KinectRagdollGame.WIDTH);
 
-            DebugMaterial material = new DebugMaterial(MaterialType.Waves)
-            {
-                Color = Color.OliveDrab,
-                Scale = 50
-            };
+            
 
-            Fixture f = FixtureFactory.CreateCircle(world, 20, 1, new Vector2(x, 50), material);
+            Fixture f = FixtureFactory.CreateCircle(world, 20, 1, new Vector2(x, 50));
+            FarseerTextures.ApplyTexture(f, FarseerTextures.TextureType.Normal);
             f.Body.Position = new Vector2(x, 50);
             f.Body.BodyType = BodyType.Dynamic;
             f.Restitution = .9f;

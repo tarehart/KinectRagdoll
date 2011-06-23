@@ -20,9 +20,8 @@ namespace KinectRagdoll.Sandbox
     {
         private Stack<Object> history = new Stack<Object>();
         private FarseerManager farseerManager;
-        private DebugMaterial selectTexture;
-        private DebugMaterial pendingTexture;
-        private Dictionary<Object, DebugMaterial> materialBank = new Dictionary<object, DebugMaterial>();
+        
+        
         private SaveFile clipBoard;
 
 
@@ -34,17 +33,7 @@ namespace KinectRagdoll.Sandbox
             this.farseerManager = FarseerManager.Main;
             setSelectedObject(farseerManager.world);
 
-            selectTexture = new DebugMaterial(MaterialType.Stars)
-            {
-                Color = Microsoft.Xna.Framework.Color.Red,
-                Scale = 8f
-            };
-
-            pendingTexture = new DebugMaterial(MaterialType.Stars)
-            {
-                Color = Microsoft.Xna.Framework.Color.Yellow,
-                Scale = 8f
-            };
+            
 
         }
 
@@ -95,7 +84,7 @@ namespace KinectRagdoll.Sandbox
             if (!maintainSelection)
                 selectNone_Click(null, null);
 
-            object[] highlighted = materialBank.Keys.ToArray<object>();
+            object[] highlighted = FarseerTextures.TemporaryList.ToArray<object>();
             foreach (Object b in highlighted)
             {
                 doHighlighting(b, null);
@@ -236,17 +225,19 @@ namespace KinectRagdoll.Sandbox
                     Body b = (Body)old;
                     if (b.FixtureList != null)
                     {
-                        if (materialBank.ContainsKey(b.FixtureList[0]))
-                            b.FixtureList[0].UserData = materialBank[b.FixtureList[0]];
-                        materialBank.Remove(b.FixtureList[0]);
+
+                        FarseerTextures.RestoreTexture(b.FixtureList[0]);
+
+                        
                     }
                 }
                 else if (old is Fixture)
                 {
                     Fixture f = (Fixture)old;
-                    if (materialBank.ContainsKey(f))
-                        f.UserData = materialBank[f];
-                    materialBank.Remove(f);
+
+                    FarseerTextures.RestoreTexture(f);
+
+                    
                 }
                 else if (old is Joint)
                 {
@@ -267,30 +258,34 @@ namespace KinectRagdoll.Sandbox
                     Body b = (Body)newObj;
                     if (b.FixtureList != null)
                     {
-                        if (!materialBank.ContainsKey(b.FixtureList[0]))
-                            materialBank.Add(b.FixtureList[0], (DebugMaterial)b.FixtureList[0].UserData);
+
+                        //if (!materialBank.ContainsKey(b.FixtureList[0]))
+                        //    materialBank.Add(b.FixtureList[0], (DebugMaterial)b.FixtureList[0].UserData);
                         if (pending)
                         {
-                            b.FixtureList[0].UserData = pendingTexture;
+                            FarseerTextures.ApplyTexture(b.FixtureList[0], FarseerTextures.TextureType.Selected);
+                            
                         }
                         else
                         {
-                            b.FixtureList[0].UserData = selectTexture;
+                            FarseerTextures.ApplyTexture(b.FixtureList[0], FarseerTextures.TextureType.Editing);
                         }
                     }
                 }
                 else if (newObj is Fixture)
                 {
                     Fixture f = (Fixture)newObj;
-                    if (!materialBank.ContainsKey(f))
-                        materialBank.Add(f, (DebugMaterial)f.UserData);
+                    //if (!materialBank.ContainsKey(f))
+                    //    materialBank.Add(f, (DebugMaterial)f.UserData);
                     if (pending)
                     {
-                        f.UserData = pendingTexture;
+
+                        FarseerTextures.ApplyTexture(f, FarseerTextures.TextureType.Selected);
                     }
                     else
                     {
-                        f.UserData = selectTexture;
+
+                        FarseerTextures.ApplyTexture(f, FarseerTextures.TextureType.Editing);
                     }
                 }
                 else if (newObj is Joint)
@@ -431,10 +426,12 @@ namespace KinectRagdoll.Sandbox
                 if (o is Fixture)
                 {
                     ((Fixture)o).Body.IsStatic = true;
+                    FarseerTextures.ApplyTexture((Fixture)o, FarseerTextures.TextureType.Normal);
                 }
                 else if (o is Body)
                 {
                     ((Body)o).IsStatic = true;
+                    FarseerTextures.ApplyTexture(((Body)o).FixtureList[0], FarseerTextures.TextureType.Normal);
 
                 }
 
@@ -448,14 +445,22 @@ namespace KinectRagdoll.Sandbox
                 if (o is Fixture)
                 {
                     ((Fixture)o).Body.IsStatic = false;
+
+                    FarseerTextures.ApplyTexture((Fixture)o, FarseerTextures.TextureType.Normal);
+                    
+
                 }
                 else if (o is Body)
                 {
                     ((Body)o).IsStatic = false;
 
+                    FarseerTextures.ApplyTexture(((Body)o).FixtureList[0], FarseerTextures.TextureType.Normal);
+
                 }
             }
         }
+
+        
 
         internal void DeleteSelected()
         {
@@ -638,6 +643,18 @@ namespace KinectRagdoll.Sandbox
 
             }
 
+        }
+
+        private void PropertyEditorForm_Activated(object sender, EventArgs e)
+        {
+            InputManager.DisregardInputEvents = true;
+            Console.Out.WriteLine("Activated");
+        }
+
+        private void PropertyEditorForm_Deactivate(object sender, EventArgs e)
+        {
+            InputManager.DisregardInputEvents = false;
+            Console.Out.WriteLine("Deactivated");
         }
     }
 }

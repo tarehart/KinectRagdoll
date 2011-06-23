@@ -35,7 +35,8 @@ namespace KinectRagdoll.Rules
             }
             countdown.Reset();
             countup.Reset();
-            game.farseerManager.world.Enabled = true;
+            game.ragdollManager.ragdoll.Body.BodyType = FarseerPhysics.Dynamics.BodyType.Dynamic;
+            //game.farseerManager.world.Enabled = true;
         }
 
         public void Countdown(int seconds)

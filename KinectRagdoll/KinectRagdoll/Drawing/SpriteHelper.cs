@@ -45,6 +45,19 @@ namespace KinectRagdoll.Drawing
 
         }
 
+        public static void DrawLine(SpriteBatch sb, Vector2 tail, Vector2 tip, float thickness, Color c)
+        {
+            Vector2 origin = new Vector2(0, rectangleTex.Height / 2);
+            float scaleX = Vector2.Distance(tail, tip) / rectangleTex.Width;
+            float scaleY = thickness / rectangleTex.Height;
+            Vector2 scale = new Vector2(scaleX, scaleY);
+            float rotation = (float)Math.Atan2(tip.Y - tail.Y, tip.X - tail.X);
+            //if (tip.X < tail.X) rotation += (float)Math.PI;
+
+            sb.Draw(rectangleTex, tail, null, c, rotation, origin, scale, SpriteEffects.None, 0);
+
+        }
+
         public static void DrawText(SpriteBatch sb, Vector2 loc, String text, Color c)
         {
             sb.DrawString(font, text, loc, c);

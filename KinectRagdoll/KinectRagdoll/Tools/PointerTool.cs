@@ -185,8 +185,8 @@ namespace KinectRagdoll.Tools
                 if (selected.Count > 0)
                 {
                     FormManager.Property.setPendingObjects(selected);
-                    if (!FormManager.Property.Visible)
-                        FormManager.Property.Show();
+                    //if (!FormManager.Property.Visible)
+                    //    FormManager.Property.Show();
 
                 }
             }

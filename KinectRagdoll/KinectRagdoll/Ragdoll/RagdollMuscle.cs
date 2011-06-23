@@ -66,8 +66,9 @@ namespace KinectRagdoll.Ragdoll
             rand = new Random();
 
             equipment = new List<AbstractEquipment>();
-            equipment.Add(new JetPack(this));
-            equipment.Add(new PunchGuns(this, world));
+            equipment.Add(new StabilizedJetpack(this));
+            //equipment.Add(new PunchGuns(this, world, 20));
+            equipment.Add(new SpideySilk(this, world, 80, 100));
         
         }
 
@@ -181,7 +182,8 @@ namespace KinectRagdoll.Ragdoll
             jRightLeg.MotorEnabled = true;
             jRightLegBody.MotorEnabled = true;
 
-            WakeUp(this, null);
+            if (WakeUp != null)
+                WakeUp(this, null);
 
             
 
@@ -359,11 +361,11 @@ namespace KinectRagdoll.Ragdoll
                 e.Draw(sb);
             }
 
-            if (depthTex != null)
+            if (depthTex != null && !asleep)
             {
                 //sb.Draw(depthTex, _body.Body.Position, null, Color.White, depthTexRot, depthTexLoc, .2f, SpriteEffects.FlipVertically, .5f);
 
-                sb.Draw(depthTex, _body.Body.Position, null, new Color(1, 1, 1, .7f), depthTexRot, depthTexLoc, depthTexScale, SpriteEffects.FlipVertically, 0);
+                sb.Draw(depthTex, _body.Body.Position, null, new Color(1, 1, 1, .8f), depthTexRot, depthTexLoc, depthTexScale, SpriteEffects.FlipVertically, 0);
 
                 //sb.Draw(depthTex, new Vector2(-10, -10), Color.Blue);
             }
@@ -380,5 +382,7 @@ namespace KinectRagdoll.Ragdoll
         {
             this.depthTex = depthTex;
         }
+
+       
     }
 }

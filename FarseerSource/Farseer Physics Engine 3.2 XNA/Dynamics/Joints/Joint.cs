@@ -122,6 +122,7 @@ namespace FarseerPhysics.Dynamics.Joints
     [DataContract(Name = "Joint", Namespace = "http://www.imcool.com")]
     [KnownType(typeof(FixedRevoluteJoint))]
     [KnownType(typeof(RevoluteJoint))]
+    [KnownType(typeof(DistanceJoint))]
     public abstract class Joint
     {
         /// <summary>

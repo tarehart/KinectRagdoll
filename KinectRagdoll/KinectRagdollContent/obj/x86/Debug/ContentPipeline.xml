@@ -257,6 +257,24 @@
       <Output>obj\x86\Debug\Models\thing_0.xml</Output>
       <Time>2011-01-21T21:45:44.4432444-05:00</Time>
     </Item>
+    <Item>
+      <Source>Toolbox\menu.png</Source>
+      <Name>Toolbox\menu</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Toolbox\menu.xnb</Output>
+      <Time>2011-06-22T20:15:44.6186862-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Toolbox\showtoolbox.png</Source>
+      <Name>Toolbox\showtoolbox</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Toolbox\showtoolbox.xnb</Output>
+      <Time>2011-06-22T20:28:23.6721344-04:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

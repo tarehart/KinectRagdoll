@@ -15,17 +15,19 @@ namespace KinectRagdoll.Equipment
     {
 
         public bool thrustOn = false;
-        private float feetThrust;
-        private float rightHandThrust;
-        private float leftHandThrust;
-        private const float slowDamping = .9f;
+        //private float feetThrust;
+        //private float rightHandThrust;
+        //private float leftHandThrust;
 
-        private Random rand;
+        protected float thrust;
+        //private const float slowDamping = .9f;
 
-        private int POST_THRUST_TIME = 100;
-        protected int postThrustTimer = 0;
+        protected Random rand;
 
-        private RagdollMuscle ragdoll;
+        //private int POST_THRUST_TIME = 100;
+        //protected int postThrustTimer = 0;
+
+        protected RagdollMuscle ragdoll;
 
         public JetPack(RagdollMuscle ragdoll)
         {
@@ -33,79 +35,70 @@ namespace KinectRagdoll.Equipment
             rand = new Random();
 
             ragdoll.KnockOut += new EventHandler(ragdoll_KnockOut);
-            ragdoll.WakeUp += new EventHandler(ragdoll_WakeUp);
+            //ragdoll.WakeUp += new EventHandler(ragdoll_WakeUp);
         }
 
         void ragdoll_KnockOut(object sender, EventArgs e)
         {
-            ragdoll._body.Body.LinearDamping = 0;
+            //ragdoll._body.Body.LinearDamping = 0;
             StopThrust();
-            ragdoll._body.Body.AngularDamping = 0;
+            //ragdoll._body.Body.AngularDamping = 0;
         }
 
-        void ragdoll_WakeUp(object sender, EventArgs e)
-        {
-            ragdoll._body.Body.LinearDamping = slowDamping;
-        }
+        //void ragdoll_WakeUp(object sender, EventArgs e)
+        //{
+        //    ragdoll._body.Body.LinearDamping = slowDamping;
+        //}
 
         
 
 
         public override void Update(SkeletonInfo info)
         {
-            float thrust = (((info.leftHand.Z + info.rightHand.Z) / 2) - info.torso.Z) * 5f;
+
+            if (ragdoll.asleep) return;
+
+            thrust = (((info.leftHand.Z + info.rightHand.Z) / 2) - info.torso.Z) * 3f;
             if (thrust > 0)
-                StartThrust(thrust);
-            else StopThrust();
-
-            if (postThrustTimer > 0)
             {
-                postThrustTimer--;
-                if (postThrustTimer == 0)
-                    ragdoll._body.Body.LinearDamping = 0;
+                if (!thrustOn)
+                    StartThrust();
 
-                
+                ApplyThrustForce();
+            }
+            else if (thrustOn)
+            {
+                StopThrust();
             }
 
-            Thrust();
+            
 
-            if (thrustOn)
-            {
-                Vector3 v3 = info.head - info.torso;
-                Vector2 v2 = info.project(v3, RagdollBase.height);
+            
 
-
-                float personAngle = (float)(Math.Atan2(v2.Y, v2.X) - Math.PI / 2);
-                float ragdollAngle = ragdoll._body.Body.Rotation;
-                float diff = MathHelp.getRadDiff(ragdollAngle, personAngle);
-                float torque = 150;
-                if (diff < 0) torque *= -1;
-                if (thrustOn) torque *= 2;
-
-                ragdoll._body.Body.ApplyTorque(torque);
-                ragdoll._body.Body.AngularDamping = 5f;
-            }
+            
         }
 
         public override void Draw(SpriteBatch sb)
         {
             if (thrustOn && !ragdoll.asleep)
             {
-                drawLimbThrust(ragdoll._lowerLeftLeg, sb, feetThrust);
-                drawLimbThrust(ragdoll._lowerRightLeg, sb, feetThrust);
-                drawLimbThrust(ragdoll._lowerLeftArm, sb, leftHandThrust);
-                drawLimbThrust(ragdoll._lowerRightArm, sb, rightHandThrust);
+                drawLimbThrust(ragdoll._lowerLeftLeg, sb, thrust);
+                drawLimbThrust(ragdoll._lowerRightLeg, sb, thrust);
+                drawLimbThrust(ragdoll._lowerLeftArm, sb, thrust);
+                drawLimbThrust(ragdoll._lowerRightArm, sb, thrust);
 
             }
         }
 
-        private void Thrust()
+        protected void ApplyThrustForce()
         {
             if (ragdoll.asleep || !thrustOn) return;
-            applyLimbThrust(ragdoll._lowerLeftLeg, Math.PI / 2, 3 * feetThrust);
-            applyLimbThrust(ragdoll._lowerRightLeg, Math.PI / 2, 3 * feetThrust);
-            applyLimbThrust(ragdoll._lowerRightArm, Math.PI / 2, 4f * rightHandThrust);
-            applyLimbThrust(ragdoll._lowerLeftArm, Math.PI / 2, 4f * leftHandThrust);
+            float armThrust = 4 * thrust;
+            float legThrust = 3 * thrust;
+            applyLimbThrust(ragdoll._lowerLeftLeg, Math.PI / 2, 3 * legThrust);
+            applyLimbThrust(ragdoll._lowerRightLeg, Math.PI / 2, 3 * legThrust);
+            applyLimbThrust(ragdoll._lowerRightArm, Math.PI / 2, 4f * armThrust);
+            applyLimbThrust(ragdoll._lowerLeftArm, Math.PI / 2, 4f * armThrust);
         }
 
         private void applyLimbThrust(Fixture limb, double angleOffset, float thrustFactor)
@@ -113,20 +106,6 @@ namespace KinectRagdoll.Equipment
             float rot = limb.Body.Rotation + (float)angleOffset;
             Vector2 vec = new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot));
             limb.Body.ApplyLinearImpulse(vec * thrustFactor);
-
-            //DebugMaterial matBody = new DebugMaterial(MaterialType.Squares)
-            //{
-            //    Color = Color.DeepSkyBlue,
-            //    Scale = 8f
-            //};
-
-            //limb.Body.BodyType = BodyType.Static;
-
-            //Fixture c = FixtureFactory.CreateCircle(world, .5f, .01f, vec * 10 + limb.Body.Position, matBody);
-            //c.CollisionFilter.CollidesWith = Category.None;
-
-            //c = FixtureFactory.CreateCircle(world, .2f, .01f, limb.Body.Position, matBody);
-            //c.CollisionFilter.CollidesWith = Category.None;
 
         }
 
@@ -142,47 +121,40 @@ namespace KinectRagdoll.Equipment
 
         }
 
-        internal void StartThrust(float allThrust)
+        protected virtual void StartThrust()
         {
-            if (allThrust < 0)
-            {
-                StopThrust();
-                return;
-            }
+            
             thrustOn = true;
 
-            this.feetThrust = allThrust;
-            this.rightHandThrust = allThrust;
-            this.leftHandThrust = allThrust;
 
-            postThrustTimer = POST_THRUST_TIME;
-            ragdoll._body.Body.LinearDamping = slowDamping;
+            //postThrustTimer = POST_THRUST_TIME;
+            //ragdoll._body.Body.LinearDamping = slowDamping;
 
         }
 
-        internal void StartThrust(float feetThrust, float rightHandThrust, float leftHandThrust)
-        {
-            thrustOn = true;
+        //internal void StartThrust(float feetThrust, float rightHandThrust, float leftHandThrust)
+        //{
+        //    thrustOn = true;
 
-            if (rightHandThrust < 0) rightHandThrust = 0;
-            if (leftHandThrust < 0) leftHandThrust = 0;
-            if (feetThrust < 0) feetThrust = 0;
+        //    if (rightHandThrust < 0) rightHandThrust = 0;
+        //    if (leftHandThrust < 0) leftHandThrust = 0;
+        //    if (feetThrust < 0) feetThrust = 0;
 
-            this.feetThrust = feetThrust;
-            this.rightHandThrust = rightHandThrust;
-            this.leftHandThrust = leftHandThrust;
-
-
+        //    this.feetThrust = feetThrust;
+        //    this.rightHandThrust = rightHandThrust;
+        //    this.leftHandThrust = leftHandThrust;
 
 
-            postThrustTimer = POST_THRUST_TIME;
-            ragdoll._body.Body.LinearDamping = slowDamping;
-        }
 
-        internal void StopThrust()
+
+        //    postThrustTimer = POST_THRUST_TIME;
+        //    ragdoll._body.Body.LinearDamping = slowDamping;
+        //}
+
+        protected virtual void StopThrust()
         {
             thrustOn = false;
-            feetThrust = 0;
+            //feetThrust = 0;
         }
     }
 }

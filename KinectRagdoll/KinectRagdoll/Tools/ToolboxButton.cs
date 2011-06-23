@@ -11,11 +11,9 @@ namespace KinectRagdoll.Sandbox
     class ToolboxButton
     {
         private Rectangle drawRectangle;
-        private Texture2D texture;
 
-        public ToolboxButton(Texture2D tex, Rectangle rectangle)
+        public ToolboxButton(Rectangle rectangle)
         {
-            this.texture = tex;
             this.drawRectangle = rectangle;
 
 
@@ -27,7 +25,6 @@ namespace KinectRagdoll.Sandbox
             {
                 SpriteHelper.DrawRectangle(sb, drawRectangle, Color.Orange);
             }
-            sb.Draw(texture, drawRectangle, Color.White);
         }
 
         internal bool WasClicked(Vector2 clickPixel)

@@ -41,7 +41,8 @@ namespace FarseerPhysics.DebugViews
         private BasicEffect _texturedEffect;
 
         //Textured drawing
-        private Dictionary<MaterialType, List<Fixture>> _texturedObjects;
+        //private Dictionary<MaterialType, List<Fixture>> _texturedObjects;
+        private List<Fixture> _texturedObjects;
         private List<Fixture> _texturedEdges;
         private Texture2D _lineTexture;
         private MaterialManager _materialManager;
@@ -157,25 +158,29 @@ namespace FarseerPhysics.DebugViews
             }
             else if (fixture.ShapeType == ShapeType.Circle || fixture.ShapeType == ShapeType.Polygon)
             {
-                if (fixture.UserData is DebugMaterial)
-                {
-                    DebugMaterial tempMat = (DebugMaterial)fixture.UserData;
-                    if (!_texturedObjects.ContainsKey(tempMat.Type))
-                    {
-                        _texturedObjects[tempMat.Type] = new List<Fixture>();
-                    }
-                    _texturedObjects[tempMat.Type].Add(fixture);
-                }
+                //if (fixture.UserData is DebugMaterial)
+                //{
+                    _texturedObjects.Add(fixture);
+
+                    //DebugMaterial tempMat = (DebugMaterial)fixture.UserData;
+                    //if (!_texturedObjects.ContainsKey(tempMat.Type))
+                    //{
+                    //    _texturedObjects[tempMat.Type] = new List<Fixture>();
+                    //}
+                    //_texturedObjects[tempMat.Type].Add(fixture);
+                //}
             }
         }
 
         private void RemoveFixture(Fixture fixture)
         {
             _texturedEdges.Remove(fixture);
-            foreach (KeyValuePair<MaterialType, List<Fixture>> p in _texturedObjects)
-            {
-                p.Value.Remove(fixture);
-            }
+            //foreach (KeyValuePair<MaterialType, List<Fixture>> p in _texturedObjects)
+            //{
+            //    p.Value.Remove(fixture);
+            //}
+
+            _texturedObjects.Remove(fixture);
         }
 
         /// <summary>
@@ -591,22 +596,27 @@ namespace FarseerPhysics.DebugViews
                 _texturedEffect.Alpha = 1f;
             }
 
-            foreach (KeyValuePair<MaterialType, List<Fixture>> pair in _texturedObjects)
+            foreach (MaterialType mat in Enum.GetValues(typeof(MaterialType)))
             {
-                foreach (Fixture f in pair.Value)
+
+                foreach (Fixture f in _texturedObjects)
                 {
-                    if (f.Shape.ShapeType == ShapeType.Circle)
+                    if (f.UserData.Type == mat)
                     {
-                        DrawTexturedCircle(f);
-                    }
-                    if (f.Shape.ShapeType == ShapeType.Polygon)
-                    {
-                        DrawTexturedPolygon(f);
+
+                        if (f.Shape.ShapeType == ShapeType.Circle)
+                        {
+                            DrawTexturedCircle(f);
+                        }
+                        if (f.Shape.ShapeType == ShapeType.Polygon)
+                        {
+                            DrawTexturedPolygon(f);
+                        }
                     }
                 }
                 if (_fillCount > 0)
                 {
-                    if (_materialManager.GetMaterialWrap(pair.Key))
+                    if (_materialManager.GetMaterialWrap(mat))
                     {
                         _device.SamplerStates[0] = SamplerState.LinearWrap;
                     }
@@ -614,7 +624,7 @@ namespace FarseerPhysics.DebugViews
                     {
                         _device.SamplerStates[0] = SamplerState.LinearClamp;
                     }
-                    _texturedEffect.Texture = _materialManager.GetMaterialTexture(pair.Key);
+                    _texturedEffect.Texture = _materialManager.GetMaterialTexture(mat);
                     _texturedEffect.Techniques[0].Passes[0].Apply();
                     _device.DrawUserPrimitives(PrimitiveType.TriangleList, _vertsFill, 0, _fillCount);
                 }
@@ -1227,7 +1237,8 @@ namespace FarseerPhysics.DebugViews
             _materialManager.LoadContent(content);
 
             _lineTexture = content.Load<Texture2D>("Materials/line");
-            _texturedObjects = new Dictionary<MaterialType, List<Fixture>>();
+            //_texturedObjects = new Dictionary<MaterialType, List<Fixture>>();
+            _texturedObjects = new List<Fixture>();
             _texturedEdges = new List<Fixture>();
 
             //For now, the local vertices are only used by the graph.

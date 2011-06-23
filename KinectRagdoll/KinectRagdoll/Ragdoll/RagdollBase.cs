@@ -139,10 +139,10 @@ namespace KinectRagdoll.Ragdoll
                 Color = Color.DeepSkyBlue,
                 Scale = 2f
             };
-            DebugMaterial matBody = new DebugMaterial(MaterialType.Squares)
+            DebugMaterial matBody = new DebugMaterial(MaterialType.Circles)
             {
                 Color = Color.DeepSkyBlue,
-                Scale = 8f
+                Scale = 2f
             };
 
             //Head
@@ -320,6 +320,15 @@ namespace KinectRagdoll.Ragdoll
         public bool OwnsFixture(Fixture f)
         {
             return _allFixtures.Contains(f);
+        }
+
+        internal bool OwnsBody(FarseerPhysics.Dynamics.Body b)
+        {
+            foreach (Fixture f in _allFixtures)
+            {
+                if (f.Body == b) return true;
+            }
+            return false;
         }
     }
 }

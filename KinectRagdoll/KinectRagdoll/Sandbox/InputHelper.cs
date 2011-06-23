@@ -46,6 +46,7 @@ namespace KinectRagdoll.Sandbox
         /// </summary>
         public void Update()
         {
+
             LastKeyboardState = CurrentKeyboardState;
             CurrentKeyboardState = Keyboard.GetState();
 

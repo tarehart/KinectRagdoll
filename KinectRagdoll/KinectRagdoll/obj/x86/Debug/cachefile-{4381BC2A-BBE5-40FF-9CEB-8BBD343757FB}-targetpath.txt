@@ -24,3 +24,5 @@ Content\Generics\rectangle.xnb
 Content\Generics\circle.xnb
 Content\circletool.xnb
 Content\font.xnb
+Content\Toolbox\menu.xnb
+Content\Toolbox\showtoolbox.xnb

@@ -424,7 +424,11 @@ namespace FarseerPhysics.Dynamics
         /// <value>The type of the shape.</value>
         public ShapeType ShapeType
         {
-            get { return Shape.ShapeType; }
+            get { 
+                if (Shape != null) 
+                    return Shape.ShapeType;
+                return ShapeType.Polygon; // This is a failsafe for a bug I haven't figured out yet. Shape should not be null.
+            }
         }
 
         /// <summary>

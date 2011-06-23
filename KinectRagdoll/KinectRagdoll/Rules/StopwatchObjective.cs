@@ -10,6 +10,7 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Dynamics.Contacts;
 using System.Runtime.Serialization;
 using FarseerPhysics.DebugViews;
+using KinectRagdoll.Sandbox;
 
 namespace KinectRagdoll.Rules
 {
@@ -25,21 +26,17 @@ namespace KinectRagdoll.Rules
         private Vector2 mePixel;
         [DataMember()]
         internal Fixture fixture;
-        public DebugMaterial oldMaterial;
+        //public DebugMaterial oldMaterial;
 
 
         public StopwatchObjective(KinectRagdollGame g, Fixture f)
             : base(g)
         {
             this.fixture = f;
-            oldMaterial = f.UserData;
-            DebugMaterial objectiveTex = new DebugMaterial(MaterialType.Stars)
-            {
-                Color = Color.OrangeRed,
-                Scale = 2f
-            };
+            //oldMaterial = f.UserData;
+            
 
-            f.UserData = objectiveTex;
+            FarseerTextures.ApplyTexture(f, FarseerTextures.TextureType.Objective);
 
             Init(g);
         }

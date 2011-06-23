@@ -18,17 +18,17 @@ namespace KinectRagdoll.Sandbox
             base.OnClosing(e);
         }
 
-        protected override void  OnMouseEnter(EventArgs e)
-        {
+        //protected override void  OnMouseEnter(EventArgs e)
+        //{
  
-            InputManager.DisregardInputEvents = true;
-            base.OnMouseEnter(e);
-        }
+        //    InputManager.DisregardInputEvents = true;
+        //    base.OnMouseEnter(e);
+        //}
 
-        protected override void OnMouseLeave(EventArgs e)
-        {
-            InputManager.DisregardInputEvents = false;
-            base.OnMouseLeave(e);
-        }
+        //protected override void OnMouseLeave(EventArgs e)
+        //{
+        //    InputManager.DisregardInputEvents = false;
+        //    base.OnMouseLeave(e);
+        //}
     }
 }
