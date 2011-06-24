@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using KinectRagdoll.Ragdoll;
+using Microsoft.Xna.Framework.Audio;
 
 namespace KinectRagdoll.Kinect
 {
@@ -17,6 +18,9 @@ namespace KinectRagdoll.Kinect
         internal RagdollMuscle ragdoll;
 
         public static Texture2D thrustTex;
+        public static SoundEffect thrustSound;
+        public static SoundEffect crackSound;
+        public static SoundEffect revThrustSound;
 
         public RagdollManager()
         {
@@ -34,6 +38,10 @@ namespace KinectRagdoll.Kinect
         public void LoadContent(ContentManager content)
         {
             thrustTex = content.Load<Texture2D>("thrust");
+            thrustSound = content.Load<SoundEffect>("Sounds\\rocket");
+            crackSound = content.Load<SoundEffect>("Sounds\\crack");
+            revThrustSound = content.Load<SoundEffect>("Sounds\\rocketdown");
+
             
         }
 

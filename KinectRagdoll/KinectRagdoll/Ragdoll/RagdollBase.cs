@@ -20,6 +20,7 @@ namespace KinectRagdoll.Ragdoll
         protected const float LegDensity = .8f;
         protected const float LimbAngularDamping = .1f;
         protected static float elbowDistance = 2;
+        public bool Possessed { get; private set; }
 
         [DataMember()]
         internal Fixture _body { get; private set; }
@@ -69,6 +70,9 @@ namespace KinectRagdoll.Ragdoll
          [DataMember()]
         public static float height = 10;
 
+        public event EventHandler PossessedByPlayer;
+        public event EventHandler UnpossessedByPlayer;
+
 
         public RagdollBase(World world, Vector2 position)
         {
@@ -78,30 +82,99 @@ namespace KinectRagdoll.Ragdoll
 
         }
 
+
+        /// <summary>
+        /// Converts a location from gesture space to ragdoll space.
+        /// Gesture space is the kinect cooridinate system except normalized against user height and centered on the user's torso.
+        /// Ragdoll space is the coordinate system centered on and rotated with the ragdoll's body.
+        /// </summary>
+        /// <param name="gestureSpaceVector">A vector pointing from one position in gesture space to another.</param>
+        /// <returns>The equivalent location in ragdoll space.</returns>
+        public Vector2 GestureVectorToRagdollVector(Vector3 gestureSpaceLocation)
+        {
+            return new Vector2(height * gestureSpaceLocation.X, height * gestureSpaceLocation.Y);
+        }
+
+
+        
+
+
+        /// <summary>
+        /// Converts a relative vector (not a location) from kinect space to ragdoll space.
+        /// Kinect space is the kinect cooridinate system.
+        /// Ragdoll space is the coordinate system centered on and rotated with the ragdoll's body.
+        /// </summary>
+        /// <param name="gestureSpaceVector">A vector pointing from one position in kinect space to another.</param>
+        /// <returns>The equivalent vector in ragdoll space.</returns>
+        public Vector2 KinectVectorToRagdollVector(Vector3 kinectVector, SkeletonInfo info)
+        {
+            return GestureVectorToRagdollVector(info.VectorToGestureSpace(kinectVector));
+           
+        }
+
+        
+
+        public Vector2 RagdollLocationToFarseerLocation(Vector2 ragdollLocation)
+        {
+
+            Vector2 farseerLocation = ragdollLocation;
+            Matrix m = Matrix.CreateRotationZ(Body.Rotation);
+            farseerLocation = Vector2.Transform(farseerLocation, m);
+            farseerLocation += Body.Position;
+
+            return farseerLocation;
+        }
+
+        internal Vector2 RagdollVectorToFarseerVector(Vector2 ragdollVector)
+        {
+            Vector2 farseerVector = ragdollVector;
+            Matrix m = Matrix.CreateRotationZ(Body.Rotation);
+            farseerVector = Vector2.Transform(farseerVector, m);
+
+            return farseerVector;
+        }
+
         public virtual void Update(SkeletonInfo info)
         {
 
             Vector3 vec = info.rightHand - info.rightShoulder;
-            Vector2 v2 = info.project(vec, RagdollBase.height);
-            setShoulderToRightHand(v2);
+            Vector2 rSpace = KinectVectorToRagdollVector(vec, info);
+            setShoulderToRightHand(rSpace);
 
             //float pracScaler = v2.X / vec.X;
 
             vec = info.leftHand - info.leftShoulder;
-            v2 = info.project(vec, RagdollBase.height);
-            setShoulderToLeftHand(v2);
+            rSpace = KinectVectorToRagdollVector(vec, info);
+            setShoulderToLeftHand(rSpace);
 
             vec = info.rightFoot - info.rightHip;
-            v2 = info.project(vec, RagdollBase.height);
-            setHipToRightFoot(v2);
+            rSpace = KinectVectorToRagdollVector(vec, info);
+            setHipToRightFoot(rSpace);
 
             vec = info.leftFoot - info.leftHip;
-            v2 = info.project(vec, RagdollBase.height);
-            setHipToLeftFoot(v2);
+            rSpace = KinectVectorToRagdollVector(vec, info);
+            setHipToLeftFoot(rSpace);
 
             vec = info.head - info.torso;
-            v2 = info.project(vec, RagdollBase.height);
-            setChestToHead(v2);
+            rSpace = KinectVectorToRagdollVector(vec, info);
+            setChestToHead(rSpace);
+
+            if (!Possessed && info.Tracking)
+            {
+                Possessed = true;
+                if (PossessedByPlayer != null)
+                {
+                    PossessedByPlayer(this, null);
+                }
+            }
+            else if (Possessed && !info.Tracking)
+            {
+                Possessed = false;
+                if (UnpossessedByPlayer != null)
+                {
+                    UnpossessedByPlayer(this, null);
+                }
+            }
 
             
         }

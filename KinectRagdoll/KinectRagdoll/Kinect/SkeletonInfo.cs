@@ -54,6 +54,8 @@ namespace KinectRagdoll.Kinect
             leftHip = new Vector3(-.1f, .1f, 2);
             rightFoot = new Vector3(.2f, -.8f, 2);
             leftFoot = new Vector3(-.2f, -.8f, 2);
+            centerShoulder = new Vector3(0, .5f, 2);
+            centerHip = new Vector3(0, .1f, 2);
         }
 
         public Vector3 RightHandVel
@@ -158,15 +160,19 @@ namespace KinectRagdoll.Kinect
         }
 
 
-        public Vector2 project(Vector3 vec, float desiredHeight)
+        public Vector3 LocationToGestureSpace(Vector3 vec)
         {
 
             Debug.Assert(skelHeight != 0);
+            vec -= torso;
+            return vec / skelHeight;
+        }
 
-            Vector2 v = new Vector2(vec.X, vec.Y);
-            v *= desiredHeight / skelHeight;
+        public Vector3 VectorToGestureSpace(Vector3 vec)
+        {
 
-            return v;
+            Debug.Assert(skelHeight != 0);
+            return vec / skelHeight;
         }
 
         /// <summary>

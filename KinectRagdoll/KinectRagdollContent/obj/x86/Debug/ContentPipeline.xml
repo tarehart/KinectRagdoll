@@ -275,6 +275,33 @@
       <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Toolbox\showtoolbox.xnb</Output>
       <Time>2011-06-22T20:28:23.6721344-04:00</Time>
     </Item>
+    <Item>
+      <Source>Sounds\rocket.wav</Source>
+      <Name>Sounds\rocket</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Sounds\rocket.xnb</Output>
+      <Time>2011-06-23T20:00:03.4933411-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Sounds\crack.wav</Source>
+      <Name>Sounds\crack</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Sounds\crack.xnb</Output>
+      <Time>2011-06-23T20:08:42.0098446-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Sounds\rocketdown.wav</Source>
+      <Name>Sounds\rocketdown</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Sounds\rocketdown.xnb</Output>
+      <Time>2011-06-23T20:49:50.8083322-04:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

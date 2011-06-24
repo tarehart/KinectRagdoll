@@ -23,11 +23,14 @@ namespace KinectRagdoll.Equipment
 
         
 
-        protected override void fire(Vector2 hand, Vector2 handVel, bool rightHand)
+        protected override void fire(Vector3 hand, Vector3 handVel, bool rightHand)
         {
-            Vector2 velNorm = handVel;
-            velNorm.Normalize();
-            new PunchBullet(hand + velNorm * 1f, handVel, world);
+
+            Vector2 farseerHandVel = ragdoll.RagdollVectorToFarseerVector( ragdoll.GestureVectorToRagdollVector(handVel));
+            Vector2 farseerHandLoc = ragdoll.RagdollLocationToFarseerLocation(ragdoll.GestureVectorToRagdollVector(hand));
+
+
+            new PunchBullet(farseerHandLoc + Vector2.Normalize(farseerHandVel) * 1f, farseerHandVel, world);
             
         }
        

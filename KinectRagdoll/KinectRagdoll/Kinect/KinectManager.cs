@@ -27,6 +27,7 @@ namespace KinectRagdoll.Kinect
         public Microsoft.Xna.Framework.Color bkColor = new Microsoft.Xna.Framework.Color(230, 230, 230);
         Random rand = new Random();
         private bool trackingPlayer = false;
+        int frame = 0;
 
 
 
@@ -87,7 +88,9 @@ namespace KinectRagdoll.Kinect
 
         void nui_DepthFrameReady(object sender, ImageFrameReadyEventArgs e)
         {
-           
+
+            
+
             for (int i = 0; i < 16; i++)
             {
                 if (KinectRagdollGame.graphicsDevice.Textures[i] == depthTex)
@@ -101,6 +104,7 @@ namespace KinectRagdoll.Kinect
             byte[] cBytes = GetColorBytes(depth);
 
             depthTex.SetData<byte>(cBytes);
+            
 
             skeletonInfo.Tracking = trackingPlayer;
 

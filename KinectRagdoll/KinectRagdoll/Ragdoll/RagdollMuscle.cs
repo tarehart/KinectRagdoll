@@ -67,7 +67,7 @@ namespace KinectRagdoll.Ragdoll
 
             equipment = new List<AbstractEquipment>();
             equipment.Add(new StabilizedJetpack(this));
-            //equipment.Add(new PunchGuns(this, world, 20));
+            equipment.Add(new PunchGuns(this, world, 20));
             equipment.Add(new SpideySilk(this, world, 80, 100));
         
         }
@@ -156,6 +156,9 @@ namespace KinectRagdoll.Ragdoll
 
         private void knockOut()
         {
+            if (!asleep)
+                RagdollManager.crackSound.Play();
+
             asleep = true;
             jRightArm.MotorEnabled = false;
             jRightArmBody.MotorEnabled = false;
@@ -165,6 +168,8 @@ namespace KinectRagdoll.Ragdoll
             jLeftLegBody.MotorEnabled = false;
             jRightLeg.MotorEnabled = false;
             jRightLegBody.MotorEnabled = false;
+
+            
 
             KnockOut(this, null);
            
@@ -383,6 +388,8 @@ namespace KinectRagdoll.Ragdoll
             this.depthTex = depthTex;
         }
 
-       
+
+
+        
     }
 }

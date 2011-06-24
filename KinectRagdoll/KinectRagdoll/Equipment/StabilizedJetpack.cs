@@ -51,6 +51,14 @@ namespace KinectRagdoll.Equipment
 
         }
 
+        protected override void ragdoll_KnockOut(object sender, EventArgs e)
+        {
+            base.ragdoll_KnockOut(sender, e);
+
+            stoppingThrustVector = Vector2.Zero;
+            ticksAfterThrust = -1;
+        }
+
         private void ApplyStoppingForce()
         {
             ragdoll.Body.ApplyLinearImpulse(stoppingThrustVector);
@@ -60,6 +68,8 @@ namespace KinectRagdoll.Equipment
         {
             base.StopThrust();
             ticksAfterThrust = 0;
+            if (!ragdoll.asleep)
+                RagdollManager.revThrustSound.Play(.5f, 0, 0);
 
         }
 

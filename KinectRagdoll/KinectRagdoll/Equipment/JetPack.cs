@@ -8,6 +8,7 @@ using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using KinectRagdoll.MyMath;
 using KinectRagdoll.Ragdoll;
+using System.Timers;
 
 namespace KinectRagdoll.Equipment
 {
@@ -28,6 +29,7 @@ namespace KinectRagdoll.Equipment
         //protected int postThrustTimer = 0;
 
         protected RagdollMuscle ragdoll;
+        private Timer soundTimer;
 
         public JetPack(RagdollMuscle ragdoll)
         {
@@ -35,10 +37,21 @@ namespace KinectRagdoll.Equipment
             rand = new Random();
 
             ragdoll.KnockOut += new EventHandler(ragdoll_KnockOut);
+            soundTimer = new Timer(100);
+            soundTimer.Elapsed += new ElapsedEventHandler(soundTimer_Elapsed);
             //ragdoll.WakeUp += new EventHandler(ragdoll_WakeUp);
         }
 
-        void ragdoll_KnockOut(object sender, EventArgs e)
+        void soundTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            float intensity = -(float)Math.Pow(2, -2 * thrust) + 1;
+
+            if (thrust > 0)
+                RagdollManager.thrustSound.Play(intensity, intensity, 0);
+                
+        }
+
+        protected virtual void ragdoll_KnockOut(object sender, EventArgs e)
         {
             //ragdoll._body.Body.LinearDamping = 0;
             StopThrust();
@@ -125,6 +138,8 @@ namespace KinectRagdoll.Equipment
         {
             
             thrustOn = true;
+            //RagdollManager.thrustSound.Play(.5f, 0, 0);
+            soundTimer.Start();
 
 
             //postThrustTimer = POST_THRUST_TIME;
@@ -154,6 +169,7 @@ namespace KinectRagdoll.Equipment
         protected virtual void StopThrust()
         {
             thrustOn = false;
+            soundTimer.Stop();
             //feetThrust = 0;
         }
     }

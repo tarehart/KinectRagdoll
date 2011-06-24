@@ -7,6 +7,7 @@ using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics.Joints;
 using KinectRagdoll.Drawing;
+using KinectRagdoll.Kinect;
 
 namespace KinectRagdoll.Equipment
 {
@@ -16,11 +17,12 @@ namespace KinectRagdoll.Equipment
         protected int range;
         protected DistanceJoint rightSilk;
         protected DistanceJoint leftSilk;
-        protected const float DETACH_RADIUS = 7f;
+        protected const float DETACH_RADIUS = .28f;
 
-        private const float silkForce = 1.5f;
-        private const float SPEED_THRESHOLD = .5f;
-        private const float EXTENSION_THRESHOLD = 7f;
+        private const float silkForce = 1.7f;
+        //private const float SPEED_THRESHOLD = .6f;
+        //private const float SPEED_THRESHOLD = .6f;
+        //private const float EXTENSION_THRESHOLD = 2.3f;
 
         public SpideySilk(RagdollMuscle ragdoll, World world, int cooldown, int range)
             : base(ragdoll, world, cooldown)
@@ -35,15 +37,19 @@ namespace KinectRagdoll.Equipment
             UndoSilk(false);
         }
 
-        protected override void fire(Vector2 hand, Vector2 handVel, bool rightHand)
+        protected override void fire(Vector3 hand, Vector3 handVel, bool rightHand)
         {
+
+            Vector2 farseerHandVel = ragdoll.GestureVectorToRagdollVector(handVel);
+            Vector2 farseerHandLoc = ragdoll.RagdollLocationToFarseerLocation(ragdoll.GestureVectorToRagdollVector(hand));
+
             if (rightHand)
             {
-                world.RayCast(SilkSlingRight, hand, hand + Vector2.Normalize(handVel) * range);
+                world.RayCast(SilkSlingRight, farseerHandLoc, farseerHandLoc + Vector2.Normalize(farseerHandVel) * range);
             }
             else
             {
-                world.RayCast(SilkSlingLeft, hand, hand + Vector2.Normalize(handVel) * range);
+                world.RayCast(SilkSlingLeft, farseerHandLoc, farseerHandLoc + Vector2.Normalize(farseerHandVel) * range);
             }
             
         }
@@ -133,12 +139,12 @@ namespace KinectRagdoll.Equipment
         {
             base.Update(info);
 
-            if (leftSilk != null && handRetracted(leftHand))
+            if (leftSilk != null && handRetracted(leftHand, leftShoulder))
             {
                 UndoSilk(false);
             }
 
-            if (rightSilk != null && handRetracted(rightHand))
+            if (rightSilk != null && handRetracted(rightHand, rightShoulder))
             {
                 UndoSilk(true);
             }
@@ -146,41 +152,57 @@ namespace KinectRagdoll.Equipment
 
         }
 
-        private bool handRetracted(Vector2 hand)
+        private bool handRetracted(Vector3 hand, Vector3 shoulder)
         {
 
             //Vector2 centerShoulders = (ragdoll.Body.Position + ragdoll._head.Body.Position) / 2;
-            Vector2 bodyToHand = hand - ragdoll.Body.Position;
-            return bodyToHand.LengthSquared() < DETACH_RADIUS;
+            Vector3 shoulderToHand = hand - shoulder;
+            return shoulderToHand.Length() < DETACH_RADIUS;
             
         }
 
-        protected override bool shouldFire(Vector2 hand, Vector2 handVel, Vector2 shoulder)
+        /*protected override bool shouldFire(Vector3 hand, Vector3 handVel, Vector3 shoulder)
         {
-            if (handVel.LengthSquared() > SPEED_THRESHOLD)
+            if (handVel.Length() > SPEED_THRESHOLD)
             {
 
 
                 Vector2 shoulderToHand = hand - shoulder;
-                if (shoulderToHand.LengthSquared() > EXTENSION_THRESHOLD)
+                if (shoulderToHand.Length() > EXTENSION_THRESHOLD)
                 {
                     handVel.Normalize();
                     shoulderToHand.Normalize();
-                    return Vector2.Dot(handVel, shoulderToHand) > .7f;
+                    if (Vector2.Dot(handVel, shoulderToHand) > .6f)
+                    {
+                        Console.WriteLine("Silked ");
+                        return true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Off Kilter");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Not extended " + shoulderToHand.Length());
                 }
             }
+            
 
+            
             return false;
-        }
+        }*/
 
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch sb)
         {
+            base.Draw(sb);
+
             if (leftSilk != null) {
-                SpriteHelper.DrawLine(sb, leftSilk.WorldAnchorA, leftSilk.WorldAnchorB, .3f, Color.SkyBlue);
+                SpriteHelper.DrawLine(sb, leftSilk.WorldAnchorA, leftSilk.WorldAnchorB, .2f, Color.Orange);
             }
 
             if (rightSilk != null) {
-                SpriteHelper.DrawLine(sb, rightSilk.WorldAnchorA, rightSilk.WorldAnchorB, .3f, Color.SkyBlue);
+                SpriteHelper.DrawLine(sb, rightSilk.WorldAnchorA, rightSilk.WorldAnchorB, .2f, Color.Orange);
             }
             
             
@@ -192,13 +214,13 @@ namespace KinectRagdoll.Equipment
         /// <param name="hand"></param>
         /// <param name="info"></param>
         /// <returns></returns>
-        protected override Vector2 projectToFarseer(Vector3 hand, Kinect.SkeletonInfo info)
-        {
-            Vector2 v = info.project(hand, RagdollBase.height);
-            v += ragdoll.Body.Position;
+        //protected Vector2 projectToFarseerNoRotation(Vector3 hand, Vector3 torso, Kinect.SkeletonInfo info)
+        //{
+        //    Vector2 v = info.FlattenAndScale(hand - torso, RagdollBase.height);
+        //    v += ragdoll.Body.Position;
 
-            return v;
-        }
+        //    return v;
+        //}
         
 
     }
