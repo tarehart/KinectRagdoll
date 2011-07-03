@@ -363,7 +363,7 @@ namespace FarseerPhysics.Dynamics
         public void RemoveBody(Body body)
         {
             //You are removing a body twice?
-            Debug.Assert(!_bodyRemoveList.Contains(body));
+            //Debug.Assert(!_bodyRemoveList.Contains(body));
 
             if (!_bodyRemoveList.Contains(body))
                 _bodyRemoveList.Add(body);

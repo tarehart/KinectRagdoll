@@ -16,7 +16,7 @@ namespace KinectRagdoll.Equipment
     public class PunchGuns : PunchEquipment
     {
 
-        public PunchGuns(RagdollMuscle ragdoll, World world, int cooldown) : base(ragdoll, world, cooldown)
+        public PunchGuns(World world, int cooldown, RagdollMuscle ragdoll = null) : base(world, cooldown, ragdoll)
         {
            
         }

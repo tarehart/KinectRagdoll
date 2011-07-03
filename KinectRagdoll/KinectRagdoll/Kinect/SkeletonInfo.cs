@@ -22,9 +22,31 @@ namespace KinectRagdoll.Kinect
         public Vector3 leftHip;
         public Vector3 centerHip;
         public Vector3 centerShoulder;
+        public Vector3 leftWrist;
+        public Vector3 rightWrist;
 
-        private Vector3 oldRightHand;
-        private Vector3 oldLeftHand;
+        // In gesture space
+        public Vector3 leftWristVel;
+        public Vector3 rightWristVel;
+
+       
+
+        private Vector3 oldRightWrist;
+        private Vector3 oldLeftWrist;
+
+        private DateTime latestTime = DateTime.Now;
+        private DateTime timeBefore = DateTime.Now - new TimeSpan(0, 0, 1);
+
+        /// <summary>
+        /// Seconds elapsed between the previous skeleton update and the current one.
+        /// </summary>
+        public float TimeDiff
+        {
+            get
+            {
+                return (float)(latestTime - timeBefore).TotalSeconds;
+            }
+        }
         
 
         //private SkeletonCapability sc;
@@ -46,6 +68,8 @@ namespace KinectRagdoll.Kinect
         {
             leftHand = new Vector3(-.3f, .2f, 2);
             rightHand = new Vector3(.3f, .2f, 2);
+            leftWrist = new Vector3(-.28f, .2f, 2);
+            rightWrist = new Vector3(.28f, .2f, 2);
             leftShoulder = new Vector3(-.1f, .5f, 2);
             rightShoulder = new Vector3(.1f, .5f, 2);
             head = new Vector3(0, .8f, 2);
@@ -58,15 +82,15 @@ namespace KinectRagdoll.Kinect
             centerHip = new Vector3(0, .1f, 2);
         }
 
-        public Vector3 RightHandVel
-        {
-            get { return rightHand - oldRightHand; }
-        }
+        //public Vector3 RightHandVel
+        //{
+        //    get { return rightHand - oldRightHand; }
+        //}
 
-        public Vector3 LeftHandVel
-        {
-            get { return leftHand - oldLeftHand; }
-        }
+        //public Vector3 LeftHandVel
+        //{
+        //    get { return leftHand - oldLeftHand; }
+        //}
 
         public SkeletonInfo(bool mirror)
         {
@@ -83,8 +107,8 @@ namespace KinectRagdoll.Kinect
             Tracking = true;
 
             //this.myUser = myUser;
-            oldRightHand = rightHand;
-            oldLeftHand = leftHand;
+            oldRightWrist = rightWrist;
+            oldLeftWrist = leftWrist;
 
             pToV(data.Joints[JointID.HipCenter].Position, ref centerHip);
             pToV(data.Joints[JointID.ShoulderCenter].Position, ref centerShoulder);
@@ -113,6 +137,13 @@ namespace KinectRagdoll.Kinect
 
             pToV(data.Joints[JointID.HipRight].Position, ref rightHip);
 
+            pToV(data.Joints[JointID.WristLeft].Position, ref leftWrist);
+
+            pToV(data.Joints[JointID.WristRight].Position, ref rightWrist);
+
+            
+ 
+
             if (mirror)
             {
                 mirrorMe();
@@ -122,6 +153,12 @@ namespace KinectRagdoll.Kinect
 
             
             skelHeight = (head - leftHip).Length() * 2.4f;
+
+            timeBefore = latestTime;
+            latestTime = DateTime.Now;
+
+            leftWristVel = (LocationToGestureSpace(leftWrist) - LocationToGestureSpace(oldLeftWrist)) / TimeDiff;
+            rightWristVel = (LocationToGestureSpace(rightWrist) - LocationToGestureSpace(oldRightWrist)) / TimeDiff;
 
             
         }

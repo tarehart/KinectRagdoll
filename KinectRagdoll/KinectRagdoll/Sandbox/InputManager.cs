@@ -116,6 +116,16 @@ namespace KinectRagdoll.Sandbox
                 FormManager.Property.RotateSelected(inputHelper.MouseScrollWheelVelocity);
             }
 
+            if (inputHelper.IsNewKeyPress(Keys.F5))
+            {
+                game.actionCenter.PerformAction(ActionCenter.Actions.ToggleCamera);
+            }
+
+            if (inputHelper.IsNewKeyPress(Keys.U))
+            {
+                game.actionCenter.PerformAction(ActionCenter.Actions.PowerupEditor);
+            }
+
            
 
                 

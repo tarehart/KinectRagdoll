@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using KinectRagdoll.Kinect;
 using KinectRagdoll.Rules;
 using KinectRagdoll.Ragdoll;
+using KinectRagdoll.Powerups;
 
 namespace KinectRagdoll.Sandbox
 {
@@ -38,14 +39,17 @@ namespace KinectRagdoll.Sandbox
         public static void Save(World w, KinectRagdollGame g, String filename)
         {
 
+            KillMouseJoints(w, g);
+
+
             FileStream writer = new FileStream(filename, FileMode.Create);
 
             SaveFile sf = new SaveFile();
             foreach (Body b in w.BodyList) {
-                if (!g.ragdollManager.OwnsBody(b))
-                {
+                //if (!g.ragdollManager.OwnsBody(b))
+                //{
                     sf.bodyList.Add(b);
-                }
+                //}
             }
 
             foreach (Joint j in w.JointList)
@@ -63,8 +67,22 @@ namespace KinectRagdoll.Sandbox
 
             sf.objectives = g.objectiveManager.objectives;
 
+            sf.powerups = g.powerupManager.Powerups;
+
             WriteSaveFile(writer, sf);
 
+        }
+
+        private static void KillMouseJoints(World w, KinectRagdollGame g)
+        {
+            List<FixedMouseJoint> mjs = new List<FixedMouseJoint>();
+
+            foreach (Joint j in w.JointList)
+            {
+                if (j is FixedMouseJoint) w.RemoveJoint(j);
+            }
+
+            w.ProcessChanges();
         }
 
         private static void WriteSaveFile(FileStream writer, SaveFile sf)
@@ -103,7 +121,8 @@ namespace KinectRagdoll.Sandbox
         public RagdollMuscle ragdoll;
         [DataMember()]
         public List<Objective> objectives;
-
+        [DataMember()]
+        public List<Powerup> powerups;
 
         public void PopulateWorld(World w) {
 

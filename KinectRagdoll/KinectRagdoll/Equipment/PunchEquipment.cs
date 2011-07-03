@@ -10,31 +10,30 @@ using KinectRagdoll.Drawing;
 
 namespace KinectRagdoll.Equipment
 {
-    public abstract class PunchEquipment : AbstractEquipment
+    public abstract class PunchEquipment : WristVelocityEquipment
     {
-        protected Vector3 leftHand;
-        protected Vector3 rightHand;
-        protected Vector3 leftVel;
-        protected Vector3 rightVel;
+        //protected Vector3 leftHand;
+        //protected Vector3 rightHand;
+        //protected Vector3 leftVel;
+        //protected Vector3 rightVel;
         protected Vector3 leftShoulder;
         protected Vector3 rightShoulder;
 
         //private Vector2 leftShoulderFarseer;
 
-        protected RagdollMuscle ragdoll;
+        //protected RagdollMuscle ragdoll;
         protected World world;
         private int rightCooldown = 0;
         private int leftCooldown = 0;
-        private bool wasAsleep = true;
-        private bool wasPossessed = false;
+        
 
         protected int cooldown;
-        private const float SPEED_THRESHOLD = .04f;
-        private const float EXTENSION_THRESHOLD = .3f;
+        private const float SPEED_THRESHOLD = 1.6f;
+        protected const float EXTENSION_THRESHOLD = .21f;
 
-        public PunchEquipment(RagdollMuscle ragdoll, World world, int cooldown)
+        public PunchEquipment(World world, int cooldown, RagdollMuscle ragdoll = null) : base(ragdoll)
         {
-            this.ragdoll = ragdoll;
+            //this.ragdoll = ragdoll;
             this.world = world;
             this.cooldown = cooldown;
         }
@@ -50,8 +49,10 @@ namespace KinectRagdoll.Equipment
         public override void Update(Kinect.SkeletonInfo info)
         {
 
-            Vector3 newLeft = info.LocationToGestureSpace(info.leftHand);
-            Vector3 newRight = info.LocationToGestureSpace(info.rightHand);
+            base.Update(info);
+
+            //Vector3 newLeft = info.LocationToGestureSpace(info.leftWrist);
+            //Vector3 newRight = info.LocationToGestureSpace(info.rightWrist);
 
             //Vector2 shoulderBump = KinectLocationToFarseerLocation((info.centerShoulder - info.torso) * .2f, info);
 
@@ -61,56 +62,55 @@ namespace KinectRagdoll.Equipment
 
             //leftShoulderFarseer = GestureLocationToFarseerLocation(leftShoulder, info);
 
-            if (!wasAsleep && wasPossessed)
+            //if (!wasAsleep && wasPossessed)
+            //{
+
+            if (rightCooldown > 0)
+            {
+                rightCooldown--;
+            }
+            else
             {
 
-                if (rightCooldown > 0)
+                //Vector3 rightVel = (newRight - rightWrist) / info.TimeDiff;
+
+
+                if (shouldFire(rightWrist, rightVel, rightShoulder))
                 {
-                    rightCooldown--;
-                }
-                else
-                {
-
-                    Vector3 rightVel = newRight - rightHand;
-
-
-                    if (shouldFire(newRight, rightVel, rightShoulder))
-                    {
-                        fire(newRight, rightVel, true);
-                        rightCooldown = cooldown;
-                    }
-
-
+                    fire(rightWrist, rightVel, true);
+                    rightCooldown = cooldown;
                 }
 
 
-
-                if (leftCooldown > 0)
-                {
-                    leftCooldown--;
-                }
-                else
-                {
-
-                    Vector3 leftVel = newLeft - leftHand;
-
-
-                    if (shouldFire(newLeft, leftVel, leftShoulder))
-                    {
-
-                        
-                        fire(newLeft, leftVel, false);
-                        leftCooldown = cooldown;
-                    }
-
-                }
             }
 
 
-            rightHand = newRight;
-            leftHand = newLeft;
-            wasAsleep = ragdoll.asleep;
-            wasPossessed = ragdoll.Possessed;
+
+            if (leftCooldown > 0)
+            {
+                leftCooldown--;
+            }
+            else
+            {
+
+                //Vector3 leftVel = (newLeft - leftHand) / info.TimeDiff;
+
+
+                if (shouldFire(leftWrist, leftVel, leftShoulder))
+                {
+
+                        
+                    fire(leftWrist, leftVel, false);
+                    leftCooldown = cooldown;
+                }
+
+            }
+            //}
+
+
+            //rightHand = newRight;
+            //leftHand = newLeft;
+            
 
 
 
@@ -126,18 +126,23 @@ namespace KinectRagdoll.Equipment
 
             if (handVel.Length() > SPEED_THRESHOLD)
             {
-
+                //Console.WriteLine("speed: " + handVel);
                 
                 Vector3 shoulderToHand = hand - shoulder;
 
-                Console.WriteLine("extension: " + shoulderToHand.Length());
+                //Console.WriteLine("extension: " + shoulderToHand.Length());
                 if (shoulderToHand.Length() > EXTENSION_THRESHOLD)
                 {
-                    handVel.Normalize();
                     handVel.Z = 0;
-                    shoulderToHand.Normalize();
+                    handVel.Normalize();
+                    
                     shoulderToHand.Z = 0;
-                    return Vector3.Dot(handVel, shoulderToHand) > .7f;
+                    shoulderToHand.Normalize();
+                    
+                    float dot = Vector3.Dot(handVel, shoulderToHand);
+                    //Console.WriteLine("dot: " + dot);
+
+                    return dot > .8f;
                 }
             }
 

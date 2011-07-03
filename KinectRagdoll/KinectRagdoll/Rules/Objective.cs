@@ -12,9 +12,15 @@ namespace KinectRagdoll.Rules
     public class Objective
     {
         protected KinectRagdollGame game;
-        public State state = State.Off;
+        //public State state = State.Off;
 
-        public enum State
+        public virtual ObjectiveState State
+        {
+            get;
+            set;
+        }
+
+        public enum ObjectiveState
         {
             Off = 0,
             Countdown = 1,

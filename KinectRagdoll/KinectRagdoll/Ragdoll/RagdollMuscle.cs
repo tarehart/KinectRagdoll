@@ -34,6 +34,7 @@ namespace KinectRagdoll.Ragdoll
         Random rand = new Random();
         
         private const int WAKE_TIME = 40;
+        private const int KNOCK_OUT_HIT = 120;
 
         
         private World world;
@@ -43,21 +44,35 @@ namespace KinectRagdoll.Ragdoll
         private float depthTexRot;
         private float depthTexScale;
 
-
-
-
         private List<AbstractEquipment> equipment;
+
+
+
+
+        public List<AbstractEquipment> Equipment {
+            get { return equipment; }
+            set {
+                foreach (AbstractEquipment e in equipment)
+                {
+                    e.Destroy();
+                }
+                equipment = value;
+                foreach (AbstractEquipment e in equipment)
+                {
+                    e.AttachToRagdoll(this);
+                }
+            } 
+        }
        
 
         public RagdollMuscle(World w, Vector2 position) : base(w, position)
         {
 
             Init(w);
-            
-
-            
 
         }
+
+       
 
         public void Init(World w)
         {
@@ -67,8 +82,9 @@ namespace KinectRagdoll.Ragdoll
 
             equipment = new List<AbstractEquipment>();
             equipment.Add(new StabilizedJetpack(this));
-            equipment.Add(new PunchGuns(this, world, 20));
-            equipment.Add(new SpideySilk(this, world, 80, 100));
+            //equipment.Add(new PunchGuns(world, 20, this));
+            //equipment.Add(new Flappers(this));
+            //equipment.Add(new SpideySilk(world, 80, 100, this));
         
         }
 
@@ -101,14 +117,14 @@ namespace KinectRagdoll.Ragdoll
 
         public void HeadCollision(Fixture f1, Fixture f2, Contact contact)
         {
-            
+            if (wakeTimer < WAKE_TIME) return;
             
             float maxImpulse = 0.0f;
             for (int i = 0; i < contact.Manifold.PointCount; ++i)
             {
                 maxImpulse = Math.Max(maxImpulse, contact.Manifold.Points[i].NormalImpulse);
             }
-            if (maxImpulse >= 100)
+            if (maxImpulse >= KNOCK_OUT_HIT)
             {
                 knockOut();
                 sleepTimer = 200;
@@ -170,8 +186,8 @@ namespace KinectRagdoll.Ragdoll
             jRightLegBody.MotorEnabled = false;
 
             
-
-            KnockOut(this, null);
+            if (KnockOut != null)
+                KnockOut(this, null);
            
         }
 
@@ -370,7 +386,7 @@ namespace KinectRagdoll.Ragdoll
             {
                 //sb.Draw(depthTex, _body.Body.Position, null, Color.White, depthTexRot, depthTexLoc, .2f, SpriteEffects.FlipVertically, .5f);
 
-                sb.Draw(depthTex, _body.Body.Position, null, new Color(1, 1, 1, .8f), depthTexRot, depthTexLoc, depthTexScale, SpriteEffects.FlipVertically, 0);
+                sb.Draw(depthTex, _body.Body.Position, null, new Color(1, 1, 1, .1f), depthTexRot, depthTexLoc, depthTexScale, SpriteEffects.FlipVertically, 0);
 
                 //sb.Draw(depthTex, new Vector2(-10, -10), Color.Blue);
             }

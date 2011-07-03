@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using KinectRagdoll.Kinect;
+using KinectRagdoll.Ragdoll;
 
 namespace KinectRagdoll.Equipment
 {
@@ -17,7 +18,7 @@ namespace KinectRagdoll.Equipment
         
 
 
-        public StabilizedJetpack(Ragdoll.RagdollMuscle ragdoll) : base(ragdoll)
+        public StabilizedJetpack(RagdollMuscle ragdoll = null) : base(ragdoll)
         {
             
         }
@@ -68,8 +69,8 @@ namespace KinectRagdoll.Equipment
         {
             base.StopThrust();
             ticksAfterThrust = 0;
-            if (!ragdoll.asleep)
-                RagdollManager.revThrustSound.Play(.5f, 0, 0);
+            //if (!ragdoll.asleep)
+            //    RagdollManager.revThrustSound.Play(.5f, 0, 0);
 
         }
 

@@ -29,6 +29,27 @@ namespace KinectRagdoll.Rules
         //public DebugMaterial oldMaterial;
 
 
+        public override Objective.ObjectiveState State
+        {
+            get
+            {
+                return base.State;
+            }
+            set
+            {
+                base.State = value;
+                switch (value)
+                {
+                    case ObjectiveState.Complete:
+                        FarseerTextures.ApplyTexture(fixture, FarseerTextures.TextureType.CompletedObjective);
+                        break;
+                    default:
+                        FarseerTextures.ApplyTexture(fixture, FarseerTextures.TextureType.Objective);
+                        break;
+                }
+            }
+        }
+
         public StopwatchObjective(KinectRagdollGame g, Fixture f)
             : base(g)
         {
@@ -60,7 +81,8 @@ namespace KinectRagdoll.Rules
             if (game.ragdollManager.ragdoll.OwnsFixture(other))
             {
                 stopwatch.Stop();
-                state = State.Complete;
+                State = ObjectiveState.Complete;
+
             }
         }
 
@@ -68,14 +90,14 @@ namespace KinectRagdoll.Rules
         public override void Begin()
         {
             stopwatch.Start();
-            state = State.Running;
+            State = ObjectiveState.Running;
  	        base.Begin();
         }
 
         public override void Reset()
         {
             stopwatch.Reset();
-            state = State.Off;
+            State = ObjectiveState.Off;
             base.Reset();
         }
         
@@ -98,7 +120,7 @@ namespace KinectRagdoll.Rules
 
         public override void Draw(SpriteBatch sb)
         {
-            if (state == State.Countdown || state == State.Running)
+            if (State == ObjectiveState.Countdown || State == ObjectiveState.Running)
             {
                 DrawArrowToSelf(sb);
             }
@@ -117,7 +139,7 @@ namespace KinectRagdoll.Rules
 
            
             Color c = Color.Green;
-            if (state == State.Running) c = Color.Orange;
+            if (State == ObjectiveState.Running) c = Color.Orange;
 
             SpriteHelper.DrawArrow(sb, ragdollPixel + toMeNorm * 100, ragdollPixel + toMeNorm * 200, c);
                 

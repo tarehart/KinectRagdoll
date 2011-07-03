@@ -79,3 +79,5 @@ C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll
 C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Sounds\rocket.xnb
 C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Sounds\crack.xnb
 C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Sounds\rocketdown.xnb
+C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Sounds\trumpet.xnb
+C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\obj\x86\Debug\KinectRagdoll.Sandbox.PowerupForm.resources

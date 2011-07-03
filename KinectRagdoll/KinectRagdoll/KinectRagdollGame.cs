@@ -17,6 +17,7 @@ using KinectRagdoll.Rules;
 using System.ComponentModel;
 using System.IO;
 using System.Drawing.Imaging;
+using KinectRagdoll.Powerups;
 
 namespace KinectRagdoll
 {
@@ -39,6 +40,7 @@ namespace KinectRagdoll
         public Toolbox toolbox;
         //public SpriteHelper spriteHelper;
         public ObjectiveManager objectiveManager;
+        public PowerupManager powerupManager;
 
         GraphicsDeviceManager graphics;
         Color bkColor;
@@ -53,11 +55,12 @@ namespace KinectRagdoll
         VertexDeclaration vertexDeclaration;
         Model myModel;
         Model thingModel;
-        
 
-        
+
+        public List<Action> pendingUpdates = new List<Action>();
 
         public static GraphicsDevice graphicsDevice;
+        
         
 
         public KinectRagdollGame()
@@ -70,16 +73,18 @@ namespace KinectRagdoll
             Content.RootDirectory = "Content";
 
             FarseerTextures.Init();
+            FarseerTextures.SetGame(this);
             
             kinectManager = new KinectManager();
             farseerManager = new FarseerManager(true, this);
             ragdollManager = new RagdollManager();
-            FarseerTextures.SetRagdollManager(ragdollManager);
+            
             actionCenter = new ActionCenter(this);
             inputManager = new InputManager(this);
             toolbox = new Toolbox(this);
             //spriteHelper = new SpriteHelper();
             objectiveManager = new ObjectiveManager(this);
+            powerupManager = new PowerupManager(ragdollManager, farseerManager);
             
 
             this.IsMouseVisible = true;
@@ -191,6 +196,7 @@ namespace KinectRagdoll
 
             ragdollManager.LoadContent(Content);
             farseerManager.LoadContent();
+            objectiveManager.LoadContent(Content);
             toolbox.LoadContent();
 
             InitializeTransform();
@@ -229,6 +235,13 @@ namespace KinectRagdoll
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+
+            foreach (Action a in pendingUpdates)
+            {
+                a();
+            }
+
+            pendingUpdates.Clear();
 
             inputManager.Update();
             ragdollManager.Update(kinectManager.skeletonInfo);
@@ -302,34 +315,34 @@ namespace KinectRagdoll
             farseerEffect.VertexColorEnabled = true;
 
 
-            if (kinectManager.skeletonInfo.head.Z != 0)
-            {
+            //if (kinectManager.skeletonInfo.head.Z != 0)
+            //{
 
-                Vector3 headLoc = kinectManager.skeletonInfo.head;
-                Vector3 screenCenter = new Vector3(0, .2f, 0);
+            //    Vector3 headLoc = kinectManager.skeletonInfo.head;
+            //    Vector3 screenCenter = new Vector3(0, .2f, 0);
 
-                Vector3 screenToHead = headLoc - screenCenter;
+            //    Vector3 screenToHead = headLoc - screenCenter;
 
-                //screenToHead *= .01f;
-                screenToHead.Z *= 3;
+            //    //screenToHead *= .01f;
+            //    screenToHead.Z *= 3;
 
-                //headLoc.X += 250;
-                //headLoc.Y -= 100;
-                //headLoc.Z *= 2;
+            //    //headLoc.X += 250;
+            //    //headLoc.Y -= 100;
+            //    //headLoc.Z *= 2;
 
-                //headLoc *= .01f;
-
-
+            //    //headLoc *= .01f;
 
 
-                projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
-                    (float)Math.Atan(10 / screenToHead.Z),
-                    (float)GraphicsDevice.Viewport.Width /
-                    (float)GraphicsDevice.Viewport.Height,
-                    1.0f, 100.0f);
 
-                viewMatrix = Matrix.CreateLookAt(screenToHead, Vector3.Zero, Vector3.Up);
-            }
+
+            //    projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
+            //        (float)Math.Atan(10 / screenToHead.Z),
+            //        (float)GraphicsDevice.Viewport.Width /
+            //        (float)GraphicsDevice.Viewport.Height,
+            //        1.0f, 100.0f);
+
+            //    viewMatrix = Matrix.CreateLookAt(screenToHead, Vector3.Zero, Vector3.Up);
+            //}
         }
 
         private Matrix createFarseerView()
@@ -396,33 +409,33 @@ namespace KinectRagdoll
             return val;
         }
 
-        private void DrawHeadTrackingDemo(GameTime gametime)
-        {
-            DepthStencilState depthState = new DepthStencilState();
-            depthState.DepthBufferEnable = true;
-            depthState.DepthBufferWriteEnable = true;
-            depthState.StencilEnable = true;
+        //private void DrawHeadTrackingDemo(GameTime gametime)
+        //{
+        //    DepthStencilState depthState = new DepthStencilState();
+        //    depthState.DepthBufferEnable = true;
+        //    depthState.DepthBufferWriteEnable = true;
+        //    depthState.StencilEnable = true;
 
-            GraphicsDevice.DepthStencilState = depthState;
+        //    GraphicsDevice.DepthStencilState = depthState;
 
-            DrawMesh(thingModel, new Vector3(0, 0, -5), 1);
+        //    DrawMesh(thingModel, new Vector3(0, 0, -5), 1);
 
-            for (int i = -1; i <= 1; i++)
-            {
-                for (int j = -1; j <= 1; j++)
-                {
-                    DrawMesh(myModel, new Vector3(i, j, (float) Math.Sin(gametime.TotalGameTime.TotalMilliseconds / 1000f) * (i + j * 2) - 4), .2f);
-                }
-            }
+        //    for (int i = -1; i <= 1; i++)
+        //    {
+        //        for (int j = -1; j <= 1; j++)
+        //        {
+        //            DrawMesh(myModel, new Vector3(i, j, (float) Math.Sin(gametime.TotalGameTime.TotalMilliseconds / 1000f) * (i + j * 2) - 4), .2f);
+        //        }
+        //    }
             
-            //DrawCube(new Vector3(0, 0, -5));
+        //    //DrawCube(new Vector3(0, 0, -5));
 
-            //DrawCube(new Vector3(0, 0, 0));
+        //    //DrawCube(new Vector3(0, 0, 0));
 
-            //DrawCube(new Vector3(2, 0, 5));
+        //    //DrawCube(new Vector3(2, 0, 5));
 
-            //DrawCube((kinectManager.skeletonInfo.rightHand - kinectManager.skeletonInfo.head) * .02f + new Vector3(-4, 4, 10));
-        }
+        //    //DrawCube((kinectManager.skeletonInfo.rightHand - kinectManager.skeletonInfo.head) * .02f + new Vector3(-4, 4, 10));
+        //}
 
         private RenderTarget2D RenderFarseerEffectsTexture()
         {
@@ -436,50 +449,13 @@ namespace KinectRagdoll
             spriteBatch.Begin(SpriteSortMode.Texture, null, null, null, null, farseerEffect);
 
             ragdollManager.Draw(spriteBatch);
+            powerupManager.Draw(spriteBatch);
+
             spriteBatch.End();
 
             GraphicsDevice.SetRenderTarget(null);
             return renderTarget;
         }
-
-        private void DrawMesh(Model m, Vector3 location, float scale)
-        {
-            // Draw the model. A model can have multiple meshes, so loop.
-            foreach (ModelMesh mesh in m.Meshes)
-            {
-                // This is where the mesh orientation is set, as well 
-                // as our camera and projection.
-                foreach (BasicEffect effect in mesh.Effects)
-                {
-                    effect.EnableDefaultLighting();
-                    effect.World = Matrix.CreateRotationX(MathHelper.ToRadians(-90)) * Matrix.CreateScale(scale) * Matrix.CreateTranslation(location);
-                    effect.View = viewMatrix;
-                    effect.Projection = projectionMatrix;
-                }
-                // Draw the mesh, using the effects set above.
-                mesh.Draw();
-            }
-
-        }
-
-        //private void DrawCube(Vector3 location, float scale)
-        //{
-        //    // Draw the model. A model can have multiple meshes, so loop.
-        //    foreach (ModelMesh mesh in myModel.Meshes)
-        //    {
-        //        // This is where the mesh orientation is set, as well 
-        //        // as our camera and projection.
-        //        foreach (BasicEffect effect in mesh.Effects)
-        //        {
-        //            effect.EnableDefaultLighting();
-        //            effect.World = Matrix.CreateScale(scale) * Matrix.CreateTranslation(location);
-        //            effect.View = viewMatrix;
-        //            effect.Projection = projectionMatrix;
-        //        }
-        //        // Draw the mesh, using the effects set above.
-        //        mesh.Draw();
-        //    }
-        //}
 
     }
 }

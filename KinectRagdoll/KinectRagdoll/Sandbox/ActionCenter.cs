@@ -28,7 +28,8 @@ namespace KinectRagdoll.Sandbox
             Delete,
             Freeze,
             Release,
-            ToggleCamera
+            ToggleCamera,
+            PowerupEditor
         }
 
         public void PerformAction(Actions action)
@@ -69,6 +70,15 @@ namespace KinectRagdoll.Sandbox
                 case Actions.ToggleCamera:
                     game.ragdollManager.CameraShouldTrack = !game.ragdollManager.CameraShouldTrack;
                     break;
+                case Actions.PowerupEditor:
+                    object[] selection = FormManager.Property.getSelectedObjects();
+                    if (selection.Length > 0)
+                    {
+                        PowerupForm p = new PowerupForm(game.powerupManager);
+                        p.Show(selection);
+                    }
+                    
+                    break;
             }
         }
 
@@ -86,11 +96,17 @@ namespace KinectRagdoll.Sandbox
 
         private void DoOpen()
         {
-
             if (FormManager.Open.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                game.farseerManager.LoadWorld(FormManager.Open.FileName);
+                Action a = delegate()
+                {
+                    game.farseerManager.LoadWorld(FormManager.Open.FileName);
+                };
+
+                game.pendingUpdates.Add(a);
+                
             }
+
         }
 
     }

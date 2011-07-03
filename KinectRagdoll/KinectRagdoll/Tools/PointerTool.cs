@@ -28,6 +28,12 @@ namespace KinectRagdoll.Tools
             : base(game)
         {
             this.selectionRec = selectionRec;
+            game.farseerManager.world.FixtureRemoved += checkSavedFixtureRemoval;
+        }
+
+        private void checkSavedFixtureRemoval(Fixture f)
+        {
+            if (f == savedFixture) savedFixture = null;
         }
 
         public override void HandleInput()
@@ -70,7 +76,7 @@ namespace KinectRagdoll.Tools
             }
 
 
-            if (dragging)
+            if (dragging && savedFixture != null)
             {
 
                 Vector2 lastPosition;

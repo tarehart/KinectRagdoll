@@ -13,6 +13,7 @@ namespace KinectRagdoll.Sandbox
 
         private static RectangleForm rectangleForm;
         private static PropertyEditorForm propertyForm;
+        private static PowerupForm powerupForm;
         private static JointForm jointForm;
         private static SaveFileDialog save;
         private static OpenFileDialog open;
@@ -41,16 +42,27 @@ namespace KinectRagdoll.Sandbox
 
         }
 
-        public static JointForm Joint
-        {
-            get
-            {
-                if (jointForm == null)
-                    jointForm = new JointForm();
-                return jointForm;
-            }
+        //public static PowerupForm Powerup
+        //{
+        //    get
+        //    {
+        //        if (powerupForm == null)
+        //            powerupForm = new PowerupForm();
+        //        return powerupForm;
+        //    }
 
-        }
+        //}
+
+        //public static JointForm Joint
+        //{
+        //    get
+        //    {
+        //        if (jointForm == null)
+        //            jointForm = new JointForm();
+        //        return jointForm;
+        //    }
+
+        //}
 
         public static SaveFileDialog Save
         {

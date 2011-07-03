@@ -207,14 +207,28 @@ namespace KinectRagdoll.Ragdoll
         //Torso
         private void CreateBody(World world, Vector2 position)
         {
+            Color ragdollColor = Color.Turquoise;
+
             DebugMaterial matHead = new DebugMaterial(MaterialType.Face)
             {
-                Color = Color.DeepSkyBlue,
+                Color = ragdollColor,
                 Scale = 2f
             };
-            DebugMaterial matBody = new DebugMaterial(MaterialType.Circles)
+            DebugMaterial matShirt = new DebugMaterial(MaterialType.Tiles)
             {
-                Color = Color.DeepSkyBlue,
+                Color = ragdollColor,
+                Scale = 2f
+            };
+
+            DebugMaterial matShorts = new DebugMaterial(MaterialType.Tiles)
+            {
+                Color = ragdollColor,
+                Scale = 2f
+            };
+
+            DebugMaterial matSkin = new DebugMaterial(MaterialType.Blank)
+            {
+                Color = ragdollColor,
                 Scale = 2f
             };
 
@@ -227,14 +241,14 @@ namespace KinectRagdoll.Ragdoll
             
 
             //Body
-            _body = FixtureFactory.CreateRectangle(world, 2, 4, LegDensity, matBody);
+            _body = FixtureFactory.CreateRectangle(world, 2, 4, LegDensity, matShirt);
             _body.Body.BodyType = BodyType.Dynamic;
             //_body.Body.Mass = 2;
             
             _body.Body.Position = position + new Vector2(0, -3);
 
             //Left Arm
-            _lowerLeftArm = FixtureFactory.CreateRectangle(world, .7f, elbowDistance, ArmDensity, matBody);
+            _lowerLeftArm = FixtureFactory.CreateRectangle(world, .7f, elbowDistance, ArmDensity, matSkin);
             _lowerLeftArm.Body.BodyType = BodyType.Dynamic;
             _lowerLeftArm.Body.AngularDamping = LimbAngularDamping;
             //_lowerLeftArm.Body.Mass = 2;
@@ -242,7 +256,7 @@ namespace KinectRagdoll.Ragdoll
             _lowerLeftArm.Body.Rotation = -1.4f;
             _lowerLeftArm.Body.Position = position + new Vector2(-4, -2.2f);
 
-            _upperLeftArm = FixtureFactory.CreateRectangle(world, .7f, elbowDistance, ArmDensity, matBody);
+            _upperLeftArm = FixtureFactory.CreateRectangle(world, .7f, elbowDistance, ArmDensity, matShirt);
             _upperLeftArm.Body.BodyType = BodyType.Dynamic;
             _upperLeftArm.Body.AngularDamping = LimbAngularDamping;
            // _upperLeftArm.Body.Mass = 2;
@@ -251,7 +265,7 @@ namespace KinectRagdoll.Ragdoll
             
 
             //Right Arm
-            _lowerRightArm = FixtureFactory.CreateRectangle(world, .7f, elbowDistance, ArmDensity, matBody);
+            _lowerRightArm = FixtureFactory.CreateRectangle(world, .7f, elbowDistance, ArmDensity, matSkin);
             _lowerRightArm.Body.BodyType = BodyType.Dynamic;
             _lowerRightArm.Body.AngularDamping = LimbAngularDamping;
             //_lowerRightArm.Body.Mass = 2;
@@ -259,7 +273,7 @@ namespace KinectRagdoll.Ragdoll
             _lowerRightArm.Body.Rotation = 1.4f;
             _lowerRightArm.Body.Position = position + new Vector2(4, -2.2f);
 
-            _upperRightArm = FixtureFactory.CreateRectangle(world, .7f, elbowDistance, ArmDensity, matBody);
+            _upperRightArm = FixtureFactory.CreateRectangle(world, .7f, elbowDistance, ArmDensity, matShirt);
             _upperRightArm.Body.BodyType = BodyType.Dynamic;
             _upperRightArm.Body.AngularDamping = LimbAngularDamping;
             //_upperRightArm.Body.Mass = 2;
@@ -268,21 +282,21 @@ namespace KinectRagdoll.Ragdoll
             
 
             //Left Leg
-            _lowerLeftLeg = FixtureFactory.CreateRectangle(world, .7f, 2f, LegDensity, matBody);
+            _lowerLeftLeg = FixtureFactory.CreateRectangle(world, .7f, 2f, LegDensity, matSkin);
             _lowerLeftLeg.Body.BodyType = BodyType.Dynamic;
             _lowerLeftLeg.Body.AngularDamping = LimbAngularDamping;
            // _lowerLeftLeg.Body.Mass = 2;
             _lowerLeftLeg.Friction = .5f;
             _lowerLeftLeg.Body.Position = position + new Vector2(-0.6f, -8);
 
-            _upperLeftLeg = FixtureFactory.CreateRectangle(world, .7f, 2f, LegDensity, matBody);
+            _upperLeftLeg = FixtureFactory.CreateRectangle(world, .7f, 2f, LegDensity, matShorts);
             _upperLeftLeg.Body.BodyType = BodyType.Dynamic;
             _upperLeftLeg.Body.AngularDamping = LimbAngularDamping;
             _upperLeftLeg.Body.Mass = 2;
             _upperLeftLeg.Body.Position = position + new Vector2(-0.6f, -6);
 
             //Right Leg
-            _lowerRightLeg = FixtureFactory.CreateRectangle(world, .7f, 2f, LegDensity, matBody);
+            _lowerRightLeg = FixtureFactory.CreateRectangle(world, .7f, 2f, LegDensity, matSkin);
             _lowerRightLeg.Body.BodyType = BodyType.Dynamic;
             _lowerRightLeg.Body.AngularDamping = LimbAngularDamping;
             //_lowerRightLeg.Body.Mass = 2;
@@ -290,7 +304,7 @@ namespace KinectRagdoll.Ragdoll
             _lowerRightLeg.Body.Position = position + new Vector2(0.6f, -8);
             
 
-            _upperRightLeg = FixtureFactory.CreateRectangle(world, .7f, 2f, LegDensity, matBody);
+            _upperRightLeg = FixtureFactory.CreateRectangle(world, .7f, 2f, LegDensity, matShorts);
             _upperRightLeg.Body.BodyType = BodyType.Dynamic;
             _upperRightLeg.Body.AngularDamping = LimbAngularDamping;
             //_upperRightLeg.Body.Mass = 2;

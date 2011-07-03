@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using KinectRagdoll.Drawing;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 
 namespace KinectRagdoll.Rules
 {
@@ -18,12 +20,18 @@ namespace KinectRagdoll.Rules
         private int countdownSecs;
         private Stopwatch countup;
         private KinectRagdollGame game;
+        private SoundEffect trumpetSound;
 
         public ObjectiveManager(KinectRagdollGame game)
         {
             countdown = new Stopwatch();
             countup = new Stopwatch();
             this.game = game;
+        }
+
+        public void LoadContent(ContentManager content)
+        {
+            trumpetSound = content.Load<SoundEffect>("Sounds\\trumpet");
         }
 
 
@@ -47,7 +55,7 @@ namespace KinectRagdoll.Rules
             foreach (Objective o in objectives)
             {
                 o.Reset();
-                o.state = Objective.State.Countdown;
+                o.State = Objective.ObjectiveState.Countdown;
             }
             countdownSecs = seconds;
             countdown.Restart();
@@ -81,7 +89,7 @@ namespace KinectRagdoll.Rules
 
                 foreach (Objective o in objectives)
                 {
-                    if ( o.state == Objective.State.Running || o.state == Objective.State.Countdown)
+                    if ( o.State == Objective.ObjectiveState.Running || o.State == Objective.ObjectiveState.Countdown)
                     {
                         allComplete = false;
                     }
@@ -89,9 +97,10 @@ namespace KinectRagdoll.Rules
                 }
             }
 
-            if (allComplete)
+            if (allComplete && countup.IsRunning)
             {
                 countup.Stop();
+                trumpetSound.Play();
             }
         }
 

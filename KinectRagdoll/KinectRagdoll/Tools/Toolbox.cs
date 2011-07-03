@@ -24,8 +24,8 @@ namespace KinectRagdoll.Sandbox
         private ToolboxButton _showButton;
         private bool hidden;
 
-        private int BUTTON_WIDTH = 24;
-        private int BUTTON_HEIGHT = 24;
+        private int BUTTON_WIDTH = 18;
+        private int BUTTON_HEIGHT = 18;
         //private int BUTTON_PADDING = 5;
 
         public Toolbox(KinectRagdollGame game) {
@@ -47,25 +47,27 @@ namespace KinectRagdoll.Sandbox
 
             
 
-            AddToolButton(new PointerTool(game, selectDraw), new Vector2(7, 32));
-            AddToolButton(new RectangleTool(game), new Vector2(7, 60));
-            AddToolButton(new CircleTool(game), new Vector2(7, 88));
-            AddToolButton(new NailTool(game), new Vector2(7, 116));
-            AddToolButton(new JointTool(game), new Vector2(7, 144));
-            AddToolButton(new ObjectiveTool(game), new Vector2(7, 172));
+            AddToolButton(new PointerTool(game, selectDraw), new Vector2(10, 33));
+            AddToolButton(new RectangleTool(game), new Vector2(10, 56));
+            AddToolButton(new PolygonTool(game), new Vector2(10, 79));
+            AddToolButton(new CircleTool(game), new Vector2(10, 102));
+            AddToolButton(new NailTool(game), new Vector2(10, 125));
+            AddToolButton(new JointTool(game), new Vector2(10, 147));
+            AddToolButton(new ObjectiveTool(game), new Vector2(10, 171));
+            
 
-            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.StartTimer), new Vector2(7, 244));
-            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.ResetTimer), new Vector2(7, 273));
-            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Open), new Vector2(7, 345));
-            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Save), new Vector2(7, 372));
-            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.PropertyEditor), new Vector2(7, 445));
-            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Copy), new Vector2(7, 473));
-            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Delete), new Vector2(7, 528));
-            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Freeze), new Vector2(7, 557));
-            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Release), new Vector2(7, 585));
-            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.ToggleCamera), new Vector2(7, 680));
+            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.StartTimer), new Vector2(10, 233));
+            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.ResetTimer), new Vector2(10, 257));
+            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Open), new Vector2(10, 320));
+            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Save), new Vector2(10, 342));
+            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.PropertyEditor), new Vector2(10, 406));
+            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Copy), new Vector2(10, 428));
+            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Delete), new Vector2(10, 474));
+            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Freeze), new Vector2(10, 496));
+            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Release), new Vector2(10, 520));
+            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.ToggleCamera), new Vector2(10, 606));
 
-            _hideButton = new ToolboxButton(new Rectangle((int)Position.X + 177, (int)Position.Y + 8, 40, 25));
+            _hideButton = new ToolboxButton(new Rectangle((int)Position.X + 159, (int)Position.Y + 12, 40, 25));
             _showButton = new ToolboxButton(new Rectangle(0, 0, 25, 110));
 
 

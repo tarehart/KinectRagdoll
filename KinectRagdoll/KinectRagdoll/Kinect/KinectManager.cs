@@ -169,7 +169,7 @@ namespace KinectRagdoll.Kinect
                         {
                             bytes[byteIndex++] = Triangle(d * 5, 100);
                             bytes[byteIndex++] = Triangle(d * 5, 200);
-                            bytes[byteIndex++] = Triangle(d * 5, -170);
+                            bytes[byteIndex++] = 10;
                             bytes[byteIndex++] = (byte)(255);
                         }
                         else // grayscale

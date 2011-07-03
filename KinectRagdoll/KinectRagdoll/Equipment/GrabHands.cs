@@ -10,7 +10,7 @@ using KinectRagdoll.Drawing;
 
 namespace KinectRagdoll.Equipment
 {
-    class GrabHands : AbstractEquipment
+    class GrabHands : WristVelocityEquipment
     {
 
         private RevoluteJoint jRightGrip;
@@ -28,12 +28,12 @@ namespace KinectRagdoll.Equipment
         private const int grabGrace = 30;
 
         private World world;
-        private RagdollMuscle ragdoll;
+        //private RagdollMuscle ragdoll;
 
-        public GrabHands(RagdollMuscle ragdoll, World world)
+        public GrabHands(RagdollMuscle ragdoll, World world) : base(ragdoll)
         {
             this.world = world;
-            this.ragdoll = ragdoll;
+            //this.ragdoll = ragdoll;
 
             ragdoll.KnockOut += new EventHandler(ragdoll_KnockOut);
 
@@ -47,12 +47,15 @@ namespace KinectRagdoll.Equipment
 
         public override void Update(Kinect.SkeletonInfo info)
         {
+
+            base.Update(info);
+
             if (leftHandGrabGrace > 0) leftHandGrabGrace--;
             if (rightHandGrabGrace > 0) rightHandGrabGrace--;
 
             if (!rightGrip &&
                     info.rightHand.Z < info.torso.Z + grabPlane &&
-                    info.RightHandVel.Z < grabVel)
+                    rightVel.Z < grabVel)
             {
                 rightHandGrabGrace = grabGrace;
                 //TryRightGrip();
@@ -69,7 +72,7 @@ namespace KinectRagdoll.Equipment
 
             if (!leftGrip &&
                 info.leftHand.Z < info.torso.Z + grabPlane &&
-                info.LeftHandVel.Z < grabVel)
+                leftVel.Z < grabVel)
             {
                 leftHandGrabGrace = grabGrace;
                 //TryLeftGrip();

@@ -17,17 +17,22 @@ namespace KinectRagdoll.Equipment
         protected int range;
         protected DistanceJoint rightSilk;
         protected DistanceJoint leftSilk;
-        protected const float DETACH_RADIUS = .28f;
+        protected const float DETACH_RADIUS = EXTENSION_THRESHOLD - 0f;
 
         private const float silkForce = 1.7f;
         //private const float SPEED_THRESHOLD = .6f;
         //private const float SPEED_THRESHOLD = .6f;
         //private const float EXTENSION_THRESHOLD = 2.3f;
 
-        public SpideySilk(RagdollMuscle ragdoll, World world, int cooldown, int range)
-            : base(ragdoll, world, cooldown)
+        public SpideySilk(World world, int cooldown, int range, RagdollMuscle ragdoll = null)
+            : base(world, cooldown, ragdoll)
         {
             this.range = range;
+        }
+
+        public override void AttachToRagdoll(RagdollMuscle ragdoll)
+        {
+            base.AttachToRagdoll(ragdoll);
             ragdoll.KnockOut += new EventHandler(ragdoll_KnockOut);
         }
 
@@ -67,7 +72,7 @@ namespace KinectRagdoll.Equipment
 
             leftSilk = new DistanceJoint(ragdoll._lowerLeftArm.Body, f.Body, ragdoll._lowerLeftArm.Body.GetLocalPoint(handAnchor), f.Body.GetLocalPoint(p));
             leftSilk.Frequency = silkForce;
-            leftSilk.DampingRatio = 1;
+            leftSilk.DampingRatio = .5f;
             leftSilk.Length = 0;
             leftSilk.CollideConnected = true;
             world.AddJoint(leftSilk);
@@ -87,7 +92,7 @@ namespace KinectRagdoll.Equipment
 
             rightSilk = new DistanceJoint(ragdoll._lowerRightArm.Body, f.Body, ragdoll._lowerRightArm.Body.GetLocalPoint(handAnchor), f.Body.GetLocalPoint(p));
             rightSilk.Frequency = silkForce;
-            rightSilk.DampingRatio = 1;
+            rightSilk.DampingRatio = .5f;
             rightSilk.Length = 0;
             rightSilk.CollideConnected = true;
             world.AddJoint(rightSilk);
@@ -139,12 +144,12 @@ namespace KinectRagdoll.Equipment
         {
             base.Update(info);
 
-            if (leftSilk != null && handRetracted(leftHand, leftShoulder))
+            if (leftSilk != null && handRetracted(leftWrist, leftShoulder))
             {
                 UndoSilk(false);
             }
 
-            if (rightSilk != null && handRetracted(rightHand, rightShoulder))
+            if (rightSilk != null && handRetracted(rightWrist, rightShoulder))
             {
                 UndoSilk(true);
             }
@@ -206,6 +211,13 @@ namespace KinectRagdoll.Equipment
             }
             
             
+        }
+
+        public override void Destroy()
+        {
+            base.Destroy();
+            UndoSilk(true);
+            UndoSilk(false);
         }
 
         /// <summary>

@@ -31,23 +31,39 @@ namespace KinectRagdoll.Equipment
         protected RagdollMuscle ragdoll;
         private Timer soundTimer;
 
-        public JetPack(RagdollMuscle ragdoll)
+
+        public JetPack(RagdollMuscle ragdoll = null)
+        {
+            rand = new Random();
+            if (ragdoll != null)
+            {
+                AttachToRagdoll(ragdoll);
+            }
+        }
+
+
+
+        public override void AttachToRagdoll(RagdollMuscle ragdoll)
         {
             this.ragdoll = ragdoll;
-            rand = new Random();
-
+            
             ragdoll.KnockOut += new EventHandler(ragdoll_KnockOut);
             soundTimer = new Timer(100);
             soundTimer.Elapsed += new ElapsedEventHandler(soundTimer_Elapsed);
-            //ragdoll.WakeUp += new EventHandler(ragdoll_WakeUp);
         }
 
         void soundTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            float intensity = -(float)Math.Pow(2, -2 * thrust) + 1;
 
-            if (thrust > 0)
-                RagdollManager.thrustSound.Play(intensity, intensity, 0);
+            if (destroyed) soundTimer.Elapsed -= new ElapsedEventHandler(soundTimer_Elapsed);
+            else
+            {
+                float intensity = -(float)Math.Pow(2, -2 * thrust) + 1;
+
+                if (thrust > 0)
+                    RagdollManager.thrustSound.Play(intensity, intensity, 0);
+
+            }
                 
         }
 

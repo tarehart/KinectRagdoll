@@ -64,9 +64,10 @@ namespace KinectRagdoll.Kinect
         }
 
 
-        internal bool OwnsFixture(Fixture f)
+        internal RagdollMuscle GetFixtureOwner(Fixture f)
         {
-            return ragdoll.OwnsFixture(f);
+            if (ragdoll.OwnsFixture(f)) return ragdoll;
+            return null;
         }
 
         internal bool OwnsJoint(FarseerPhysics.Dynamics.Joints.Joint j)

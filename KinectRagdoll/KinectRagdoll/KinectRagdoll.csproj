@@ -134,19 +134,29 @@
   <ItemGroup>
     <Compile Include="Drawing\SpriteHelper.cs" />
     <Compile Include="Equipment\AbstractEquipment.cs" />
+    <Compile Include="Equipment\Flappers.cs" />
     <Compile Include="Equipment\GrabHands.cs" />
     <Compile Include="Equipment\JetPack.cs" />
+    <Compile Include="Powerups\Powerup.cs" />
     <Compile Include="Equipment\PunchEquipment.cs" />
     <Compile Include="Equipment\PunchGuns.cs" />
     <Compile Include="Equipment\SpideySilk.cs" />
     <Compile Include="Equipment\StabilizedJetpack.cs" />
+    <Compile Include="Equipment\WristVelocityEquipment.cs" />
     <Compile Include="MyMath\MathHelp.cs" />
+    <Compile Include="Powerups\PowerupManager.cs" />
     <Compile Include="Rules\Objective.cs" />
     <Compile Include="Rules\ObjectiveManager.cs" />
     <Compile Include="Rules\StopwatchObjective.cs" />
     <Compile Include="Sandbox\ActionCenter.cs" />
     <Compile Include="Sandbox\DragArea.cs" />
     <Compile Include="Sandbox\FarseerTextures.cs" />
+    <Compile Include="Sandbox\PowerupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sandbox\PowerupForm.Designer.cs">
+      <DependentUpon>PowerupForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\CircleTool.cs" />
     <Compile Include="Tools\ClickAction.cs" />
     <Compile Include="Tools\JointTool.cs" />
@@ -196,6 +206,7 @@
     <Compile Include="Tools\PointerTool.cs" />
     <Compile Include="Tools\DraggedTool.cs" />
     <Compile Include="Sandbox\Serializer.cs" />
+    <Compile Include="Tools\PolygonTool.cs" />
     <Compile Include="Tools\RectangleTool.cs" />
     <Compile Include="Tools\Tool.cs" />
     <Compile Include="Tools\Toolbox.cs" />
@@ -250,6 +261,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Sandbox\JointForm.resx">
       <DependentUpon>JointForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sandbox\PowerupForm.resx">
+      <DependentUpon>PowerupForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sandbox\RectangleForm.resx">
       <DependentUpon>RectangleForm.cs</DependentUpon>

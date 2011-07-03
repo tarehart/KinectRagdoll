@@ -66,6 +66,11 @@ namespace KinectRagdoll.Sandbox
 
         }
 
+        public object[] getSelectedObjects()
+        {
+            return grid.SelectedObjects;
+        }
+
 
         private void prepareForObjChange(bool noHistory, bool maintainSelection = false)
         {
@@ -225,10 +230,10 @@ namespace KinectRagdoll.Sandbox
                     Body b = (Body)old;
                     if (b.FixtureList != null)
                     {
-
-                        FarseerTextures.RestoreTexture(b.FixtureList[0]);
-
-                        
+                        foreach (Fixture f in b.FixtureList)
+                        {
+                            FarseerTextures.RestoreTexture(f);
+                        }
                     }
                 }
                 else if (old is Fixture)
@@ -263,12 +268,17 @@ namespace KinectRagdoll.Sandbox
                         //    materialBank.Add(b.FixtureList[0], (DebugMaterial)b.FixtureList[0].UserData);
                         if (pending)
                         {
-                            FarseerTextures.ApplyTexture(b.FixtureList[0], FarseerTextures.TextureType.Selected);
-                            
+                            foreach (Fixture f in b.FixtureList)
+                            {
+                                FarseerTextures.ApplyTexture(f, FarseerTextures.TextureType.Selected);
+                            }
                         }
                         else
                         {
-                            FarseerTextures.ApplyTexture(b.FixtureList[0], FarseerTextures.TextureType.Editing);
+                            foreach (Fixture f in b.FixtureList)
+                            {
+                                FarseerTextures.ApplyTexture(f, FarseerTextures.TextureType.Editing);
+                            }
                         }
                     }
                 }
@@ -431,7 +441,10 @@ namespace KinectRagdoll.Sandbox
                 else if (o is Body)
                 {
                     ((Body)o).IsStatic = true;
-                    FarseerTextures.ApplyTexture(((Body)o).FixtureList[0], FarseerTextures.TextureType.Normal);
+                    foreach (Fixture f in ((Body)o).FixtureList)
+                    {
+                        FarseerTextures.ApplyTexture(f, FarseerTextures.TextureType.Normal);
+                    }
 
                 }
 
@@ -453,8 +466,11 @@ namespace KinectRagdoll.Sandbox
                 else if (o is Body)
                 {
                     ((Body)o).IsStatic = false;
-
-                    FarseerTextures.ApplyTexture(((Body)o).FixtureList[0], FarseerTextures.TextureType.Normal);
+                    foreach (Fixture f in ((Body)o).FixtureList)
+                    {
+                        FarseerTextures.ApplyTexture(f, FarseerTextures.TextureType.Normal);
+                    }
+                    
 
                 }
             }
@@ -648,13 +664,15 @@ namespace KinectRagdoll.Sandbox
         private void PropertyEditorForm_Activated(object sender, EventArgs e)
         {
             InputManager.DisregardInputEvents = true;
-            Console.Out.WriteLine("Activated");
+            //Console.Out.WriteLine("Activated");
         }
 
         private void PropertyEditorForm_Deactivate(object sender, EventArgs e)
         {
             InputManager.DisregardInputEvents = false;
-            Console.Out.WriteLine("Deactivated");
+            //Console.Out.WriteLine("Deactivated");
         }
+
+        
     }
 }

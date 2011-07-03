@@ -102,6 +102,7 @@ namespace KinectRagdoll.Kinect
             game.ragdollManager.ragdoll.Init(world);
             game.ragdollManager.ragdoll.setDepthTex(game.kinectManager.depthTex);
             game.objectiveManager.SetObjectives(sf.objectives);
+            game.powerupManager.LoadPowerups(sf.powerups);
         }
 
        
@@ -167,23 +168,30 @@ namespace KinectRagdoll.Kinect
         public void Update(GameTime gameTime)
         {
 
-
-            world.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f, (1f / 30f)));
-            debugview.Update(gameTime);
+            if (world.Enabled)
+            {
+                world.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f, (1f / 30f)));
+                debugview.Update(gameTime);
+            }
             
         }
 
         public void DrawBasics(ref Matrix view)
         {
 
-            
-            debugview.RenderDebugData(ref projection, ref view);
+            if (world.Enabled)
+            {
+                debugview.RenderDebugData(ref projection, ref view);
+            }
             
         }
 
         public void DrawFrontEffects(SpriteBatch sb)
         {
-            DrawSelectedJoints(sb);
+            if (world.Enabled)
+            {
+                DrawSelectedJoints(sb);
+            }
 
         }
 
@@ -210,6 +218,16 @@ namespace KinectRagdoll.Kinect
         internal void setProjection(Matrix farseerProjection)
         {
             projection = farseerProjection * Matrix.CreateScale(1, -1, 1);
+        }
+
+        internal void Pause()
+        {
+            world.Enabled = false;
+        }
+
+        internal void Resume()
+        {
+            world.Enabled = true;
         }
     }
 }

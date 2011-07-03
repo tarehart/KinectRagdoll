@@ -11,11 +11,14 @@ namespace KinectRagdoll.Sandbox
 {
     public class FarseerTextures
     {
-        private static RagdollManager ragdollManager;
+        //private static RagdollManager ragdollManager;
+        private static KinectRagdollGame game;
         private static Random rand = new Random();
         private static DebugMaterial editingTexture;
         private static DebugMaterial selectTexture;
         private static DebugMaterial objectiveTexture;
+        private static DebugMaterial completedObjectiveTexture;
+        private static DebugMaterial powerupTexture;
         //private static DebugMaterial normalTexture;
         private static Dictionary<Fixture, DebugMaterial> materialBank = new Dictionary<Fixture, DebugMaterial>();
 
@@ -46,21 +49,35 @@ namespace KinectRagdoll.Sandbox
             objectiveTexture = new DebugMaterial(MaterialType.Stars)
             {
                 Color = Color.OrangeRed,
-                Scale = 2f
+                Scale = 4f
+            };
+
+            completedObjectiveTexture = new DebugMaterial(MaterialType.Stars)
+            {
+                Color = Color.Gray,
+                Scale = 4f
+            };
+            powerupTexture = new DebugMaterial(MaterialType.Stars)
+            {
+                Color = new Color(.8f, 0, .8f, .5f),
+                Scale = 4f
             };
         }
 
-        public static void SetRagdollManager(RagdollManager ragdollManager)
+        public static void SetGame(KinectRagdollGame game)
         {
-            FarseerTextures.ragdollManager = ragdollManager;
+            FarseerTextures.game = game;
         }
 
 
-        public enum TextureType {
+        public enum TextureType
+        {
             Normal,
             Selected,
             Editing,
-            Objective
+            Objective,
+            CompletedObjective,
+            Powerup
         }
 
         public static void ApplyTexture(Fixture f, TextureType type)
@@ -70,9 +87,9 @@ namespace KinectRagdoll.Sandbox
             {
                 case (TextureType.Normal):
 
-                    if (ragdollManager != null && ragdollManager.OwnsFixture(f)) {
-                        break;
-                    }
+                    if (!IsNormal(f)) break;
+
+                    
 
 
                     DebugMaterial m;
@@ -111,12 +128,37 @@ namespace KinectRagdoll.Sandbox
                 case (TextureType.Objective):
                     SetTemporaryTexture(f, objectiveTexture);
                     break;
+                case (TextureType.CompletedObjective):
+                    SetTemporaryTexture(f, completedObjectiveTexture);
+                    break;
+                case (TextureType.Powerup):
+                    if (materialBank.ContainsKey(f))
+                    {
+                        materialBank[f] = powerupTexture;
+                    }
+                    else
+                    {
+                        f.UserData = powerupTexture;
+                    }
+                    break;
 
                 
 
             }
 
             
+        }
+
+        private static bool IsNormal(Fixture f)
+        {
+            if (game.ragdollManager.GetFixtureOwner(f) != null)
+            {
+                return false;
+            }
+
+            if (game.powerupManager.getPowerup(f) != null) return false;
+
+            return true;
         }
 
         private static void SetTemporaryTexture(Fixture f, DebugMaterial texture)
