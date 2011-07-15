@@ -30,3 +30,9 @@ Content\Sounds\rocket.xnb
 Content\Sounds\crack.xnb
 Content\Sounds\rocketdown.xnb
 Content\Sounds\trumpet.xnb
+Content\Music\AmazingPlan.xnb
+Content\Music\AmazingPlan.wma
+Content\Music\FigLeafRag.xnb
+Content\Music\FigLeafRag.wma
+Content\Music\DarkHallway.xnb
+Content\Music\DarkHallway.wma

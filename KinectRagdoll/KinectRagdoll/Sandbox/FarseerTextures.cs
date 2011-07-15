@@ -59,7 +59,7 @@ namespace KinectRagdoll.Sandbox
             };
             powerupTexture = new DebugMaterial(MaterialType.Stars)
             {
-                Color = new Color(.8f, 0, .8f, .5f),
+                Color = new Color(.8f, 0, .8f),
                 Scale = 4f
             };
         }

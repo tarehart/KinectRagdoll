@@ -57,15 +57,33 @@ namespace KinectRagdoll.Tools
 
         private void MakePolygon()
         {
-            Vertices verts = new Vertices(polyPoints.ToArray<Vector2>());
 
-            List<Fixture> composition = FixtureFactory.CreateCompoundPolygon(game.farseerManager.world, EarclipDecomposer.ConvexPartition(verts), 1);
+            Vector2 avgLoc = new Vector2();
+            foreach (Vector2 vert in polyPoints)
+            {
+                avgLoc += vert;
+            }
+            avgLoc /= polyPoints.Count;
+
+            
+
+            Vertices verts = new Vertices();
+
+            foreach (Vector2 v in polyPoints)
+            {
+                verts.Add(v - avgLoc);
+            }
+
+
+            List<Fixture> composition = FixtureFactory.CreateCompoundPolygon(game.farseerManager.world, EarclipDecomposer.ConvexPartition(verts), 1, avgLoc);
 
             foreach (Fixture triangle in composition)
             {
                 FarseerTextures.ApplyTexture(triangle, FarseerTextures.TextureType.Normal);
             }
-            
+
+            if (composition.Count > 0)
+                FormManager.Property.setPendingObjects(new List<object>() { composition[0].Body });
 
             polyPoints.Clear();
         }

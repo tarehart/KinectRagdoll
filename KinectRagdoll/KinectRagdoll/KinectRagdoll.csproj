@@ -137,6 +137,9 @@
     <Compile Include="Equipment\Flappers.cs" />
     <Compile Include="Equipment\GrabHands.cs" />
     <Compile Include="Equipment\JetPack.cs" />
+    <Compile Include="Music\Jukebox.cs" />
+    <Compile Include="Powerups\MusicalPowerup.cs" />
+    <Compile Include="Powerups\Pickup.cs" />
     <Compile Include="Powerups\Powerup.cs" />
     <Compile Include="Equipment\PunchEquipment.cs" />
     <Compile Include="Equipment\PunchGuns.cs" />

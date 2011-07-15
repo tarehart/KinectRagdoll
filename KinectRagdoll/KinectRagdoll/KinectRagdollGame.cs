@@ -18,6 +18,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Drawing.Imaging;
 using KinectRagdoll.Powerups;
+using KinectRagdoll.Music;
 
 namespace KinectRagdoll
 {
@@ -41,6 +42,7 @@ namespace KinectRagdoll
         //public SpriteHelper spriteHelper;
         public ObjectiveManager objectiveManager;
         public PowerupManager powerupManager;
+        public Jukebox jukebox;
 
         GraphicsDeviceManager graphics;
         Color bkColor;
@@ -85,6 +87,7 @@ namespace KinectRagdoll
             //spriteHelper = new SpriteHelper();
             objectiveManager = new ObjectiveManager(this);
             powerupManager = new PowerupManager(ragdollManager, farseerManager);
+            jukebox = new Jukebox();
             
 
             this.IsMouseVisible = true;
@@ -198,6 +201,7 @@ namespace KinectRagdoll
             farseerManager.LoadContent();
             objectiveManager.LoadContent(Content);
             toolbox.LoadContent();
+            Jukebox.LoadContent(Content);
 
             InitializeTransform();
             InitializeEffect();

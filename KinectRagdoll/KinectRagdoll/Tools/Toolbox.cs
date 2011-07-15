@@ -62,7 +62,7 @@ namespace KinectRagdoll.Sandbox
             AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Save), new Vector2(10, 342));
             AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.PropertyEditor), new Vector2(10, 406));
             AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Copy), new Vector2(10, 428));
-            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Delete), new Vector2(10, 474));
+            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Delete), new Vector2(10, 474)) ;
             AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Freeze), new Vector2(10, 496));
             AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Release), new Vector2(10, 520));
             AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.ToggleCamera), new Vector2(10, 606));

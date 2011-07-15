@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using KinectRagdoll.Powerups;
 using FarseerPhysics.Dynamics;
 using KinectRagdoll.Equipment;
+using KinectRagdoll.Music;
 
 namespace KinectRagdoll.Sandbox
 {
@@ -41,11 +42,15 @@ namespace KinectRagdoll.Sandbox
 
             bool skipFirst = true;
 
+            musicList.Items.Add("");
+            musicList.Items.AddRange(Jukebox.Playlist.ToArray());
+           
+
             foreach (Fixture f in selectedFixtures)
             {
                 bool shouldClearSettings = false;
 
-                Powerup p = powerupManager.getPowerup(f);
+                MusicalPowerup p = powerupManager.getPowerup(f);
                 if (p != null)
                 {
                     shouldClearSettings = (populateForm(p) || shouldClearSettings) && !skipFirst;
@@ -71,7 +76,7 @@ namespace KinectRagdoll.Sandbox
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
-        private bool populateForm(Powerup p)
+        private bool populateForm(MusicalPowerup p)
         {
 
             bool changed = false;
@@ -88,16 +93,21 @@ namespace KinectRagdoll.Sandbox
             spidersilk.Checked = p.SpiderSilk;
             peashooters.Checked = p.PeaShooter;
 
+            changed = changed || ((string)musicList.SelectedItem != p.Song);
+            musicList.SelectedItem = p.Song;
+
             return changed;
 
         }
 
-        private void populatePowerup(Powerup p)
+        private void populatePowerup(MusicalPowerup p)
         {
             p.JetPack = jetpack.Checked;
             p.Flappers = birdflap.Checked;
             p.SpiderSilk = spidersilk.Checked;
             p.PeaShooter = peashooters.Checked;
+
+            p.Song = musicList.Text;
         }
 
         
@@ -112,7 +122,7 @@ namespace KinectRagdoll.Sandbox
             foreach (Fixture f in selectedFixtures)
             {
                 
-                Powerup p = powerupManager.AddPowerup(f);
+                MusicalPowerup p = powerupManager.AddPowerup(f);
                 populatePowerup(p);
             }
 

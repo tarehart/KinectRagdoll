@@ -31,14 +31,17 @@
             this.jetpack = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.noShoot = new System.Windows.Forms.RadioButton();
             this.peashooters = new System.Windows.Forms.RadioButton();
             this.spidersilk = new System.Windows.Forms.RadioButton();
             this.birdflap = new System.Windows.Forms.CheckBox();
             this.apply = new System.Windows.Forms.Button();
             this.remove = new System.Windows.Forms.Button();
-            this.noShoot = new System.Windows.Forms.RadioButton();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.musicList = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // jetpack
@@ -79,6 +82,17 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "shootin\'";
             // 
+            // noShoot
+            // 
+            this.noShoot.AutoSize = true;
+            this.noShoot.Location = new System.Drawing.Point(7, 19);
+            this.noShoot.Name = "noShoot";
+            this.noShoot.Size = new System.Drawing.Size(51, 17);
+            this.noShoot.TabIndex = 4;
+            this.noShoot.TabStop = true;
+            this.noShoot.Text = "None";
+            this.noShoot.UseVisualStyleBackColor = true;
+            // 
             // peashooters
             // 
             this.peashooters.AutoSize = true;
@@ -113,8 +127,8 @@
             // 
             // apply
             // 
-            this.apply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.apply.Location = new System.Drawing.Point(192, 135);
+            this.apply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.apply.Location = new System.Drawing.Point(192, 225);
             this.apply.Name = "apply";
             this.apply.Size = new System.Drawing.Size(75, 23);
             this.apply.TabIndex = 2;
@@ -124,7 +138,8 @@
             // 
             // remove
             // 
-            this.remove.Location = new System.Drawing.Point(12, 135);
+            this.remove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.remove.Location = new System.Drawing.Point(12, 225);
             this.remove.Name = "remove";
             this.remove.Size = new System.Drawing.Size(75, 23);
             this.remove.TabIndex = 3;
@@ -132,22 +147,30 @@
             this.remove.UseVisualStyleBackColor = true;
             this.remove.Click += new System.EventHandler(this.remove_Click);
             // 
-            // noShoot
+            // groupBox3
             // 
-            this.noShoot.AutoSize = true;
-            this.noShoot.Location = new System.Drawing.Point(7, 19);
-            this.noShoot.Name = "noShoot";
-            this.noShoot.Size = new System.Drawing.Size(51, 17);
-            this.noShoot.TabIndex = 4;
-            this.noShoot.TabStop = true;
-            this.noShoot.Text = "None";
-            this.noShoot.UseVisualStyleBackColor = true;
+            this.groupBox3.Controls.Add(this.musicList);
+            this.groupBox3.Location = new System.Drawing.Point(12, 136);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(255, 52);
+            this.groupBox3.TabIndex = 4;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Music";
+            // 
+            // musicList
+            // 
+            this.musicList.FormattingEnabled = true;
+            this.musicList.Location = new System.Drawing.Point(7, 20);
+            this.musicList.Name = "musicList";
+            this.musicList.Size = new System.Drawing.Size(121, 21);
+            this.musicList.TabIndex = 0;
             // 
             // PowerupForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(279, 170);
+            this.ClientSize = new System.Drawing.Size(279, 260);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.remove);
             this.Controls.Add(this.apply);
             this.Controls.Add(this.groupBox1);
@@ -158,6 +181,7 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -173,5 +197,7 @@
         private System.Windows.Forms.Button apply;
         private System.Windows.Forms.Button remove;
         private System.Windows.Forms.RadioButton noShoot;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.ComboBox musicList;
     }
 }

@@ -264,7 +264,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Toolbox\menu.xnb</Output>
-      <Time>2011-07-03T02:57:34.5324508-04:00</Time>
+      <Time>2011-07-15T00:19:13.1136076-04:00</Time>
     </Item>
     <Item>
       <Source>Toolbox\showtoolbox.png</Source>
@@ -310,6 +310,36 @@
       <Options>None</Options>
       <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Sounds\trumpet.xnb</Output>
       <Time>2011-06-26T21:44:18.8269454-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Music\AmazingPlan.mp3</Source>
+      <Name>Music\AmazingPlan</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\AmazingPlan.xnb</Output>
+      <Extra>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\AmazingPlan.wma</Extra>
+      <Time>2011-07-14T22:53:09.0189178-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Music\FigLeafRag.mp3</Source>
+      <Name>Music\FigLeafRag</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\FigLeafRag.xnb</Output>
+      <Extra>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\FigLeafRag.wma</Extra>
+      <Time>2011-07-14T23:56:56.1206813-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Music\DarkHallway.mp3</Source>
+      <Name>Music\DarkHallway</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\DarkHallway.xnb</Output>
+      <Extra>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\DarkHallway.wma</Extra>
+      <Time>2011-07-14T23:58:28.609198-04:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

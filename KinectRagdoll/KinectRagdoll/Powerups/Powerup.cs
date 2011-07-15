@@ -16,17 +16,8 @@ namespace KinectRagdoll.Powerups
 {
 
     [DataContract(Name = "Powerup", Namespace = "http://www.imcool.com")]
-    public class Powerup
+    public class Powerup : Pickup
     {
-
-        [DataMember()]
-        public Fixture Fixture { get; private set; }
-        private RagdollManager ragdollManager;
-        private FarseerManager farseerManager;
-
-        public bool Taken { get; private set; }
-
-        public event EventHandler PickedUp;
 
 
         public List<AbstractEquipment> Equipment
@@ -43,16 +34,11 @@ namespace KinectRagdoll.Powerups
         }
 
 
-        internal Powerup(Fixture f, RagdollManager ragdollManager, FarseerManager farseerManager)
+        internal Powerup(Fixture f, RagdollManager ragdollManager, FarseerManager farseerManager) : base(f, ragdollManager, farseerManager)
         {
-            this.Fixture = f;
-            this.ragdollManager = ragdollManager;
-            this.farseerManager = farseerManager;
 
-            f.BeforeCollision += new BeforeCollisionEventHandler(f_BeforeCollision);
-
-            FarseerTextures.ApplyTexture(Fixture, FarseerTextures.TextureType.Powerup);
         }
+
 
         [DataMember()]
         public bool JetPack { get; set; }
@@ -63,34 +49,13 @@ namespace KinectRagdoll.Powerups
         [DataMember()]
         public bool Flappers { get; set; }
 
-        bool f_BeforeCollision(Fixture fixtureA, Fixture fixtureB)
-        {
-            Fixture other = fixtureA;
-            if (Fixture == fixtureA) other = fixtureB;
-
-            RagdollMuscle ragdoll = ragdollManager.GetFixtureOwner(other);
-
-            if (ragdoll != null)
-            {
-                ApplyPowerup(ragdoll);
-                farseerManager.world.RemoveBody(Fixture.Body);
-                Taken = true;
-                if (PickedUp != null)
-                {
-                    PickedUp(this, null);
-                }
-                return false;
-            }
-
-            return true;
-        }
 
         public void ApplyPowerup(RagdollMuscle ragdoll)
         {
             ragdoll.Equipment = Equipment;
         }
 
-        public void Draw(SpriteBatch sb)
+        public override void Draw(SpriteBatch sb)
         {
             if (JetPack)
             {
@@ -112,10 +77,14 @@ namespace KinectRagdoll.Powerups
         }
 
 
-        internal void RemoveCollisionHandler()
+        protected override void ApplyTexture()
         {
-            Fixture.BeforeCollision -= new BeforeCollisionEventHandler(f_BeforeCollision);
-            FarseerTextures.ApplyTexture(Fixture, FarseerTextures.TextureType.Normal);
+            FarseerTextures.ApplyTexture(Fixture, FarseerTextures.TextureType.Powerup);
+        }
+
+        protected override void DoPickupAction(RagdollMuscle ragdoll)
+        {
+            ApplyPowerup(ragdoll);
         }
     }
 }

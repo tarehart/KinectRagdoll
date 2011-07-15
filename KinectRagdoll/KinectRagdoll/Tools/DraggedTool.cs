@@ -50,7 +50,8 @@ namespace KinectRagdoll.Tools
 
                     Fixture f = CreateFixture(d);
 
-                    FormManager.Property.setSelectedObject(f.Body);
+                    FormManager.Property.setPendingObjects(new List<object>() { f.Body });
+                    //FormManager.Property.setSelectedObject(f.Body);
 
                     f.Restitution = .3f;
 

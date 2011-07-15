@@ -15,7 +15,7 @@ namespace KinectRagdoll.Powerups
         private RagdollManager ragdollManager;
         private FarseerManager farseerManager;
 
-        private Dictionary<Fixture, Powerup> powerups = new Dictionary<Fixture,Powerup>();
+        private Dictionary<Fixture, MusicalPowerup> powerups = new Dictionary<Fixture, MusicalPowerup>();
 
         public PowerupManager(RagdollManager r, FarseerManager f)
         {
@@ -23,15 +23,15 @@ namespace KinectRagdoll.Powerups
             this.farseerManager = f;
         }
 
-        public Powerup AddPowerup(Fixture f)
+        public MusicalPowerup AddPowerup(Fixture f)
         {
-            Powerup p = new Powerup(f, ragdollManager, farseerManager);
+            MusicalPowerup p = new MusicalPowerup(f, ragdollManager, farseerManager);
             AddPowerup(p);
 
             return p;
         }
 
-        private void AddPowerup(Powerup p)
+        private void AddPowerup(MusicalPowerup p)
         {
             if (powerups.ContainsKey(p.Fixture))
             {
@@ -60,7 +60,7 @@ namespace KinectRagdoll.Powerups
             }
         }
 
-        public Powerup getPowerup(Fixture f)
+        public MusicalPowerup getPowerup(Fixture f)
         {
             if (powerups.ContainsKey(f))
             {
