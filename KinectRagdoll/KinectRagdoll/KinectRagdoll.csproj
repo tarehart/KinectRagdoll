@@ -138,7 +138,6 @@
     <Compile Include="Equipment\GrabHands.cs" />
     <Compile Include="Equipment\JetPack.cs" />
     <Compile Include="Music\Jukebox.cs" />
-    <Compile Include="Powerups\MusicalPowerup.cs" />
     <Compile Include="Powerups\Pickup.cs" />
     <Compile Include="Powerups\Powerup.cs" />
     <Compile Include="Equipment\PunchEquipment.cs" />
@@ -211,6 +210,7 @@
     <Compile Include="Sandbox\Serializer.cs" />
     <Compile Include="Tools\PolygonTool.cs" />
     <Compile Include="Tools\RectangleTool.cs" />
+    <Compile Include="Tools\RopeTool.cs" />
     <Compile Include="Tools\Tool.cs" />
     <Compile Include="Tools\Toolbox.cs" />
     <Compile Include="Tools\ToolboxButton.cs" />

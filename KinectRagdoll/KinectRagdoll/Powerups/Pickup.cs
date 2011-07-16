@@ -17,7 +17,7 @@ namespace KinectRagdoll.Powerups
     {
 
         [DataMember()]
-        public Fixture Fixture { get; private set; }
+        public Body Body { get; private set; }
         protected RagdollManager ragdollManager;
         protected FarseerManager farseerManager;
 
@@ -26,13 +26,22 @@ namespace KinectRagdoll.Powerups
         public event EventHandler PickedUp;
 
 
-        internal Pickup(Fixture f, RagdollManager ragdollManager, FarseerManager farseerManager)
-        {
-            this.Fixture = f;
-            this.ragdollManager = ragdollManager;
-            this.farseerManager = farseerManager;
+        protected Pickup(RagdollManager r, FarseerManager f) {
+            this.ragdollManager = r;
+            this.farseerManager = f;
+        }
 
-            f.BeforeCollision += new BeforeCollisionEventHandler(f_BeforeCollision);
+
+        internal Pickup(Body b, RagdollManager ragdollManager, FarseerManager farseerManager) : this(ragdollManager, farseerManager)
+        {
+            
+            this.Body = b;
+            
+
+            foreach (Fixture f in b.FixtureList)
+            {
+                f.BeforeCollision += new BeforeCollisionEventHandler(f_BeforeCollision);
+            }
 
             ApplyTexture();
 
@@ -44,7 +53,7 @@ namespace KinectRagdoll.Powerups
         bool f_BeforeCollision(Fixture fixtureA, Fixture fixtureB)
         {
             Fixture other = fixtureA;
-            if (Fixture == fixtureA) other = fixtureB;
+            if (Body.FixtureList.Contains(fixtureA)) other = fixtureB;
 
             RagdollMuscle ragdoll = ragdollManager.GetFixtureOwner(other);
 
@@ -52,7 +61,7 @@ namespace KinectRagdoll.Powerups
             {
                 DoPickupAction(ragdoll);
 
-                farseerManager.world.RemoveBody(Fixture.Body);
+                farseerManager.world.RemoveBody(Body);
                 Taken = true;
                 if (PickedUp != null)
                 {
@@ -64,7 +73,7 @@ namespace KinectRagdoll.Powerups
             return true;
         }
 
-        protected abstract void DoPickupAction(RagdollMuscle ragdoll);
+        public abstract void DoPickupAction(RagdollMuscle ragdoll);
 
 
 
@@ -73,8 +82,13 @@ namespace KinectRagdoll.Powerups
 
         internal void RemoveCollisionHandler()
         {
-            Fixture.BeforeCollision -= new BeforeCollisionEventHandler(f_BeforeCollision);
-            FarseerTextures.ApplyTexture(Fixture, FarseerTextures.TextureType.Normal);
+            foreach (Fixture f in Body.FixtureList)
+            {
+                f.BeforeCollision -= new BeforeCollisionEventHandler(f_BeforeCollision);
+            }
+            
+            
+            FarseerTextures.ApplyTexture(Body, FarseerTextures.TextureType.Normal);
         }
     }
 }

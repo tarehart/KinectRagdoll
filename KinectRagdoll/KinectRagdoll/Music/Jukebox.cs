@@ -42,5 +42,10 @@ namespace KinectRagdoll.Music
             }
 
         }
+
+        internal static void Stop()
+        {
+            MediaPlayer.Stop();
+        }
     }
 }

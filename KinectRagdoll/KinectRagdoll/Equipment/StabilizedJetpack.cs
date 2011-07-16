@@ -6,9 +6,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using KinectRagdoll.Kinect;
 using KinectRagdoll.Ragdoll;
+using System.Runtime.Serialization;
 
 namespace KinectRagdoll.Equipment
 {
+    [DataContract(Name = "StabilizedJetpack", Namespace = "http://www.imcool.com")]
     class StabilizedJetpack : JetPack
     {
 

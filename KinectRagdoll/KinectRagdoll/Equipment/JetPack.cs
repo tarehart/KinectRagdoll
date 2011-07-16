@@ -9,9 +9,11 @@ using Microsoft.Xna.Framework;
 using KinectRagdoll.MyMath;
 using KinectRagdoll.Ragdoll;
 using System.Timers;
+using System.Runtime.Serialization;
 
 namespace KinectRagdoll.Equipment
 {
+    [DataContract(Name = "Jetpack", Namespace = "http://www.imcool.com")]
     public class JetPack : AbstractEquipment
     {
 

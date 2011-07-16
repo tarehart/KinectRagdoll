@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.IO;
+using KinectRagdoll.Music;
 
 namespace KinectRagdoll.Sandbox
 {
@@ -74,7 +75,7 @@ namespace KinectRagdoll.Sandbox
                     object[] selection = FormManager.Property.getSelectedObjects();
                     if (selection.Length > 0)
                     {
-                        PowerupForm p = new PowerupForm(game.powerupManager);
+                        PowerupForm p = new PowerupForm();
                         p.Show(selection);
                     }
                     
@@ -100,6 +101,7 @@ namespace KinectRagdoll.Sandbox
             {
                 Action a = delegate()
                 {
+                    Jukebox.Stop();
                     game.farseerManager.LoadWorld(FormManager.Open.FileName);
                 };
 

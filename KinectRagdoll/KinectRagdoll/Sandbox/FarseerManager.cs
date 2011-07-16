@@ -40,7 +40,7 @@ namespace KinectRagdoll.Kinect
             
 
             debugview = new DebugViewXNA(world);
-            debugview.Flags = FarseerPhysics.DebugViewFlags.TexturedShape;
+            debugview.Flags = FarseerPhysics.DebugViewFlags.TexturedShape | FarseerPhysics.DebugViewFlags.Joint;
 
             //World loaded = Serializer.readFromDataContract("graph.xml");
             //world.JointList.AddRange(loaded.JointList);
@@ -194,6 +194,7 @@ namespace KinectRagdoll.Kinect
             }
 
         }
+
 
         private void DrawSelectedJoints(SpriteBatch sb)
         {

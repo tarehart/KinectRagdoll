@@ -15,7 +15,7 @@ namespace KinectRagdoll.Powerups
         private RagdollManager ragdollManager;
         private FarseerManager farseerManager;
 
-        private Dictionary<Fixture, MusicalPowerup> powerups = new Dictionary<Fixture, MusicalPowerup>();
+        private Dictionary<Body, Powerup> powerups = new Dictionary<Body, Powerup>();
 
         public PowerupManager(RagdollManager r, FarseerManager f)
         {
@@ -23,23 +23,23 @@ namespace KinectRagdoll.Powerups
             this.farseerManager = f;
         }
 
-        public MusicalPowerup AddPowerup(Fixture f)
+        public Powerup AddPowerup(Body b)
         {
-            MusicalPowerup p = new MusicalPowerup(f, ragdollManager, farseerManager);
+            Powerup p = new Powerup(b, ragdollManager, farseerManager);
             AddPowerup(p);
 
             return p;
         }
 
-        private void AddPowerup(MusicalPowerup p)
+        private void AddPowerup(Powerup p)
         {
-            if (powerups.ContainsKey(p.Fixture))
+            if (powerups.ContainsKey(p.Body))
             {
-                powerups[p.Fixture] = p;
+                powerups[p.Body] = p;
             }
             else
             {
-                powerups.Add(p.Fixture, p);
+                powerups.Add(p.Body, p);
             }
 
 
@@ -48,7 +48,7 @@ namespace KinectRagdoll.Powerups
 
         void p_PickedUp(object sender, EventArgs e)
         {
-            powerups.Remove((sender as Powerup).Fixture);
+            powerups.Remove((sender as Powerup).Body);
         }
 
 
@@ -60,11 +60,11 @@ namespace KinectRagdoll.Powerups
             }
         }
 
-        public MusicalPowerup getPowerup(Fixture f)
+        public Powerup getPowerup(Body b)
         {
-            if (powerups.ContainsKey(f))
+            if (powerups.ContainsKey(b))
             {
-                return powerups[f];
+                return powerups[b];
             }
 
             return null;
@@ -73,12 +73,12 @@ namespace KinectRagdoll.Powerups
 
 
 
-        internal void RemovePowerup(Fixture f)
+        internal void RemovePowerup(Body b)
         {
-            if (powerups.ContainsKey(f))
+            if (powerups.ContainsKey(b))
             {
-                powerups[f].RemoveCollisionHandler();
-                powerups.Remove(f);
+                powerups[b].RemoveCollisionHandler();
+                powerups.Remove(b);
 
             }
         }
@@ -105,11 +105,12 @@ namespace KinectRagdoll.Powerups
             {
                 foreach (Powerup p in list)
                 {
-                    Powerup newP = AddPowerup(p.Fixture);
+                    Powerup newP = AddPowerup(p.Body);
                     newP.SpiderSilk = p.SpiderSilk;
                     newP.JetPack = p.JetPack;
                     newP.PeaShooter = p.PeaShooter;
                     newP.Flappers = p.Flappers;
+                    newP.Song = p.Song;
                 }
             }
         }

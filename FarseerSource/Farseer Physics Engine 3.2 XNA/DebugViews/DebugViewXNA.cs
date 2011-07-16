@@ -518,6 +518,20 @@ namespace FarseerPhysics.DebugViews
                     break;
                 //case JointType.Weld:
                 //    break;
+                case JointType.RopeJoint:
+                    RopeJoint rj = joint as RopeJoint;
+                    Vector2 toP2 = (p2 - p1);
+                    float length = toP2.Length();
+                    float proportion = length / rj.MaxLength;
+                    Vector2 dot1 = p1 + toP2 * proportion * .5f;
+                    Vector2 dot2 = p2 - toP2 * proportion * .5f;
+                    
+                    DrawThickLine(p1, p2, .2f, Color.Black);
+                    DrawPoint(dot1, .3f, Color.Red);
+                    DrawPoint(dot2, .3f, Color.Red);
+                    //DrawSegment(x1, p1, Color.Black);
+                    //DrawSegment(p1, p2, Color.Black);
+                    break;
                 default:
                     DrawSegment(x1, p1, color);
                     DrawSegment(p1, p2, color);
@@ -1145,6 +1159,44 @@ namespace FarseerPhysics.DebugViews
                 // Draw start shape
                 DrawSolidPolygon(baseVerts, 4, color, false);
             }
+        }
+
+        public void DrawThickLine(Vector2 start, Vector2 end, float width, 
+                              Color color)
+        {
+            // Precalculate halfwidth
+            float halfWidth = width / 2;
+
+            
+
+            // Create directional reference
+            Vector2 rotation = (start - end);
+            float length = rotation.Length();
+            rotation.Normalize();
+
+            // Calculate angle of directional vector
+            float angle = (float)Math.Atan2(rotation.X, -rotation.Y);
+            // Create matrix for rotation
+            Matrix rotMatrix = Matrix.CreateRotationZ(angle);
+            // Create translation matrix for end-point
+            Matrix endMatrix = Matrix.CreateTranslation(end.X, end.Y, 0);
+
+            // Create translation matrix for start
+            Matrix startMatrix = Matrix.CreateTranslation(start.X, start.Y, 0);
+            // Setup arrow start shape
+            Vector2[] baseVerts = new Vector2[4];
+            baseVerts[0] = new Vector2(-halfWidth, length);
+            baseVerts[1] = new Vector2(halfWidth, length);
+            baseVerts[2] = new Vector2(halfWidth, 0);
+            baseVerts[3] = new Vector2(-halfWidth, 0);
+
+            // Rotate start shape
+            Vector2.Transform(baseVerts, ref rotMatrix, baseVerts);
+            // Translate start shape
+            Vector2.Transform(baseVerts, ref startMatrix, baseVerts);
+            // Draw start shape
+            DrawSolidPolygon(baseVerts, 4, color, false);
+            
         }
 
         public void RenderDebugData(ref Matrix projection)

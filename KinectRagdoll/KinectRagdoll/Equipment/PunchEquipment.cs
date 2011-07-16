@@ -7,9 +7,11 @@ using KinectRagdoll.Ragdoll;
 using FarseerPhysics.Dynamics;
 using KinectRagdoll.Kinect;
 using KinectRagdoll.Drawing;
+using System.Runtime.Serialization;
 
 namespace KinectRagdoll.Equipment
 {
+    [DataContract(Name = "PunchEquipment", Namespace = "http://www.imcool.com")]
     public abstract class PunchEquipment : WristVelocityEquipment
     {
         //protected Vector3 leftHand;
@@ -27,7 +29,7 @@ namespace KinectRagdoll.Equipment
         private int leftCooldown = 0;
         
 
-        protected int cooldown;
+        protected int cooldown = 20;
         private const float SPEED_THRESHOLD = 1.6f;
         protected const float EXTENSION_THRESHOLD = .21f;
 

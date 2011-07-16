@@ -89,7 +89,7 @@ namespace KinectRagdoll.Sandbox
             if (!maintainSelection)
                 selectNone_Click(null, null);
 
-            object[] highlighted = FarseerTextures.TemporaryList.ToArray<object>();
+            object[] highlighted = FarseerTextures.HighlightedList.ToArray<object>();
             foreach (Object b in highlighted)
             {
                 doHighlighting(b, null);

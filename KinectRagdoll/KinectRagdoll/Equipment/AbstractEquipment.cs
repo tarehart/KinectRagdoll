@@ -5,9 +5,15 @@ using System.Text;
 using KinectRagdoll.Kinect;
 using Microsoft.Xna.Framework.Graphics;
 using KinectRagdoll.Ragdoll;
+using System.Runtime.Serialization;
 
 namespace KinectRagdoll.Equipment
 {
+    [DataContract(Name = "AbstractEquipment", Namespace = "http://www.imcool.com")]
+    [KnownType(typeof(Flappers))]
+    [KnownType(typeof(StabilizedJetpack))]
+    [KnownType(typeof(PunchGuns))]
+    [KnownType(typeof(SpideySilk))]
     public abstract class AbstractEquipment
     {
 

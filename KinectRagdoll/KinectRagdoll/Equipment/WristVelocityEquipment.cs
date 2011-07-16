@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using KinectRagdoll.Ragdoll;
+using System.Runtime.Serialization;
 
 namespace KinectRagdoll.Equipment
 {
+
+    [DataContract(Name = "WristVelocityEquipment", Namespace = "http://www.imcool.com")]
     public abstract class WristVelocityEquipment : AbstractEquipment
     {
         protected Vector3 leftWrist;

@@ -8,13 +8,16 @@ using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics.Joints;
 using KinectRagdoll.Drawing;
 using KinectRagdoll.Kinect;
+using System.Runtime.Serialization;
 
 namespace KinectRagdoll.Equipment
 {
+
+    [DataContract(Name = "SpideySilk", Namespace = "http://www.imcool.com")]
     class SpideySilk : PunchEquipment
     {
 
-        protected int range;
+        protected int range = 50;
         protected DistanceJoint rightSilk;
         protected DistanceJoint leftSilk;
         protected const float DETACH_RADIUS = EXTENSION_THRESHOLD - 0f;

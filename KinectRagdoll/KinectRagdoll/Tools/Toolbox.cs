@@ -54,6 +54,7 @@ namespace KinectRagdoll.Sandbox
             AddToolButton(new NailTool(game), new Vector2(10, 125));
             AddToolButton(new JointTool(game), new Vector2(10, 147));
             AddToolButton(new ObjectiveTool(game), new Vector2(10, 171));
+            AddToolButton(new RopeTool(game), new Vector2(34, 147));
             
 
             AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.StartTimer), new Vector2(10, 233));

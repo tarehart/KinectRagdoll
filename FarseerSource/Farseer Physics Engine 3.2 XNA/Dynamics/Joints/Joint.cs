@@ -49,7 +49,8 @@ namespace FarseerPhysics.Dynamics.Joints
         MaxDistance,
         Angle,
         FixedAngle,
-        FixedFriction
+        FixedFriction,
+        RopeJoint
     }
 
     public enum LimitState
@@ -123,6 +124,7 @@ namespace FarseerPhysics.Dynamics.Joints
     [KnownType(typeof(FixedRevoluteJoint))]
     [KnownType(typeof(RevoluteJoint))]
     [KnownType(typeof(DistanceJoint))]
+    [KnownType(typeof(RopeJoint))]
     public abstract class Joint
     {
         /// <summary>

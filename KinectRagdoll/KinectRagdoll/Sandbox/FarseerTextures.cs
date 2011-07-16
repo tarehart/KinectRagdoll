@@ -22,9 +22,12 @@ namespace KinectRagdoll.Sandbox
         //private static DebugMaterial normalTexture;
         private static Dictionary<Fixture, DebugMaterial> materialBank = new Dictionary<Fixture, DebugMaterial>();
 
-        public static ICollection<Fixture> TemporaryList
+
+        public static IEnumerable<Fixture> HighlightedList
         {
-            get { return materialBank.Keys; }
+
+
+            get { return materialBank.Keys.Where(item => item.UserData == editingTexture || item.UserData == selectTexture); }
         }
 
         public static void Init()
@@ -78,6 +81,14 @@ namespace KinectRagdoll.Sandbox
             Objective,
             CompletedObjective,
             Powerup
+        }
+
+        internal static void ApplyTexture(Body b, TextureType textureType)
+        {
+            foreach (Fixture f in b.FixtureList)
+            {
+                ApplyTexture(f, textureType);
+            }
         }
 
         public static void ApplyTexture(Fixture f, TextureType type)
@@ -156,7 +167,7 @@ namespace KinectRagdoll.Sandbox
                 return false;
             }
 
-            if (game.powerupManager.getPowerup(f) != null) return false;
+            if (game.powerupManager.getPowerup(f.Body) != null) return false;
 
             return true;
         }
@@ -189,5 +200,7 @@ namespace KinectRagdoll.Sandbox
                 materialBank.Remove(fixture);
             }
         }
+
+        
     }
 }

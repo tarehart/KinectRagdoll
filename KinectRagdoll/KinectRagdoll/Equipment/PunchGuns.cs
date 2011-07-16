@@ -10,9 +10,11 @@ using FarseerPhysics.Factories;
 using FarseerPhysics.DebugViews;
 using FarseerPhysics.Dynamics.Contacts;
 using System.Timers;
+using System.Runtime.Serialization;
 
 namespace KinectRagdoll.Equipment
 {
+    [DataContract(Name = "PunchGuns", Namespace = "http://www.imcool.com")]
     public class PunchGuns : PunchEquipment
     {
 

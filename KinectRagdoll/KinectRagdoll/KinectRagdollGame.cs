@@ -62,11 +62,19 @@ namespace KinectRagdoll
         public List<Action> pendingUpdates = new List<Action>();
 
         public static GraphicsDevice graphicsDevice;
+
+        public static KinectRagdollGame Main
+        {
+            get;
+            private set;
+        }
         
         
 
         public KinectRagdollGame()
         {
+            Main = this;
+
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = WIDTH;
             graphics.PreferredBackBufferHeight = HEIGHT;
@@ -223,10 +231,10 @@ namespace KinectRagdoll
         /// </summary>
         protected override void UnloadContent()
         {
-            if (farseerManager.createNew)
-            {
-                Serializer.Save(farseerManager.world, this, "save.xml");
-            }
+            //if (farseerManager.createNew)
+            //{
+            //    Serializer.Save(farseerManager.world, this, "save.xml");
+            //}
         }
 
 

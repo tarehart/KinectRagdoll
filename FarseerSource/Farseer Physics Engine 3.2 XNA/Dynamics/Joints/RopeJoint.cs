@@ -20,6 +20,7 @@ using System;
 using System.Diagnostics;
 using FarseerPhysics.Common;
 using Microsoft.Xna.Framework;
+using System.Runtime.Serialization;
 
 namespace FarseerPhysics.Dynamics.Joints
 {
@@ -41,9 +42,13 @@ namespace FarseerPhysics.Dynamics.Joints
     /// that way. See b2DistanceJoint if you want to dynamically
     /// control length.
     /// </summary>
+    [DataContract(Name = "RopeJoint", Namespace = "http://www.imcool.com")]
     public class RopeJoint : Joint
     {
+        [DataMember()]
         public Vector2 LocalAnchorA;
+
+        [DataMember()]
         public Vector2 LocalAnchorB;
 
         private float _impulse;
@@ -54,9 +59,12 @@ namespace FarseerPhysics.Dynamics.Joints
         private LimitState _state;
         private Vector2 _u;
 
+        
         public RopeJoint(Body bodyA, Body bodyB, Vector2 localAnchorA, Vector2 localAnchorB)
             : base(bodyA, bodyB)
         {
+
+            JointType = JointType.RopeJoint;
             LocalAnchorA = localAnchorA;
             LocalAnchorB = localAnchorB;
 
@@ -70,11 +78,14 @@ namespace FarseerPhysics.Dynamics.Joints
         }
 
         /// Get the maximum length of the rope.
+        [DataMember()]
         public float MaxLength { get; set; }
+
+        
 
         public LimitState State
         {
-            get { return State; }
+            get { return _state; }
         }
 
         public override sealed Vector2 WorldAnchorA

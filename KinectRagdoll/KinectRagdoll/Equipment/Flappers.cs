@@ -5,9 +5,12 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using KinectRagdoll.Ragdoll;
 using KinectRagdoll.Drawing;
+using System.Runtime.Serialization;
 
 namespace KinectRagdoll.Equipment
 {
+
+    [DataContract(Name = "Flappers", Namespace = "http://www.imcool.com")]
     class Flappers : WristVelocityEquipment
     {
 

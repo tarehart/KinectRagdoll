@@ -10,32 +10,35 @@ using KinectRagdoll.Powerups;
 using FarseerPhysics.Dynamics;
 using KinectRagdoll.Equipment;
 using KinectRagdoll.Music;
+using KinectRagdoll.Kinect;
+using KinectRagdoll.Ragdoll;
 
 namespace KinectRagdoll.Sandbox
 {
     public partial class PowerupForm : Form
     {
 
-        private PowerupManager powerupManager;
-        private List<Fixture> selectedFixtures = new List<Fixture>();
+        private KinectRagdollGame game;
+        
+        private List<Body> selectedBodies = new List<Body>();
 
-        public PowerupForm(PowerupManager p)
+        public PowerupForm()
         {
             InitializeComponent();
 
-            powerupManager = p;
+            game = KinectRagdollGame.Main;
         }
 
         public void Show(object[] objects)
         {
             
 
-            selectedFixtures.Clear();
+            selectedBodies.Clear();
             foreach (object o in objects)
             {
-                if (o is Fixture)
+                if (o is Fixture && !selectedBodies.Contains((o as Fixture).Body))
                 {
-                    selectedFixtures.Add(o as Fixture);
+                    selectedBodies.Add((o as Fixture).Body);
                 }
             }
 
@@ -46,11 +49,11 @@ namespace KinectRagdoll.Sandbox
             musicList.Items.AddRange(Jukebox.Playlist.ToArray());
            
 
-            foreach (Fixture f in selectedFixtures)
+            foreach (Body b in selectedBodies)
             {
                 bool shouldClearSettings = false;
 
-                MusicalPowerup p = powerupManager.getPowerup(f);
+                Powerup p = game.powerupManager.getPowerup(b);
                 if (p != null)
                 {
                     shouldClearSettings = (populateForm(p) || shouldClearSettings) && !skipFirst;
@@ -76,7 +79,7 @@ namespace KinectRagdoll.Sandbox
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
-        private bool populateForm(MusicalPowerup p)
+        private bool populateForm(Powerup p)
         {
 
             bool changed = false;
@@ -100,7 +103,7 @@ namespace KinectRagdoll.Sandbox
 
         }
 
-        private void populatePowerup(MusicalPowerup p)
+        private void populatePowerup(Powerup p)
         {
             p.JetPack = jetpack.Checked;
             p.Flappers = birdflap.Checked;
@@ -114,15 +117,29 @@ namespace KinectRagdoll.Sandbox
 
         private void apply_Click(object sender, EventArgs e)
         {
-            List<AbstractEquipment> equipment = new List<AbstractEquipment>();
+            //List<AbstractEquipment> equipment = new List<AbstractEquipment>();
 
-            if (jetpack.Checked) equipment.Add(new StabilizedJetpack());
+            //if (jetpack.Checked) equipment.Add(new StabilizedJetpack());
 
 
-            foreach (Fixture f in selectedFixtures)
+            foreach (Body b in selectedBodies)
             {
+
+                Powerup p;
+
+                if (b.FixtureList.Count > 0) {
+                    RagdollMuscle r = game.ragdollManager.GetFixtureOwner(b.FixtureList[0]);
+                    if (r != null)
+                    {
+                        p = new Powerup(game.ragdollManager, game.farseerManager);
+                        populatePowerup(p);
+                        p.DoPickupAction(r);
+                        continue;
+                    }
+                }
                 
-                MusicalPowerup p = powerupManager.AddPowerup(f);
+
+                p = game.powerupManager.AddPowerup(b);
                 populatePowerup(p);
             }
 
@@ -131,9 +148,9 @@ namespace KinectRagdoll.Sandbox
 
         private void remove_Click(object sender, EventArgs e)
         {
-            foreach (Fixture f in selectedFixtures)
+            foreach (Body b in selectedBodies)
             {
-                powerupManager.RemovePowerup(f);
+                game.powerupManager.RemovePowerup(b);
             }
 
             Close();

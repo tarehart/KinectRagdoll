@@ -44,7 +44,8 @@ namespace KinectRagdoll.Ragdoll
         private float depthTexRot;
         private float depthTexScale;
 
-        private List<AbstractEquipment> equipment;
+        [DataMember()]
+        private List<AbstractEquipment> equipment = new List<AbstractEquipment>();
 
 
 
@@ -80,8 +81,13 @@ namespace KinectRagdoll.Ragdoll
             _head.AfterCollision += HeadCollision;
             rand = new Random();
 
-            equipment = new List<AbstractEquipment>();
-            equipment.Add(new StabilizedJetpack(this));
+            foreach (AbstractEquipment e in equipment)
+            {
+                e.AttachToRagdoll(this);
+            }
+
+            //equipment = new List<AbstractEquipment>();
+            //equipment.Add(new StabilizedJetpack(this));
             //equipment.Add(new PunchGuns(world, 20, this));
             //equipment.Add(new Flappers(this));
             //equipment.Add(new SpideySilk(world, 80, 100, this));

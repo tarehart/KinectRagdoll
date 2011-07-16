@@ -38,8 +38,8 @@ namespace KinectRagdoll.Kinect
 
         public void initDepthTex()
         {
-            //depthTex = new Texture2D(KinectRagdollGame.graphicsDevice, 160, 120);
-            depthTex = new Texture2D(KinectRagdollGame.graphicsDevice, 320, 240);
+            depthTex = new Texture2D(KinectRagdollGame.graphicsDevice, 160, 120);
+            //depthTex = new Texture2D(KinectRagdollGame.graphicsDevice, 320, 240);
         }
 
 

@@ -11,6 +11,7 @@ using KinectRagdoll.Sandbox;
 using KinectRagdoll.Drawing;
 using Microsoft.Xna.Framework;
 using System.Runtime.Serialization;
+using KinectRagdoll.Music;
 
 namespace KinectRagdoll.Powerups
 {
@@ -27,14 +28,19 @@ namespace KinectRagdoll.Powerups
                 List<AbstractEquipment> e = new List<AbstractEquipment>();
                 if (JetPack) e.Add(new StabilizedJetpack());
                 if (PeaShooter) e.Add(new PunchGuns(farseerManager.world, 20));
-                if (SpiderSilk) e.Add(new SpideySilk(farseerManager.world, 20, 100));
+                if (SpiderSilk) e.Add(new SpideySilk(farseerManager.world, 20, 50));
                 if (Flappers) e.Add(new Flappers());
                 return e;
             }
         }
 
 
-        internal Powerup(Fixture f, RagdollManager ragdollManager, FarseerManager farseerManager) : base(f, ragdollManager, farseerManager)
+        public Powerup(Body b, RagdollManager ragdollManager, FarseerManager farseerManager) : base(b, ragdollManager, farseerManager)
+        {
+
+        }
+
+        public Powerup(RagdollManager r, FarseerManager f) : base(r, f)
         {
 
         }
@@ -48,7 +54,8 @@ namespace KinectRagdoll.Powerups
         public bool SpiderSilk { get; set; }
         [DataMember()]
         public bool Flappers { get; set; }
-
+        [DataMember()]
+        public string Song { get; set; }
 
         public void ApplyPowerup(RagdollMuscle ragdoll)
         {
@@ -59,32 +66,35 @@ namespace KinectRagdoll.Powerups
         {
             if (JetPack)
             {
-                SpriteHelper.DrawCircle(sb, Fixture.Body.Position + new Vector2(-.5f, .5f), 2, Color.Orange);
+                SpriteHelper.DrawCircle(sb, Body.Position + new Vector2(-.5f, .5f), 2, Color.Orange);
             }
 
             if (Flappers)
             {
-                SpriteHelper.DrawCircle(sb, Fixture.Body.Position + new Vector2(.5f, .5f), 2, Color.Blue);
+                SpriteHelper.DrawCircle(sb, Body.Position + new Vector2(.5f, .5f), 2, Color.Blue);
             }
             if (SpiderSilk)
             {
-                SpriteHelper.DrawCircle(sb, Fixture.Body.Position + new Vector2(-.5f, -.5f), 2, Color.White);
+                SpriteHelper.DrawCircle(sb, Body.Position + new Vector2(-.5f, -.5f), 2, Color.White);
             }
             if (PeaShooter)
             {
-                SpriteHelper.DrawCircle(sb, Fixture.Body.Position + new Vector2(.5f, -.5f), 2, Color.Green);
+                SpriteHelper.DrawCircle(sb, Body.Position + new Vector2(.5f, -.5f), 2, Color.Green);
             }
         }
 
 
         protected override void ApplyTexture()
         {
-            FarseerTextures.ApplyTexture(Fixture, FarseerTextures.TextureType.Powerup);
+            FarseerTextures.ApplyTexture(Body, FarseerTextures.TextureType.Powerup);
         }
 
-        protected override void DoPickupAction(RagdollMuscle ragdoll)
+        public override void DoPickupAction(RagdollMuscle ragdoll)
         {
             ApplyPowerup(ragdoll);
+
+            if (Song != null)
+                Jukebox.Play(Song);
         }
     }
 }
