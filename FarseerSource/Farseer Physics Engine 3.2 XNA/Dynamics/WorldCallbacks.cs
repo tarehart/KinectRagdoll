@@ -24,6 +24,7 @@
 */
 
 using FarseerPhysics.Collision;
+using FarseerPhysics.Controllers;
 using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Dynamics.Joints;
 using Microsoft.Xna.Framework;
@@ -33,15 +34,7 @@ namespace FarseerPhysics.Dynamics
     /// <summary>
     /// Called for each fixture found in the query. You control how the ray cast
     /// proceeds by returning a float:
-    /// return -1: ignore this fixture and continue
-    /// return 0: terminate the ray cast
-    /// return fraction: clip the ray to this point
-    /// return 1: don't clip the ray and continue
-    /// @param fixture the fixture hit by the ray
-    /// @param point the point of initial intersection
-    /// @param normal the normal vector at the point of intersection
-    /// @return -1 to filter, 0 to terminate, fraction to clip the ray for
-    /// closest hit, 1 to continue
+    /// <returns>-1 to filter, 0 to terminate, fraction to clip the ray for closest hit, 1 to continue</returns>
     /// </summary>
     public delegate float RayCastCallback(Fixture fixture, Vector2 point, Vector2 normal, float fraction);
 
@@ -64,6 +57,8 @@ namespace FarseerPhysics.Dynamics
     public delegate void JointDelegate(Joint joint);
 
     public delegate void BodyDelegate(Body body);
+
+    public delegate void ControllerDelegate(Controller controller);
 
     public delegate bool CollisionFilterDelegate(Fixture fixtureA, Fixture fixtureB);
 

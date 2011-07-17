@@ -304,7 +304,7 @@ namespace KinectRagdoll
             BlendState b = new BlendState();
             
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            spriteBatch.Draw(kinectManager.depthTex, new Rectangle(GraphicsDevice.PresentationParameters.BackBufferWidth - 640, 0, 640, 480), new Color(1, 1, 1, .5f));
+            //spriteBatch.Draw(kinectManager.depthTex, new Rectangle(GraphicsDevice.PresentationParameters.BackBufferWidth - 640, 0, 640, 480), new Color(1, 1, 1, .5f));
             farseerManager.DrawBasics(ref farseerView);
             spriteBatch.Draw(renderTarget, new Vector2(0, 0), null, Color.White, 0, new Vector2(0, 0), 1, SpriteEffects.FlipVertically, 1);
             toolbox.Draw(spriteBatch);

@@ -40,6 +40,13 @@ namespace KinectRagdoll.Equipment
             this.cooldown = cooldown;
         }
 
+        public override void Init(RagdollMuscle ragdoll)
+        {
+            base.Init(ragdoll);
+
+            this.world = KinectRagdollGame.Main.farseerManager.world;
+        }
+
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch sb)
         {
   

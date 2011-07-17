@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.0">
-  <App xmlns="" ProductID="{435230ad-0746-4df0-83b8-a7eb31ce0f33}" Title="FarseerPhysicsXNA" RuntimeType="XNA" Version="1.0.0.0" Genre="Apps.Normal" Author="" Description="" Publisher="">
+  <App xmlns="" ProductID="{dbd491df-4c4c-4d3e-a381-1ab5c88430f1}" Title="FarseerPhysicsXNA" RuntimeType="XNA" Version="1.0.0.0" Genre="Apps.Normal" Author="" Description="" Publisher="">
     <IconPath IsRelative="true" IsResource="false"></IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />

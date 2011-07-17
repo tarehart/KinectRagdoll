@@ -36,16 +36,19 @@ namespace FarseerPhysics.Factories
         /// <param name="subdivisions">The subdivisions.</param>
         public static void ConvertPathToEdges(Path path, Body body, int subdivisions)
         {
-            List<Vector2> verts = path.GetVertices(subdivisions);
-
-            for (int i = 1; i < verts.Count; i++)
-            {
-                body.CreateFixture(new PolygonShape(PolygonTools.CreateEdge(verts[i], verts[i - 1]), 0));
-            }
+            Vertices verts = path.GetVertices(subdivisions);
 
             if (path.Closed)
             {
-                body.CreateFixture(new PolygonShape(PolygonTools.CreateEdge(verts[verts.Count - 1], verts[0]), 0));
+                LoopShape loop = new LoopShape(verts);
+                body.CreateFixture(loop);
+            }
+            else
+            {
+                for (int i = 1; i < verts.Count; i++)
+                {
+                    body.CreateFixture(new EdgeShape(verts[i], verts[i - 1]));
+                }
             }
         }
 
@@ -81,6 +84,7 @@ namespace FarseerPhysics.Factories
         /// <param name="shapes">The shapes.</param>
         /// <param name="type">The type.</param>
         /// <param name="copies">The copies.</param>
+        /// <param name="userData"></param>
         /// <returns></returns>
         public static List<Body> EvenlyDistributeShapesAlongPath(World world, Path path, IEnumerable<Shape> shapes,
                                                                  BodyType type, int copies, DebugMaterial userData)
@@ -123,6 +127,7 @@ namespace FarseerPhysics.Factories
         /// <param name="shape">The shape.</param>
         /// <param name="type">The type.</param>
         /// <param name="copies">The copies.</param>
+        /// <param name="userData">The user data.</param>
         /// <returns></returns>
         public static List<Body> EvenlyDistributeShapesAlongPath(World world, Path path, Shape shape, BodyType type,
                                                                  int copies, DebugMaterial userData)
@@ -139,6 +144,7 @@ namespace FarseerPhysics.Factories
             return EvenlyDistributeShapesAlongPath(world, path, shape, type, copies, null);
         }
 
+        //TODO: Comment better
         /// <summary>
         /// Moves the body on the path.
         /// </summary>
@@ -151,7 +157,7 @@ namespace FarseerPhysics.Factories
         {
             Vector2 destination = path.GetPosition(time);
             Vector2 positionDelta = body.Position - destination;
-            Vector2 velocity = (positionDelta/timeStep)*strength;
+            Vector2 velocity = (positionDelta / timeStep) * strength;
 
             body.LinearVelocity = -velocity;
         }

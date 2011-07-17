@@ -23,6 +23,7 @@
 * 3. This notice may not be removed or altered from any source distribution. 
 */
 
+using System;
 using FarseerPhysics.Common;
 using Microsoft.Xna.Framework;
 using System.Runtime.Serialization;
@@ -32,7 +33,7 @@ namespace FarseerPhysics.Collision.Shapes
     /// <summary>
     /// This holds the mass data computed for a shape.
     /// </summary>
-    public struct MassData
+    public struct MassData : IEquatable<MassData>
     {
         /// <summary>
         /// The area of the shape
@@ -53,6 +54,45 @@ namespace FarseerPhysics.Collision.Shapes
         /// The mass of the shape, usually in kilograms.
         /// </summary>
         public float Mass;
+
+        #region IEquatable<MassData> Members
+
+        public bool Equals(MassData other)
+        {
+            return this == other;
+        }
+
+        #endregion
+
+        public static bool operator ==(MassData left, MassData right)
+        {
+            return (left.Area == right.Area && left.Mass == right.Mass && left.Centroid == right.Centroid &&
+                    left.Inertia == right.Inertia);
+        }
+
+        public static bool operator !=(MassData left, MassData right)
+        {
+            return !(left == right);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (obj.GetType() != typeof(MassData)) return false;
+            return Equals((MassData)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int result = Area.GetHashCode();
+                result = (result * 397) ^ Centroid.GetHashCode();
+                result = (result * 397) ^ Inertia.GetHashCode();
+                result = (result * 397) ^ Mass.GetHashCode();
+                return result;
+            }
+        }
     }
 
     public enum ShapeType
@@ -75,26 +115,24 @@ namespace FarseerPhysics.Collision.Shapes
     [KnownType(typeof(CircleShape))]
     public abstract class Shape
     {
-        
+        private static int _shapeIdCounter;
         public MassData MassData;
-
-        /// <summary>
-        /// Radius of the Shape
-        /// </summary>
-        [DataMember()]
-        public float Radius;
+        public int ShapeId;
 
         [DataMember()]
         internal float _density;
+        [DataMember()]
+        internal float _radius;
 
         protected Shape(float density)
         {
             _density = density;
             ShapeType = ShapeType.Unknown;
+            ShapeId = _shapeIdCounter++;
         }
 
         /// <summary>
-        /// Get the type of this shape. You can use this to down cast to the concrete shape.
+        /// Get the type of this shape.
         /// </summary>
         /// <value>The type of the shape.</value>
         public ShapeType ShapeType { get; internal set; }
@@ -105,12 +143,29 @@ namespace FarseerPhysics.Collision.Shapes
         /// <value></value>
         public abstract int ChildCount { get; }
 
+        /// <summary>
+        /// Gets or sets the density.
+        /// </summary>
+        /// <value>The density.</value>
         public float Density
         {
             get { return _density; }
             set
             {
                 _density = value;
+                ComputeProperties();
+            }
+        }
+
+        /// <summary>
+        /// Radius of the Shape
+        /// </summary>
+        public float Radius
+        {
+            get { return _radius; }
+            set
+            {
+                _radius = value;
                 ComputeProperties();
             }
         }
@@ -153,5 +208,21 @@ namespace FarseerPhysics.Collision.Shapes
         /// The inertia tensor is computed about the local origin, not the centroid.
         /// </summary>
         public abstract void ComputeProperties();
+
+        public bool CompareTo(Shape shape)
+        {
+            if (shape is PolygonShape && this is PolygonShape)
+                return ((PolygonShape)this).CompareTo((PolygonShape)shape);
+
+            if (shape is CircleShape && this is CircleShape)
+                return ((CircleShape)this).CompareTo((CircleShape)shape);
+
+            if (shape is EdgeShape && this is EdgeShape)
+                return ((EdgeShape)this).CompareTo((EdgeShape)shape);
+
+            return false;
+        }
+
+        public abstract float ComputeSubmergedArea(Vector2 normal, float offset, Transform xf, out Vector2 sc);
     }
 }

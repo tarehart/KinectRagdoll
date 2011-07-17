@@ -49,7 +49,7 @@ namespace FarseerPhysics.Collision.Shapes
             : base(density)
         {
             ShapeType = ShapeType.Polygon;
-            Radius = Settings.PolygonRadius;
+            _radius = Settings.PolygonRadius;
 
             Set(vertices);
         }
@@ -58,14 +58,18 @@ namespace FarseerPhysics.Collision.Shapes
             : base(density)
         {
             ShapeType = ShapeType.Polygon;
-            Radius = Settings.PolygonRadius;
+            _radius = Settings.PolygonRadius;
+            Normals = new Vertices();
+            Vertices = new Vertices();
         }
 
         internal PolygonShape()
             : base(0)
         {
             ShapeType = ShapeType.Polygon;
-            Radius = Settings.PolygonRadius;
+            _radius = Settings.PolygonRadius;
+            Normals = new Vertices();
+            Vertices = new Vertices();
         }
 
         public override int ChildCount
@@ -77,15 +81,20 @@ namespace FarseerPhysics.Collision.Shapes
         {
             PolygonShape clone = new PolygonShape();
             clone.ShapeType = ShapeType;
-            clone.Radius = Radius;
+            clone._radius = _radius;
+            clone._density = _density;
 
             if (Settings.ConserveMemory)
+            {
                 clone.Vertices = Vertices;
+                clone.Normals = Normals;
+            }
             else
+            {
                 clone.Vertices = new Vertices(Vertices);
+                clone.Normals = new Vertices(Normals);
+            }
 
-            clone.Normals = Normals;
-            clone._density = _density;
             clone.MassData = MassData;
             return clone;
         }
@@ -97,7 +106,7 @@ namespace FarseerPhysics.Collision.Shapes
         /// <param name="vertices">The vertices.</param>
         public void Set(Vertices vertices)
         {
-            Debug.Assert(vertices.Count >= 2 && vertices.Count <= Settings.MaxPolygonVertices);
+            Debug.Assert(vertices.Count >= 3 && vertices.Count <= Settings.MaxPolygonVertices);
 
             if (Settings.ConserveMemory)
                 Vertices = vertices;
@@ -113,7 +122,7 @@ namespace FarseerPhysics.Collision.Shapes
                 int i1 = i;
                 int i2 = i + 1 < vertices.Count ? i + 1 : 0;
                 Vector2 edge = Vertices[i2] - Vertices[i1];
-                Debug.Assert(edge.LengthSquared() > Settings.Epsilon*Settings.Epsilon);
+                Debug.Assert(edge.LengthSquared() > Settings.Epsilon * Settings.Epsilon);
 
                 Vector2 temp = new Vector2(edge.Y, -edge.X);
                 temp.Normalize();
@@ -141,7 +150,7 @@ namespace FarseerPhysics.Collision.Shapes
 
                     // Your polygon is non-convex (it has an indentation) or
                     // has colinear edges.
-                    float s = edge.X*r.Y - edge.Y*r.X;
+                    float s = edge.X * r.Y - edge.Y * r.X;
 
                     Debug.Assert(s > 0.0f);
                 }
@@ -182,24 +191,18 @@ namespace FarseerPhysics.Collision.Shapes
             //
             // The rest of the derivation is handled by computer algebra.
 
-            Debug.Assert(Vertices.Count >= 2);
+            Debug.Assert(Vertices.Count >= 3);
 
-            // A line segment has zero mass.
-            if (Vertices.Count == 2)
-            {
-                MassData.Centroid = 0.5f*(Vertices[0] + Vertices[1]);
+            if (_density <= 0)
                 return;
-            }
 
-            if (_density > 0)
-            {
-                Vector2 center = Vector2.Zero;
-                float area = 0.0f;
-                float I = 0.0f;
+            Vector2 center = Vector2.Zero;
+            float area = 0.0f;
+            float I = 0.0f;
 
-                // pRef is the reference point for forming triangles.
-                // It's location doesn't change the result (except for rounding error).
-                Vector2 pRef = Vector2.Zero;
+            // pRef is the reference point for forming triangles.
+            // It's location doesn't change the result (except for rounding error).
+            Vector2 pRef = Vector2.Zero;
 
 #if false
     // This code would put the reference point inside the polygon.
@@ -210,55 +213,54 @@ namespace FarseerPhysics.Collision.Shapes
 	        pRef *= 1.0f / count;
 #endif
 
-                const float inv3 = 1.0f/3.0f;
+            const float inv3 = 1.0f / 3.0f;
 
-                for (int i = 0; i < Vertices.Count; ++i)
-                {
-                    // Triangle vertices.
-                    Vector2 p1 = pRef;
-                    Vector2 p2 = Vertices[i];
-                    Vector2 p3 = i + 1 < Vertices.Count ? Vertices[i + 1] : Vertices[0];
+            for (int i = 0; i < Vertices.Count; ++i)
+            {
+                // Triangle vertices.
+                Vector2 p1 = pRef;
+                Vector2 p2 = Vertices[i];
+                Vector2 p3 = i + 1 < Vertices.Count ? Vertices[i + 1] : Vertices[0];
 
-                    Vector2 e1 = p2 - p1;
-                    Vector2 e2 = p3 - p1;
+                Vector2 e1 = p2 - p1;
+                Vector2 e2 = p3 - p1;
 
-                    float d;
-                    MathUtils.Cross(ref e1, ref e2, out d);
+                float d;
+                MathUtils.Cross(ref e1, ref e2, out d);
 
-                    float triangleArea = 0.5f*d;
-                    area += triangleArea;
+                float triangleArea = 0.5f * d;
+                area += triangleArea;
 
-                    // Area weighted centroid
-                    center += triangleArea*inv3*(p1 + p2 + p3);
+                // Area weighted centroid
+                center += triangleArea * inv3 * (p1 + p2 + p3);
 
-                    float px = p1.X, py = p1.Y;
-                    float ex1 = e1.X, ey1 = e1.Y;
-                    float ex2 = e2.X, ey2 = e2.Y;
+                float px = p1.X, py = p1.Y;
+                float ex1 = e1.X, ey1 = e1.Y;
+                float ex2 = e2.X, ey2 = e2.Y;
 
-                    float intx2 = inv3*(0.25f*(ex1*ex1 + ex2*ex1 + ex2*ex2) + (px*ex1 + px*ex2)) +
-                                  0.5f*px*px;
-                    float inty2 = inv3*(0.25f*(ey1*ey1 + ey2*ey1 + ey2*ey2) + (py*ey1 + py*ey2)) +
-                                  0.5f*py*py;
+                float intx2 = inv3 * (0.25f * (ex1 * ex1 + ex2 * ex1 + ex2 * ex2) + (px * ex1 + px * ex2)) +
+                              0.5f * px * px;
+                float inty2 = inv3 * (0.25f * (ey1 * ey1 + ey2 * ey1 + ey2 * ey2) + (py * ey1 + py * ey2)) +
+                              0.5f * py * py;
 
-                    I += d*(intx2 + inty2);
-                }
-
-                Debug.Assert(area > Settings.Epsilon);
-
-                // We save the area
-                MassData.Area = area;
-
-                // Total mass
-                MassData.Mass = _density*area;
-
-                // Center of mass
-                Debug.Assert(area > Settings.Epsilon);
-                center *= 1.0f/area;
-                MassData.Centroid = center;
-
-                // Inertia tensor relative to the local origin.
-                MassData.Inertia = _density*I;
+                I += d * (intx2 + inty2);
             }
+
+            //The area is too small for the engine to handle.
+            Debug.Assert(area > Settings.Epsilon);
+
+            // We save the area
+            MassData.Area = area;
+
+            // Total mass
+            MassData.Mass = _density * area;
+
+            // Center of mass
+            center *= 1.0f / area;
+            MassData.Centroid = center;
+
+            // Inertia tensor relative to the local origin.
+            MassData.Inertia = _density * I;
         }
 
         /// <summary>
@@ -281,16 +283,6 @@ namespace FarseerPhysics.Collision.Shapes
         public void SetAsBox(float halfWidth, float halfHeight, Vector2 center, float angle)
         {
             Set(PolygonTools.CreateRectangle(halfWidth, halfHeight, center, angle));
-        }
-
-        /// <summary>
-        /// Set this as a single edge.
-        /// </summary>
-        /// <param name="start">The start.</param>
-        /// <param name="end">The end.</param>
-        public void SetAsEdge(Vector2 start, Vector2 end)
-        {
-            Set(PolygonTools.CreateEdge(start, end));
         }
 
         /// <summary>
@@ -333,57 +325,6 @@ namespace FarseerPhysics.Collision.Shapes
             Vector2 p2 = MathUtils.MultiplyT(ref transform.R, input.Point2 - transform.Position);
             Vector2 d = p2 - p1;
 
-            if (Vertices.Count == 2)
-            {
-                Vector2 v1 = Vertices[0];
-                Vector2 v2 = Vertices[1];
-                Vector2 normal = Normals[0];
-
-                // q = p1 + t * d
-                // dot(normal, q - v1) = 0
-                // dot(normal, p1 - v1) + t * dot(normal, d) = 0
-                float numerator = Vector2.Dot(normal, v1 - p1);
-                float denominator = Vector2.Dot(normal, d);
-
-                if (denominator == 0.0f)
-                {
-                    return false;
-                }
-
-                float t = numerator/denominator;
-                if (t < 0.0f || 1.0f < t)
-                {
-                    return false;
-                }
-
-                Vector2 q = p1 + t*d;
-
-                // q = v1 + s * r
-                // s = dot(q - v1, r) / dot(r, r)
-                Vector2 r = v2 - v1;
-                float rr = Vector2.Dot(r, r);
-                if (rr == 0.0f)
-                {
-                    return false;
-                }
-
-                float s = Vector2.Dot(q - v1, r)/rr;
-                if (s < 0.0f || 1.0f < s)
-                {
-                    return false;
-                }
-
-                output.Fraction = t;
-                if (numerator > 0.0f)
-                {
-                    output.Normal = -normal;
-                }
-                else
-                {
-                    output.Normal = normal;
-                }
-                return true;
-            }
             float lower = 0.0f, upper = input.MaxFraction;
 
             int index = -1;
@@ -409,18 +350,18 @@ namespace FarseerPhysics.Collision.Shapes
                     // lower < numerator / denominator, where denominator < 0
                     // Since denominator < 0, we have to flip the inequality:
                     // lower < numerator / denominator <==> denominator * lower > numerator.
-                    if (denominator < 0.0f && numerator < lower*denominator)
+                    if (denominator < 0.0f && numerator < lower * denominator)
                     {
                         // Increase lower.
                         // The segment enters this half-space.
-                        lower = numerator/denominator;
+                        lower = numerator / denominator;
                         index = i;
                     }
-                    else if (denominator > 0.0f && numerator < upper*denominator)
+                    else if (denominator > 0.0f && numerator < upper * denominator)
                     {
                         // Decrease upper.
                         // The segment exits this half-space.
-                        upper = numerator/denominator;
+                        upper = numerator / denominator;
                     }
                 }
 
@@ -467,6 +408,143 @@ namespace FarseerPhysics.Collision.Shapes
             Vector2 r = new Vector2(Radius, Radius);
             aabb.LowerBound = lower - r;
             aabb.UpperBound = upper + r;
+        }
+
+        public bool CompareTo(PolygonShape shape)
+        {
+            if (Vertices.Count != shape.Vertices.Count)
+                return false;
+
+            for (int i = 0; i < Vertices.Count; i++)
+            {
+                if (Vertices[i] != shape.Vertices[i])
+                    return false;
+            }
+
+            return (Radius == shape.Radius &&
+                    MassData == shape.MassData);
+        }
+
+        public override float ComputeSubmergedArea(Vector2 normal, float offset, Transform xf, out Vector2 sc)
+        {
+            sc = Vector2.Zero;
+
+            //Transform plane into shape co-ordinates
+            Vector2 normalL = MathUtils.MultiplyT(ref xf.R, normal);
+            float offsetL = offset - Vector2.Dot(normal, xf.Position);
+
+            float[] depths = new float[Settings.MaxPolygonVertices];
+            int diveCount = 0;
+            int intoIndex = -1;
+            int outoIndex = -1;
+
+            bool lastSubmerged = false;
+            int i;
+            for (i = 0; i < Vertices.Count; i++)
+            {
+                depths[i] = Vector2.Dot(normalL, Vertices[i]) - offsetL;
+                bool isSubmerged = depths[i] < -Settings.Epsilon;
+                if (i > 0)
+                {
+                    if (isSubmerged)
+                    {
+                        if (!lastSubmerged)
+                        {
+                            intoIndex = i - 1;
+                            diveCount++;
+                        }
+                    }
+                    else
+                    {
+                        if (lastSubmerged)
+                        {
+                            outoIndex = i - 1;
+                            diveCount++;
+                        }
+                    }
+                }
+                lastSubmerged = isSubmerged;
+            }
+            switch (diveCount)
+            {
+                case 0:
+                    if (lastSubmerged)
+                    {
+                        //Completely submerged
+                        sc = MathUtils.Multiply(ref xf, MassData.Centroid);
+                        return MassData.Mass / Density;
+                    }
+                    else
+                    {
+                        //Completely dry
+                        return 0;
+                    }
+                    break;
+                case 1:
+                    if (intoIndex == -1)
+                    {
+                        intoIndex = Vertices.Count - 1;
+                    }
+                    else
+                    {
+                        outoIndex = Vertices.Count - 1;
+                    }
+                    break;
+            }
+            int intoIndex2 = (intoIndex + 1) % Vertices.Count;
+            int outoIndex2 = (outoIndex + 1) % Vertices.Count;
+
+            float intoLambda = (0 - depths[intoIndex]) / (depths[intoIndex2] - depths[intoIndex]);
+            float outoLambda = (0 - depths[outoIndex]) / (depths[outoIndex2] - depths[outoIndex]);
+
+            Vector2 intoVec = new Vector2(
+                Vertices[intoIndex].X * (1 - intoLambda) + Vertices[intoIndex2].X * intoLambda,
+                Vertices[intoIndex].Y * (1 - intoLambda) + Vertices[intoIndex2].Y * intoLambda);
+            Vector2 outoVec = new Vector2(
+                Vertices[outoIndex].X * (1 - outoLambda) + Vertices[outoIndex2].X * outoLambda,
+                Vertices[outoIndex].Y * (1 - outoLambda) + Vertices[outoIndex2].Y * outoLambda);
+
+            //Initialize accumulator
+            float area = 0;
+            Vector2 center = new Vector2(0, 0);
+            Vector2 p2 = Vertices[intoIndex2];
+            Vector2 p3;
+
+            float k_inv3 = 1.0f / 3.0f;
+
+            //An awkward loop from intoIndex2+1 to outIndex2
+            i = intoIndex2;
+            while (i != outoIndex2)
+            {
+                i = (i + 1) % Vertices.Count;
+                if (i == outoIndex2)
+                    p3 = outoVec;
+                else
+                    p3 = Vertices[i];
+                //Add the triangle formed by intoVec,p2,p3
+                {
+                    Vector2 e1 = p2 - intoVec;
+                    Vector2 e2 = p3 - intoVec;
+
+                    float D = MathUtils.Cross(e1, e2);
+
+                    float triangleArea = 0.5f * D;
+
+                    area += triangleArea;
+
+                    // Area weighted centroid
+                    center += triangleArea * k_inv3 * (intoVec + p2 + p3);
+                }
+                //
+                p2 = p3;
+            }
+
+            //Normalize and transform centroid
+            center *= 1.0f / area;
+
+            sc = MathUtils.Multiply(ref xf, center);
+
+            return area;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using FarseerPhysics.Common;
 using FarseerPhysics.Dynamics;
 
 namespace FarseerPhysics.Controllers
@@ -27,8 +26,8 @@ namespace FarseerPhysics.Controllers
         public VelocityLimitController()
             : base(ControllerType.VelocityLimitController)
         {
-            _maxLinearVelocity = Settings.MaxTranslation;
-            _maxAngularVelocity = Settings.MaxRotation;
+            MaxLinearVelocity = Settings.MaxTranslation;
+            MaxAngularVelocity = Settings.MaxRotation;
         }
 
         /// <summary>
@@ -47,8 +46,8 @@ namespace FarseerPhysics.Controllers
             if (maxAngularVelocity == 0 || maxAngularVelocity == float.MaxValue)
                 LimitAngularVelocity = false;
 
-            _maxLinearVelocity = maxLinearVelocity;
-            _maxAngularVelocity = maxAngularVelocity;
+            MaxLinearVelocity = maxLinearVelocity;
+            MaxAngularVelocity = maxAngularVelocity;
         }
 
         /// <summary>
@@ -61,7 +60,7 @@ namespace FarseerPhysics.Controllers
             set
             {
                 _maxAngularVelocity = value;
-                _maxAngularSqared = _maxAngularVelocity*_maxAngularVelocity;
+                _maxAngularSqared = _maxAngularVelocity * _maxAngularVelocity;
             }
         }
 
@@ -75,7 +74,7 @@ namespace FarseerPhysics.Controllers
             set
             {
                 _maxLinearVelocity = value;
-                _maxLinearSqared = _maxLinearVelocity*_maxLinearVelocity;
+                _maxLinearSqared = _maxLinearVelocity * _maxLinearVelocity;
             }
         }
 
@@ -83,22 +82,22 @@ namespace FarseerPhysics.Controllers
         {
             foreach (Body body in _bodies)
             {
-                if (!FilterData.IsActiveOn(body))
+                if (!IsActiveOn(body))
                     continue;
 
                 if (LimitLinearVelocity)
                 {
                     //Translation
                     // Check for large velocities.
-                    float translationX = dt*body.LinearVelocityInternal.X;
-                    float translationY = dt*body.LinearVelocityInternal.Y;
-                    float result = translationX*translationX + translationY*translationY;
+                    float translationX = dt * body.LinearVelocityInternal.X;
+                    float translationY = dt * body.LinearVelocityInternal.Y;
+                    float result = translationX * translationX + translationY * translationY;
 
-                    if (result > _maxLinearSqared)
+                    if (result > dt * _maxLinearSqared)
                     {
-                        float sq = (float) Math.Sqrt(result);
+                        float sq = (float)Math.Sqrt(result);
 
-                        float ratio = _maxLinearVelocity/sq;
+                        float ratio = _maxLinearVelocity / sq;
                         body.LinearVelocityInternal.X *= ratio;
                         body.LinearVelocityInternal.Y *= ratio;
                     }
@@ -107,10 +106,10 @@ namespace FarseerPhysics.Controllers
                 if (LimitAngularVelocity)
                 {
                     //Rotation
-                    float rotation = dt*body.AngularVelocityInternal;
-                    if (rotation*rotation > _maxAngularSqared)
+                    float rotation = dt * body.AngularVelocityInternal;
+                    if (rotation * rotation > _maxAngularSqared)
                     {
-                        float ratio = _maxAngularVelocity/Math.Abs(rotation);
+                        float ratio = _maxAngularVelocity / Math.Abs(rotation);
                         body.AngularVelocityInternal *= ratio;
                     }
                 }
@@ -120,6 +119,11 @@ namespace FarseerPhysics.Controllers
         public void AddBody(Body body)
         {
             _bodies.Add(body);
+        }
+
+        public void RemoveBody(Body body)
+        {
+            _bodies.Remove(body);
         }
     }
 }

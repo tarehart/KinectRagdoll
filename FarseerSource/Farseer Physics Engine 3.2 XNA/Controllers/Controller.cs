@@ -8,28 +8,11 @@ namespace FarseerPhysics.Controllers
     {
         GravityController = (1 << 0),
         VelocityLimitController = (1 << 1),
-        AbstractForceController = (1 << 2)
+        AbstractForceController = (1 << 2),
+        BuoyancyController = (1 << 3),
     }
 
-    public class FilterControllerData : FilterData
-    {
-        private ControllerType _type;
-
-        public FilterControllerData(ControllerType type)
-        {
-            _type = type;
-        }
-
-        public override bool IsActiveOn(Body body)
-        {
-            if (body.ControllerFilter.IsControllerIgnored(_type))
-                return false;
-
-            return base.IsActiveOn(body);
-        }
-    }
-
-    public class ControllerFilter
+    public struct ControllerFilter
     {
         public ControllerType ControllerFlags;
 
@@ -64,16 +47,23 @@ namespace FarseerPhysics.Controllers
         }
     }
 
-    public abstract class Controller
+    public abstract class Controller : FilterData
     {
         public bool Enabled;
-        public FilterControllerData FilterData;
-
         public World World;
+        private ControllerType _type;
 
         public Controller(ControllerType controllerType)
         {
-            FilterData = new FilterControllerData(controllerType);
+            _type = controllerType;
+        }
+
+        public override bool IsActiveOn(Body body)
+        {
+            if (body.ControllerFilter.IsControllerIgnored(_type))
+                return false;
+
+            return base.IsActiveOn(body);
         }
 
         public abstract void Update(float dt);

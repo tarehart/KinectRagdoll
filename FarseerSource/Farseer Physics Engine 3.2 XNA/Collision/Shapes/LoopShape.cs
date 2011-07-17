@@ -44,15 +44,19 @@ namespace FarseerPhysics.Collision.Shapes
         /// </summary>
         public Vertices Vertices;
 
-        internal LoopShape()
+        private LoopShape()
             : base(0)
         {
             ShapeType = ShapeType.Loop;
-            Radius = Settings.PolygonRadius;
+            _radius = Settings.PolygonRadius;
         }
 
-        public LoopShape(Vertices vertices, float density) : base(density)
+        public LoopShape(Vertices vertices)
+            : base(0)
         {
+            ShapeType = ShapeType.Loop;
+            _radius = Settings.PolygonRadius;
+
             if (Settings.ConserveMemory)
                 Vertices = vertices;
             else
@@ -68,9 +72,9 @@ namespace FarseerPhysics.Collision.Shapes
         public override Shape Clone()
         {
             LoopShape loop = new LoopShape();
-            loop.Radius = Radius;
-            loop.Vertices = Vertices;
             loop._density = _density;
+            loop._radius = _radius;
+            loop.Vertices = Vertices;
             loop.MassData = MassData;
             return loop;
         }
@@ -85,7 +89,7 @@ namespace FarseerPhysics.Collision.Shapes
             Debug.Assert(2 <= Vertices.Count);
             Debug.Assert(0 <= index && index < Vertices.Count);
             edge.ShapeType = ShapeType.Edge;
-            edge.Radius = Radius;
+            edge._radius = _radius;
             edge.HasVertex0 = true;
             edge.HasVertex3 = true;
 
@@ -150,7 +154,6 @@ namespace FarseerPhysics.Collision.Shapes
         public override void ComputeAABB(out AABB aabb, ref Transform transform, int childIndex)
         {
             Debug.Assert(childIndex < Vertices.Count);
-            aabb = new AABB();
 
             int i1 = childIndex;
             int i2 = childIndex + 1;
@@ -172,6 +175,12 @@ namespace FarseerPhysics.Collision.Shapes
         public override void ComputeProperties()
         {
             //Does nothing. Loop shapes don't have properties.
+        }
+
+        public override float ComputeSubmergedArea(Vector2 normal, float offset, Transform xf, out Vector2 sc)
+        {
+            sc = Vector2.Zero;
+            return 0;
         }
     }
 }

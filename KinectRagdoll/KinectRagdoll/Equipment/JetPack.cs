@@ -36,17 +36,20 @@ namespace KinectRagdoll.Equipment
 
         public JetPack(RagdollMuscle ragdoll = null)
         {
-            rand = new Random();
+            
             if (ragdoll != null)
             {
-                AttachToRagdoll(ragdoll);
+                Init(ragdoll);
             }
         }
 
 
 
-        public override void AttachToRagdoll(RagdollMuscle ragdoll)
+        public override void Init(RagdollMuscle ragdoll)
         {
+
+            rand = new Random();
+
             this.ragdoll = ragdoll;
             
             ragdoll.KnockOut += new EventHandler(ragdoll_KnockOut);

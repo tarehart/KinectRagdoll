@@ -23,9 +23,9 @@ Content\objectivetool.xnb
 Content\Generics\rectangle.xnb
 Content\Generics\circle.xnb
 Content\circletool.xnb
-Content\font.xnb
 Content\Toolbox\menu.xnb
 Content\Toolbox\showtoolbox.xnb
+Content\font.xnb
 Content\Sounds\rocket.xnb
 Content\Sounds\crack.xnb
 Content\Sounds\rocketdown.xnb

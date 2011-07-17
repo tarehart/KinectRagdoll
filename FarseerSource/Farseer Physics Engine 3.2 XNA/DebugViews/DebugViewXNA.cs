@@ -293,7 +293,7 @@ namespace FarseerPhysics.DebugViews
             if ((Flags & DebugViewFlags.Pair) == DebugViewFlags.Pair)
             {
                 Color color = new Color(0.3f, 0.9f, 0.9f);
-                for (Contact c = World.ContactManager.ContactList; c != null; c = c.Next)
+                foreach (Contact c in World.ContactManager.ContactList)
                 {
                     Fixture fixtureA = c.FixtureA;
                     Fixture fixtureB = c.FixtureB;
@@ -310,31 +310,31 @@ namespace FarseerPhysics.DebugViews
                 }
             }
 
-            if ((Flags & DebugViewFlags.AABB) == DebugViewFlags.AABB)
-            {
-                Color color = new Color(0.9f, 0.3f, 0.9f);
-                BroadPhase bp = World.ContactManager.BroadPhase;
+            //if ((Flags & DebugViewFlags.AABB) == DebugViewFlags.AABB)
+            //{
+            //    Color color = new Color(0.9f, 0.3f, 0.9f);
+            //    //BroadPhase bp = World.ContactManager.BroadPhase;
 
-                foreach (Body b in World.BodyList)
-                {
-                    if (b.Enabled == false)
-                    {
-                        continue;
-                    }
+            //    foreach (Body b in World.BodyList)
+            //    {
+            //        if (b.Enabled == false)
+            //        {
+            //            continue;
+            //        }
 
-                    foreach (Fixture f in b.FixtureList)
-                    {
-                        for (int t = 0; t < f.ProxyCount; ++t)
-                        {
-                            FixtureProxy proxy = f.Proxies[t];
-                            AABB aabb;
-                            bp.GetFatAABB(proxy.ProxyId, out aabb);
+            //        foreach (Fixture f in b.FixtureList)
+            //        {
+            //            for (int t = 0; t < f.ProxyCount; ++t)
+            //            {
+            //                FixtureProxy proxy = f.Proxies[t];
+            //                AABB aabb;
+            //                bp.GetFatAABB(proxy.ProxyId, out aabb);
 
-                            DrawAABB(ref aabb, color);
-                        }
-                    }
-                }
-            }
+            //                DrawAABB(ref aabb, color);
+            //            }
+            //        }
+            //    }
+            //}
 
             if ((Flags & DebugViewFlags.CenterOfMass) == DebugViewFlags.CenterOfMass)
             {
@@ -419,9 +419,9 @@ namespace FarseerPhysics.DebugViews
             DrawString(x, y, "Objects: ");
             DrawString(x, y += ySize, "- Bodies: " + World.BodyList.Count);
             DrawString(x, y += ySize, "- Fixtures: " + fixtures);
-            DrawString(x, y += ySize, "- Contacts: " + World.ContactCount);
+            DrawString(x, y += ySize, "- Contacts: " + World.ContactList.Count);
             DrawString(x, y += ySize, "- Joints: " + World.JointList.Count);
-            DrawString(x, y += ySize, "- Controllers: " + World.Controllers.Count);
+            DrawString(x, y += ySize, "- Controllers: " + World.ControllerList.Count);
             DrawString(x, y + ySize, "- Proxies: " + World.ProxyCount);
 
             y = (int)DebugPanelPosition.Y;
@@ -518,7 +518,7 @@ namespace FarseerPhysics.DebugViews
                     break;
                 //case JointType.Weld:
                 //    break;
-                case JointType.RopeJoint:
+                case JointType.Rope:
                     RopeJoint rj = joint as RopeJoint;
                     Vector2 toP2 = (p2 - p1);
                     float length = toP2.Length();

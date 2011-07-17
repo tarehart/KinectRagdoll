@@ -11,7 +11,7 @@
       <Time>2011-01-09T15:27:41.5905917-05:00</Time>
       <Dependency>
         <Key>obj\x86\Debug\Models\cube_0.xml</Key>
-        <Value>2011-06-18T15:05:16.246083-04:00</Value>
+        <Value>2011-07-16T20:28:15.556093-04:00</Value>
       </Dependency>
     </Item>
     <Item>
@@ -24,7 +24,7 @@
       <Time>2011-01-21T21:45:44.4432444-05:00</Time>
       <Dependency>
         <Key>obj\x86\Debug\Models\thing_0.xml</Key>
-        <Value>2011-06-18T15:05:16.3610849-04:00</Value>
+        <Value>2011-07-16T20:28:15.6670949-04:00</Value>
       </Dependency>
     </Item>
     <Item>
@@ -235,29 +235,6 @@
       <Time>2011-02-05T13:34:23.3320048-05:00</Time>
     </Item>
     <Item>
-      <Source>font.spritefont</Source>
-      <Name>font</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\font.xnb</Output>
-      <Time>2011-01-29T17:41:39.0524207-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Models\cube.fbx</Source>
-      <Importer>FbxImporter</Importer>
-      <Options>IntermediateFile, DontCacheImportedData</Options>
-      <Output>obj\x86\Debug\Models\cube_0.xml</Output>
-      <Time>2011-01-09T15:27:41.5905917-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Models\thing.fbx</Source>
-      <Importer>FbxImporter</Importer>
-      <Options>IntermediateFile, DontCacheImportedData</Options>
-      <Output>obj\x86\Debug\Models\thing_0.xml</Output>
-      <Time>2011-01-21T21:45:44.4432444-05:00</Time>
-    </Item>
-    <Item>
       <Source>Toolbox\menu.png</Source>
       <Name>Toolbox\menu</Name>
       <Importer>TextureImporter</Importer>
@@ -274,6 +251,15 @@
       <Options>None</Options>
       <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Toolbox\showtoolbox.xnb</Output>
       <Time>2011-06-22T20:28:23.6721344-04:00</Time>
+    </Item>
+    <Item>
+      <Source>font.spritefont</Source>
+      <Name>font</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\font.xnb</Output>
+      <Time>2011-01-29T17:41:39.0524207-05:00</Time>
     </Item>
     <Item>
       <Source>Sounds\rocket.wav</Source>
@@ -340,6 +326,20 @@
       <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\DarkHallway.xnb</Output>
       <Extra>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\DarkHallway.wma</Extra>
       <Time>2011-07-14T23:58:28.609198-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Models\cube.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Models\cube_0.xml</Output>
+      <Time>2011-01-09T15:27:41.5905917-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Models\thing.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\Models\thing_0.xml</Output>
+      <Time>2011-01-21T21:45:44.4432444-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

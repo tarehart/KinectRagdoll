@@ -60,7 +60,7 @@ namespace KinectRagdoll.Ragdoll
                 equipment = value;
                 foreach (AbstractEquipment e in equipment)
                 {
-                    e.AttachToRagdoll(this);
+                    e.Init(this);
                 }
             } 
         }
@@ -83,7 +83,7 @@ namespace KinectRagdoll.Ragdoll
 
             foreach (AbstractEquipment e in equipment)
             {
-                e.AttachToRagdoll(this);
+                e.Init(this);
             }
 
             //equipment = new List<AbstractEquipment>();
@@ -163,7 +163,7 @@ namespace KinectRagdoll.Ragdoll
                 {
                     foreach (Fixture f in _allFixtures)
                     {
-                        f.CollisionFilter.CollisionGroup = 0;
+                        f.CollisionGroup = 0;
                     }
                 }
             }
@@ -218,7 +218,7 @@ namespace KinectRagdoll.Ragdoll
             foreach (Fixture f in _allFixtures)
             {
                 if (f != _head)
-                    f.CollisionFilter.CollisionGroup = -1;
+                    f.CollisionGroup = -1;
             }
 
         }

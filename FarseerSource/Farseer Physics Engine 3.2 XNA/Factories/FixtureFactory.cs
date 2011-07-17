@@ -14,141 +14,48 @@ namespace FarseerPhysics.Factories
     /// </summary>
     public static class FixtureFactory
     {
-        public static Fixture CreateEdge(World world, Vector2 start, Vector2 end)
+        public static Fixture AttachEdge(Vector2 start, Vector2 end, Body body)
         {
-            return CreateEdge(world, start, end, null);
+            return AttachEdge(start, end, body, null);
         }
 
-        public static Fixture CreateEdge(World world, Vector2 start, Vector2 end, DebugMaterial userData)
-        {
-            Body body = BodyFactory.CreateBody(world);
-            return CreateEdge(start, end, body, userData);
-        }
-
-        public static Fixture CreateEdge(Vector2 start, Vector2 end, Body body)
-        {
-            return CreateEdge(start, end, body, null);
-        }
-
-        public static Fixture CreateEdge(Vector2 start, Vector2 end, Body body, DebugMaterial userData)
+        public static Fixture AttachEdge(Vector2 start, Vector2 end, Body body, DebugMaterial userData)
         {
             EdgeShape edgeShape = new EdgeShape(start, end);
             return body.CreateFixture(edgeShape, userData);
         }
 
-        public static Fixture CreateLoopShape(World world, Vertices vertices, float density)
+        public static Fixture AttachLoopShape(Vertices vertices, Body body)
         {
-            return CreateLoopShape(world, vertices, density, null);
+            return AttachLoopShape(vertices, body, null);
         }
 
-        public static Fixture CreateLoopShape(World world, Vertices vertices, float density, DebugMaterial userData)
+        public static Fixture AttachLoopShape(Vertices vertices, Body body, DebugMaterial userData)
         {
-            return CreateLoopShape(world, vertices, density, Vector2.Zero, userData);
-        }
-
-        public static Fixture CreateLoopShape(World world, Vertices vertices, float density, Vector2 position)
-        {
-            return CreateLoopShape(world, vertices, density, position, null);
-        }
-
-        public static Fixture CreateLoopShape(World world, Vertices vertices, float density, Vector2 position,
-                                              DebugMaterial userData)
-        {
-            Body body = BodyFactory.CreateBody(world, position);
-            return CreateLoopShape(vertices, density, body, userData);
-        }
-
-        public static Fixture CreateLoopShape(Vertices vertices, float density, Body body)
-        {
-            return CreateLoopShape(vertices, density, body, null);
-        }
-
-        public static Fixture CreateLoopShape(Vertices vertices, float density, Body body, DebugMaterial userData)
-        {
-            LoopShape shape = new LoopShape(vertices, density);
+            LoopShape shape = new LoopShape(vertices);
             return body.CreateFixture(shape, userData);
         }
 
-        public static Fixture CreateRectangle(World world, float width, float height, float density)
-        {
-            return CreateRectangle(world, width, height, density, null);
-        }
-
-        public static Fixture CreateRectangle(World world, float width, float height, float density, DebugMaterial userData)
-        {
-            return CreateRectangle(world, width, height, density, Vector2.Zero, userData);
-        }
-
-        public static Fixture CreateRectangle(World world, float width, float height, float density, Vector2 position)
-        {
-            return CreateRectangle(world, width, height, density, position, null);
-        }
-
-        public static Fixture CreateRectangle(World world, float width, float height, float density, Vector2 position,
+        public static Fixture AttachRectangle(float width, float height, float density, Vector2 offset, Body body,
                                               DebugMaterial userData)
         {
-            if (width <= 0)
-                throw new ArgumentOutOfRangeException("width", "Width must be more than 0 meters");
-
-            if (height <= 0)
-                throw new ArgumentOutOfRangeException("height", "Height must be more than 0 meters");
-
-            Body newBody = BodyFactory.CreateBody(world, position);
-            Vertices rectangleVertices = PolygonTools.CreateRectangle(width/2, height/2);
-            PolygonShape rectangleShape = new PolygonShape(rectangleVertices, density);
-            return newBody.CreateFixture(rectangleShape, userData);
-        }
-
-        /// <summary>
-        /// Special overload that takes in an existing body.
-        /// </summary>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        /// <param name="density">The density.</param>
-        /// <param name="offset">The offset. The new shape is offset by this value</param>
-        /// <param name="body">The body.</param>
-        /// <returns></returns>
-        public static Fixture CreateRectangle(float width, float height, float density, Vector2 offset, Body body,
-                                              DebugMaterial userData)
-        {
-            Vertices rectangleVertices = PolygonTools.CreateRectangle(width/2, height/2);
+            Vertices rectangleVertices = PolygonTools.CreateRectangle(width / 2, height / 2);
             rectangleVertices.Translate(ref offset);
             PolygonShape rectangleShape = new PolygonShape(rectangleVertices, density);
             return body.CreateFixture(rectangleShape, userData);
         }
 
-        public static Fixture CreateRectangle(float width, float height, float density, Vector2 offset, Body body)
+        public static Fixture AttachRectangle(float width, float height, float density, Vector2 offset, Body body)
         {
-            return CreateRectangle(width, height, density, offset, body, null);
+            return AttachRectangle(width, height, density, offset, body, null);
         }
 
-        public static Fixture CreateCircle(World world, float radius, float density)
+        public static Fixture AttachCircle(float radius, float density, Body body)
         {
-            return CreateCircle(world, radius, density, null);
+            return AttachCircle(radius, density, body, null);
         }
 
-        public static Fixture CreateCircle(World world, float radius, float density, DebugMaterial userData)
-        {
-            return CreateCircle(world, radius, density, Vector2.Zero, userData);
-        }
-
-        public static Fixture CreateCircle(World world, float radius, float density, Vector2 position)
-        {
-            return CreateCircle(world, radius, density, position, null);
-        }
-
-        public static Fixture CreateCircle(World world, float radius, float density, Vector2 position, DebugMaterial userData)
-        {
-            Body body = BodyFactory.CreateBody(world, position);
-            return CreateCircle(radius, density, body, userData);
-        }
-
-        public static Fixture CreateCircle(float radius, float density, Body body)
-        {
-            return CreateCircle(radius, density, body, null);
-        }
-
-        public static Fixture CreateCircle(float radius, float density, Body body, DebugMaterial userData)
+        public static Fixture AttachCircle(float radius, float density, Body body, DebugMaterial userData)
         {
             if (radius <= 0)
                 throw new ArgumentOutOfRangeException("radius", "Radius must be more than 0 meters");
@@ -157,12 +64,12 @@ namespace FarseerPhysics.Factories
             return body.CreateFixture(circleShape, userData);
         }
 
-        public static Fixture CreateCircle(float radius, float density, Body body, Vector2 offset)
+        public static Fixture AttachCircle(float radius, float density, Body body, Vector2 offset)
         {
-            return CreateCircle(radius, density, body, offset, null);
+            return AttachCircle(radius, density, body, offset, null);
         }
 
-        public static Fixture CreateCircle(float radius, float density, Body body, Vector2 offset, DebugMaterial userData)
+        public static Fixture AttachCircle(float radius, float density, Body body, Vector2 offset, DebugMaterial userData)
         {
             if (radius <= 0)
                 throw new ArgumentOutOfRangeException("radius", "Radius must be more than 0 meters");
@@ -172,36 +79,26 @@ namespace FarseerPhysics.Factories
             return body.CreateFixture(circleShape, userData);
         }
 
-        public static Fixture CreateEllipse(World world, float xRadius, float yRadius, int edges, float density)
+        public static Fixture AttachPolygon(Vertices vertices, float density, Body body)
         {
-            return CreateEllipse(world, xRadius, yRadius, edges, density, null);
+            return AttachPolygon(vertices, density, body, null);
         }
 
-        public static Fixture CreateEllipse(World world, float xRadius, float yRadius, int edges, float density,
-                                            DebugMaterial userData)
+        public static Fixture AttachPolygon(Vertices vertices, float density, Body body, DebugMaterial userData)
         {
-            return CreateEllipse(world, xRadius, yRadius, edges, density, Vector2.Zero, userData);
+            if (vertices.Count <= 1)
+                throw new ArgumentOutOfRangeException("vertices", "Too few points to be a polygon");
+
+            PolygonShape polygon = new PolygonShape(vertices, density);
+            return body.CreateFixture(polygon, userData);
         }
 
-        public static Fixture CreateEllipse(World world, float xRadius, float yRadius, int edges, float density,
-                                            Vector2 position)
+        public static Fixture AttachEllipse(float xRadius, float yRadius, int edges, float density, Body body)
         {
-            return CreateEllipse(world, xRadius, yRadius, edges, density, position, null);
+            return AttachEllipse(xRadius, yRadius, edges, density, body, null);
         }
 
-        public static Fixture CreateEllipse(World world, float xRadius, float yRadius, int edges, float density,
-                                            Vector2 position, DebugMaterial userData)
-        {
-            Body body = BodyFactory.CreateBody(world, position);
-            return CreateEllipse(xRadius, yRadius, edges, density, body, userData);
-        }
-
-        public static Fixture CreateEllipse(float xRadius, float yRadius, int edges, float density, Body body)
-        {
-            return CreateEllipse(xRadius, yRadius, edges, density, body, null);
-        }
-
-        public static Fixture CreateEllipse(float xRadius, float yRadius, int edges, float density, Body body,
+        public static Fixture AttachEllipse(float xRadius, float yRadius, int edges, float density, Body body,
                                             DebugMaterial userData)
         {
             if (xRadius <= 0)
@@ -215,271 +112,69 @@ namespace FarseerPhysics.Factories
             return body.CreateFixture(polygonShape, userData);
         }
 
-        public static Fixture CreatePolygon(World world, Vertices vertices, float density)
+        public static List<Fixture> AttachCompoundPolygon(List<Vertices> list, float density, Body body)
         {
-            return CreatePolygon(world, vertices, density, null);
+            return AttachCompoundPolygon(list, density, body, null);
         }
 
-        public static Fixture CreatePolygon(World world, Vertices vertices, float density, DebugMaterial userData)
+        public static List<Fixture> AttachCompoundPolygon(List<Vertices> list, float density, Body body, DebugMaterial userData)
         {
-            return CreatePolygon(world, vertices, density, Vector2.Zero, userData);
-        }
-
-        public static Fixture CreatePolygon(World world, Vertices vertices, float density, Vector2 position)
-        {
-            return CreatePolygon(world, vertices, density, position, null);
-        }
-
-        public static Fixture CreatePolygon(World world, Vertices vertices, float density, Vector2 position,
-                                            DebugMaterial userData)
-        {
-            Body body = BodyFactory.CreateBody(world, position);
-            return CreatePolygon(vertices, density, body, userData);
-        }
-
-        public static Fixture CreatePolygon(Vertices vertices, float density, Body body)
-        {
-            return CreatePolygon(vertices, density, body, null);
-        }
-
-        public static Fixture CreatePolygon(Vertices vertices, float density, Body body, DebugMaterial userData)
-        {
-            if (vertices.Count <= 1)
-                throw new ArgumentOutOfRangeException("vertices", "Too few points to be a polygon");
-
-            PolygonShape polygon = new PolygonShape(vertices, density);
-            return body.CreateFixture(polygon, userData);
-        }
-
-        public static List<Fixture> CreateCompoundPolygon(World world, List<Vertices> list, float density)
-        {
-            return CreateCompoundPolygon(world, list, density, BodyType.Static);
-        }
-
-        public static List<Fixture> CreateCompoundPolygon(World world, List<Vertices> list, float density, BodyType type)
-        {
-            List<Fixture> fixtures = CreateCompoundPolygon(world, list, density, null);
-            fixtures[0].Body.BodyType = type;
-            return fixtures;
-        }
-
-        public static List<Fixture> CreateCompoundPolygon(World world, List<Vertices> list, float density,
-                                                          DebugMaterial userData)
-        {
-            return CreateCompoundPolygon(world, list, density, Vector2.Zero, userData);
-        }
-
-        public static List<Fixture> CreateCompoundPolygon(World world, List<Vertices> list, float density,
-                                                          Vector2 position)
-        {
-            return CreateCompoundPolygon(world, list, density, position, null);
-        }
-
-        public static List<Fixture> CreateCompoundPolygon(World world, List<Vertices> list, float density,
-                                                          Vector2 position, DebugMaterial userData)
-        {
-            //We create a single body
-            Body polygonBody = BodyFactory.CreateBody(world, position);
-            return CreateCompoundPolygon(list, density, polygonBody, userData);
-        }
-
-        public static List<Fixture> CreateCompoundPolygon(List<Vertices> list, float density, Body body)
-        {
-            return CreateCompoundPolygon(list, density, body, null);
-        }
-
-        public static List<Fixture> CreateCompoundPolygon(List<Vertices> list, float density, Body body, DebugMaterial userData)
-        {
-            List<Fixture> fixtures = new List<Fixture>(list.Count);
+            List<Fixture> res = new List<Fixture>(list.Count);
 
             //Then we create several fixtures using the body
             foreach (Vertices vertices in list)
             {
-                PolygonShape shape = new PolygonShape(vertices, density);
-                fixtures.Add(body.CreateFixture(shape, userData));
+                if (vertices.Count == 2)
+                {
+                    EdgeShape shape = new EdgeShape(vertices[0], vertices[1]);
+                    res.Add(body.CreateFixture(shape, userData));
+                }
+                else
+                {
+                    PolygonShape shape = new PolygonShape(vertices, density);
+                    res.Add(body.CreateFixture(shape, userData));
+                }
+            }
+
+            return res;
+        }
+
+        public static List<Fixture> AttachLineArc(float radians, int sides, float radius, Vector2 position, float angle,
+                                                  bool closed, Body body)
+        {
+            Vertices arc = PolygonTools.CreateArc(radians, sides, radius);
+            arc.Rotate((MathHelper.Pi - radians) / 2 + angle);
+            arc.Translate(ref position);
+
+            List<Fixture> fixtures = new List<Fixture>(arc.Count);
+
+            if (closed)
+            {
+                fixtures.Add(AttachLoopShape(arc, body));
+            }
+
+            for (int i = 1; i < arc.Count; i++)
+            {
+                fixtures.Add(AttachEdge(arc[i], arc[i - 1], body));
             }
 
             return fixtures;
         }
 
-        public static List<Fixture> CreateGear(World world, float radius, int numberOfTeeth, float tipPercentage,
-                                               float toothHeight, float density)
+        public static List<Fixture> AttachSolidArc(float density, float radians, int sides, float radius,
+                                                   Vector2 position, float angle, Body body)
         {
-            return CreateGear(world, radius, numberOfTeeth, tipPercentage, toothHeight, density, null);
-        }
+            Vertices arc = PolygonTools.CreateArc(radians, sides, radius);
+            arc.Rotate((MathHelper.Pi - radians) / 2 + angle);
 
-        public static List<Fixture> CreateGear(World world, float radius, int numberOfTeeth, float tipPercentage,
-                                               float toothHeight, float density, DebugMaterial userData)
-        {
-            Vertices gearPolygon = PolygonTools.CreateGear(radius, numberOfTeeth, tipPercentage, toothHeight);
+            arc.Translate(ref position);
 
-            //Gears can in some cases be convex
-            if (!gearPolygon.IsConvex())
-            {
-                //Decompose the gear:
-                List<Vertices> list = EarclipDecomposer.ConvexPartition(gearPolygon);
+            //Close the arc
+            arc.Add(arc[0]);
 
-                return CreateCompoundPolygon(world, list, density, userData);
-            }
+            List<Vertices> triangles = EarclipDecomposer.ConvexPartition(arc);
 
-            List<Fixture> fixtures = new List<Fixture>();
-            fixtures.Add(CreatePolygon(world, gearPolygon, density, userData));
-            return fixtures;
-        }
-
-        /// <summary>
-        /// Creates a capsule.
-        /// Note: Automatically decomposes the capsule if it contains too many vertices (controlled by Settings.MaxPolygonVertices)
-        /// </summary>
-        /// <param name="world">The world.</param>
-        /// <param name="height">The height.</param>
-        /// <param name="topRadius">The top radius.</param>
-        /// <param name="topEdges">The top edges.</param>
-        /// <param name="bottomRadius">The bottom radius.</param>
-        /// <param name="bottomEdges">The bottom edges.</param>
-        /// <param name="density">The density.</param>
-        /// <param name="position">The position.</param>
-        /// <returns></returns>
-        public static List<Fixture> CreateCapsule(World world, float height, float topRadius, int topEdges,
-                                                  float bottomRadius,
-                                                  int bottomEdges, float density, Vector2 position, DebugMaterial userData)
-        {
-            Vertices verts = PolygonTools.CreateCapsule(height, topRadius, topEdges, bottomRadius, bottomEdges);
-
-            //There are too many vertices in the capsule. We decompose it.
-            if (verts.Count >= Settings.MaxPolygonVertices)
-            {
-                List<Vertices> vertList = EarclipDecomposer.ConvexPartition(verts);
-                List<Fixture> fixtureList = CreateCompoundPolygon(world, vertList, density, userData);
-                fixtureList[0].Body.Position = position;
-
-                return fixtureList;
-            }
-
-            return new List<Fixture> {CreatePolygon(world, verts, density, userData)};
-        }
-
-        public static List<Fixture> CreateCapsule(World world, float height, float topRadius, int topEdges,
-                                                  float bottomRadius,
-                                                  int bottomEdges, float density, Vector2 position)
-        {
-            return CreateCapsule(world, height, topRadius, topEdges, bottomRadius, bottomEdges, density, position, null);
-        }
-
-        public static List<Fixture> CreateCapsule(World world, float height, float endRadius, float density)
-        {
-            return CreateCapsule(world, height, endRadius, density, null);
-        }
-
-        public static List<Fixture> CreateCapsule(World world, float height, float endRadius, float density,
-                                                  DebugMaterial userData)
-        {
-            //Create the middle rectangle
-            Vertices rectangle = PolygonTools.CreateRectangle(endRadius, height/2);
-
-            List<Vertices> list = new List<Vertices>();
-            list.Add(rectangle);
-
-            List<Fixture> fixtures = CreateCompoundPolygon(world, list, density, userData);
-
-            //Create the two circles
-            CircleShape topCircle = new CircleShape(endRadius, density);
-            topCircle.Position = new Vector2(0, height/2);
-            fixtures.Add(fixtures[0].Body.CreateFixture(topCircle, userData));
-
-            CircleShape bottomCircle = new CircleShape(endRadius, density);
-            bottomCircle.Position = new Vector2(0, -(height/2));
-            fixtures.Add(fixtures[0].Body.CreateFixture(bottomCircle, userData));
-            return fixtures;
-        }
-
-        /// <summary>
-        /// Creates a rounded rectangle.
-        /// Note: Automatically decomposes the capsule if it contains too many vertices (controlled by Settings.MaxPolygonVertices)
-        /// </summary>
-        /// <param name="world">The world.</param>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        /// <param name="xRadius">The x radius.</param>
-        /// <param name="yRadius">The y radius.</param>
-        /// <param name="segments">The segments.</param>
-        /// <param name="density">The density.</param>
-        /// <param name="position">The position.</param>
-        /// <returns></returns>
-        public static List<Fixture> CreateRoundedRectangle(World world, float width, float height, float xRadius,
-                                                           float yRadius,
-                                                           int segments, float density, Vector2 position,
-                                                           DebugMaterial userData)
-        {
-            Vertices verts = PolygonTools.CreateRoundedRectangle(width, height, xRadius, yRadius, segments);
-
-            //There are too many vertices in the capsule. We decompose it.
-            if (verts.Count >= Settings.MaxPolygonVertices)
-            {
-                List<Vertices> vertList = EarclipDecomposer.ConvexPartition(verts);
-                List<Fixture> fixtureList = CreateCompoundPolygon(world, vertList, density, userData);
-                fixtureList[0].Body.Position = position;
-                return fixtureList;
-            }
-
-            return new List<Fixture> {CreatePolygon(world, verts, density)};
-        }
-
-        public static List<Fixture> CreateRoundedRectangle(World world, float width, float height, float xRadius,
-                                                           float yRadius,
-                                                           int segments, float density, Vector2 position)
-        {
-            return CreateRoundedRectangle(world, width, height, xRadius, yRadius, segments, density, position, null);
-        }
-
-        public static List<Fixture> CreateRoundedRectangle(World world, float width, float height, float xRadius,
-                                                           float yRadius,
-                                                           int segments, float density)
-        {
-            return CreateRoundedRectangle(world, width, height, xRadius, yRadius, segments, density, null);
-        }
-
-        public static List<Fixture> CreateRoundedRectangle(World world, float width, float height, float xRadius,
-                                                           float yRadius,
-                                                           int segments, float density, DebugMaterial userData)
-        {
-            return CreateRoundedRectangle(world, width, height, xRadius, yRadius, segments, density, Vector2.Zero,
-                                          userData);
-        }
-
-        public static BreakableBody CreateBreakableBody(World world, Vertices vertices, float density)
-        {
-            return CreateBreakableBody(world, vertices, density, null);
-        }
-
-        public static BreakableBody CreateBreakableBody(World world, Vertices vertices, float density, DebugMaterial userData)
-        {
-            return CreateBreakableBody(world, vertices, density, Vector2.Zero, userData);
-        }
-
-        /// <summary>
-        /// Creates a breakable body. You would want to remove collinear points before using this.
-        /// </summary>
-        /// <param name="world">The world.</param>
-        /// <param name="vertices">The vertices.</param>
-        /// <param name="density">The density.</param>
-        /// <param name="position">The position.</param>
-        /// <returns></returns>
-        public static BreakableBody CreateBreakableBody(World world, Vertices vertices, float density, Vector2 position,
-                                                        DebugMaterial userData)
-        {
-            List<Vertices> triangles = EarclipDecomposer.ConvexPartition(vertices);
-
-            BreakableBody breakableBody = new BreakableBody(triangles, world, density, userData);
-            breakableBody.MainBody.Position = position;
-            world.AddBreakableBody(breakableBody);
-
-            return breakableBody;
-        }
-
-        public static BreakableBody CreateBreakableBody(World world, Vertices vertices, float density, Vector2 position)
-        {
-            return CreateBreakableBody(world, vertices, density, position, null);
+            return AttachCompoundPolygon(triangles, density, body);
         }
     }
 }

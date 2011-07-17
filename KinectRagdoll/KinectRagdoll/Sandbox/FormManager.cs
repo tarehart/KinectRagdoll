@@ -11,7 +11,7 @@ namespace KinectRagdoll.Sandbox
     class FormManager
     {
 
-        private static RectangleForm rectangleForm;
+        //private static RectangleForm rectangleForm;
         private static PropertyEditorForm propertyForm;
         private static PowerupForm powerupForm;
         private static JointForm jointForm;
@@ -20,16 +20,16 @@ namespace KinectRagdoll.Sandbox
 
         private static PhysicsObjectForm activeFixtureForm;
 
-        public static RectangleForm Rectangle
-        {
-            get
-            {
-                if (rectangleForm == null) 
-                    rectangleForm = new RectangleForm();
-                return rectangleForm;
-            }
+        //public static RectangleForm Rectangle
+        //{
+        //    get
+        //    {
+        //        if (rectangleForm == null) 
+        //            rectangleForm = new RectangleForm();
+        //        return rectangleForm;
+        //    }
 
-        }
+        //}
 
         public static PropertyEditorForm Property
         {

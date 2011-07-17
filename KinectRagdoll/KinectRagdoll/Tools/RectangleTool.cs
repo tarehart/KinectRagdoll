@@ -24,7 +24,8 @@ namespace KinectRagdoll.Tools
         {
            
 
-            Fixture f = FixtureFactory.CreateRectangle(game.farseerManager.world, d.width, d.height, 1, d.center, new DebugMaterial(MaterialType.Waves));
+            Fixture f = FixtureFactory.AttachRectangle(d.width, d.height, 1, Vector2.Zero, new Body(game.farseerManager.world));
+            f.Body.Position = d.center;
             FarseerTextures.ApplyTexture(f, FarseerTextures.TextureType.Normal);
             return f;
         }

@@ -24,7 +24,8 @@ namespace KinectRagdoll.Tools
         {
 
 
-            Fixture f = FixtureFactory.CreateCircle(game.farseerManager.world, d.diagonal, 1, worldStart, new DebugMaterial(MaterialType.Stars));
+            Fixture f = FixtureFactory.AttachCircle(d.diagonal, 1, new Body(game.farseerManager.world));
+            f.Body.Position = worldStart;
             FarseerTextures.ApplyTexture(f, FarseerTextures.TextureType.Normal);
 
             return f;

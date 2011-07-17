@@ -12,16 +12,16 @@ namespace FarseerPhysics.Factories
         #region Revolute Joint
 
         /// <summary>
-        /// Creates a revolute joint and adds it to the world
+        /// Creates a revolute joint.
         /// </summary>
         /// <param name="bodyA"></param>
         /// <param name="bodyB"></param>
-        /// <param name="localanchorB"></param>
+        /// <param name="localAnchorB">The anchor of bodyB in local coordinates</param>
         /// <returns></returns>
-        public static RevoluteJoint CreateRevoluteJoint(Body bodyA, Body bodyB, Vector2 localanchorB)
+        public static RevoluteJoint CreateRevoluteJoint(Body bodyA, Body bodyB, Vector2 localAnchorB)
         {
-            Vector2 localanchorA = bodyA.GetLocalPoint(bodyB.GetWorldPoint(localanchorB));
-            RevoluteJoint joint = new RevoluteJoint(bodyA, bodyB, localanchorA, localanchorB);
+            Vector2 localanchorA = bodyA.GetLocalPoint(bodyB.GetWorldPoint(localAnchorB));
+            RevoluteJoint joint = new RevoluteJoint(bodyA, bodyB, localanchorA, localAnchorB);
             return joint;
         }
 
@@ -31,11 +31,11 @@ namespace FarseerPhysics.Factories
         /// <param name="world"></param>
         /// <param name="bodyA"></param>
         /// <param name="bodyB"></param>
-        /// <param name="localanchorB"></param>
+        /// <param name="anchor"></param>
         /// <returns></returns>
-        public static RevoluteJoint CreateRevoluteJoint(World world, Body bodyA, Body bodyB, Vector2 localanchorB)
+        public static RevoluteJoint CreateRevoluteJoint(World world, Body bodyA, Body bodyB, Vector2 anchor)
         {
-            RevoluteJoint joint = CreateRevoluteJoint(bodyA, bodyB, localanchorB);
+            RevoluteJoint joint = CreateRevoluteJoint(bodyA, bodyB, anchor);
             world.AddJoint(joint);
             return joint;
         }
@@ -133,6 +133,14 @@ namespace FarseerPhysics.Factories
             return joint;
         }
 
+        public static FixedPrismaticJoint CreateFixedPrismaticJoint(World world, Body body, Vector2 worldAnchor,
+                                                                    Vector2 axis)
+        {
+            FixedPrismaticJoint joint = new FixedPrismaticJoint(body, worldAnchor, axis);
+            world.AddJoint(joint);
+            return joint;
+        }
+
         #endregion
 
         #region Line Joint
@@ -142,13 +150,12 @@ namespace FarseerPhysics.Factories
         /// </summary>
         /// <param name="bodyA"></param>
         /// <param name="bodyB"></param>
-        /// <param name="localanchorB"></param>
+        /// <param name="anchor"></param>
         /// <param name="axis"></param>
         /// <returns></returns>
-        public static LineJoint CreateLineJoint(Body bodyA, Body bodyB, Vector2 localanchorB, Vector2 axis)
+        public static LineJoint CreateLineJoint(Body bodyA, Body bodyB, Vector2 anchor, Vector2 axis)
         {
-            Vector2 localanchorA = bodyA.GetLocalPoint(bodyB.GetWorldPoint(localanchorB));
-            LineJoint joint = new LineJoint(bodyA, bodyB, localanchorA, localanchorB, axis);
+            LineJoint joint = new LineJoint(bodyA, bodyB, anchor, axis);
             return joint;
         }
 

@@ -24,7 +24,7 @@ namespace KinectRagdoll.Equipment
             destroyed = true;
         }
 
-        public abstract void AttachToRagdoll(RagdollMuscle ragdoll);
+        public abstract void Init(RagdollMuscle ragdoll);
 
         public abstract void Update(SkeletonInfo info);
 

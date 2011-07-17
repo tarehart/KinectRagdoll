@@ -74,8 +74,9 @@ namespace KinectRagdoll.Tools
                 verts.Add(v - avgLoc);
             }
 
-
-            List<Fixture> composition = FixtureFactory.CreateCompoundPolygon(game.farseerManager.world, EarclipDecomposer.ConvexPartition(verts), 1, avgLoc);
+            Body b = new Body(game.farseerManager.world);
+            List<Fixture> composition = FixtureFactory.AttachCompoundPolygon(EarclipDecomposer.ConvexPartition(verts), 1, b);
+            b.Position = avgLoc;
 
             foreach (Fixture triangle in composition)
             {

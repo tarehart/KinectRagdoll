@@ -142,7 +142,7 @@ namespace KinectRagdoll.Sandbox
                 b.Mass = mass;
                 b.Enabled = true;
                 b.Awake = true;
-                w.AddBody(b);
+                w.AddBody(b); 
                 //w.BodyList.Add(b);
             }
 

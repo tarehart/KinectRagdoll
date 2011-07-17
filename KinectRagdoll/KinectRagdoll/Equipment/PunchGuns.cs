@@ -57,7 +57,7 @@ namespace KinectRagdoll.Equipment
             public PunchBullet(Vector2 loc, Vector2 vel, World world)
             {
                 this.world = world;
-                bullet = FixtureFactory.CreateCircle(world, .4f, 5, matBullet);
+                bullet = FixtureFactory.AttachCircle(.4f, 5, new Body(world), matBullet);
                 bullet.Body.Position = loc;
                 bullet.Body.BodyType = BodyType.Dynamic;
                 bullet.Body.LinearVelocity = vel * 70;

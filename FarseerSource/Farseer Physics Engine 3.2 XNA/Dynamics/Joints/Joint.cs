@@ -41,16 +41,16 @@ namespace FarseerPhysics.Dynamics.Joints
         Line,
         Weld,
         Friction,
+        Slider,
+        Angle,
+        Rope,
         FixedMouse,
         FixedRevolute,
         FixedDistance,
         FixedLine,
         FixedPrismatic,
-        MaxDistance,
-        Angle,
         FixedAngle,
-        FixedFriction,
-        RopeJoint
+        FixedFriction
     }
 
     public enum LimitState
@@ -86,7 +86,7 @@ namespace FarseerPhysics.Dynamics.Joints
 
         public float Compute(Vector2 x1, float a1, Vector2 x2, float a2)
         {
-            return Vector2.Dot(LinearA, x1) + AngularA*a1 + Vector2.Dot(LinearB, x2) + AngularB*a2;
+            return Vector2.Dot(LinearA, x1) + AngularA * a1 + Vector2.Dot(LinearB, x2) + AngularB * a2;
         }
     }
 
@@ -135,9 +135,10 @@ namespace FarseerPhysics.Dynamics.Joints
         public float Breakpoint = float.MaxValue;
 
         [DataMember()]
-        internal JointEdge EdgeA;
+        internal JointEdge EdgeA = new JointEdge();
         [DataMember()]
-        internal JointEdge EdgeB;
+        internal JointEdge EdgeB = new JointEdge();
+        
         [DataMember()]
         public bool Enabled = true;
         protected float InvIA;
@@ -147,14 +148,16 @@ namespace FarseerPhysics.Dynamics.Joints
         internal bool IslandFlag;
         protected Vector2 LocalCenterA, LocalCenterB;
 
+        protected Joint()
+        {
+        }
+
         protected Joint(Body body, Body bodyB)
         {
             Debug.Assert(body != bodyB);
 
             BodyA = body;
-            EdgeA = new JointEdge();
             BodyB = bodyB;
-            EdgeB = new JointEdge();
 
             //Connected bodies should not collide by default
             CollideConnected = false;
@@ -169,8 +172,6 @@ namespace FarseerPhysics.Dynamics.Joints
 
             //Connected bodies should not collide by default
             CollideConnected = false;
-
-            EdgeA = new JointEdge();
         }
 
         /// <summary>
@@ -210,7 +211,7 @@ namespace FarseerPhysics.Dynamics.Joints
         /// Set the user data pointer.
         /// </summary>
         /// <value>The data.</value>
-        public Object userData { get; set; }
+        public Object UserData { get; set; }
 
         /// <summary>
         /// Short-cut function to determine if either body is inactive.

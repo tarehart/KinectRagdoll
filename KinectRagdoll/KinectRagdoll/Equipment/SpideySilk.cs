@@ -33,9 +33,9 @@ namespace KinectRagdoll.Equipment
             this.range = range;
         }
 
-        public override void AttachToRagdoll(RagdollMuscle ragdoll)
+        public override void Init(RagdollMuscle ragdoll)
         {
-            base.AttachToRagdoll(ragdoll);
+            base.Init(ragdoll);
             ragdoll.KnockOut += new EventHandler(ragdoll_KnockOut);
         }
 

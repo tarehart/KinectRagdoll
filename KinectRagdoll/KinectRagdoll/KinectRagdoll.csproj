@@ -179,21 +179,13 @@
     <Compile Include="Sandbox\ProjectionHelper.cs" />
     <Compile Include="Sandbox\FormManager.cs" />
     <Compile Include="Sandbox\InputManager.cs" />
-    <Compile Include="Sandbox\RectangleForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Sandbox\RectangleForm.Designer.cs">
-      <DependentUpon>RectangleForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Sandbox\FarseerManager.cs" />
     <Compile Include="Kinect\KinectManager.cs" />
     <Compile Include="Graveyard\MarchingSquares.cs" />
-    <Compile Include="Graveyard\OutlineManager.cs" />
     <Compile Include="Ragdoll\RagdollBase.cs" />
     <Compile Include="Ragdoll\RagdollAttractor.cs" />
     <Compile Include="Ragdoll\RagdollManager.cs" />
     <Compile Include="Ragdoll\RagdollMuscle.cs" />
-    <Compile Include="Graveyard\RampManager.cs" />
     <Compile Include="Kinect\SkeletonInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
@@ -267,9 +259,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sandbox\PowerupForm.resx">
       <DependentUpon>PowerupForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Sandbox\RectangleForm.resx">
-      <DependentUpon>RectangleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sandbox\PropertyEditorForm.resx">
       <DependentUpon>PropertyEditorForm.cs</DependentUpon>

@@ -26,11 +26,11 @@ namespace KinectRagdoll.Equipment
         {
             if (ragdoll != null)
             {
-                AttachToRagdoll(ragdoll);
+                Init(ragdoll);
             }
         }
 
-        public override void AttachToRagdoll(RagdollMuscle ragdoll)
+        public override void Init(RagdollMuscle ragdoll)
         {
             this.ragdoll = ragdoll;
             ragdoll.WakeUp += new EventHandler(Reset);

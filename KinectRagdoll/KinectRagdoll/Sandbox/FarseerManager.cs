@@ -112,20 +112,22 @@ namespace KinectRagdoll.Kinect
             int thickness = 5;
 
 
+            Body b = new Body(world);
+
             FarseerTextures.ApplyTexture(
-                FixtureFactory.CreateRectangle(world, 70, thickness, 1, new Vector2(0, -25)),
+                FixtureFactory.AttachRectangle(70, thickness, 1, new Vector2(0, -25), b),
                 FarseerTextures.TextureType.Normal);
 
             FarseerTextures.ApplyTexture(
-                FixtureFactory.CreateRectangle(world, 70, thickness, 1, new Vector2(0, 25)),
+                FixtureFactory.AttachRectangle(70, thickness, 1, new Vector2(0, 25), b),
                 FarseerTextures.TextureType.Normal);
 
             FarseerTextures.ApplyTexture(
-                FixtureFactory.CreateRectangle(world, thickness, 50, 1, new Vector2(35, 0)),
+                FixtureFactory.AttachRectangle(thickness, 50, 1, new Vector2(35, 0), b),
                 FarseerTextures.TextureType.Normal);
 
             FarseerTextures.ApplyTexture(
-                FixtureFactory.CreateRectangle(world, thickness, 50, 1, new Vector2(-35, 0)),
+                FixtureFactory.AttachRectangle(thickness, 50, 1, new Vector2(-35, 0), b),
                 FarseerTextures.TextureType.Normal);
 
 
@@ -133,8 +135,10 @@ namespace KinectRagdoll.Kinect
 
         public void addSpinningDeath()
         {
-            
-            Fixture rec = FixtureFactory.CreateRectangle(world, 20, 2, 1, new Vector2(10, 0));
+
+            Body b = new Body(world);
+            Fixture rec = FixtureFactory.AttachRectangle(20, 2, 1, Vector2.Zero, b);
+            b.Position = new Vector2(10, 0);
             
             rec.Body.BodyType = BodyType.Dynamic;
             FarseerTextures.ApplyTexture(rec, FarseerTextures.TextureType.Normal);
@@ -147,22 +151,6 @@ namespace KinectRagdoll.Kinect
             world.AddJoint(joint);
         }
 
-
-        public void dropBall()
-        {
-            int x = rand.Next(KinectRagdollGame.WIDTH);
-
-            
-
-            Fixture f = FixtureFactory.CreateCircle(world, 20, 1, new Vector2(x, 50));
-            FarseerTextures.ApplyTexture(f, FarseerTextures.TextureType.Normal);
-            f.Body.Position = new Vector2(x, 50);
-            f.Body.BodyType = BodyType.Dynamic;
-            f.Restitution = .9f;
-            
-
-
-        }
 
 
         public void Update(GameTime gameTime)

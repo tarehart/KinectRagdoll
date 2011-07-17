@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using FarseerPhysics.Common;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 
@@ -43,7 +42,7 @@ namespace FarseerPhysics.Controllers
 
             foreach (Body body1 in World.BodyList)
             {
-                if (!FilterData.IsActiveOn(body1))
+                if (!IsActiveOn(body1))
                     continue;
 
                 foreach (Body body2 in Bodies)
@@ -51,7 +50,7 @@ namespace FarseerPhysics.Controllers
                     if (body1 == body2 || (body1.IsStatic && body2.IsStatic) || !body2.Enabled)
                         continue;
 
-                    Vector2 d = body2.Position - body1.Position;
+                    Vector2 d = body2.WorldCenter - body1.WorldCenter;
                     float r2 = d.LengthSquared();
 
                     if (r2 < Settings.Epsilon)
@@ -65,10 +64,10 @@ namespace FarseerPhysics.Controllers
                     switch (GravityType)
                     {
                         case GravityType.DistanceSquared:
-                            f = Strength/r2/(float) Math.Sqrt(r2)*body1.Mass*body2.Mass*d;
+                            f = Strength / r2 / (float)Math.Sqrt(r2) * body1.Mass * body2.Mass * d;
                             break;
                         case GravityType.Linear:
-                            f = Strength/r2*body1.Mass*body2.Mass*d;
+                            f = Strength / r2 * body1.Mass * body2.Mass * d;
                             break;
                     }
 
@@ -93,10 +92,10 @@ namespace FarseerPhysics.Controllers
                     switch (GravityType)
                     {
                         case GravityType.DistanceSquared:
-                            f = Strength/r2/(float) Math.Sqrt(r2)*body1.Mass*d;
+                            f = Strength / r2 / (float)Math.Sqrt(r2) * body1.Mass * d;
                             break;
                         case GravityType.Linear:
-                            f = Strength/r2*body1.Mass*d;
+                            f = Strength / r2 * body1.Mass * d;
                             break;
                     }
 

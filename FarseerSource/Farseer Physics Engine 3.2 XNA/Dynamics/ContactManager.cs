@@ -23,8 +23,8 @@
 * 3. This notice may not be removed or altered from any source distribution. 
 */
 
+using System.Collections.Generic;
 using FarseerPhysics.Collision;
-using FarseerPhysics.Common;
 using FarseerPhysics.Dynamics.Contacts;
 
 namespace FarseerPhysics.Dynamics
@@ -36,16 +36,14 @@ namespace FarseerPhysics.Dynamics
         /// </summary>
         public BeginContactDelegate BeginContact;
 
-        public BroadPhase BroadPhase = new BroadPhase();
-
-        public int ContactCount;
+        public IBroadPhase BroadPhase;
 
         /// <summary>
         /// The filter used by the contact manager.
         /// </summary>
         public CollisionFilterDelegate ContactFilter;
 
-        public Contact ContactList;
+        public List<Contact> ContactList = new List<Contact>(128);
 
         /// <summary>
         /// Fires when a contact is deleted
@@ -67,11 +65,9 @@ namespace FarseerPhysics.Dynamics
         /// </summary>
         public PreSolveDelegate PreSolve;
 
-        internal ContactManager()
+        internal ContactManager(IBroadPhase broadPhase)
         {
-            ContactList = null;
-            ContactCount = 0;
-
+            BroadPhase = broadPhase;
             OnBroadphaseCollision = AddPair;
         }
 
@@ -144,19 +140,11 @@ namespace FarseerPhysics.Dynamics
             // Contact creation may swap fixtures.
             fixtureA = c.FixtureA;
             fixtureB = c.FixtureB;
-            indexA = c.ChildIndexA;
-            indexB = c.ChildIndexB;
             bodyA = fixtureA.Body;
             bodyB = fixtureB.Body;
 
             // Insert into the world.
-            c.Prev = null;
-            c.Next = ContactList;
-            if (ContactList != null)
-            {
-                ContactList.Prev = c;
-            }
-            ContactList = c;
+            ContactList.Add(c);
 
             // Connect to island graph.
 
@@ -183,8 +171,6 @@ namespace FarseerPhysics.Dynamics
                 bodyB.ContactList.Prev = c.NodeB;
             }
             bodyB.ContactList = c.NodeB;
-
-            ++ContactCount;
         }
 
         internal void FindNewContacts()
@@ -205,20 +191,7 @@ namespace FarseerPhysics.Dynamics
             }
 
             // Remove from the world.
-            if (contact.Prev != null)
-            {
-                contact.Prev.Next = contact.Next;
-            }
-
-            if (contact.Next != null)
-            {
-                contact.Next.Prev = contact.Prev;
-            }
-
-            if (contact == ContactList)
-            {
-                ContactList = contact.Next;
-            }
+            ContactList.Remove(contact);
 
             // Remove from body 1
             if (contact.NodeA.Prev != null)
@@ -253,16 +226,14 @@ namespace FarseerPhysics.Dynamics
             }
 
             contact.Destroy();
-
-            --ContactCount;
         }
 
         internal void Collide()
         {
             // Update awake contacts.
-            Contact c = ContactList;
-            while (c != null)
+            for (int i = 0; i < ContactList.Count; i++)
             {
+                Contact c = ContactList[i];
                 Fixture fixtureA = c.FixtureA;
                 Fixture fixtureB = c.FixtureB;
                 int indexA = c.ChildIndexA;
@@ -272,7 +243,6 @@ namespace FarseerPhysics.Dynamics
 
                 if (bodyA.Awake == false && bodyB.Awake == false)
                 {
-                    c = c.Next;
                     continue;
                 }
 
@@ -283,7 +253,6 @@ namespace FarseerPhysics.Dynamics
                     if (bodyB.ShouldCollide(bodyA) == false)
                     {
                         Contact cNuke = c;
-                        c = cNuke.Next;
                         Destroy(cNuke);
                         continue;
                     }
@@ -292,7 +261,6 @@ namespace FarseerPhysics.Dynamics
                     if (ShouldCollide(fixtureA, fixtureB) == false)
                     {
                         Contact cNuke = c;
-                        c = cNuke.Next;
                         Destroy(cNuke);
                         continue;
                     }
@@ -301,7 +269,6 @@ namespace FarseerPhysics.Dynamics
                     if (ContactFilter != null && ContactFilter(fixtureA, fixtureB) == false)
                     {
                         Contact cNuke = c;
-                        c = cNuke.Next;
                         Destroy(cNuke);
                         continue;
                     }
@@ -319,14 +286,12 @@ namespace FarseerPhysics.Dynamics
                 if (overlap == false)
                 {
                     Contact cNuke = c;
-                    c = cNuke.Next;
                     Destroy(cNuke);
                     continue;
                 }
 
                 // The contact persists.
                 c.Update(this);
-                c = c.Next;
             }
         }
 
@@ -334,36 +299,36 @@ namespace FarseerPhysics.Dynamics
         {
             if (Settings.UseFPECollisionCategories)
             {
-                if ((fixtureA.CollisionFilter.CollisionGroup == fixtureB.CollisionFilter.CollisionGroup) &&
-                    fixtureA.CollisionFilter.CollisionGroup != 0 && fixtureB.CollisionFilter.CollisionGroup != 0)
+                if ((fixtureA.CollisionGroup == fixtureB.CollisionGroup) &&
+                    fixtureA.CollisionGroup != 0 && fixtureB.CollisionGroup != 0)
                     return false;
 
-                if (((fixtureA.CollisionFilter.CollisionCategories & fixtureB.CollisionFilter.CollidesWith) ==
+                if (((fixtureA.CollisionCategories & fixtureB.CollidesWith) ==
                      Category.None) &
-                    ((fixtureB.CollisionFilter.CollisionCategories & fixtureA.CollisionFilter.CollidesWith) ==
+                    ((fixtureB.CollisionCategories & fixtureA.CollidesWith) ==
                      Category.None))
                     return false;
 
-                if (fixtureA.CollisionFilter.IsFixtureIgnored(fixtureB) ||
-                    fixtureB.CollisionFilter.IsFixtureIgnored(fixtureA))
+                if (fixtureA.IsFixtureIgnored(fixtureB) ||
+                    fixtureB.IsFixtureIgnored(fixtureA))
                     return false;
 
                 return true;
             }
 
-            if (fixtureA.CollisionFilter.CollisionGroup == fixtureB.CollisionFilter.CollisionGroup &&
-                fixtureA.CollisionFilter.CollisionGroup != 0)
+            if (fixtureA.CollisionGroup == fixtureB.CollisionGroup &&
+                fixtureA.CollisionGroup != 0)
             {
-                return fixtureA.CollisionFilter.CollisionGroup > 0;
+                return fixtureA.CollisionGroup > 0;
             }
 
-            bool collide = (fixtureA.CollisionFilter.CollidesWith & fixtureB.CollisionFilter.CollisionCategories) != 0 &&
-                           (fixtureA.CollisionFilter.CollisionCategories & fixtureB.CollisionFilter.CollidesWith) != 0;
+            bool collide = (fixtureA.CollidesWith & fixtureB.CollisionCategories) != 0 &&
+                           (fixtureA.CollisionCategories & fixtureB.CollidesWith) != 0;
 
             if (collide)
             {
-                if (fixtureA.CollisionFilter.IsFixtureIgnored(fixtureB) ||
-                    fixtureB.CollisionFilter.IsFixtureIgnored(fixtureA))
+                if (fixtureA.IsFixtureIgnored(fixtureB) ||
+                    fixtureB.IsFixtureIgnored(fixtureA))
                 {
                     return false;
                 }
