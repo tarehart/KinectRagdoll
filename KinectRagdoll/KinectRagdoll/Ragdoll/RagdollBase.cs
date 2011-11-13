@@ -418,5 +418,7 @@ namespace KinectRagdoll.Ragdoll
             }
             return false;
         }
+
+        public Vector2 Position { get { return Body.Position; } }
     }
 }

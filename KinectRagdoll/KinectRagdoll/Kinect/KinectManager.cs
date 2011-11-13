@@ -21,13 +21,13 @@ namespace KinectRagdoll.Kinect
 
         Runtime nui;
        
-        public Texture2D depthTex;
+        //public Texture2D depthTex;
         public SkeletonInfo skeletonInfo = new SkeletonInfo();
 
         public Microsoft.Xna.Framework.Color bkColor = new Microsoft.Xna.Framework.Color(230, 230, 230);
         Random rand = new Random();
         private bool trackingPlayer = false;
-        int frame = 0;
+        //int frame = 0;
 
 
 
@@ -36,11 +36,11 @@ namespace KinectRagdoll.Kinect
            
         }
 
-        public void initDepthTex()
-        {
-            depthTex = new Texture2D(KinectRagdollGame.graphicsDevice, 160, 120);
-            //depthTex = new Texture2D(KinectRagdollGame.graphicsDevice, 320, 240);
-        }
+        //public void initDepthTex()
+        //{
+        //    depthTex = new Texture2D(KinectRagdollGame.graphicsDevice, 160, 120);
+            
+        //}
 
 
         public void InitKinect()
@@ -92,53 +92,53 @@ namespace KinectRagdoll.Kinect
 
             
 
-            for (int i = 0; i < 16; i++)
-            {
-                if (KinectRagdollGame.graphicsDevice.Textures[i] == depthTex)
-                {
-                    KinectRagdollGame.graphicsDevice.Textures[i] = null;
-                    break;
-                }
-            }
+            //for (int i = 0; i < 16; i++)
+            //{
+            //    if (KinectRagdollGame.graphicsDevice.Textures[i] == depthTex)
+            //    {
+            //        KinectRagdollGame.graphicsDevice.Textures[i] = null;
+            //        break;
+            //    }
+            //}
 
-            int[,] depth = convertDepthFrame(e.ImageFrame.Image);
-            byte[] cBytes = GetColorBytes(depth);
+            //int[,] depth = convertDepthFrame(e.ImageFrame.Image);
+            //byte[] cBytes = GetColorBytes(depth);
 
-            depthTex.SetData<byte>(cBytes);
+            //depthTex.SetData<byte>(cBytes);
             
 
             skeletonInfo.Tracking = trackingPlayer;
 
         }
 
-        int[,] convertDepthFrame(PlanarImage image)
-        {
-            trackingPlayer = false;
-            byte[] depthFrame16 = image.Bits;
+        //int[,] convertDepthFrame(PlanarImage image)
+        //{
+        //    trackingPlayer = false;
+        //    byte[] depthFrame16 = image.Bits;
 
-            int divisor = image.Height / depthTex.Height;
+        //    int divisor = image.Height / depthTex.Height;
 
-            int[,] depth = new int[image.Height / divisor, image.Width / divisor];
+        //    int[,] depth = new int[image.Height / divisor, image.Width / divisor];
 
-            int i16 = 0;
+        //    int i16 = 0;
 
-            for (int h = 0; h < depth.GetLength(0); h++)
-            {
-                for (int w = 0; w < depth.GetLength(1); w++, i16 += 2 * divisor)
-                {
-                    int player = depthFrame16[i16] & 0x07;
-                    trackingPlayer = trackingPlayer || player > 0;
-                    int realDepth = (depthFrame16[i16 + 1] << 5) | (depthFrame16[i16] >> 3);
-                    if (player == 0) realDepth *= -1;
-                    depth[h, w] = realDepth;
-                }
+        //    for (int h = 0; h < depth.GetLength(0); h++)
+        //    {
+        //        for (int w = 0; w < depth.GetLength(1); w++, i16 += 2 * divisor)
+        //        {
+        //            int player = depthFrame16[i16] & 0x07;
+        //            trackingPlayer = trackingPlayer || player > 0;
+        //            int realDepth = (depthFrame16[i16 + 1] << 5) | (depthFrame16[i16] >> 3);
+        //            if (player == 0) realDepth *= -1;
+        //            depth[h, w] = realDepth;
+        //        }
 
-                i16 += (divisor - 1) * depth.GetLength(1) * 2 * divisor;
-            }
+        //        i16 += (divisor - 1) * depth.GetLength(1) * 2 * divisor;
+        //    }
 
-            return depth;
+        //    return depth;
 
-        }
+        //}
 
 
         private byte[] GetColorBytes(int[,] depth)

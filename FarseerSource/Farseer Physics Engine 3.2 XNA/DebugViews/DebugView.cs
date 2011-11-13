@@ -87,6 +87,8 @@ namespace FarseerPhysics
         /// Draws textured shapes.
         /// </summary>
         TexturedShape = (1 << 10),
+
+        RagdollCustom = (1 << 11)
     }
 
     /// Implement and register this class with a World to provide debug drawing of physics

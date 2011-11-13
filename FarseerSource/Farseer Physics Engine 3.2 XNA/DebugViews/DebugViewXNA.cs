@@ -290,6 +290,11 @@ namespace FarseerPhysics.DebugViews
                 }
             }
 
+            if ((Flags & DebugViewFlags.RagdollCustom) == DebugViewFlags.RagdollCustom)
+            {
+                DrawRagdollCustom();
+            }
+
             if ((Flags & DebugViewFlags.Pair) == DebugViewFlags.Pair)
             {
                 Color color = new Color(0.3f, 0.9f, 0.9f);
@@ -345,6 +350,32 @@ namespace FarseerPhysics.DebugViews
                     xf.Position = b.WorldCenter;
                     DrawTransform(ref xf);
                 }
+            }
+        }
+
+        private void DrawRagdollCustom()
+        {
+            foreach (Joint joint in World.JointList)
+            {
+
+                if (!joint.Enabled || !(joint is RopeJoint))
+                    continue;
+
+                Vector2 p1 = joint.WorldAnchorA;
+                Vector2 p2 = joint.WorldAnchorB;
+
+                
+                RopeJoint rj = joint as RopeJoint;
+                Vector2 toP2 = (p2 - p1);
+                float length = toP2.Length();
+                float proportion = length / rj.MaxLength;
+                Vector2 dot1 = p1 + toP2 * proportion * .5f;
+                Vector2 dot2 = p2 - toP2 * proportion * .5f;
+
+                DrawThickLine(p1, p2, .2f, Color.Black);
+                DrawPoint(dot1, .3f, Color.Red);
+                DrawPoint(dot2, .3f, Color.Red);
+                
             }
         }
 
@@ -518,20 +549,6 @@ namespace FarseerPhysics.DebugViews
                     break;
                 //case JointType.Weld:
                 //    break;
-                case JointType.Rope:
-                    RopeJoint rj = joint as RopeJoint;
-                    Vector2 toP2 = (p2 - p1);
-                    float length = toP2.Length();
-                    float proportion = length / rj.MaxLength;
-                    Vector2 dot1 = p1 + toP2 * proportion * .5f;
-                    Vector2 dot2 = p2 - toP2 * proportion * .5f;
-                    
-                    DrawThickLine(p1, p2, .2f, Color.Black);
-                    DrawPoint(dot1, .3f, Color.Red);
-                    DrawPoint(dot2, .3f, Color.Red);
-                    //DrawSegment(x1, p1, Color.Black);
-                    //DrawSegment(p1, p2, Color.Black);
-                    break;
                 default:
                     DrawSegment(x1, p1, color);
                     DrawSegment(p1, p2, color);

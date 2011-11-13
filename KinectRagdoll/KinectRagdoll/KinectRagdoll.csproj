@@ -137,6 +137,9 @@
     <Compile Include="Equipment\Flappers.cs" />
     <Compile Include="Equipment\GrabHands.cs" />
     <Compile Include="Equipment\JetPack.cs" />
+    <Compile Include="Hazards\Hazard.cs" />
+    <Compile Include="Hazards\HazardManager.cs" />
+    <Compile Include="Hazards\Turret.cs" />
     <Compile Include="Music\Jukebox.cs" />
     <Compile Include="Powerups\Pickup.cs" />
     <Compile Include="Powerups\Powerup.cs" />
@@ -181,7 +184,6 @@
     <Compile Include="Sandbox\InputManager.cs" />
     <Compile Include="Sandbox\FarseerManager.cs" />
     <Compile Include="Kinect\KinectManager.cs" />
-    <Compile Include="Graveyard\MarchingSquares.cs" />
     <Compile Include="Ragdoll\RagdollBase.cs" />
     <Compile Include="Ragdoll\RagdollAttractor.cs" />
     <Compile Include="Ragdoll\RagdollManager.cs" />
@@ -264,7 +266,10 @@
       <DependentUpon>PropertyEditorForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="lib\" />
+    <Folder Include="UI\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

@@ -1,24 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using KinectRagdoll;
 using KinectRagdoll.Kinect;
 using KinectRagdoll.Sandbox;
 using KinectRagdoll.Drawing;
 using KinectRagdoll.Rules;
-using System.ComponentModel;
-using System.IO;
-using System.Drawing.Imaging;
 using KinectRagdoll.Powerups;
 using KinectRagdoll.Music;
+using KinectRagdoll.Hazards;
 
 namespace KinectRagdoll
 {
@@ -43,6 +33,7 @@ namespace KinectRagdoll
         public ObjectiveManager objectiveManager;
         public PowerupManager powerupManager;
         public Jukebox jukebox;
+        public HazardManager hazardManager;
 
         GraphicsDeviceManager graphics;
         Color bkColor;
@@ -91,11 +82,17 @@ namespace KinectRagdoll
             
             actionCenter = new ActionCenter(this);
             inputManager = new InputManager(this);
-            toolbox = new Toolbox(this);
+            
             //spriteHelper = new SpriteHelper();
             objectiveManager = new ObjectiveManager(this);
             powerupManager = new PowerupManager(ragdollManager, farseerManager);
             jukebox = new Jukebox();
+            hazardManager = new HazardManager(farseerManager, ragdollManager);
+
+            toolbox = new Toolbox(this);
+
+            
+            //Components.Add(squidScene);
             
 
             this.IsMouseVisible = true;
@@ -116,10 +113,8 @@ namespace KinectRagdoll
         /// </summary>
         protected override void Initialize()
         {
-
-            
-            
             base.Initialize();
+
         }
 
         private void InitializeTransform()
@@ -216,11 +211,12 @@ namespace KinectRagdoll
             
             
             kinectManager.InitKinect();
-            kinectManager.initDepthTex();
+            //kinectManager.initDepthTex();
 
-            ragdollManager.ragdoll.setDepthTex(kinectManager.depthTex);
+            //ragdollManager.ragdoll.setDepthTex(kinectManager.depthTex);
 
-            
+
+            base.LoadContent();
             
             
         }
@@ -259,6 +255,7 @@ namespace KinectRagdoll
             ragdollManager.Update(kinectManager.skeletonInfo);
             farseerManager.Update(gameTime);
             objectiveManager.Update();
+            hazardManager.Update();
 
             if (!kinectManager.IsKinectRunning)
             {

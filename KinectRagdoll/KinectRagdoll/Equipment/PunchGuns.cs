@@ -61,12 +61,17 @@ namespace KinectRagdoll.Equipment
                 bullet.Body.Position = loc;
                 bullet.Body.BodyType = BodyType.Dynamic;
                 bullet.Body.LinearVelocity = vel * 70;
+                bullet.Body.IsBullet = true;
+                bullet.Body.Restitution = .3f;
 
-                Timer time = new Timer(5000);
+                Timer time = new Timer(4000);
                 time.AutoReset = false;
 
                 time.Elapsed += new ElapsedEventHandler(time_Elapsed);
                 time.Start();
+
+                // Stop doing bullet computation after the first collision.
+                bullet.AfterCollision += new AfterCollisionEventHandler(delegate(Fixture f1, Fixture f2, Contact c) { bullet.Body.IsBullet = false; });
               
                 
             }

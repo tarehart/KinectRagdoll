@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 
@@ -32,6 +29,8 @@ namespace KinectRagdoll.Sandbox
         public KeyboardState LastKeyboardState;
         public MouseState LastMouseState;
 
+        private List<MouseButtons> canceledButtons = new List<MouseButtons>();
+
 
         /// <summary>
         ///   Constructs a new input state.
@@ -47,11 +46,15 @@ namespace KinectRagdoll.Sandbox
         public void Update()
         {
 
+            canceledButtons.Clear();
+
             LastKeyboardState = CurrentKeyboardState;
             CurrentKeyboardState = Keyboard.GetState();
 
             LastMouseState = CurrentMouseState;
             CurrentMouseState = Mouse.GetState();
+
+            
         }
 
 
@@ -194,7 +197,8 @@ namespace KinectRagdoll.Sandbox
                 case MouseButtons.LeftButton:
                     return (
                                LastMouseState.LeftButton == ButtonState.Released &&
-                               CurrentMouseState.LeftButton == ButtonState.Pressed);
+                               CurrentMouseState.LeftButton == ButtonState.Pressed &&
+                               !canceledButtons.Contains(MouseButtons.LeftButton));
                 case MouseButtons.MiddleButton:
                     return (
                                LastMouseState.MiddleButton == ButtonState.Released &&
@@ -202,7 +206,8 @@ namespace KinectRagdoll.Sandbox
                 case MouseButtons.RightButton:
                     return (
                                LastMouseState.RightButton == ButtonState.Released &&
-                               CurrentMouseState.RightButton == ButtonState.Pressed);
+                               CurrentMouseState.RightButton == ButtonState.Pressed &&
+                               !canceledButtons.Contains(MouseButtons.RightButton));
                 case MouseButtons.ExtraButton1:
                     return (
                                LastMouseState.XButton1 == ButtonState.Released &&
@@ -268,7 +273,13 @@ namespace KinectRagdoll.Sandbox
 
             return (CurrentKeyboardState.IsKeyUp(key));
         }
-            
-        
+
+
+
+
+        internal void CancelButtonPress(MouseButtons button)
+        {
+            canceledButtons.Add(button);
+        }
     }
 }

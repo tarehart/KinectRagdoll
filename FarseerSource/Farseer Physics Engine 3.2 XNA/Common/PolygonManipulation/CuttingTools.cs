@@ -182,6 +182,10 @@ namespace FarseerPhysics.Common.PolygonManipulation
                         firstFixture.LinearVelocity = fixtures[i].Body.LinearVelocity;
                         firstFixture.AngularVelocity = fixtures[i].Body.AngularVelocity;
                         firstFixture.BodyType = BodyType.Dynamic;
+                        foreach (Fixture f in firstFixture.FixtureList)
+                        {
+                            f.UserData = fixtures[i].UserData;
+                        }
                     }
 
                     if (SanityCheck(second))
@@ -192,8 +196,13 @@ namespace FarseerPhysics.Common.PolygonManipulation
                         secondFixture.LinearVelocity = fixtures[i].Body.LinearVelocity;
                         secondFixture.AngularVelocity = fixtures[i].Body.AngularVelocity;
                         secondFixture.BodyType = BodyType.Dynamic;
+                        foreach (Fixture f in secondFixture.FixtureList)
+                        {
+                            f.UserData = fixtures[i].UserData;
+                        }
                     }
                     world.RemoveBody(fixtures[i].Body);
+                    world.ProcessChanges();
                 }
             }
         }

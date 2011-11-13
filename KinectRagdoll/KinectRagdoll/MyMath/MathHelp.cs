@@ -20,5 +20,12 @@ namespace KinectRagdoll.MyMath
             Debug.Assert(Math.Abs(a) <= Math.PI);
             return a;
         }
+
+        public static float clamp(float value, float max, float min)
+        {
+            if (value > max) return max;
+            if (value < min) return min;
+            return value;
+        }
     }
 }

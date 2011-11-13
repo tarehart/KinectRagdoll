@@ -10,6 +10,8 @@ using FarseerPhysics.Factories;
 using FarseerPhysics.Dynamics.Joints;
 using KinectRagdoll.Sandbox;
 using FarseerPhysics.DebugViews;
+using FarseerPhysics.Common.PolygonManipulation;
+using KinectRagdoll.Hazards;
 
 namespace KinectRagdoll.Kinect
 {
@@ -40,7 +42,7 @@ namespace KinectRagdoll.Kinect
             
 
             debugview = new DebugViewXNA(world);
-            debugview.Flags = FarseerPhysics.DebugViewFlags.TexturedShape | FarseerPhysics.DebugViewFlags.Joint;
+            debugview.Flags = FarseerPhysics.DebugViewFlags.TexturedShape | FarseerPhysics.DebugViewFlags.RagdollCustom;
 
             //World loaded = Serializer.readFromDataContract("graph.xml");
             //world.JointList.AddRange(loaded.JointList);
@@ -83,6 +85,7 @@ namespace KinectRagdoll.Kinect
                 game.ragdollManager.CreateNewRagdoll(game);
                 addBounds();
                 addSpinningDeath();
+                addTurret();
             }
 
             //projection = Matrix.CreateOrthographicOffCenter(0, device.Viewport.Width, device.Viewport.Height, 0, -1, 1);
@@ -90,6 +93,8 @@ namespace KinectRagdoll.Kinect
             
             
         }
+
+        
 
         public void LoadWorld(String filename)
         {
@@ -100,7 +105,7 @@ namespace KinectRagdoll.Kinect
             sf.PopulateWorld(world);
             game.ragdollManager.ragdoll = sf.ragdoll;
             game.ragdollManager.ragdoll.Init(world);
-            game.ragdollManager.ragdoll.setDepthTex(game.kinectManager.depthTex);
+            //game.ragdollManager.ragdoll.setDepthTex(game.kinectManager.depthTex);
             game.objectiveManager.SetObjectives(sf.objectives);
             game.powerupManager.LoadPowerups(sf.powerups);
         }
@@ -149,6 +154,15 @@ namespace KinectRagdoll.Kinect
             joint.MaxMotorTorque = 10000;
             joint.MotorTorque = 10000;
             world.AddJoint(joint);
+        }
+
+        private void addTurret()
+        {
+            Turret t = new Turret(new Vector2(10, 0), world, game.ragdollManager);
+            game.hazardManager.addHazard(t);
+
+            Turret t2 = new Turret(new Vector2(-10, 0), world, game.ragdollManager);
+            game.hazardManager.addHazard(t2);
         }
 
 
@@ -217,6 +231,12 @@ namespace KinectRagdoll.Kinect
         internal void Resume()
         {
             world.Enabled = true;
+        }
+
+        internal void Explosion(Vector2 loc)
+        {
+            CuttingTools.Cut(world, loc + Vector2.UnitX + Vector2.UnitY, loc - Vector2.UnitX - Vector2.UnitY, 0.01f);
+            CuttingTools.Cut(world, loc - Vector2.UnitX + Vector2.UnitY, loc + Vector2.UnitX - Vector2.UnitY, 0.01f);
         }
     }
 }

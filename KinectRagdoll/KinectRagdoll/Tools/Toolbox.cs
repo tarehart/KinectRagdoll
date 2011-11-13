@@ -11,7 +11,7 @@ namespace KinectRagdoll.Sandbox
 {
     public class Toolbox
     {
-        private  KinectRagdollGame game;
+        private KinectRagdollGame game;
         private Texture2D toolboxTex;
         private Texture2D showTex;
         private List<ToolboxButton> buttons;
@@ -28,7 +28,8 @@ namespace KinectRagdoll.Sandbox
         private int BUTTON_HEIGHT = 18;
         //private int BUTTON_PADDING = 5;
 
-        public Toolbox(KinectRagdollGame game) {
+        public Toolbox(KinectRagdollGame game)
+        {
             this.game = game;
 
             toolMappings = new Dictionary<ToolboxButton, Tool>();
@@ -36,7 +37,7 @@ namespace KinectRagdoll.Sandbox
             buttons = new List<ToolboxButton>();
 
             Position = new Vector2(0, 0);
-            
+
         }
 
         private void AddButtons()
@@ -45,7 +46,7 @@ namespace KinectRagdoll.Sandbox
             Texture2D recDraw = game.Content.Load<Texture2D>("Materials\\waves");
             Texture2D selectDraw = game.Content.Load<Texture2D>("Materials\\squares");
 
-            
+
 
             AddToolButton(new PointerTool(game, selectDraw), new Vector2(10, 33));
             AddToolButton(new RectangleTool(game), new Vector2(10, 56));
@@ -55,7 +56,7 @@ namespace KinectRagdoll.Sandbox
             AddToolButton(new JointTool(game), new Vector2(10, 147));
             AddToolButton(new ObjectiveTool(game), new Vector2(10, 171));
             AddToolButton(new RopeTool(game), new Vector2(34, 147));
-            
+
 
             AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.StartTimer), new Vector2(10, 233));
             AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.ResetTimer), new Vector2(10, 257));
@@ -63,7 +64,7 @@ namespace KinectRagdoll.Sandbox
             AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Save), new Vector2(10, 342));
             AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.PropertyEditor), new Vector2(10, 406));
             AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Copy), new Vector2(10, 428));
-            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Delete), new Vector2(10, 474)) ;
+            AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Delete), new Vector2(10, 474));
             AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Freeze), new Vector2(10, 496));
             AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.Release), new Vector2(10, 520));
             AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.ToggleCamera), new Vector2(10, 606));
@@ -108,11 +109,11 @@ namespace KinectRagdoll.Sandbox
                             activeButton = b;
                             toolChanged = true;
                         }
-                        else if (actionMappings.ContainsKey(b)) 
+                        else if (actionMappings.ContainsKey(b))
                         {
                             actionMappings[b].PerformAction();
                         }
-                        
+
                     }
                 }
 
@@ -126,7 +127,7 @@ namespace KinectRagdoll.Sandbox
             {
                 activeTool.HandleInput();
             }
-           
+
         }
 
         //public bool RegisterClick(Vector2 clickPixel)
@@ -144,9 +145,9 @@ namespace KinectRagdoll.Sandbox
         private Rectangle getButtonRectangle(Vector2 upperLeft)
         {
             return new Rectangle(
-                (int)(Position.X + upperLeft.X), 
-                (int)(Position.Y + upperLeft.Y), 
-                BUTTON_WIDTH, 
+                (int)(Position.X + upperLeft.X),
+                (int)(Position.Y + upperLeft.Y),
+                BUTTON_WIDTH,
                 BUTTON_HEIGHT);
         }
 
@@ -154,7 +155,7 @@ namespace KinectRagdoll.Sandbox
         {
             toolboxTex = game.Content.Load<Texture2D>("Toolbox\\menu");
             showTex = game.Content.Load<Texture2D>("Toolbox\\showtoolbox");
-            
+
             AddButtons();
         }
 
@@ -176,7 +177,7 @@ namespace KinectRagdoll.Sandbox
                 sb.Draw(showTex, Vector2.Zero, Color.White);
             }
 
-            
+
             if (activeTool != null)
                 activeTool.Draw(sb);
 
@@ -191,14 +192,15 @@ namespace KinectRagdoll.Sandbox
 
         internal Tool activeTool { get { return toolMappings[activeButton]; } }
 
-        internal ToolboxButton activeButton { 
+        internal ToolboxButton activeButton
+        {
             get { return _activeButton; }
             set
             {
-                if (_activeButton != null) _activeButton.Active = false; 
+                if (_activeButton != null) _activeButton.Active = false;
                 _activeButton = value;
-                if (_activeButton != null) _activeButton.Active = true; 
-            } 
+                if (_activeButton != null) _activeButton.Active = true;
+            }
         }
     }
 }

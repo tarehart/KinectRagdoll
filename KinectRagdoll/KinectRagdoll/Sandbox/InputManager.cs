@@ -27,7 +27,7 @@ namespace KinectRagdoll.Sandbox
             inputHelper = new InputHelper();
         }
 
-        
+
         public void Update()
         {
             if (DisregardInputEvents || !game.IsActive)
@@ -44,11 +44,11 @@ namespace KinectRagdoll.Sandbox
             }
 
 
-            
+
 
             game.toolbox.Update();
 
-            
+
 
 
 
@@ -56,9 +56,9 @@ namespace KinectRagdoll.Sandbox
 
         }
 
-        
 
-       
+
+
 
         private void CheckKeyPresses()
         {
@@ -97,13 +97,13 @@ namespace KinectRagdoll.Sandbox
                 game.actionCenter.PerformAction(ActionCenter.Actions.StartTimer);
             }
 
-            
+
 
             if (inputHelper.IsNewKeyPress(Keys.S) && inputHelper.IsKeyDown(Keys.LeftControl))
             {
 
                 game.actionCenter.PerformAction(ActionCenter.Actions.Save);
-                
+
             }
 
             if (inputHelper.IsNewKeyPress(Keys.O) && inputHelper.IsKeyDown(Keys.LeftControl))
@@ -126,11 +126,16 @@ namespace KinectRagdoll.Sandbox
                 game.actionCenter.PerformAction(ActionCenter.Actions.PowerupEditor);
             }
 
-           
+            if (inputHelper.IsNewKeyPress(Keys.I))
+            {
+                game.farseerManager.Explosion(game.projectionHelper.PixelToFarseer(inputHelper.MousePosition));
+            }
 
-                
+
+
+
         }
 
-        
+
     }
 }
