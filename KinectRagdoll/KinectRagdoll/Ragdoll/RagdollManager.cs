@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using KinectRagdoll.Ragdoll;
 using Microsoft.Xna.Framework.Audio;
+using KinectRagdoll.Equipment;
 
 namespace KinectRagdoll.Kinect
 {
@@ -30,6 +31,7 @@ namespace KinectRagdoll.Kinect
         {
 
             ragdoll = new RagdollMuscle(game.farseerManager.world, Vector2.Zero);
+            ragdoll.Equipment.Add(new JetPack(ragdoll));
             CameraShouldTrack = true;
             
 

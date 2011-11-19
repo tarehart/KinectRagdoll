@@ -105,9 +105,8 @@ namespace KinectRagdoll.Kinect
             //byte[] cBytes = GetColorBytes(depth);
 
             //depthTex.SetData<byte>(cBytes);
-            
 
-            skeletonInfo.Tracking = trackingPlayer;
+            //skeletonInfo.Tracking = trackingPlayer;
 
         }
 
@@ -141,68 +140,68 @@ namespace KinectRagdoll.Kinect
         //}
 
 
-        private byte[] GetColorBytes(int[,] depth)
-        {
+        //private byte[] GetColorBytes(int[,] depth)
+        //{
 
 
-            byte[] bytes = new byte[(depth.GetLength(0) * depth.GetLength(1)) * 4];
+        //    byte[] bytes = new byte[(depth.GetLength(0) * depth.GetLength(1)) * 4];
 
-            int byteIndex = 0;
+        //    int byteIndex = 0;
 
-            for (int y = 0; y < depth.GetLength(0); y ++)
-            {
-                for (int x = 0; x < depth.GetLength(1); x ++)
-                {
-                    int d = depth[y, x];
+        //    for (int y = 0; y < depth.GetLength(0); y ++)
+        //    {
+        //        for (int x = 0; x < depth.GetLength(1); x ++)
+        //        {
+        //            int d = depth[y, x];
 
-                    if (d == 0 || d < 0 && trackingPlayer)
-                    {
-                        bytes[byteIndex++] = (byte)(0);
-                        bytes[byteIndex++] = (byte)(0);
-                        bytes[byteIndex++] = (byte)(0);
-                        bytes[byteIndex++] = (byte)0;
+        //            if (d == 0 || d < 0 && trackingPlayer)
+        //            {
+        //                bytes[byteIndex++] = (byte)(0);
+        //                bytes[byteIndex++] = (byte)(0);
+        //                bytes[byteIndex++] = (byte)(0);
+        //                bytes[byteIndex++] = (byte)0;
 
 
-                    }
-                    else
-                    {
-                        if (d > 0) // It's a recognized player pixel, go colorful
-                        {
-                            bytes[byteIndex++] = Triangle(d * 5, 100);
-                            bytes[byteIndex++] = Triangle(d * 5, 200);
-                            bytes[byteIndex++] = 10;
-                            bytes[byteIndex++] = (byte)(255);
-                        }
-                        else // grayscale
-                        {
-                            d *= -1;
-                            byte intensity = (byte)(255 - (255 * d / 0x0fff));
-                            bytes[byteIndex++] = intensity;
-                            bytes[byteIndex++] = intensity;
-                            bytes[byteIndex++] = intensity;
-                            bytes[byteIndex++] = (byte)255;
-                        }
+        //            }
+        //            else
+        //            {
+        //                if (d > 0) // It's a recognized player pixel, go colorful
+        //                {
+        //                    bytes[byteIndex++] = Triangle(d * 5, 100);
+        //                    bytes[byteIndex++] = Triangle(d * 5, 200);
+        //                    bytes[byteIndex++] = 10;
+        //                    bytes[byteIndex++] = (byte)(255);
+        //                }
+        //                else // grayscale
+        //                {
+        //                    d *= -1;
+        //                    byte intensity = (byte)(255 - (255 * d / 0x0fff));
+        //                    bytes[byteIndex++] = intensity;
+        //                    bytes[byteIndex++] = intensity;
+        //                    bytes[byteIndex++] = intensity;
+        //                    bytes[byteIndex++] = (byte)255;
+        //                }
 
-                    }
+        //            }
 
-                }
-            }
-            return bytes;
-        }
+        //        }
+        //    }
+        //    return bytes;
+        //}
 
-        private byte Triangle(int num, int offset)
-        {
-            num += offset;
+        //private byte Triangle(int num, int offset)
+        //{
+        //    num += offset;
 
-            int t = num % 256;
-            if (num % 512 >= 256)
-            {
-                t = (255 - t);
-            }
+        //    int t = num % 256;
+        //    if (num % 512 >= 256)
+        //    {
+        //        t = (255 - t);
+        //    }
 
-            return (byte)t;
+        //    return (byte)t;
 
-        }
+        //}
 
 
 

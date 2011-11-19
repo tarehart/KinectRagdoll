@@ -79,7 +79,7 @@ namespace KinectRagdoll.Ragdoll
         {
             this.world = w;
             _head.AfterCollision += HeadCollision;
-            rand = new Random(); 
+            rand = new Random();
 
             foreach (AbstractEquipment e in equipment)
             {

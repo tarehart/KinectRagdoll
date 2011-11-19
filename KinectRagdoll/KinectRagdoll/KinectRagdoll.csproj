@@ -140,6 +140,7 @@
     <Compile Include="Hazards\Hazard.cs" />
     <Compile Include="Hazards\HazardManager.cs" />
     <Compile Include="Hazards\Turret.cs" />
+    <Compile Include="Music\BodySound.cs" />
     <Compile Include="Music\Jukebox.cs" />
     <Compile Include="Powerups\Pickup.cs" />
     <Compile Include="Powerups\Powerup.cs" />

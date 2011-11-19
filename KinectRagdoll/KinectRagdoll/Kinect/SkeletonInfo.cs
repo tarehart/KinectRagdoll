@@ -199,8 +199,11 @@ namespace KinectRagdoll.Kinect
 
         public Vector3 LocationToGestureSpace(Vector3 vec)
         {
-
-            Debug.Assert(skelHeight != 0);
+            if (skelHeight == 0)
+            {
+                skelHeight = 10;
+                Debug.WriteLine("Error: Skeleton height was zero, setting it to 10");
+            }
             vec -= torso;
             return vec / skelHeight;
         }

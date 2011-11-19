@@ -2,32 +2,6 @@
 <XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
   <Asset Type="Pipeline:BuildItemCollection">
     <Item>
-      <Source>Models\cube.fbx</Source>
-      <Name>Models\cube</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Models\cube.xnb</Output>
-      <Time>2011-01-09T15:27:41.5905917-05:00</Time>
-      <Dependency>
-        <Key>obj\x86\Debug\Models\cube_0.xml</Key>
-        <Value>2011-07-16T20:28:15.556093-04:00</Value>
-      </Dependency>
-    </Item>
-    <Item>
-      <Source>Models\thing.fbx</Source>
-      <Name>Models\thing</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Models\thing.xnb</Output>
-      <Time>2011-01-21T21:45:44.4432444-05:00</Time>
-      <Dependency>
-        <Key>obj\x86\Debug\Models\thing_0.xml</Key>
-        <Value>2011-07-16T20:28:15.6670949-04:00</Value>
-      </Dependency>
-    </Item>
-    <Item>
       <Source>Materials\blank.png</Source>
       <Name>Materials\blank</Name>
       <Importer>TextureImporter</Importer>
@@ -328,18 +302,40 @@
       <Time>2011-07-14T23:58:28.609198-04:00</Time>
     </Item>
     <Item>
-      <Source>Models\cube.fbx</Source>
-      <Importer>FbxImporter</Importer>
-      <Options>IntermediateFile, DontCacheImportedData</Options>
-      <Output>obj\x86\Debug\Models\cube_0.xml</Output>
-      <Time>2011-01-09T15:27:41.5905917-05:00</Time>
+      <Source>Music\drumloop.wav</Source>
+      <Name>Music\drumloop</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\drumloop.xnb</Output>
+      <Time>2011-11-19T15:41:08.5368145-05:00</Time>
     </Item>
     <Item>
-      <Source>Models\thing.fbx</Source>
-      <Importer>FbxImporter</Importer>
-      <Options>IntermediateFile, DontCacheImportedData</Options>
-      <Output>obj\x86\Debug\Models\thing_0.xml</Output>
-      <Time>2011-01-21T21:45:44.4432444-05:00</Time>
+      <Source>Music\guitarloop.wav</Source>
+      <Name>Music\guitarloop</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\guitarloop.xnb</Output>
+      <Time>2011-11-19T15:44:55.4864684-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Music\scratchloop.wav</Source>
+      <Name>Music\scratchloop</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\scratchloop.xnb</Output>
+      <Time>2011-11-19T14:52:21.6166919-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Music\drumloop2.wav</Source>
+      <Name>Music\drumloop2</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\drumloop2.xnb</Output>
+      <Time>2011-11-19T15:41:23.9200622-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

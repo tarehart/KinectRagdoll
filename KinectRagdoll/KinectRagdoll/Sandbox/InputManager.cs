@@ -131,6 +131,12 @@ namespace KinectRagdoll.Sandbox
                 game.farseerManager.Explosion(game.projectionHelper.PixelToFarseer(inputHelper.MousePosition));
             }
 
+            if (inputHelper.IsNewKeyPress(Keys.F11))
+            {
+                game.actionCenter.PerformAction(ActionCenter.Actions.ToggleFullScreen);
+            }
+
+
 
 
 

@@ -1,5 +1,3 @@
-Content\Models\cube.xnb
-Content\Models\thing.xnb
 Content\Materials\blank.xnb
 Content\Materials\circles.xnb
 Content\Materials\dots.xnb
@@ -36,3 +34,7 @@ Content\Music\FigLeafRag.xnb
 Content\Music\FigLeafRag.wma
 Content\Music\DarkHallway.xnb
 Content\Music\DarkHallway.wma
+Content\Music\drumloop.xnb
+Content\Music\guitarloop.xnb
+Content\Music\scratchloop.xnb
+Content\Music\drumloop2.xnb

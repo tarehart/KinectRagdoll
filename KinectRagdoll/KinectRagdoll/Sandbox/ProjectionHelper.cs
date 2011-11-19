@@ -12,13 +12,13 @@ namespace KinectRagdoll.Sandbox
 
         private Matrix farseerProjection;
         private Matrix farseerView;
-        private Viewport viewport;
+        public Viewport viewport;
         //farseerProjection * Matrix.CreateScale(1, -1, 1)
 
         public ProjectionHelper(Viewport v, Matrix farseerToPixel)
         {
             this.farseerProjection = farseerToPixel;
-            this.viewport = v;
+            viewport = v;
         }
 
         public void Update(Matrix view)

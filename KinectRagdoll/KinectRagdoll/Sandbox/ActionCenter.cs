@@ -30,7 +30,8 @@ namespace KinectRagdoll.Sandbox
             Freeze,
             Release,
             ToggleCamera,
-            PowerupEditor
+            PowerupEditor,
+            ToggleFullScreen
         }
 
         public void PerformAction(Actions action)
@@ -79,6 +80,9 @@ namespace KinectRagdoll.Sandbox
                         p.Show(selection);
                     }
                     
+                    break;
+                case Actions.ToggleFullScreen:
+                    game.ToggleFullscreen();
                     break;
             }
         }

@@ -18,8 +18,8 @@ namespace KinectRagdoll
     public class KinectRagdollGame : Microsoft.Xna.Framework.Game
     {
 
-        public static int WIDTH = 1280;
-        public static int HEIGHT = 960;
+        public static int WIDTH = 1024;
+        public static int HEIGHT = 768;
 
         
         public KinectManager kinectManager;
@@ -34,6 +34,7 @@ namespace KinectRagdoll
         public PowerupManager powerupManager;
         public Jukebox jukebox;
         public HazardManager hazardManager;
+        public BodySound bodySound;
 
         GraphicsDeviceManager graphics;
         Color bkColor;
@@ -88,19 +89,14 @@ namespace KinectRagdoll
             powerupManager = new PowerupManager(ragdollManager, farseerManager);
             jukebox = new Jukebox();
             hazardManager = new HazardManager(farseerManager, ragdollManager);
+            bodySound = new BodySound();
 
             toolbox = new Toolbox(this);
 
-            
-            //Components.Add(squidScene);
-            
 
             this.IsMouseVisible = true;
             bkColor = Color.CornflowerBlue;
 
-            
-
-            //KinectTest.test();
         }
 
 
@@ -196,15 +192,14 @@ namespace KinectRagdoll
 
             SpriteHelper.LoadContent(Content);
 
-            myModel = Content.Load<Model>("Models\\cube");
-            thingModel = Content.Load<Model>("Models\\thing");
             
-
             ragdollManager.LoadContent(Content);
             farseerManager.LoadContent();
             objectiveManager.LoadContent(Content);
             toolbox.LoadContent();
             Jukebox.LoadContent(Content);
+            bodySound.LoadContent(Content);
+            bodySound.Start();
 
             InitializeTransform();
             InitializeEffect();
@@ -214,7 +209,6 @@ namespace KinectRagdoll
             //kinectManager.initDepthTex();
 
             //ragdollManager.ragdoll.setDepthTex(kinectManager.depthTex);
-
 
             base.LoadContent();
             
@@ -256,6 +250,7 @@ namespace KinectRagdoll
             farseerManager.Update(gameTime);
             objectiveManager.Update();
             hazardManager.Update();
+            bodySound.Update(kinectManager.skeletonInfo);
 
             if (!kinectManager.IsKinectRunning)
             {
@@ -324,34 +319,7 @@ namespace KinectRagdoll
             farseerEffect.VertexColorEnabled = true;
 
 
-            //if (kinectManager.skeletonInfo.head.Z != 0)
-            //{
 
-            //    Vector3 headLoc = kinectManager.skeletonInfo.head;
-            //    Vector3 screenCenter = new Vector3(0, .2f, 0);
-
-            //    Vector3 screenToHead = headLoc - screenCenter;
-
-            //    //screenToHead *= .01f;
-            //    screenToHead.Z *= 3;
-
-            //    //headLoc.X += 250;
-            //    //headLoc.Y -= 100;
-            //    //headLoc.Z *= 2;
-
-            //    //headLoc *= .01f;
-
-
-
-
-            //    projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
-            //        (float)Math.Atan(10 / screenToHead.Z),
-            //        (float)GraphicsDevice.Viewport.Width /
-            //        (float)GraphicsDevice.Viewport.Height,
-            //        1.0f, 100.0f);
-
-            //    viewMatrix = Matrix.CreateLookAt(screenToHead, Vector3.Zero, Vector3.Up);
-            //}
         }
 
         private Matrix createFarseerView()
@@ -418,33 +386,6 @@ namespace KinectRagdoll
             return val;
         }
 
-        //private void DrawHeadTrackingDemo(GameTime gametime)
-        //{
-        //    DepthStencilState depthState = new DepthStencilState();
-        //    depthState.DepthBufferEnable = true;
-        //    depthState.DepthBufferWriteEnable = true;
-        //    depthState.StencilEnable = true;
-
-        //    GraphicsDevice.DepthStencilState = depthState;
-
-        //    DrawMesh(thingModel, new Vector3(0, 0, -5), 1);
-
-        //    for (int i = -1; i <= 1; i++)
-        //    {
-        //        for (int j = -1; j <= 1; j++)
-        //        {
-        //            DrawMesh(myModel, new Vector3(i, j, (float) Math.Sin(gametime.TotalGameTime.TotalMilliseconds / 1000f) * (i + j * 2) - 4), .2f);
-        //        }
-        //    }
-            
-        //    //DrawCube(new Vector3(0, 0, -5));
-
-        //    //DrawCube(new Vector3(0, 0, 0));
-
-        //    //DrawCube(new Vector3(2, 0, 5));
-
-        //    //DrawCube((kinectManager.skeletonInfo.rightHand - kinectManager.skeletonInfo.head) * .02f + new Vector3(-4, 4, 10));
-        //}
 
         private RenderTarget2D RenderFarseerEffectsTexture()
         {
@@ -464,6 +405,30 @@ namespace KinectRagdoll
 
             GraphicsDevice.SetRenderTarget(null);
             return renderTarget;
+        }
+
+        public void ToggleFullscreen()
+        {
+
+            if (graphics.IsFullScreen) // will return to windowed mode
+            {
+                graphics.PreferredBackBufferHeight = HEIGHT;
+                graphics.PreferredBackBufferWidth = WIDTH;
+            }
+            else { // will go full screen
+                graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+                graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+            }
+       
+            graphics.ToggleFullScreen();
+
+            farseerProjection = Matrix.CreateOrthographicOffCenter(-25 * GraphicsDevice.Viewport.AspectRatio,
+                                                            25 * GraphicsDevice.Viewport.AspectRatio, 25, -25, 0, 1);
+
+            farseerManager.setProjection(farseerProjection);
+            farseerEffect.Projection = farseerProjection;
+
+            projectionHelper = new ProjectionHelper(graphicsDevice.Viewport, farseerProjection * Matrix.CreateScale(1, -1, 1));
         }
 
     }
