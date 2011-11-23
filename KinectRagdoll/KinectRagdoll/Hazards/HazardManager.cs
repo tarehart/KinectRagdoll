@@ -13,6 +13,9 @@ namespace KinectRagdoll.Hazards
 
         private List<Hazard> hazards = new List<Hazard>();
 
+        public List<Hazard> Hazards { get {return hazards;} }
+
+
         public HazardManager(FarseerManager f, RagdollManager r)
         {
             this.farseerManager = f;
@@ -32,6 +35,14 @@ namespace KinectRagdoll.Hazards
             }
         }
 
-        
+
+        internal void LoadHazards(List<Hazard> list)
+        {
+            hazards = list;
+            foreach (Hazard h in hazards)
+            {
+                h.Init(farseerManager.world, ragdollManager);
+            }
+        }
     }
 }

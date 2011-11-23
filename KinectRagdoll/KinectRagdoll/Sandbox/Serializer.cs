@@ -10,6 +10,7 @@ using KinectRagdoll.Kinect;
 using KinectRagdoll.Rules;
 using KinectRagdoll.Ragdoll;
 using KinectRagdoll.Powerups;
+using KinectRagdoll.Hazards;
 
 namespace KinectRagdoll.Sandbox
 {
@@ -69,6 +70,8 @@ namespace KinectRagdoll.Sandbox
 
             sf.powerups = g.powerupManager.Powerups;
 
+            sf.hazards = g.hazardManager.Hazards;
+
             WriteSaveFile(writer, sf);
 
         }
@@ -123,6 +126,8 @@ namespace KinectRagdoll.Sandbox
         public List<Objective> objectives;
         [DataMember()]
         public List<Powerup> powerups;
+        [DataMember()]
+        public List<Hazard> hazards;
 
         public void PopulateWorld(World w) {
 

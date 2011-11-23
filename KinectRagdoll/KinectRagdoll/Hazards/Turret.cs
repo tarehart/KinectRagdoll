@@ -11,29 +11,33 @@ using KinectRagdoll.Ragdoll;
 using KinectRagdoll.MyMath;
 using KinectRagdoll.Equipment;
 using KinectRagdoll.Kinect;
+using System.Runtime.Serialization;
 
 namespace KinectRagdoll.Hazards
 {
+    [DataContract(Name = "Turret", Namespace = "http://www.imcool.com")]
     class Turret : Hazard
     {
         
         private float rotation;
-        private int fireInterval = 10;
+        private static int fireInterval = 10;
         private int fireClock;
-        private int reloadTime = 50;
+        private static int reloadTime = 50;
         private int reloadClock;
-        private int fireRange = 20;
-        private float rotationSpeed = .1f;
+        private static int fireRange = 20;
+        private static float rotationSpeed = .1f;
 
         private World world;
+        [DataMember()]
         private Fixture pivot;
+        [DataMember()]
         private Fixture barrel;
         private RagdollBase target;
         private State state;
         private int fireCount;
-        private int burstNum = 3;
-        private float fireVel = 1;
-        private float barrelLength = 2;
+        private static int burstNum = 3;
+        private static float fireVel = 1;
+        private static float barrelLength = 2;
 
         public enum State
         {
@@ -44,8 +48,6 @@ namespace KinectRagdoll.Hazards
 
         public Turret(Vector2 farseerLoc, World w, RagdollManager r)
         {
-            world = w;
-            target = r.ragdoll;
 
             DebugMaterial gray = new DebugMaterial(MaterialType.Blank)
             {
@@ -55,9 +57,16 @@ namespace KinectRagdoll.Hazards
             Body b = new Body(w);
             pivot = FixtureFactory.AttachCircle(.9f, 1, b, gray);
             barrel = FixtureFactory.AttachRectangle(barrelLength, .5f, 1, new Vector2(barrelLength / 2, 0), b, gray);
-
             b.Position = farseerLoc;
             b.CollidesWith = Category.None;
+
+            Init(w, r);
+        }
+
+        public override void Init(World w, RagdollManager r)
+        {
+            world = w;
+            target = r.ragdoll;
 
             state = State.Scanning;
         }

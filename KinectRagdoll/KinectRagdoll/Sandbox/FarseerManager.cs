@@ -108,6 +108,7 @@ namespace KinectRagdoll.Kinect
             //game.ragdollManager.ragdoll.setDepthTex(game.kinectManager.depthTex);
             game.objectiveManager.SetObjectives(sf.objectives);
             game.powerupManager.LoadPowerups(sf.powerups);
+            game.hazardManager.LoadHazards(sf.hazards);
         }
 
        

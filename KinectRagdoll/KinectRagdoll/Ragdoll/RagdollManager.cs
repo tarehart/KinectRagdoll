@@ -31,7 +31,7 @@ namespace KinectRagdoll.Kinect
         {
 
             ragdoll = new RagdollMuscle(game.farseerManager.world, Vector2.Zero);
-            ragdoll.Equipment.Add(new JetPack(ragdoll));
+            ragdoll.Equipment.Add(new StabilizedJetpack(ragdoll));
             CameraShouldTrack = true;
             
 
