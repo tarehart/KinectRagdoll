@@ -159,10 +159,10 @@ namespace KinectRagdoll.Kinect
 
         private void addTurret()
         {
-            Turret t = new Turret(new Vector2(10, 0), world, game.ragdollManager);
+            Turret t = new GunTurret(new Vector2(10, 0), world, game.ragdollManager);
             game.hazardManager.addHazard(t);
 
-            Turret t2 = new Turret(new Vector2(-10, 0), world, game.ragdollManager);
+            Turret t2 = new LaserTurret(new Vector2(-10, 0), world, game.ragdollManager);
             game.hazardManager.addHazard(t2);
         }
 

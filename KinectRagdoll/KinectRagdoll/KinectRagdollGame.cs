@@ -18,8 +18,8 @@ namespace KinectRagdoll
     public class KinectRagdollGame : Microsoft.Xna.Framework.Game
     {
 
-        public static int WIDTH = 1024;
-        public static int HEIGHT = 768;
+        public static int WIDTH = 800;
+        public static int HEIGHT = 600;
 
         
         public KinectManager kinectManager;
@@ -34,7 +34,6 @@ namespace KinectRagdoll
         public PowerupManager powerupManager;
         public Jukebox jukebox;
         public HazardManager hazardManager;
-        public BodySound bodySound;
 
         GraphicsDeviceManager graphics;
         Color bkColor;
@@ -47,11 +46,9 @@ namespace KinectRagdoll
         BasicEffect basicEffect;
         BasicEffect farseerEffect;
         VertexDeclaration vertexDeclaration;
-        Model myModel;
-        Model thingModel;
 
 
-        public List<Action> pendingUpdates = new List<Action>();
+        public static List<Action> pendingUpdates = new List<Action>();
 
         public static GraphicsDevice graphicsDevice;
 
@@ -89,7 +86,6 @@ namespace KinectRagdoll
             powerupManager = new PowerupManager(ragdollManager, farseerManager);
             jukebox = new Jukebox();
             hazardManager = new HazardManager(farseerManager, ragdollManager);
-            bodySound = new BodySound();
 
             toolbox = new Toolbox(this);
 
@@ -192,14 +188,13 @@ namespace KinectRagdoll
 
             SpriteHelper.LoadContent(Content);
 
-            
+            BodySound.LoadContent(Content);
             ragdollManager.LoadContent(Content);
             farseerManager.LoadContent();
             objectiveManager.LoadContent(Content);
             toolbox.LoadContent();
             Jukebox.LoadContent(Content);
-            bodySound.LoadContent(Content);
-            bodySound.Start();
+            
 
             InitializeTransform();
             InitializeEffect();
@@ -238,19 +233,21 @@ namespace KinectRagdoll
         protected override void Update(GameTime gameTime)
         {
 
-            foreach (Action a in pendingUpdates)
+            lock (pendingUpdates)
             {
-                a();
-            }
+                foreach (Action a in pendingUpdates)
+                {
+                    a();
+                }
 
-            pendingUpdates.Clear();
+                pendingUpdates.Clear();
+            }
 
             inputManager.Update();
             ragdollManager.Update(kinectManager.skeletonInfo);
             farseerManager.Update(gameTime);
             objectiveManager.Update();
             hazardManager.Update();
-            bodySound.Update(kinectManager.skeletonInfo);
 
             if (!kinectManager.IsKinectRunning)
             {
@@ -339,8 +336,8 @@ namespace KinectRagdoll
             else
             {
                 center = projectionHelper.PixelToFarseer(inputManager.inputHelper.MousePosition);
-                horizontalBound = 35;
-                verticalBound = 25;
+                horizontalBound = 25;
+                verticalBound = 15;
             }
 
             //Rectangle safeZone = new Rectangle(-20, -15, 40, 30);
@@ -400,6 +397,7 @@ namespace KinectRagdoll
 
             ragdollManager.Draw(spriteBatch);
             powerupManager.Draw(spriteBatch);
+            hazardManager.Draw(spriteBatch);
 
             spriteBatch.End();
 

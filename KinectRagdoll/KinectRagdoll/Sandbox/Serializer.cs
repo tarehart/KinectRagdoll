@@ -31,6 +31,7 @@ namespace KinectRagdoll.Sandbox
             // Deserialize the data and read it from the instance.
             SaveFile g =
                 (SaveFile)ser.ReadObject(reader, true);
+
             reader.Close();
             fs.Close();
 

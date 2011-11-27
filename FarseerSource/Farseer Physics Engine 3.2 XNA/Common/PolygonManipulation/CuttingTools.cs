@@ -4,6 +4,11 @@ using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
+using System.Linq;
+using System;
+using FarseerPhysics.Collision;
+using FarseerPhysics.DebugViews;
+using FarseerPhysics.Dynamics.Joints;
 
 namespace FarseerPhysics.Common.PolygonManipulation
 {
@@ -18,24 +23,39 @@ namespace FarseerPhysics.Common.PolygonManipulation
         /// <param name="entryPoint">The entry point - The start point</param>
         /// <param name="exitPoint">The exit point - The end point</param>
         /// <param name="splitSize">The size of the split. Think of this as the laser-width</param>
-        /// <param name="first">The first collection of vertexes</param>
-        /// <param name="second">The second collection of vertexes</param>
+        /// <param name="left">The first collection of vertexes</param>
+        /// <param name="right">The second collection of vertexes</param>
         public static void SplitShape(Fixture fixture, Vector2 entryPoint, Vector2 exitPoint, float splitSize,
-                                      out Vertices first, out Vertices second)
+                                      out Vertices left, out Vertices right)
         {
             Vector2 localEntryPoint = fixture.Body.GetLocalPoint(ref entryPoint);
             Vector2 localExitPoint = fixture.Body.GetLocalPoint(ref exitPoint);
 
-            PolygonShape shape = fixture.Shape as PolygonShape;
-
-            if (shape == null)
+            Vertices v = null;
+            switch (fixture.Shape.ShapeType)
             {
-                first = new Vertices();
-                second = new Vertices();
-                return;
+                case ShapeType.Polygon:
+                    v = (fixture.Shape as PolygonShape).Vertices;
+                    break;
+                case ShapeType.Circle:
+                    v = new Vertices();
+                    CircleShape c = fixture.Shape as CircleShape;
+                    int segments = 16;
+                    double increment = Math.PI * 2.0 / segments;
+                    double theta = 0.0;
+                    for (int i = 0; i < segments; i++)
+                    {
+                        v.Add(c.Position + c.Radius * new Vector2((float)Math.Cos(theta), (float)Math.Sin(theta)));
+                        theta += increment;
+                    }
+                    break;
+                default:
+                    left = new Vertices();
+                    right = new Vertices();
+                    return;
             }
-
-            Vertices vertices = new Vertices(shape.Vertices);
+           
+            Vertices vertices = new Vertices(v);
             Vertices[] newPolygon = new Vertices[2];
 
             for (int i = 0; i < newPolygon.Length; i++)
@@ -49,7 +69,8 @@ namespace FarseerPhysics.Common.PolygonManipulation
             {
                 int n;
                 //Find out if this vertex is on the old or new shape.
-                if (Vector2.Dot(MathUtils.Cross(localExitPoint - localEntryPoint, 1), vertices[i] - localEntryPoint) > Settings.Epsilon)
+                if (isLeft(localEntryPoint, localExitPoint, vertices[i]))
+                //if (Vector2.Dot(MathUtils.Cross(localExitPoint - localEntryPoint, 1), vertices[i] - localEntryPoint) > Settings.Epsilon)
                     n = 0;
                 else
                     n = 1;
@@ -119,8 +140,18 @@ namespace FarseerPhysics.Common.PolygonManipulation
                 newPolygon[n][cutAdded[n] + 1] += splitSize * offset;
             }
 
-            first = newPolygon[0];
-            second = newPolygon[1];
+            left = newPolygon[0];
+            right = newPolygon[1];
+        }
+
+        private static bool isLeft(Vector2 a, Vector2 b, Fixture c)
+        {
+            return isLeft(a, b, c.Body.GetWorldPoint(c.Shape.MassData.Centroid));
+        }
+
+        private static bool isLeft(Vector2 a, Vector2 b, Vector2 c)
+        {
+            return Vector2.Dot(MathUtils.Cross(b - a, 1), c - a) > Settings.Epsilon;
         }
 
         /// <summary>
@@ -133,77 +164,196 @@ namespace FarseerPhysics.Common.PolygonManipulation
         /// <param name="thickness">The thickness of the cut</param>
         public static void Cut(World world, Vector2 start, Vector2 end, float thickness)
         {
+
+
             List<Fixture> fixtures = new List<Fixture>();
             List<Vector2> entryPoints = new List<Vector2>();
             List<Vector2> exitPoints = new List<Vector2>();
 
             //We don't support cutting when the start or end is inside a shape.
-            if (world.TestPoint(start) != null || world.TestPoint(end) != null)
-                return;
+            //if (world.TestPoint(start) != null || world.TestPoint(end) != null)
+            //    return;
 
             //Get the entry points
             world.RayCast((f, p, n, fr) =>
                               {
-                                  fixtures.Add(f);
-                                  entryPoints.Add(p);
+                                  if (!f.TestPoint(ref end))
+                                  {
+                                      fixtures.Add(f);
+                                      entryPoints.Add(p);
+                                  }
                                   return 1;
                               }, start, end);
 
             //Reverse the ray to get the exitpoints
             world.RayCast((f, p, n, fr) =>
                               {
-                                  exitPoints.Add(p);
+                                  if (!f.TestPoint(ref start))
+                                  {
+                                      exitPoints.Add(p);
+                                  }
                                   return 1;
                               }, end, start);
+
+            //Fixture containsEnd = world.TestPoint(end);
+            //if (containsEnd != null)
+            //{
+            //    entryPoints.RemoveAt(0);
+            //    fixtures.Remove(containsEnd);
+            //}
+            //Fixture containsStart = world.TestPoint(start);
+            //if (containsStart != null)
+            //{
+            //    exitPoints.RemoveAt(exitPoints.Count - 1);
+            //    fixtures.Remove(containsStart);
+            //}
 
             //We only have a single point. We need at least 2
             if (entryPoints.Count + exitPoints.Count < 2)
                 return;
 
-            for (int i = 0; i < fixtures.Count; i++)
+            var query =
+                (from fix in fixtures
+                select fix.Body).Distinct();
+
+            foreach (Body b in query) 
             {
-                // can't cut circles yet !
-                if (fixtures[i].Shape.ShapeType != ShapeType.Polygon)
+
+                if (b.BodyType == BodyType.Static)
                     continue;
 
-                if (fixtures[i].Body.BodyType != BodyType.Static)
+                List<Body> leftBodies = new List<Body>();
+                List<Body> rightBodies = new List<Body>();
+                //Body rightBody = new Body(world);
+
+                List<Joint> joints = new List<Joint>();
+
+                JointEdge je = b.JointList;
+                while (je != null)
                 {
-                    //Split the shape up into two shapes
-                    Vertices first;
-                    Vertices second;
-                    SplitShape(fixtures[i], entryPoints[i], exitPoints[i], thickness, out first, out second);
-
-                    //Delete the original shape and create two new. Retain the properties of the body.
-                    if (SanityCheck(first))
-                    {
-                        Body firstFixture = BodyFactory.CreatePolygon(world, first, fixtures[i].Shape.Density,
-                                                                            fixtures[i].Body.Position);
-                        firstFixture.Rotation = fixtures[i].Body.Rotation;
-                        firstFixture.LinearVelocity = fixtures[i].Body.LinearVelocity;
-                        firstFixture.AngularVelocity = fixtures[i].Body.AngularVelocity;
-                        firstFixture.BodyType = BodyType.Dynamic;
-                        foreach (Fixture f in firstFixture.FixtureList)
-                        {
-                            f.UserData = fixtures[i].UserData;
-                        }
-                    }
-
-                    if (SanityCheck(second))
-                    {
-                        Body secondFixture = BodyFactory.CreatePolygon(world, second, fixtures[i].Shape.Density,
-                                                                             fixtures[i].Body.Position);
-                        secondFixture.Rotation = fixtures[i].Body.Rotation;
-                        secondFixture.LinearVelocity = fixtures[i].Body.LinearVelocity;
-                        secondFixture.AngularVelocity = fixtures[i].Body.AngularVelocity;
-                        secondFixture.BodyType = BodyType.Dynamic;
-                        foreach (Fixture f in secondFixture.FixtureList)
-                        {
-                            f.UserData = fixtures[i].UserData;
-                        }
-                    }
-                    world.RemoveBody(fixtures[i].Body);
-                    world.ProcessChanges();
+                    joints.Add(je.Joint);
+                    je = je.Next;
                 }
+
+                //List<Fixture> leftList = new List<Fixture>();
+                //List<Fixture> rightList = new List<Fixture>();
+
+
+                foreach (Fixture fix in b.FixtureList)
+                {
+
+                    if (fixtures.Contains(fix))
+                    {
+                        int i = fixtures.IndexOf(fix);
+
+                        // split this in half and put the halves in the over/under lists
+                        Vertices first;
+                        Vertices second;
+                        SplitShape(fix, entryPoints[i], exitPoints[i], thickness, out first, out second);
+
+
+                        
+
+                        //Delete the original shape and create two new. Retain the properties of the body.
+                        if (SanityCheck(first))
+                        {
+                            PolygonShape shape = new PolygonShape(first, fix.Shape.Density);
+                            Fixture f = GlomFixture(world, b, leftBodies, shape, fix.UserData, joints);
+                        }
+
+                        if (SanityCheck(second))
+                        {
+                            PolygonShape shape = new PolygonShape(second, fix.Shape.Density);
+                            Fixture f = GlomFixture(world, b, rightBodies, shape, fix.UserData, joints);
+                        }
+                    }
+                    else if (isLeft(start, end, fix))
+                    {
+                        GlomFixture(world, b, leftBodies, fix.Shape, fix.UserData, joints);
+                    }
+                    else
+                    {
+                        GlomFixture(world, b, rightBodies, fix.Shape, fix.UserData, joints);
+                        //rightBody.CreateFixture(fix.Shape.Clone(), fix.UserData);
+                    }
+
+                    
+                }
+
+                foreach (Body bod in leftBodies.Concat(rightBodies))
+                {
+                    bod.ResetMassData();
+                    bod.BodyType = BodyType.Dynamic;
+                    bod.Rotation = b.Rotation;
+                    bod.LinearVelocity = b.LinearVelocity;
+                    bod.AngularVelocity = b.AngularVelocity;
+                    bod.Position = b.Position;
+                }
+
+                b.JointList = null;
+                world.RemoveBody(b);
+                world.ProcessChanges();
+            }
+
+        }
+
+        private static Fixture GlomFixture(World world, Body oldBody, List<Body> thisSideBodies, Shape shape, DebugMaterial mat, List<Joint> joints)
+        {
+            foreach (Body lb in thisSideBodies)
+            {
+                foreach (Fixture lf in lb.FixtureList)
+                {
+                    Manifold m = new Manifold();
+                    PolygonShape newShape = shape.Clone() as PolygonShape;
+                    PolygonShape existingShape = lf.Shape as PolygonShape;
+                    if (newShape != null && existingShape != null)
+                    {
+                        Collision.Collision.CollidePolygons(ref m, newShape, ref oldBody.Xf, existingShape, ref oldBody.Xf);
+                        if (m.PointCount > 0)
+                        {
+                            Fixture glommed = lb.CreateFixture(newShape, mat);
+                            transferJoints(oldBody, joints, lb, glommed);
+                            return glommed;
+                        }
+                    }
+                }
+            }
+
+            Body lb2 = new Body(world);
+            lb2.Position = oldBody.Position;
+            lb2.Rotation = oldBody.Rotation;
+            thisSideBodies.Add(lb2);
+            Fixture separate = lb2.CreateFixture(shape.Clone(), mat);
+            transferJoints(oldBody, joints, lb2, separate);
+            return separate;
+        }
+
+        private static void transferJoints(Body oldBody, List<Joint> joints, Body lb, Fixture glommed)
+        {
+            for (int i = joints.Count - 1; i >= 0; i--)
+            {
+                Joint j = joints[i];
+                if (j.BodyA == oldBody)
+                {
+                    Vector2 testPoint = new Vector2(j.WorldAnchorA.X, j.WorldAnchorA.Y);
+                    if (glommed.TestPoint(ref testPoint))
+                    {
+                        
+                        j.BodyA = lb;
+                        //joints.RemoveAt(i);
+
+                    }
+                }
+                else
+                {
+                    Vector2 testPoint = new Vector2(j.WorldAnchorB.X, j.WorldAnchorB.Y);
+                    if (glommed.TestPoint(ref testPoint))
+                    {
+                        j.BodyB = lb;
+                        //joints.RemoveAt(i);
+                    }
+                }
+
             }
         }
 

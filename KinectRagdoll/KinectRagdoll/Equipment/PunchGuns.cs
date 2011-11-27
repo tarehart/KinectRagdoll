@@ -78,7 +78,15 @@ namespace KinectRagdoll.Equipment
 
             void time_Elapsed(object sender, ElapsedEventArgs e)
             {
-                world.RemoveBody(bullet.Body);
+
+                Action a = delegate()
+                {
+                    world.RemoveBody(bullet.Body);
+                };
+                lock (KinectRagdollGame.pendingUpdates)
+                {
+                    KinectRagdollGame.pendingUpdates.Add(a);
+                }
             }
 
         }

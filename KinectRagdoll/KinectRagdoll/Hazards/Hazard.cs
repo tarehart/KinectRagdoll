@@ -20,5 +20,7 @@ namespace KinectRagdoll.Hazards
 
         public abstract void Update();
 
+        public bool IsOperational { get; protected set; }
+
     }
 }

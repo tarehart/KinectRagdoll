@@ -6,6 +6,7 @@ using KinectRagdoll.Kinect;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
+using System.Collections;
 
 namespace KinectRagdoll.Music
 {
@@ -24,6 +25,8 @@ namespace KinectRagdoll.Music
         public static SoundEffect scratchLoop;
         private SoundEffectInstance scratchInstance;
 
+        private List<SoundEffectInstance> instances = new List<SoundEffectInstance>();
+
         private bool playing;
 
         public BodySound()
@@ -31,7 +34,7 @@ namespace KinectRagdoll.Music
             
         }
 
-        public void LoadContent(ContentManager content)
+        public static void LoadContent(ContentManager content)
         {
             
             drumLoop = content.Load<SoundEffect>("Music\\drumloop");
@@ -44,31 +47,35 @@ namespace KinectRagdoll.Music
         public void Start()
         {
             playing = true;
+            instances.Clear();
 
             drumInstance = drumLoop.CreateInstance();
-            drumInstance.IsLooped = true;
-            drumInstance.Play();
-
+            instances.Add(drumInstance);
+       
             drumInstance2 = drumLoop2.CreateInstance();
-            drumInstance2.IsLooped = true;
-            drumInstance2.Play();
-
+            instances.Add(drumInstance2);
+           
             guitarInstance = guitarLoop.CreateInstance();
-            guitarInstance.IsLooped = true;
-            guitarInstance.Play();
+            instances.Add(guitarInstance);
 
             scratchInstance = scratchLoop.CreateInstance();
-            scratchInstance.IsLooped = true;
-            scratchInstance.Play();
+            instances.Add(scratchInstance);
+
+            foreach (SoundEffectInstance ins in instances)
+            {
+                ins.IsLooped = true;
+                ins.Play();
+                ins.Volume = 0;
+            }
         }
 
         public void Stop()
         {
             playing = false;
-            drumInstance.Stop();
-            drumInstance2.Stop();
-            guitarInstance.Stop();
-            scratchInstance.Stop();
+            foreach (SoundEffectInstance ins in instances)
+            {
+                ins.Stop();
+            }
         }
 
 

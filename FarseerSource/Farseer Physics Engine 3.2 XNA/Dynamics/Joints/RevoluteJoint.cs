@@ -40,7 +40,7 @@ namespace FarseerPhysics.Dynamics.Joints
     /// is provided so that infinite forces are not generated.
     /// </summary>
     [DataContract(Name = "RevoluteJoint", Namespace = "http://www.imcool.com")]
-    public class RevoluteJoint : Joint
+    public class RevoluteJoint : MotorJoint
     {
         [DataMember()]
         public Vector2 LocalAnchorA;
@@ -48,20 +48,12 @@ namespace FarseerPhysics.Dynamics.Joints
         public Vector2 LocalAnchorB;
         [DataMember()]
         private bool _enableLimit;
-        [DataMember()]
-        private bool _enableMotor;
         private Vector3 _impulse;
         [DataMember()]
         private LimitState _limitState;
         [DataMember()]
         private float _lowerAngle;
         private Mat33 _mass; // effective mass for point-to-point constraint.
-        [DataMember()]
-        private float _maxMotorTorque;
-        private float _motorImpulse;
-        private float _motorMass; // effective mass for motor/limit angular constraint.
-        [DataMember()]
-        private float _motorSpeed;
         private float _referenceAngle;
         private float _tmpFloat1;
         private Vector2 _tmpVector1, _tmpVector2;
@@ -189,61 +181,7 @@ namespace FarseerPhysics.Dynamics.Joints
             }
         }
 
-        /// <summary>
-        /// Is the joint motor enabled?
-        /// </summary>
-        /// <value><c>true</c> if [motor enabled]; otherwise, <c>false</c>.</value>
-        public bool MotorEnabled
-        {
-            get { return _enableMotor; }
-            set
-            {
-                WakeBodies();
-                _enableMotor = value;
-            }
-        }
-
-        /// <summary>
-        /// Set the motor speed in radians per second.
-        /// </summary>
-        /// <value>The speed.</value>
-        public float MotorSpeed
-        {
-            set
-            {
-                WakeBodies();
-                _motorSpeed = value;
-            }
-            get { return _motorSpeed; }
-        }
-
-        /// <summary>
-        /// Set the maximum motor torque, usually in N-m.
-        /// </summary>
-        /// <value>The torque.</value>
-        public float MaxMotorTorque
-        {
-            set
-            {
-                WakeBodies();
-                _maxMotorTorque = value;
-            }
-            get { return _maxMotorTorque; }
-        }
-
-        /// <summary>
-        /// Get the current motor torque, usually in N-m.
-        /// </summary>
-        /// <value></value>
-        public float MotorTorque
-        {
-            get { return _motorImpulse; }
-            set
-            {
-                WakeBodies();
-                _motorImpulse = value;
-            }
-        }
+        
 
         public override Vector2 GetReactionForce(float inv_dt)
         {

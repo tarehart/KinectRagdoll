@@ -15,6 +15,8 @@ using System.Diagnostics;
 using KinectRagdoll.Kinect;
 using KinectRagdoll.MyMath;
 using KinectRagdoll.Equipment;
+using KinectRagdoll.Music;
+using Microsoft.Xna.Framework.Content;
 
 
 namespace KinectRagdoll.Ragdoll
@@ -35,6 +37,8 @@ namespace KinectRagdoll.Ragdoll
         
         private const int WAKE_TIME = 40;
         private const int KNOCK_OUT_HIT = 120;
+
+        public BodySound bodySound;
 
         
         private World world;
@@ -86,6 +90,8 @@ namespace KinectRagdoll.Ragdoll
                 e.Init(this);
             }
 
+            bodySound = new BodySound();
+            bodySound.Start();
             //equipment = new List<AbstractEquipment>();
             //equipment.Add(new StabilizedJetpack(this));
             //equipment.Add(new PunchGuns(world, 20, this));
@@ -94,10 +100,13 @@ namespace KinectRagdoll.Ragdoll
         
         }
 
+
         public override void Update(SkeletonInfo info)
         {
 
             base.Update(info);
+
+            bodySound.Update(info);
 
             tick();
 
@@ -194,6 +203,8 @@ namespace KinectRagdoll.Ragdoll
             
             if (KnockOut != null)
                 KnockOut(this, null);
+
+            bodySound.Stop();
            
         }
 
@@ -212,6 +223,7 @@ namespace KinectRagdoll.Ragdoll
             if (WakeUp != null)
                 WakeUp(this, null);
 
+            bodySound.Start();
             
 
             wakeTimer = 0;

@@ -25,6 +25,10 @@ namespace KinectRagdoll.Sandbox
             {
                 SpriteHelper.DrawRectangle(sb, drawRectangle, Color.Orange);
             }
+            else if (Toolbox.DEBUG_MODE)
+            {
+                SpriteHelper.DrawRectangle(sb, drawRectangle, Color.Gray);
+            }
         }
 
         internal bool WasClicked(Vector2 clickPixel)

@@ -522,8 +522,11 @@ namespace KinectRagdoll.Sandbox
                     if (o is Body)
                     {
                         Body b = (Body)o;
-                        b.Position = Vector2.Transform(b.Position, total);
-                        b.Rotation += radians;
+                        if (farseerManager.world.BodyList.Contains(b))
+                        {
+                            b.Position = Vector2.Transform(b.Position, total);
+                            b.Rotation += radians;
+                        }
                     }
                     else if (o is FixedRevoluteJoint)
                     {

@@ -106,10 +106,11 @@ namespace KinectRagdoll.Sandbox
                 Action a = delegate()
                 {
                     Jukebox.Stop();
+                    game.ragdollManager.ragdoll.bodySound.Stop();
                     game.farseerManager.LoadWorld(FormManager.Open.FileName);
                 };
 
-                game.pendingUpdates.Add(a);
+                KinectRagdollGame.pendingUpdates.Add(a);
                 
             }
 

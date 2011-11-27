@@ -13,7 +13,7 @@
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
-    <XnaProfile>HiDef</XnaProfile>
+    <XnaProfile>Reach</XnaProfile>
     <XnaCrossPlatformGroupID>d3649bb3-1fdf-47e9-ac6e-5455996f82aa</XnaCrossPlatformGroupID>
     <XnaOutputType>Game</XnaOutputType>
     <ApplicationIcon>Game.ico</ApplicationIcon>
@@ -75,10 +75,10 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Research.Kinect, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Research.Kinect, Version=1.0.0.45, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
       <Private>False</Private>
     </Reference>
@@ -137,8 +137,10 @@
     <Compile Include="Equipment\Flappers.cs" />
     <Compile Include="Equipment\GrabHands.cs" />
     <Compile Include="Equipment\JetPack.cs" />
+    <Compile Include="Hazards\GunTurret.cs" />
     <Compile Include="Hazards\Hazard.cs" />
     <Compile Include="Hazards\HazardManager.cs" />
+    <Compile Include="Hazards\LaserTurret.cs" />
     <Compile Include="Hazards\Turret.cs" />
     <Compile Include="Music\BodySound.cs" />
     <Compile Include="Music\Jukebox.cs" />
@@ -165,7 +167,9 @@
     </Compile>
     <Compile Include="Tools\CircleTool.cs" />
     <Compile Include="Tools\ClickAction.cs" />
+    <Compile Include="Tools\GunTurretTool.cs" />
     <Compile Include="Tools\JointTool.cs" />
+    <Compile Include="Tools\LaserTurretTool.cs" />
     <Compile Include="Tools\NailTool.cs" />
     <Compile Include="Sandbox\PhysicsObjectForm.cs">
       <SubType>Form</SubType>
@@ -254,7 +258,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="KinectRagdoll_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Sandbox\JointForm.resx">

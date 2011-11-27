@@ -26,6 +26,8 @@ namespace KinectRagdoll.Sandbox
 
         private int BUTTON_WIDTH = 18;
         private int BUTTON_HEIGHT = 18;
+
+        public const bool DEBUG_MODE = true;
         //private int BUTTON_PADDING = 5;
 
         public Toolbox(KinectRagdollGame game)
@@ -56,6 +58,8 @@ namespace KinectRagdoll.Sandbox
             AddToolButton(new JointTool(game), new Vector2(10, 147));
             AddToolButton(new ObjectiveTool(game), new Vector2(10, 171));
             AddToolButton(new RopeTool(game), new Vector2(34, 147));
+            AddToolButton(new GunTurretTool(game), new Vector2(34, 171));
+            AddToolButton(new LaserTurretTool(game), new Vector2(60, 171));
 
 
             AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.StartTimer), new Vector2(10, 233));

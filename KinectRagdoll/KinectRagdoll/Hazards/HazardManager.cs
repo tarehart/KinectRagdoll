@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using KinectRagdoll.Kinect;
+using FarseerPhysics.Dynamics;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace KinectRagdoll.Hazards
 {
@@ -29,12 +31,23 @@ namespace KinectRagdoll.Hazards
 
         public void Update()
         {
+
+
             foreach (Hazard h in hazards)
             {
-                h.Update();
+                if (h.IsOperational)
+                    h.Update();
             }
         }
 
+        public void Draw(SpriteBatch sb)
+        {
+            foreach (Hazard h in hazards)
+            {
+                if (h.IsOperational)
+                    h.Draw(sb);
+            }
+        }
 
         internal void LoadHazards(List<Hazard> list)
         {

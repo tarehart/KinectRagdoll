@@ -12,32 +12,33 @@ using KinectRagdoll.MyMath;
 using KinectRagdoll.Equipment;
 using KinectRagdoll.Kinect;
 using System.Runtime.Serialization;
+using FarseerPhysics.Dynamics.Joints;
 
 namespace KinectRagdoll.Hazards
 {
     [DataContract(Name = "Turret", Namespace = "http://www.imcool.com")]
-    class Turret : Hazard
+    [KnownType(typeof(GunTurret))]
+    [KnownType(typeof(LaserTurret))]
+    public abstract class Turret : Hazard
     {
         
-        private float rotation;
-        private static int fireInterval = 10;
-        private int fireClock;
+        //protected float rotation;
         private static int reloadTime = 50;
         private int reloadClock;
         private static int fireRange = 20;
         private static float rotationSpeed = .1f;
 
-        private World world;
+        protected World world;
         [DataMember()]
-        private Fixture pivot;
+        protected Fixture pivot;
         [DataMember()]
-        private Fixture barrel;
+        protected Fixture barrel;
+        [DataMember()]
+        protected MotorJoint motor;
         private RagdollBase target;
-        private State state;
-        private int fireCount;
-        private static int burstNum = 3;
-        private static float fireVel = 1;
-        private static float barrelLength = 2;
+        protected State state;
+
+        protected static float barrelLength = 2;
 
         public enum State
         {
@@ -46,8 +47,13 @@ namespace KinectRagdoll.Hazards
             Firing
         }
 
-        public Turret(Vector2 farseerLoc, World w, RagdollManager r)
+        public Turret(Vector2 farseerLoc, World w, RagdollManager r) : this(farseerLoc, w, r, null)
         {
+        }
+
+        public Turret(Vector2 farseerLoc, World w, RagdollManager r, Fixture f)
+        {
+            
 
             DebugMaterial gray = new DebugMaterial(MaterialType.Blank)
             {
@@ -58,7 +64,22 @@ namespace KinectRagdoll.Hazards
             pivot = FixtureFactory.AttachCircle(.9f, 1, b, gray);
             barrel = FixtureFactory.AttachRectangle(barrelLength, .5f, 1, new Vector2(barrelLength / 2, 0), b, gray);
             b.Position = farseerLoc;
-            b.CollidesWith = Category.None;
+            b.BodyType = BodyType.Dynamic;
+            //b.CollidesWith = Category.None;
+
+            if (f == null)
+            {
+
+                motor = JointFactory.CreateFixedRevoluteJoint(w, b, Vector2.Zero, farseerLoc);
+            }
+            else
+            {
+                motor = new RevoluteJoint(pivot.Body, f.Body, Vector2.Zero, f.Body.GetLocalPoint(farseerLoc));
+                w.AddJoint(motor);
+            }
+
+            motor.MotorEnabled = true;
+            motor.MaxMotorTorque = 5000;
 
             Init(w, r);
         }
@@ -67,6 +88,10 @@ namespace KinectRagdoll.Hazards
         {
             world = w;
             target = r.ragdoll;
+
+
+            IsOperational = true;
+            
 
             state = State.Scanning;
         }
@@ -78,74 +103,83 @@ namespace KinectRagdoll.Hazards
 
         public override void Update()
         {
-            switch (state) {
-                case State.Scanning:
-                    reloadClock--;
-                    if (inRange())
-                    {
-                        state = State.Tracking;
-                    }
-                    break;
-                case State.Tracking:
-                    reloadClock--;
-                    if (!inRange())
-                    {
-                        state = State.Scanning;
-                    }
-                    
-                    Vector2 targetVector = target.Position - pivot.Body.Position;
-                    float targetAngle = (float) Math.Atan2(targetVector.Y, targetVector.X);
-                    float radDiff = MathHelp.getRadDiff(rotation, targetAngle);
-                    if (Math.Abs(radDiff) > rotationSpeed)
-                    {
-                        rotation += MathHelp.clamp(radDiff, rotationSpeed, -rotationSpeed);
-                    }
-                    else
-                    {
-                        rotation += radDiff;
-                        if (reloadClock <= 0)
-                        {
-                            state = State.Firing;
-                            fireCount = 0;
-                            fireClock = 0;
-                        }
-                    }
 
-                    pivot.Body.Rotation = rotation;
+            if (!world.BodyList.Contains(pivot.Body))
+            {
+                IsOperational = false;
+            } 
+            else {
+                switch (state) {
+                    case State.Scanning:
+                        scan();
+                        break;
+                    case State.Tracking:
+                        track();
 
-                    break;
-                case State.Firing:
-                    if (fireClock == 0)
-                    {
-                        fire();
-                        if (fireCount == burstNum)
-                        {
-                            state = State.Tracking;
-                            reloadClock = reloadTime;
-                        }
-                        else
-                            fireClock = fireInterval; // prepare to fire again
-                    }
-                    else
-                    {
-                        fireClock--;
-                    }
-                    break;
+                        break;
+                    case State.Firing:
+                        fireState();
+                        break;
+                }
             }
         }
 
-        public override void Draw(SpriteBatch sb)
+        protected virtual void fireState()
         {
-            //throw new NotImplementedException();
+            fire();
+            postFire();
         }
 
-        private void fire()
+        protected virtual void track()
         {
-            Vector2 fireVec = new Vector2((float) Math.Cos(rotation), (float) Math.Sin(rotation));
-            Vector2 fireLoc = pivot.Body.Position + fireVec * (barrelLength + .3f);
-            new PunchGuns.PunchBullet(fireLoc, Vector2.Normalize(fireVec) * fireVel, world);
-            fireCount++;
+            reloadClock--;
+            if (!inRange())
+            {
+                state = State.Scanning;
+            }
+
+            Vector2 targetVector = target.Position - pivot.Body.Position;
+            float targetAngle = (float)Math.Atan2(targetVector.Y, targetVector.X);
+            float radDiff = MathHelp.getRadDiff(pivot.Body.Rotation, targetAngle);
+            if (Math.Abs(radDiff) > rotationSpeed)
+            {
+                pivot.Body.Rotation += MathHelp.clamp(radDiff, rotationSpeed, -rotationSpeed);
+            }
+            else
+            {
+                pivot.Body.Rotation += radDiff;
+                if (reloadClock <= 0)
+                {
+                    prepFireState();
+                    state = State.Firing;
+                }
+            }
+
+            pivot.Body.Rotation = pivot.Body.Rotation;
         }
+
+        private void scan()
+        {
+            reloadClock--;
+            if (inRange())
+            {
+                state = State.Tracking;
+            }
+        }
+
+        protected virtual void beginReloading()
+        {
+            reloadClock = reloadTime;
+        }
+
+        protected abstract void prepFireState();
+
+        protected virtual void postFire()
+        {
+            state = State.Tracking;
+        }
+
+        protected abstract void fire();
 
     }
 }
