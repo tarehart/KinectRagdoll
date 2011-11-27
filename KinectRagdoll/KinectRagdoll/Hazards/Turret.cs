@@ -23,7 +23,7 @@ namespace KinectRagdoll.Hazards
     {
         
         //protected float rotation;
-        private static int reloadTime = 50;
+        protected static int reloadTime = 80;
         private int reloadClock;
         private static int fireRange = 20;
         private static float rotationSpeed = .1f;

@@ -31,7 +31,8 @@ namespace KinectRagdoll.Sandbox
             Release,
             ToggleCamera,
             PowerupEditor,
-            ToggleFullScreen
+            ToggleFullScreen,
+            Reload
         }
 
         public void PerformAction(Actions action)
@@ -48,6 +49,11 @@ namespace KinectRagdoll.Sandbox
                     Thread openThread = new Thread(DoOpen);
                     openThread.SetApartmentState(ApartmentState.STA);
                     openThread.Start();
+                    break;
+                case Actions.Reload:
+                    Thread reloadThread = new Thread(DoReload);
+                    reloadThread.SetApartmentState(ApartmentState.STA);
+                    reloadThread.Start();
                     break;
                 case Actions.Save:
                     Thread saveThread = new Thread(DoSave);
@@ -112,6 +118,23 @@ namespace KinectRagdoll.Sandbox
 
                 KinectRagdollGame.pendingUpdates.Add(a);
                 
+            }
+
+        }
+
+        private void DoReload()
+        {
+            if (!String.IsNullOrWhiteSpace(FormManager.Open.FileName))
+            {
+                Action a = delegate()
+                {
+                    Jukebox.Stop();
+                    game.ragdollManager.ragdoll.bodySound.Stop();
+                    game.farseerManager.LoadWorld(FormManager.Open.FileName);
+                };
+
+                KinectRagdollGame.pendingUpdates.Add(a);
+
             }
 
         }

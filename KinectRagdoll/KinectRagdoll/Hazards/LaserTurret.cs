@@ -18,6 +18,7 @@ namespace KinectRagdoll.Hazards
 
         private const int chargeTime = 100;
         private int chargeCount = chargeTime;
+        protected static int reloadTime = 50;
 
         public LaserTurret(Vector2 farseerLoc, World w, RagdollManager r) : base(farseerLoc, w, r)
         {
@@ -49,7 +50,7 @@ namespace KinectRagdoll.Hazards
         protected override void fire()
         {
             Vector2 fireVec = new Vector2((float)Math.Cos(pivot.Body.Rotation), (float)Math.Sin(pivot.Body.Rotation));
-            Vector2 fireLoc = pivot.Body.Position + fireVec * (barrelLength + .3f);
+            Vector2 fireLoc = pivot.Body.Position + fireVec * (barrelLength);
             Vector2 endPosition = pivot.Body.Position + fireVec * 20;
             CuttingTools.Cut(world, fireLoc, endPosition, 0);
         }

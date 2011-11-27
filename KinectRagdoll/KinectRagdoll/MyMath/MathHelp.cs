@@ -17,7 +17,7 @@ namespace KinectRagdoll.MyMath
             while (a < -Math.PI) a += 2 * (float)Math.PI;
             while (a > Math.PI) a -= 2 * (float)Math.PI;
 
-            Debug.Assert(Math.Abs(a) <= Math.PI);
+            //Debug.Assert(Math.Abs(a) <= Math.PI);
             return a;
         }
 

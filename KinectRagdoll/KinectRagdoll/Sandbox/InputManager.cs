@@ -108,7 +108,11 @@ namespace KinectRagdoll.Sandbox
 
             if (inputHelper.IsNewKeyPress(Keys.O) && inputHelper.IsKeyDown(Keys.LeftControl))
             {
-                game.actionCenter.PerformAction(ActionCenter.Actions.Open);
+                if (inputHelper.IsKeyDown(Keys.LeftShift)) {
+                    game.actionCenter.PerformAction(ActionCenter.Actions.Reload);
+                } else {
+                    game.actionCenter.PerformAction(ActionCenter.Actions.Open);
+                }
             }
 
             if (inputHelper.MouseScrollWheelVelocity != 0)
