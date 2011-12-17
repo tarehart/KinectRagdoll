@@ -7,8 +7,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\blank.xnb</Output>
-      <Time>2011-11-25T10:44:35.2728-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\blank.xnb</Output>
+      <Time>2011-01-09T20:24:22.2162119-05:00</Time>
     </Item>
     <Item>
       <Source>Materials\circles.png</Source>
@@ -16,8 +16,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\circles.xnb</Output>
-      <Time>2011-11-25T10:44:35.2738-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\circles.xnb</Output>
+      <Time>2011-01-09T20:24:22.2182119-05:00</Time>
     </Item>
     <Item>
       <Source>Materials\dots.png</Source>
@@ -25,8 +25,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\dots.xnb</Output>
-      <Time>2011-11-25T10:44:35.2748-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\dots.xnb</Output>
+      <Time>2011-01-09T20:24:22.220212-05:00</Time>
     </Item>
     <Item>
       <Source>Materials\face1.png</Source>
@@ -34,8 +34,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\face1.xnb</Output>
-      <Time>2011-11-25T10:44:35.2758-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\face1.xnb</Output>
+      <Time>2011-01-09T20:24:22.222212-05:00</Time>
     </Item>
     <Item>
       <Source>Materials\face2.png</Source>
@@ -43,8 +43,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\face2.xnb</Output>
-      <Time>2011-11-25T10:44:35.2768-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\face2.xnb</Output>
+      <Time>2011-01-09T20:24:22.224212-05:00</Time>
     </Item>
     <Item>
       <Source>Materials\line.png</Source>
@@ -52,8 +52,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\line.xnb</Output>
-      <Time>2011-11-25T10:44:35.2788-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\line.xnb</Output>
+      <Time>2011-01-09T20:24:22.2352121-05:00</Time>
     </Item>
     <Item>
       <Source>Materials\pavement.png</Source>
@@ -61,8 +61,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\pavement.xnb</Output>
-      <Time>2011-11-25T10:44:35.2798-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\pavement.xnb</Output>
+      <Time>2011-01-09T20:24:22.2352121-05:00</Time>
     </Item>
     <Item>
       <Source>Materials\squares.png</Source>
@@ -70,8 +70,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\squares.xnb</Output>
-      <Time>2011-11-25T10:44:35.2808-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\squares.xnb</Output>
+      <Time>2011-01-09T20:24:22.2352121-05:00</Time>
     </Item>
     <Item>
       <Source>Materials\stars.png</Source>
@@ -79,8 +79,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\stars.xnb</Output>
-      <Time>2011-11-25T10:44:35.2808-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\stars.xnb</Output>
+      <Time>2011-01-09T20:24:22.2352121-05:00</Time>
     </Item>
     <Item>
       <Source>Materials\tiles.png</Source>
@@ -88,8 +88,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\tiles.xnb</Output>
-      <Time>2011-11-25T10:44:35.2828-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\tiles.xnb</Output>
+      <Time>2011-01-09T20:24:22.2452121-05:00</Time>
     </Item>
     <Item>
       <Source>Materials\waves.png</Source>
@@ -97,8 +97,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\waves.xnb</Output>
-      <Time>2011-11-25T10:44:35.2838-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\waves.xnb</Output>
+      <Time>2011-01-09T20:24:22.2452121-05:00</Time>
     </Item>
     <Item>
       <Source>thrust.png</Source>
@@ -106,8 +106,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\thrust.xnb</Output>
-      <Time>2011-11-25T10:44:35.6218-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\thrust.xnb</Output>
+      <Time>2011-01-17T17:24:32.4799748-05:00</Time>
     </Item>
     <Item>
       <Source>Materials\target.png</Source>
@@ -115,8 +115,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\target.xnb</Output>
-      <Time>2011-11-25T10:44:35.2818-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Materials\target.xnb</Output>
+      <Time>2011-01-21T19:30:04.7464776-05:00</Time>
     </Item>
     <Item>
       <Source>nailtool.png</Source>
@@ -124,8 +124,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\nailtool.xnb</Output>
-      <Time>2011-11-25T10:44:35.5808-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\nailtool.xnb</Output>
+      <Time>2011-01-23T13:32:21.0186276-05:00</Time>
     </Item>
     <Item>
       <Source>rectangletool.png</Source>
@@ -133,8 +133,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\rectangletool.xnb</Output>
-      <Time>2011-11-25T10:44:35.6198-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\rectangletool.xnb</Output>
+      <Time>2011-01-23T13:32:21.0206276-05:00</Time>
     </Item>
     <Item>
       <Source>pointertool.png</Source>
@@ -142,8 +142,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\pointertool.xnb</Output>
-      <Time>2011-11-25T10:44:35.6188-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\pointertool.xnb</Output>
+      <Time>2011-01-23T14:40:00.4654489-05:00</Time>
     </Item>
     <Item>
       <Source>toolbox.png</Source>
@@ -151,8 +151,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\toolbox.xnb</Output>
-      <Time>2011-11-25T10:44:35.6238-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\toolbox.xnb</Output>
+      <Time>2011-01-23T14:40:00.4664489-05:00</Time>
     </Item>
     <Item>
       <Source>jointtool.png</Source>
@@ -160,8 +160,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\jointtool.xnb</Output>
-      <Time>2011-11-25T10:44:35.5798-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\jointtool.xnb</Output>
+      <Time>2011-01-23T15:20:58.4702749-05:00</Time>
     </Item>
     <Item>
       <Source>Generics\arrow.png</Source>
@@ -169,8 +169,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Generics\arrow.xnb</Output>
-      <Time>2011-11-25T10:44:35.2388-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Generics\arrow.xnb</Output>
+      <Time>2011-01-29T16:50:28.7730661-05:00</Time>
     </Item>
     <Item>
       <Source>objectivetool.png</Source>
@@ -178,8 +178,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\objectivetool.xnb</Output>
-      <Time>2011-11-25T10:44:35.6178-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\objectivetool.xnb</Output>
+      <Time>2011-01-29T17:17:50.1100005-05:00</Time>
     </Item>
     <Item>
       <Source>Generics\rectangle.png</Source>
@@ -187,8 +187,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Generics\rectangle.xnb</Output>
-      <Time>2011-11-25T10:44:35.2408-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Generics\rectangle.xnb</Output>
+      <Time>2011-02-05T13:32:24.7500717-05:00</Time>
     </Item>
     <Item>
       <Source>Generics\circle.png</Source>
@@ -196,8 +196,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Generics\circle.xnb</Output>
-      <Time>2011-11-25T10:44:35.2398-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Generics\circle.xnb</Output>
+      <Time>2011-02-05T13:32:36.0552588-05:00</Time>
     </Item>
     <Item>
       <Source>circletool.png</Source>
@@ -205,8 +205,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\circletool.xnb</Output>
-      <Time>2011-11-25T10:44:35.5768-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\circletool.xnb</Output>
+      <Time>2011-02-05T13:34:23.3320048-05:00</Time>
     </Item>
     <Item>
       <Source>Toolbox\menu.png</Source>
@@ -214,8 +214,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Toolbox\menu.xnb</Output>
-      <Time>2011-11-25T10:44:35.5748-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Toolbox\menu.xnb</Output>
+      <Time>2011-07-15T00:19:13.1136076-04:00</Time>
     </Item>
     <Item>
       <Source>Toolbox\showtoolbox.png</Source>
@@ -223,8 +223,17 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Toolbox\showtoolbox.xnb</Output>
-      <Time>2011-11-25T10:44:35.5758-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Toolbox\showtoolbox.xnb</Output>
+      <Time>2011-06-22T20:28:23.6721344-04:00</Time>
+    </Item>
+    <Item>
+      <Source>FlowerBurst.png</Source>
+      <Name>FlowerBurst</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\FlowerBurst.xnb</Output>
+      <Time>2011-11-28T19:10:58.703737-05:00</Time>
     </Item>
     <Item>
       <Source>font.spritefont</Source>
@@ -232,8 +241,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\font.xnb</Output>
-      <Time>2011-11-25T10:44:35.5788-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\font.xnb</Output>
+      <Time>2011-01-29T17:41:39.0524207-05:00</Time>
     </Item>
     <Item>
       <Source>Sounds\rocket.wav</Source>
@@ -241,8 +250,8 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Sounds\rocket.xnb</Output>
-      <Time>2011-11-25T10:44:35.5638-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Sounds\rocket.xnb</Output>
+      <Time>2011-06-23T20:00:03.4933411-04:00</Time>
     </Item>
     <Item>
       <Source>Sounds\crack.wav</Source>
@@ -250,8 +259,8 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Sounds\crack.xnb</Output>
-      <Time>2011-11-25T10:44:35.5618-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Sounds\crack.xnb</Output>
+      <Time>2011-06-23T20:08:42.0098446-04:00</Time>
     </Item>
     <Item>
       <Source>Sounds\rocketdown.wav</Source>
@@ -259,8 +268,8 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Sounds\rocketdown.xnb</Output>
-      <Time>2011-11-25T10:44:35.5668-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Sounds\rocketdown.xnb</Output>
+      <Time>2011-06-23T20:49:50.8083322-04:00</Time>
     </Item>
     <Item>
       <Source>Sounds\trumpet.wav</Source>
@@ -268,8 +277,8 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Sounds\trumpet.xnb</Output>
-      <Time>2011-11-25T10:44:35.5718-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Sounds\trumpet.xnb</Output>
+      <Time>2011-06-26T21:44:18.8269454-04:00</Time>
     </Item>
     <Item>
       <Source>Music\drumloop.wav</Source>
@@ -277,8 +286,8 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\drumloop.xnb</Output>
-      <Time>2011-11-25T10:44:35.5228-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\drumloop.xnb</Output>
+      <Time>2011-11-19T15:41:08.5368145-05:00</Time>
     </Item>
     <Item>
       <Source>Music\guitarloop.wav</Source>
@@ -286,8 +295,8 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\guitarloop.xnb</Output>
-      <Time>2011-11-25T10:44:35.5528-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\guitarloop.xnb</Output>
+      <Time>2011-11-19T15:44:55.4864684-05:00</Time>
     </Item>
     <Item>
       <Source>Music\scratchloop.wav</Source>
@@ -295,8 +304,8 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\scratchloop.xnb</Output>
-      <Time>2011-11-25T10:44:35.5598-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\scratchloop.xnb</Output>
+      <Time>2011-11-19T14:52:21.6166919-05:00</Time>
     </Item>
     <Item>
       <Source>Music\drumloop2.wav</Source>
@@ -304,8 +313,8 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\drumloop2.xnb</Output>
-      <Time>2011-11-25T10:44:35.5388-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\drumloop2.xnb</Output>
+      <Time>2011-11-19T15:41:23.9200622-05:00</Time>
     </Item>
     <Item>
       <Source>Music\AmazingPlan.mp3</Source>
@@ -313,9 +322,9 @@
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\AmazingPlan.xnb</Output>
-      <Extra>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\AmazingPlan.wma</Extra>
-      <Time>2011-11-25T10:44:35.3288-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\AmazingPlan.xnb</Output>
+      <Extra>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\AmazingPlan.wma</Extra>
+      <Time>2011-07-14T22:53:09.0189178-04:00</Time>
     </Item>
     <Item>
       <Source>Music\FigLeafRag.mp3</Source>
@@ -323,9 +332,9 @@
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\FigLeafRag.xnb</Output>
-      <Extra>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\FigLeafRag.wma</Extra>
-      <Time>2011-11-25T10:44:35.4828-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\FigLeafRag.xnb</Output>
+      <Extra>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\FigLeafRag.wma</Extra>
+      <Time>2011-07-14T23:56:56.1206813-04:00</Time>
     </Item>
     <Item>
       <Source>Music\DarkHallway.mp3</Source>
@@ -333,22 +342,44 @@
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\DarkHallway.xnb</Output>
-      <Extra>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\DarkHallway.wma</Extra>
-      <Time>2011-11-25T10:44:35.3608-05:00</Time>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\DarkHallway.xnb</Output>
+      <Extra>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\DarkHallway.wma</Extra>
+      <Time>2011-07-14T23:58:28.609198-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Particles\flameEffect.xml</Source>
+      <Name>Particles\flameEffect</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Particles\flameEffect.xnb</Output>
+      <Time>2011-11-28T19:54:00.7793077-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Particle005.png</Source>
+      <Name>Particle005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Particle005.xnb</Output>
+      <Time>2011-11-28T19:50:31.8599442-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
-      <TargetProfile>Reach</TargetProfile>
+      <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdollContent\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdollContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdollContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdollContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
+      <Assembly>
+        <Key>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\lib\ProjectMercury.ContentPipeline.dll</Key>
+        <Value>2011-11-28T19:07:57.3158167-05:00</Value>
+      </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
         <Value>2010-08-23T13:41:18-04:00</Value>
@@ -374,8 +405,8 @@
         <Value>2010-08-23T13:41:18-04:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2011-11-25T10:57:12.9142-05:00</Value>
+        <Key>C:\windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2010-12-30T21:02:05.7514648-05:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>

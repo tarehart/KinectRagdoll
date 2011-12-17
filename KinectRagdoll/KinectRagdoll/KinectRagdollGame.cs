@@ -9,6 +9,7 @@ using KinectRagdoll.Rules;
 using KinectRagdoll.Powerups;
 using KinectRagdoll.Music;
 using KinectRagdoll.Hazards;
+using ProjectMercury.Renderers;
 
 namespace KinectRagdoll
 {
@@ -26,7 +27,6 @@ namespace KinectRagdoll
         public FarseerManager farseerManager;
         public InputManager inputManager;
         public ActionCenter actionCenter;
-        public ProjectionHelper projectionHelper;
         public RagdollManager ragdollManager;
         public Toolbox toolbox;
         //public SpriteHelper spriteHelper;
@@ -34,6 +34,7 @@ namespace KinectRagdoll
         public PowerupManager powerupManager;
         public Jukebox jukebox;
         public HazardManager hazardManager;
+        public ParticleEffectManager particleEffectManager;
 
         GraphicsDeviceManager graphics;
         Color bkColor;
@@ -86,6 +87,7 @@ namespace KinectRagdoll
             powerupManager = new PowerupManager(ragdollManager, farseerManager);
             jukebox = new Jukebox();
             hazardManager = new HazardManager(farseerManager, ragdollManager);
+            particleEffectManager = new ParticleEffectManager(graphics);
 
             toolbox = new Toolbox(this);
 
@@ -130,7 +132,7 @@ namespace KinectRagdoll
 
             
             farseerManager.setProjection(farseerProjection);
-            projectionHelper = new ProjectionHelper(GraphicsDevice.Viewport, farseerProjection * Matrix.CreateScale(1, -1, 1));
+            ProjectionHelper.Init(GraphicsDevice.Viewport, farseerProjection * Matrix.CreateScale(1, -1, 1));
 
         
 
@@ -194,7 +196,7 @@ namespace KinectRagdoll
             objectiveManager.LoadContent(Content);
             toolbox.LoadContent();
             Jukebox.LoadContent(Content);
-            
+            particleEffectManager.LoadContent(Content);
 
             InitializeTransform();
             InitializeEffect();
@@ -248,6 +250,7 @@ namespace KinectRagdoll
             farseerManager.Update(gameTime);
             objectiveManager.Update();
             hazardManager.Update();
+            particleEffectManager.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             if (!kinectManager.IsKinectRunning)
             {
@@ -271,13 +274,15 @@ namespace KinectRagdoll
 
             RenderTarget2D renderTarget = RenderFarseerEffectsTexture();
 
-            GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, kinectManager.bkColor, 1.0f, 0);
+            GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.DarkSlateGray, 1.0f, 0);
 
             //DrawHeadTrackingDemo(gameTime);
 
             DrawSprites(renderTarget);
 
-            projectionHelper.Update(farseerView);
+            particleEffectManager.Draw();
+
+            ProjectionHelper.Update(farseerView);
 
             base.Draw(gameTime);
 
@@ -335,7 +340,7 @@ namespace KinectRagdoll
             }
             else
             {
-                center = projectionHelper.PixelToFarseer(inputManager.inputHelper.MousePosition);
+                center = ProjectionHelper.PixelToFarseer(inputManager.inputHelper.MousePosition);
                 horizontalBound = 25;
                 verticalBound = 15;
             }
@@ -426,7 +431,7 @@ namespace KinectRagdoll
             farseerManager.setProjection(farseerProjection);
             farseerEffect.Projection = farseerProjection;
 
-            projectionHelper = new ProjectionHelper(graphicsDevice.Viewport, farseerProjection * Matrix.CreateScale(1, -1, 1));
+            ProjectionHelper.Init(graphicsDevice.Viewport, farseerProjection * Matrix.CreateScale(1, -1, 1));
         }
 
     }

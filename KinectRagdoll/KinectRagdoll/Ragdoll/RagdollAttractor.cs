@@ -25,12 +25,12 @@ namespace KinectRagdoll.Ragdoll
 
         public override void setShoulderToRightHand(Vector2 vec)
         {
-            rightHandSpring.WorldAnchorB = _body.Body.Position + vec;
+            rightHandSpring.WorldAnchorB = _body.Position + vec;
         }
 
         public override void setShoulderToLeftHand(Vector2 vec)
         {
-            leftHandSpring.WorldAnchorB = _body.Body.Position + vec;
+            leftHandSpring.WorldAnchorB = _body.Position + vec;
         }
 
         public override void setChestToHead(Vector2 vec)
@@ -52,12 +52,12 @@ namespace KinectRagdoll.Ragdoll
 
         protected override void CreateExtraJoints(World world)
         {
-            rightHandSpring = new FixedMouseJoint(_lowerRightArm.Body, _lowerRightArm.Body.Position);
-            rightHandSpring.MaxForce = 1000.0f * _lowerRightArm.Body.Mass;
+            rightHandSpring = new FixedMouseJoint(_lowerRightArm, _lowerRightArm.Position);
+            rightHandSpring.MaxForce = 1000.0f * _lowerRightArm.Mass;
             world.AddJoint(rightHandSpring);
 
-            leftHandSpring = new FixedMouseJoint(_lowerLeftArm.Body, _lowerLeftArm.Body.Position);
-            leftHandSpring.MaxForce = 1000.0f * _lowerLeftArm.Body.Mass;
+            leftHandSpring = new FixedMouseJoint(_lowerLeftArm, _lowerLeftArm.Position);
+            leftHandSpring.MaxForce = 1000.0f * _lowerLeftArm.Mass;
             world.AddJoint(leftHandSpring);
         }
 

@@ -91,13 +91,13 @@ namespace KinectRagdoll.Equipment
         {
             if (leftGrip)
             {
-                //Vector2 pixelLoc = game.projectionHelper.FarseerToPixel(jLeftGrip.WorldAnchorA);
+                //Vector2 pixelLoc = ProjectionHelper.FarseerToPixel(jLeftGrip.WorldAnchorA);
                 SpriteHelper.DrawCircle(sb, jLeftGrip.WorldAnchorA, 1, Color.OrangeRed);
             }
 
             if (rightGrip)
             {
-                //Vector2 pixelLoc = game.projectionHelper.FarseerToPixel(jRightGrip.WorldAnchorA);
+                //Vector2 pixelLoc = ProjectionHelper.FarseerToPixel(jRightGrip.WorldAnchorA);
                 SpriteHelper.DrawCircle(sb, jRightGrip.WorldAnchorA, 1, Color.OrangeRed);
             }
         }
@@ -105,14 +105,14 @@ namespace KinectRagdoll.Equipment
         private void TryLeftGrip()
         {
             Vector2 elbowLoc = ragdoll.jLeftArm.WorldAnchorA;
-            Vector2 forearmLoc = ragdoll._lowerLeftArm.Body.Position;
+            Vector2 forearmLoc = ragdoll._lowerLeftArm.Position;
             Vector2 gripLoc = forearmLoc + (forearmLoc - elbowLoc) * 2;
 
             Fixture f = world.TestPoint(gripLoc);
             if (f != null)
             {
                 if (jLeftGrip != null) world.RemoveJoint(jLeftGrip);
-                jLeftGrip = new RevoluteJoint(ragdoll._lowerLeftArm.Body, f.Body, ragdoll._lowerLeftArm.Body.GetLocalPoint(gripLoc), f.Body.GetLocalPoint(gripLoc));
+                jLeftGrip = new RevoluteJoint(ragdoll._lowerLeftArm, f.Body, ragdoll._lowerLeftArm.GetLocalPoint(gripLoc), f.Body.GetLocalPoint(gripLoc));
                 world.AddJoint(jLeftGrip);
                 leftGrip = true;
             }
@@ -135,14 +135,14 @@ namespace KinectRagdoll.Equipment
         private void TryRightGrip()
         {
             Vector2 elbowLoc = ragdoll.jRightArm.WorldAnchorA;
-            Vector2 forearmLoc = ragdoll._lowerRightArm.Body.Position;
+            Vector2 forearmLoc = ragdoll._lowerRightArm.Position;
             Vector2 gripLoc = forearmLoc + (forearmLoc - elbowLoc) * 2;
 
             Fixture f = world.TestPoint(gripLoc);
             if (f != null)
             {
                 if (jRightGrip != null) world.RemoveJoint(jRightGrip);
-                jRightGrip = new RevoluteJoint(ragdoll._lowerRightArm.Body, f.Body, ragdoll._lowerRightArm.Body.GetLocalPoint(gripLoc), f.Body.GetLocalPoint(gripLoc));
+                jRightGrip = new RevoluteJoint(ragdoll._lowerRightArm, f.Body, ragdoll._lowerRightArm.GetLocalPoint(gripLoc), f.Body.GetLocalPoint(gripLoc));
                 world.AddJoint(jRightGrip);
                 rightGrip = true;
             }

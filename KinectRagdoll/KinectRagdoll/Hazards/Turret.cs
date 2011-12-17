@@ -30,9 +30,9 @@ namespace KinectRagdoll.Hazards
 
         protected World world;
         [DataMember()]
-        protected Fixture pivot;
+        protected Body body;
         [DataMember()]
-        protected Fixture barrel;
+        protected Fixture pivot;
         [DataMember()]
         protected MotorJoint motor;
         private RagdollBase target;
@@ -60,21 +60,21 @@ namespace KinectRagdoll.Hazards
                 Color = Color.DarkGray
             };
 
-            Body b = new Body(w);
-            pivot = FixtureFactory.AttachCircle(.9f, 1, b, gray);
-            barrel = FixtureFactory.AttachRectangle(barrelLength, .5f, 1, new Vector2(barrelLength / 2, 0), b, gray);
-            b.Position = farseerLoc;
-            b.BodyType = BodyType.Dynamic;
+            body = new Body(w);
+            pivot = FixtureFactory.AttachCircle(.9f, 1, body, gray);
+            FixtureFactory.AttachRectangle(barrelLength, .5f, 1, new Vector2(barrelLength / 2, 0), body, gray);
+            body.Position = farseerLoc;
+            body.BodyType = BodyType.Dynamic;
             //b.CollidesWith = Category.None;
 
             if (f == null)
             {
 
-                motor = JointFactory.CreateFixedRevoluteJoint(w, b, Vector2.Zero, farseerLoc);
+                motor = JointFactory.CreateFixedRevoluteJoint(w, body, Vector2.Zero, farseerLoc);
             }
             else
             {
-                motor = new RevoluteJoint(pivot.Body, f.Body, Vector2.Zero, f.Body.GetLocalPoint(farseerLoc));
+                motor = new RevoluteJoint(body, f.Body, Vector2.Zero, f.Body.GetLocalPoint(farseerLoc));
                 w.AddJoint(motor);
             }
 
@@ -98,13 +98,13 @@ namespace KinectRagdoll.Hazards
 
         private bool inRange()
         {
-            return Vector2.Distance(target.Position, pivot.Body.Position) < fireRange;
+            return Vector2.Distance(target.Position, body.Position) < fireRange;
         }
 
         public override void Update()
         {
 
-            if (!world.BodyList.Contains(pivot.Body))
+            if (pivot.Body == null)
             {
                 IsOperational = false;
             } 
@@ -138,16 +138,16 @@ namespace KinectRagdoll.Hazards
                 state = State.Scanning;
             }
 
-            Vector2 targetVector = target.Position - pivot.Body.Position;
+            Vector2 targetVector = target.Position - body.Position;
             float targetAngle = (float)Math.Atan2(targetVector.Y, targetVector.X);
-            float radDiff = MathHelp.getRadDiff(pivot.Body.Rotation, targetAngle);
+            float radDiff = MathHelp.getRadDiff(body.Rotation, targetAngle);
             if (Math.Abs(radDiff) > rotationSpeed)
             {
-                pivot.Body.Rotation += MathHelp.clamp(radDiff, rotationSpeed, -rotationSpeed);
+                body.Rotation += MathHelp.clamp(radDiff, rotationSpeed, -rotationSpeed);
             }
             else
             {
-                pivot.Body.Rotation += radDiff;
+                body.Rotation += radDiff;
                 if (reloadClock <= 0)
                 {
                     prepFireState();
@@ -155,7 +155,7 @@ namespace KinectRagdoll.Hazards
                 }
             }
 
-            pivot.Body.Rotation = pivot.Body.Rotation;
+            body.Rotation = body.Rotation;
         }
 
         private void scan()

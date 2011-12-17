@@ -455,45 +455,13 @@ namespace FarseerPhysics.Dynamics
                     }
 
                     // Remove from body 1.
-                    if (joint.EdgeA.Prev != null)
-                    {
-                        joint.EdgeA.Prev.Next = joint.EdgeA.Next;
-                    }
-
-                    if (joint.EdgeA.Next != null)
-                    {
-                        joint.EdgeA.Next.Prev = joint.EdgeA.Prev;
-                    }
-
-                    if (joint.EdgeA == bodyA.JointList)
-                    {
-                        bodyA.JointList = joint.EdgeA.Next;
-                    }
-
-                    joint.EdgeA.Prev = null;
-                    joint.EdgeA.Next = null;
+                    bodyA.JointList.Remove(joint);
 
                     // WIP David
                     if (!joint.IsFixedType())
                     {
                         // Remove from body 2
-                        if (joint.EdgeB.Prev != null)
-                        {
-                            joint.EdgeB.Prev.Next = joint.EdgeB.Next;
-                        }
-
-                        if (joint.EdgeB.Next != null)
-                        {
-                            joint.EdgeB.Next.Prev = joint.EdgeB.Prev;
-                        }
-
-                        if (joint.EdgeB == bodyB.JointList)
-                        {
-                            bodyB.JointList = joint.EdgeB.Next;
-                        }
-
-                        joint.EdgeB.Prev = null;
-                        joint.EdgeB.Next = null;
+                        bodyB.JointList.Remove(joint);
                     }
 
                     // WIP David
@@ -537,28 +505,12 @@ namespace FarseerPhysics.Dynamics
                     JointList.Add(joint);
 
                     // Connect to the bodies' doubly linked lists.
-                    joint.EdgeA.Joint = joint;
-                    joint.EdgeA.Other = joint.BodyB;
-                    joint.EdgeA.Prev = null;
-                    joint.EdgeA.Next = joint.BodyA.JointList;
-
-                    if (joint.BodyA.JointList != null)
-                        joint.BodyA.JointList.Prev = joint.EdgeA;
-
-                    joint.BodyA.JointList = joint.EdgeA;
+                    joint.BodyA.JointList.Add(joint);
 
                     // WIP David
                     if (!joint.IsFixedType())
                     {
-                        joint.EdgeB.Joint = joint;
-                        joint.EdgeB.Other = joint.BodyA;
-                        joint.EdgeB.Prev = null;
-                        joint.EdgeB.Next = joint.BodyB.JointList;
-
-                        if (joint.BodyB.JointList != null)
-                            joint.BodyB.JointList.Prev = joint.EdgeB;
-
-                        joint.BodyB.JointList = joint.EdgeB;
+                        joint.BodyB.JointList.Add(joint);
 
                         Body bodyA = joint.BodyA;
                         Body bodyB = joint.BodyB;
@@ -621,15 +573,11 @@ namespace FarseerPhysics.Dynamics
                     Debug.Assert(BodyList.Contains(body));
 
                     // Delete the attached joints.
-                    JointEdge je = body.JointList;
-                    while (je != null)
+                    foreach (Joint j in body.JointList)
                     {
-                        JointEdge je0 = je;
-                        je = je.Next;
-
-                        RemoveJoint(je0.Joint, false);
+                        RemoveJoint(j, false);
                     }
-                    body.JointList = null;
+                    body.JointList.Clear();
 
                     // Delete the attached contacts.
                     ContactEdge ce = body.ContactList;
@@ -954,18 +902,15 @@ namespace FarseerPhysics.Dynamics
                     }
 
                     // Search all joints connect to this body.
-                    for (JointEdge je = b.JointList; je != null; je = je.Next)
+                    foreach (Joint j in b.JointList)
                     {
-                        if (je.Joint.IslandFlag)
+                        if (j.IslandFlag)
                         {
-                            if (je.Next == b.JointList)
-                            {
-                                break;
-                            }
                             continue;
                         }
 
-                        Body other = je.Other;
+
+                        Body other = j.other(b);
 
                         // WIP David
                         //Enter here when it's a non-fixed joint. Non-fixed joints have a other body.
@@ -977,8 +922,8 @@ namespace FarseerPhysics.Dynamics
                                 continue;
                             }
 
-                            Island.Add(je.Joint);
-                            je.Joint.IslandFlag = true;
+                            Island.Add(j);
+                            j.IslandFlag = true;
 
                             if ((other.Flags & BodyFlags.Island) != BodyFlags.None)
                             {
@@ -991,14 +936,10 @@ namespace FarseerPhysics.Dynamics
                         }
                         else
                         {
-                            Island.Add(je.Joint);
-                            je.Joint.IslandFlag = true;
+                            Island.Add(j);
+                            j.IslandFlag = true;
                         }
 
-                        if (je.Next == b.JointList)
-                        {
-                            break;
-                        }
                     }
                 }
 

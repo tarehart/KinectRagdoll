@@ -27,7 +27,7 @@ namespace KinectRagdoll.Tools
 
              if (input.IsNewButtonPress(MouseButtons.LeftButton))
              {
-                 Vector2 position = game.projectionHelper.PixelToFarseer(input.MousePosition);
+                 Vector2 position = ProjectionHelper.PixelToFarseer(input.MousePosition);
 
                  List<Fixture> list = game.farseerManager.world.TestPointAll(position);
 
@@ -40,7 +40,7 @@ namespace KinectRagdoll.Tools
              }
              else if (input.IsNewButtonPress(MouseButtons.RightButton))
              {
-                 Vector2 position = game.projectionHelper.PixelToFarseer(input.MousePosition);
+                 Vector2 position = ProjectionHelper.PixelToFarseer(input.MousePosition);
 
                  List<Fixture> list = game.farseerManager.world.TestPointAll(position);
 

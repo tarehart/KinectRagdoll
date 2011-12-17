@@ -66,7 +66,7 @@ namespace KinectRagdoll.Equipment
             Matrix rot = Matrix.CreateRotationZ(ragdoll.Body.Rotation);
             impulse = Vector2.Transform(impulse, rot);
 
-            ragdoll._upperRightArm.Body.ApplyLinearImpulse(impulse);
+            ragdoll._upperRightArm.ApplyLinearImpulse(impulse);
             
         }
 
@@ -77,7 +77,7 @@ namespace KinectRagdoll.Equipment
             Matrix rot = Matrix.CreateRotationZ(ragdoll.Body.Rotation);
             impulse = Vector2.Transform(impulse, rot);
 
-            ragdoll._upperLeftArm.Body.ApplyLinearImpulse(impulse);
+            ragdoll._upperLeftArm.ApplyLinearImpulse(impulse);
 
         }
 
@@ -85,12 +85,12 @@ namespace KinectRagdoll.Equipment
         {
             if (flappedRight)
             {
-                SpriteHelper.DrawCircle(sb, ragdoll._upperRightArm.Body.Position, 2, Color.Red);
+                SpriteHelper.DrawCircle(sb, ragdoll._upperRightArm.Position, 2, Color.Red);
             }
 
             if (flappedLeft)
             {
-                SpriteHelper.DrawCircle(sb, ragdoll._upperLeftArm.Body.Position, 2, Color.Red);
+                SpriteHelper.DrawCircle(sb, ragdoll._upperLeftArm.Position, 2, Color.Red);
             }
         }
 

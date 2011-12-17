@@ -31,7 +31,7 @@ namespace KinectRagdoll.Tools
 
             if (input.IsNewButtonPress(MouseButtons.LeftButton))
             {
-                Vector2 position = game.projectionHelper.PixelToFarseer(input.MousePosition);
+                Vector2 position = ProjectionHelper.PixelToFarseer(input.MousePosition);
 
                 List<Fixture> list = game.farseerManager.world.TestPointAll(position);
 
@@ -74,7 +74,7 @@ namespace KinectRagdoll.Tools
             if (startBody != null)
             {
                 
-                SpriteHelper.DrawLine(sb, game.projectionHelper.FarseerToPixel(startBody.GetWorldPoint(startBodyLocal)), game.inputManager.inputHelper.MousePosition, 2f, Color.Blue);
+                SpriteHelper.DrawLine(sb, ProjectionHelper.FarseerToPixel(startBody.GetWorldPoint(startBodyLocal)), game.inputManager.inputHelper.MousePosition, 2f, Color.Blue);
             }
 
             

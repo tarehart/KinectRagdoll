@@ -33,8 +33,8 @@ namespace KinectRagdoll.Hazards
 
         protected override void fire()
         {
-            Vector2 fireVec = new Vector2((float)Math.Cos(pivot.Body.Rotation), (float)Math.Sin(pivot.Body.Rotation));
-            Vector2 fireLoc = pivot.Body.Position + fireVec * (barrelLength + .3f);
+            Vector2 fireVec = new Vector2((float)Math.Cos(body.Rotation), (float)Math.Sin(body.Rotation));
+            Vector2 fireLoc = body.Position + fireVec * (barrelLength + .3f);
             new PunchGuns.PunchBullet(fireLoc, Vector2.Normalize(fireVec) * fireVel, world);
             fireCount++;
         }

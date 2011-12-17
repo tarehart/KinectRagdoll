@@ -32,7 +32,7 @@ namespace KinectRagdoll.Tools
         {
             InputHelper input = game.inputManager.inputHelper;
             Vector2 pixel = input.MousePosition;
-            worldLoc = game.projectionHelper.PixelToFarseer(pixel);
+            worldLoc = ProjectionHelper.PixelToFarseer(pixel);
 
             if (input.IsNewButtonPress(MouseButtons.LeftButton) && !drawing)
             {
@@ -69,7 +69,7 @@ namespace KinectRagdoll.Tools
 
         protected DragArea GetPixelDragArea()
         {
-            return new DragArea(game.projectionHelper.FarseerToPixel(worldStart), game.inputManager.inputHelper.MousePosition);
+            return new DragArea(ProjectionHelper.FarseerToPixel(worldStart), game.inputManager.inputHelper.MousePosition);
         }
 
         protected DragArea GetWorldDragArea()

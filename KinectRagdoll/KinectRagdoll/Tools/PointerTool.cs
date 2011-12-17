@@ -60,7 +60,7 @@ namespace KinectRagdoll.Tools
 
             InputHelper inputHelper = game.inputManager.inputHelper;
 
-            Vector2 position = game.projectionHelper.PixelToFarseer(inputHelper.MousePosition);
+            Vector2 position = ProjectionHelper.PixelToFarseer(inputHelper.MousePosition);
 
 
             
@@ -87,12 +87,12 @@ namespace KinectRagdoll.Tools
                 }
                 else
                 {
-                    lastPosition = game.projectionHelper.FarseerToPixel(prevWorldLoc);
+                    lastPosition = ProjectionHelper.FarseerToPixel(prevWorldLoc);
                 }
                 
                 prevWorldLoc = position;
 
-                lastPosition = game.projectionHelper.PixelToFarseer(lastPosition);
+                lastPosition = ProjectionHelper.PixelToFarseer(lastPosition);
                 Vector2 dragVec = position - lastPosition;
                 if (!FormManager.Property.tryGroupDrag(savedFixture, dragVec))
                 {
@@ -173,7 +173,7 @@ namespace KinectRagdoll.Tools
             if (selectingRectangle)
             {
                 selectingRectangle = false;
-                if (!game.projectionHelper.InsidePixelBounds(inputHelper.MousePosition)) return;
+                if (!ProjectionHelper.InsidePixelBounds(inputHelper.MousePosition)) return;
                 DragArea d = new DragArea(dragStartWorld, p);
                 List<Object> selected = new List<object>();
                 foreach (Body b in game.farseerManager.world.BodyList)

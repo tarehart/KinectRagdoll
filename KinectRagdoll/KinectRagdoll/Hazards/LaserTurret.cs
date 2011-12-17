@@ -49,17 +49,17 @@ namespace KinectRagdoll.Hazards
 
         protected override void fire()
         {
-            Vector2 fireVec = new Vector2((float)Math.Cos(pivot.Body.Rotation), (float)Math.Sin(pivot.Body.Rotation));
-            Vector2 fireLoc = pivot.Body.Position + fireVec * (barrelLength);
-            Vector2 endPosition = pivot.Body.Position + fireVec * 20;
+            Vector2 fireVec = new Vector2((float)Math.Cos(body.Rotation), (float)Math.Sin(body.Rotation));
+            Vector2 fireLoc = body.Position + fireVec * (barrelLength);
+            Vector2 endPosition = body.Position + fireVec * 20;
             CuttingTools.Cut(world, fireLoc, endPosition, 0);
         }
 
         public override void Draw(SpriteBatch sb)
         {
-            Vector2 fireVec = new Vector2((float)Math.Cos(pivot.Body.Rotation), (float)Math.Sin(pivot.Body.Rotation));
-            Vector2 fireLoc = pivot.Body.Position + fireVec * (barrelLength + .3f);
-            Vector2 endPosition = pivot.Body.Position + fireVec * 20;
+            Vector2 fireVec = new Vector2((float)Math.Cos(body.Rotation), (float)Math.Sin(body.Rotation));
+            Vector2 fireLoc = body.Position + fireVec * (barrelLength + .3f);
+            Vector2 endPosition = body.Position + fireVec * 20;
             if (state == State.Firing)
             {
                 if (chargeCount < 5)

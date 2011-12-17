@@ -10,23 +10,23 @@ namespace KinectRagdoll.Sandbox
     public class ProjectionHelper
     {
 
-        private Matrix farseerProjection;
-        private Matrix farseerView;
-        public Viewport viewport;
+        private static Matrix farseerProjection;
+        private static Matrix farseerView;
+        public static Viewport viewport;
         //farseerProjection * Matrix.CreateScale(1, -1, 1)
 
-        public ProjectionHelper(Viewport v, Matrix farseerToPixel)
+        public static void Init(Viewport v, Matrix farseerToPixel)
         {
-            this.farseerProjection = farseerToPixel;
+            farseerProjection = farseerToPixel;
             viewport = v;
         }
 
-        public void Update(Matrix view)
+        public static void Update(Matrix view)
         {
-            this.farseerView = view;
+            farseerView = view;
         }
 
-        public Vector2 PixelToFarseer(Vector2 position)
+        public static Vector2 PixelToFarseer(Vector2 position)
         {
             Vector3 v = new Vector3(position, 0);
             v = viewport.Unproject(v, farseerProjection , farseerView, Matrix.Identity);
@@ -34,12 +34,12 @@ namespace KinectRagdoll.Sandbox
         }
 
 
-        internal bool InsidePixelBounds(Vector2 v)
+        internal static bool InsidePixelBounds(Vector2 v)
         {
             return v.X > 0 && v.Y > 0 && v.X < viewport.Width && v.Y < viewport.Height;
         }
 
-        internal Vector2 FarseerToPixel(Vector2 position)
+        internal static Vector2 FarseerToPixel(Vector2 position)
         {
             Vector3 v = new Vector3(position, 0);
             v = viewport.Project(v, farseerProjection, farseerView, Matrix.Identity);

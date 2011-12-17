@@ -34,10 +34,10 @@ namespace KinectRagdoll.Tools
         public override void Draw(SpriteBatch sb)
         {
 
-            //sb.Draw(dragTex, game.projectionHelper.FarseerToPixel(worldStart), null, Color.White, 0, new Vector2(dragTex.Width / 2, dragTex.Height / 2), 
+            //sb.Draw(dragTex, ProjectionHelper.FarseerToPixel(worldStart), null, Color.White, 0, new Vector2(dragTex.Width / 2, dragTex.Height / 2), 
 
             if (drawing)
-                SpriteHelper.DrawCircle(sb, game.projectionHelper.FarseerToPixel(worldStart), GetPixelDragArea().diagonal * 2, new Color(100, 100, 255, 100));
+                SpriteHelper.DrawCircle(sb, ProjectionHelper.FarseerToPixel(worldStart), GetPixelDragArea().diagonal * 2, new Color(100, 100, 255, 100));
 
             //if (drawing)
             //    sb.Draw(dragTex, GetPixelDragArea().intRectangle, new Color(100, 100, 255, 100));

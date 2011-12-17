@@ -65,7 +65,7 @@ namespace KinectRagdoll.Equipment
         private float SilkSlingLeft(Fixture f, Vector2 p, Vector2 n, float fr)
         {
 
-            if (f == ragdoll._lowerLeftArm) return -1;
+            if (f.Body == ragdoll._lowerLeftArm) return -1;
 
             Vector2 handAnchor = getHandAnchor(false);
 
@@ -73,7 +73,7 @@ namespace KinectRagdoll.Equipment
             UndoSilk(false);
            
 
-            leftSilk = new DistanceJoint(ragdoll._lowerLeftArm.Body, f.Body, ragdoll._lowerLeftArm.Body.GetLocalPoint(handAnchor), f.Body.GetLocalPoint(p));
+            leftSilk = new DistanceJoint(ragdoll._lowerLeftArm, f.Body, ragdoll._lowerLeftArm.GetLocalPoint(handAnchor), f.Body.GetLocalPoint(p));
             leftSilk.Frequency = silkForce;
             leftSilk.DampingRatio = .5f;
             leftSilk.Length = 0;
@@ -86,14 +86,14 @@ namespace KinectRagdoll.Equipment
         private float SilkSlingRight(Fixture f, Vector2 p, Vector2 n, float fr)
         {
 
-            if (f == ragdoll._lowerRightArm) return -1;
+            if (f.Body == ragdoll._lowerRightArm) return -1;
 
             Vector2 handAnchor = getHandAnchor(true);
 
            
             UndoSilk(true);
 
-            rightSilk = new DistanceJoint(ragdoll._lowerRightArm.Body, f.Body, ragdoll._lowerRightArm.Body.GetLocalPoint(handAnchor), f.Body.GetLocalPoint(p));
+            rightSilk = new DistanceJoint(ragdoll._lowerRightArm, f.Body, ragdoll._lowerRightArm.GetLocalPoint(handAnchor), f.Body.GetLocalPoint(p));
             rightSilk.Frequency = silkForce;
             rightSilk.DampingRatio = .5f;
             rightSilk.Length = 0;
@@ -131,12 +131,12 @@ namespace KinectRagdoll.Equipment
             if (rightHand)
             {
                 elbowLoc = ragdoll.jRightArm.WorldAnchorA;
-                forearmLoc = ragdoll._lowerRightArm.Body.Position;
+                forearmLoc = ragdoll._lowerRightArm.Position;
             }
             else
             {
                 elbowLoc = ragdoll.jLeftArm.WorldAnchorA;
-                forearmLoc = ragdoll._lowerLeftArm.Body.Position;
+                forearmLoc = ragdoll._lowerLeftArm.Position;
             }
             
             

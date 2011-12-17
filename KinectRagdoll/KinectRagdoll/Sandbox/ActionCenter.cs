@@ -67,13 +67,13 @@ namespace KinectRagdoll.Sandbox
                     FormManager.Property.CopySelected();
                     break;
                 case Actions.Delete:
-                    FormManager.Property.DeleteSelected();
+                    KinectRagdollGame.pendingUpdates.Add(delegate() { FormManager.Property.DeleteSelected(); });
                     break;
                 case Actions.Freeze:
-                    FormManager.Property.FreezeSelected();
+                    KinectRagdollGame.pendingUpdates.Add(delegate() { FormManager.Property.FreezeSelected(); });
                     break;
                 case Actions.Release:
-                    FormManager.Property.UnfreezeSelected();
+                    KinectRagdollGame.pendingUpdates.Add(delegate() { FormManager.Property.UnfreezeSelected(); });
                     break;
                 case Actions.ToggleCamera:
                     game.ragdollManager.CameraShouldTrack = !game.ragdollManager.CameraShouldTrack;

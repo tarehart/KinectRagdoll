@@ -85,7 +85,7 @@ namespace KinectRagdoll.Kinect
                 game.ragdollManager.CreateNewRagdoll(game);
                 addBounds();
                 addSpinningDeath();
-                addTurret();
+                //addTurret();
             }
 
             //projection = Matrix.CreateOrthographicOffCenter(0, device.Viewport.Width, device.Viewport.Height, 0, -1, 1);
@@ -203,14 +203,14 @@ namespace KinectRagdoll.Kinect
         {
             foreach (Joint j in selectedJoints)
             {
-                Vector2 pixelLoc = game.projectionHelper.FarseerToPixel(j.WorldAnchorA);
+                Vector2 pixelLoc = ProjectionHelper.FarseerToPixel(j.WorldAnchorA);
                 sb.Draw(pointTex, pixelLoc, null, Color.Red, 0, Vector2.One * pointTex.Width / 2, .2f, SpriteEffects.None, 0);
 
             }
 
             foreach (Joint j in pendingJoints)
             {
-                Vector2 pixelLoc = game.projectionHelper.FarseerToPixel(j.WorldAnchorA);
+                Vector2 pixelLoc = ProjectionHelper.FarseerToPixel(j.WorldAnchorA);
                 sb.Draw(pointTex, pixelLoc, null, Color.Yellow, 0, Vector2.One * pointTex.Width / 2, .2f, SpriteEffects.None, 0);
 
             }

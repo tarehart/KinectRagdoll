@@ -23,27 +23,27 @@ namespace KinectRagdoll.Ragdoll
         public bool Possessed { get; private set; }
 
         [DataMember()]
-        internal Fixture _body { get; private set; }
+        internal Body _body { get; private set; }
         [DataMember()]
-        internal Fixture _head { get; private set; }
+        internal Body _head { get; private set; }
 
         [DataMember()]
-        internal Fixture _lowerLeftArm { get; private set; }
+        internal Body _lowerLeftArm { get; private set; }
         [DataMember()]
-        internal Fixture _lowerLeftLeg { get; private set; }
+        internal Body _lowerLeftLeg { get; private set; }
         [DataMember()]
-        internal Fixture _lowerRightArm { get; private set; }
+        internal Body _lowerRightArm { get; private set; }
         [DataMember()]
-        internal Fixture _lowerRightLeg { get; private set; }
+        internal Body _lowerRightLeg { get; private set; }
 
         [DataMember()]
-        internal Fixture _upperLeftArm { get; private set; }
+        internal Body _upperLeftArm { get; private set; }
         [DataMember()]
-        internal Fixture _upperLeftLeg { get; private set; }
+        internal Body _upperLeftLeg { get; private set; }
         [DataMember()]
-        internal Fixture _upperRightArm { get; private set; }
+        internal Body _upperRightArm { get; private set; }
         [DataMember()]
-        internal Fixture _upperRightLeg { get; private set; }
+        internal Body _upperRightLeg { get; private set; }
 
         [DataMember()]
         internal RevoluteJoint jRightArm;
@@ -63,7 +63,7 @@ namespace KinectRagdoll.Ragdoll
         internal RevoluteJoint jLeftLegBody;
 
         [DataMember()]
-        protected List<Fixture> _allFixtures;
+        protected List<Body> _allBodies;
 
         //protected World world;
 
@@ -182,9 +182,9 @@ namespace KinectRagdoll.Ragdoll
 
         public void Throw(Vector2 velocity)
         {
-            foreach (Fixture f in _allFixtures)
+            foreach (Body b in _allBodies)
             {
-                f.Body.LinearVelocity = velocity;
+                b.LinearVelocity = velocity;
             }
         }
 
@@ -201,7 +201,7 @@ namespace KinectRagdoll.Ragdoll
 
         public Body Body
         {
-            get { return _body.Body; }
+            get { return _body; }
         }
 
         //Torso
@@ -233,82 +233,92 @@ namespace KinectRagdoll.Ragdoll
             };
 
             //Head
-            _head = FixtureFactory.AttachCircle(.9f, LegDensity, new Body(world), matHead);
-            _head.Body.BodyType = BodyType.Dynamic;
-            _head.Body.AngularDamping = LimbAngularDamping;
+            _head = new Body(world);
+            FixtureFactory.AttachCircle(.9f, LegDensity, _head, matHead);
+            _head.BodyType = BodyType.Dynamic;
+            _head.AngularDamping = LimbAngularDamping;
             //_head.Body.Mass = 2;
-            _head.Body.Position = position;
+            _head.Position = position;
             
 
             //Body
-            _body = FixtureFactory.AttachRectangle(2, 4, LegDensity, Vector2.Zero, new Body(world), matShirt);
-            _body.Body.BodyType = BodyType.Dynamic;
-            //_body.Body.Mass = 2;
+            _body = new Body(world); 
+            FixtureFactory.AttachRectangle(2, 4, LegDensity, Vector2.Zero, _body, matShirt);
+            _body.BodyType = BodyType.Dynamic;
+            //_body.Mass = 2;
             
-            _body.Body.Position = position + new Vector2(0, -3);
+            _body.Position = position + new Vector2(0, -3);
 
             //Left Arm
-            _lowerLeftArm = FixtureFactory.AttachRectangle(.7f, elbowDistance, ArmDensity, Vector2.Zero, new Body(world), matSkin);
-            _lowerLeftArm.Body.BodyType = BodyType.Dynamic;
-            _lowerLeftArm.Body.AngularDamping = LimbAngularDamping;
-            //_lowerLeftArm.Body.Mass = 2;
+            _lowerLeftArm = new Body(world); 
+            FixtureFactory.AttachRectangle(.7f, elbowDistance, ArmDensity, Vector2.Zero, _lowerLeftArm, matSkin);
+            _lowerLeftArm.BodyType = BodyType.Dynamic;
+            _lowerLeftArm.AngularDamping = LimbAngularDamping;
+            //_lowerLeftArm.Mass = 2;
             _lowerLeftArm.Friction = .2f;
-            _lowerLeftArm.Body.Rotation = -1.4f;
-            _lowerLeftArm.Body.Position = position + new Vector2(-4, -2.2f);
+            _lowerLeftArm.Rotation = -1.4f;
+            _lowerLeftArm.Position = position + new Vector2(-4, -2.2f);
 
-            _upperLeftArm = FixtureFactory.AttachRectangle(.7f, elbowDistance, ArmDensity, Vector2.Zero, new Body(world), matShirt);
-            _upperLeftArm.Body.BodyType = BodyType.Dynamic;
-            _upperLeftArm.Body.AngularDamping = LimbAngularDamping;
+            _upperLeftArm = new Body(world);
+            FixtureFactory.AttachRectangle(.7f, elbowDistance, ArmDensity, Vector2.Zero, _upperLeftArm, matShirt);
+            _upperLeftArm.BodyType = BodyType.Dynamic;
+            _upperLeftArm.AngularDamping = LimbAngularDamping;
            // _upperLeftArm.Body.Mass = 2;
-            _upperLeftArm.Body.Rotation = -1.4f;
-            _upperLeftArm.Body.Position = position + new Vector2(-2, -1.8f);
+            _upperLeftArm.Rotation = -1.4f;
+            _upperLeftArm.Position = position + new Vector2(-2, -1.8f);
             
 
             //Right Arm
-            _lowerRightArm = FixtureFactory.AttachRectangle(.7f, elbowDistance, ArmDensity, Vector2.Zero, new Body(world), matSkin);
-            _lowerRightArm.Body.BodyType = BodyType.Dynamic;
-            _lowerRightArm.Body.AngularDamping = LimbAngularDamping;
-            //_lowerRightArm.Body.Mass = 2;
+            _lowerRightArm = new Body(world);
+            FixtureFactory.AttachRectangle(.7f, elbowDistance, ArmDensity, Vector2.Zero, _lowerRightArm, matSkin);
+            _lowerRightArm.BodyType = BodyType.Dynamic;
+            _lowerRightArm.AngularDamping = LimbAngularDamping;
+            //_lowerRightArm.Mass = 2;
             _lowerRightArm.Friction = .3f;
-            _lowerRightArm.Body.Rotation = 1.4f;
-            _lowerRightArm.Body.Position = position + new Vector2(4, -2.2f);
+            _lowerRightArm.Rotation = 1.4f;
+            _lowerRightArm.Position = position + new Vector2(4, -2.2f);
 
-            _upperRightArm = FixtureFactory.AttachRectangle(.7f, elbowDistance, ArmDensity, Vector2.Zero, new Body(world), matShirt);
-            _upperRightArm.Body.BodyType = BodyType.Dynamic;
-            _upperRightArm.Body.AngularDamping = LimbAngularDamping;
+            _upperRightArm = new Body(world);
+            FixtureFactory.AttachRectangle(.7f, elbowDistance, ArmDensity, Vector2.Zero, _upperRightArm, matShirt);
+            _upperRightArm.BodyType = BodyType.Dynamic;
+            _upperRightArm.AngularDamping = LimbAngularDamping;
             //_upperRightArm.Body.Mass = 2;
-            _upperRightArm.Body.Rotation = 1.4f;
-            _upperRightArm.Body.Position = position + new Vector2(2, -1.8f);
+            _upperRightArm.Rotation = 1.4f;
+            _upperRightArm.Position = position + new Vector2(2, -1.8f);
             
 
             //Left Leg
-            _lowerLeftLeg = FixtureFactory.AttachRectangle(.7f, 2f, LegDensity, Vector2.Zero, new Body(world), matSkin);
-            _lowerLeftLeg.Body.BodyType = BodyType.Dynamic;
-            _lowerLeftLeg.Body.AngularDamping = LimbAngularDamping;
-           // _lowerLeftLeg.Body.Mass = 2;
+            _lowerLeftLeg = new Body(world); 
+            FixtureFactory.AttachRectangle(.7f, 2f, LegDensity, Vector2.Zero, _lowerLeftLeg, matSkin);
+            _lowerLeftLeg.BodyType = BodyType.Dynamic;
+            _lowerLeftLeg.AngularDamping = LimbAngularDamping;
+           // _lowerLeftLeg.Mass = 2;
             _lowerLeftLeg.Friction = .5f;
-            _lowerLeftLeg.Body.Position = position + new Vector2(-0.6f, -8);
+            _lowerLeftLeg.Position = position + new Vector2(-0.6f, -8);
 
-            _upperLeftLeg = FixtureFactory.AttachRectangle(.7f, 2f, LegDensity, Vector2.Zero, new Body(world), matShorts);
-            _upperLeftLeg.Body.BodyType = BodyType.Dynamic;
-            _upperLeftLeg.Body.AngularDamping = LimbAngularDamping;
-            _upperLeftLeg.Body.Mass = 2;
-            _upperLeftLeg.Body.Position = position + new Vector2(-0.6f, -6);
+            _upperLeftLeg = new Body(world); 
+            FixtureFactory.AttachRectangle(.7f, 2f, LegDensity, Vector2.Zero, _upperLeftLeg, matShorts);
+            _upperLeftLeg.BodyType = BodyType.Dynamic;
+            _upperLeftLeg.AngularDamping = LimbAngularDamping;
+            _upperLeftLeg.Mass = 2;
+            _upperLeftLeg.Position = position + new Vector2(-0.6f, -6);
 
             //Right Leg
-            _lowerRightLeg = FixtureFactory.AttachRectangle(.7f, 2f, LegDensity, Vector2.Zero, new Body(world), matSkin);
-            _lowerRightLeg.Body.BodyType = BodyType.Dynamic;
-            _lowerRightLeg.Body.AngularDamping = LimbAngularDamping;
-            //_lowerRightLeg.Body.Mass = 2;
+            _lowerRightLeg = new Body(world); 
+            FixtureFactory.AttachRectangle(.7f, 2f, LegDensity, Vector2.Zero, _lowerRightLeg, matSkin);
+            _lowerRightLeg.BodyType = BodyType.Dynamic;
+            _lowerRightLeg.AngularDamping = LimbAngularDamping;
+            //_lowerRightLeg.Mass = 2;
             _lowerRightLeg.Friction = .5f;
-            _lowerRightLeg.Body.Position = position + new Vector2(0.6f, -8);
-            
+            _lowerRightLeg.Position = position + new Vector2(0.6f, -8);
 
-            _upperRightLeg = FixtureFactory.AttachRectangle(.7f, 2f, LegDensity, Vector2.Zero, new Body(world), matShorts);
-            _upperRightLeg.Body.BodyType = BodyType.Dynamic;
-            _upperRightLeg.Body.AngularDamping = LimbAngularDamping;
-            //_upperRightLeg.Body.Mass = 2;
-            _upperRightLeg.Body.Position = position + new Vector2(0.6f, -6);
+
+            _upperRightLeg = new Body(world); 
+            FixtureFactory.AttachRectangle(.7f, 2f, LegDensity, Vector2.Zero, _upperRightLeg, matShorts);
+            _upperRightLeg.BodyType = BodyType.Dynamic;
+            _upperRightLeg.AngularDamping = LimbAngularDamping;
+            //_upperRightLeg.Mass = 2;
+            _upperRightLeg.Position = position + new Vector2(0.6f, -6);
 
 
 
@@ -317,17 +327,17 @@ namespace KinectRagdoll.Ragdoll
             
 
 
-            _allFixtures = new List<Fixture>();
-            _allFixtures.Add(_body);
-            _allFixtures.Add(_head);
-            _allFixtures.Add(_lowerLeftArm);
-            _allFixtures.Add(_lowerLeftLeg);
-            _allFixtures.Add(_lowerRightArm);
-            _allFixtures.Add(_lowerRightLeg);
-            _allFixtures.Add(_upperLeftArm);
-            _allFixtures.Add(_upperLeftLeg);
-            _allFixtures.Add(_upperRightArm);
-            _allFixtures.Add(_upperRightLeg);
+            _allBodies = new List<Body>();
+            _allBodies.Add(_body);
+            _allBodies.Add(_head);
+            _allBodies.Add(_lowerLeftArm);
+            _allBodies.Add(_lowerLeftLeg);
+            _allBodies.Add(_lowerRightArm);
+            _allBodies.Add(_lowerRightLeg);
+            _allBodies.Add(_upperLeftArm);
+            _allBodies.Add(_upperLeftLeg);
+            _allBodies.Add(_upperRightArm);
+            _allBodies.Add(_upperRightLeg);
 
            
         }
@@ -351,22 +361,22 @@ namespace KinectRagdoll.Ragdoll
 
         protected virtual void CreateLegJoints(World world)
         {
-            jLeftLeg = new RevoluteJoint(_lowerLeftLeg.Body, _upperLeftLeg.Body,
+            jLeftLeg = new RevoluteJoint(_lowerLeftLeg, _upperLeftLeg,
                                                        new Vector2(0, 1.1f), new Vector2(0, -1));
             jLeftLeg.CollideConnected = false;
             world.AddJoint(jLeftLeg);
 
-            jLeftLegBody = new RevoluteJoint(_upperLeftLeg.Body, _body.Body,
+            jLeftLegBody = new RevoluteJoint(_upperLeftLeg, _body,
                                                            new Vector2(0, 1.1f), new Vector2(-0.8f, -1.9f));
             jLeftLegBody.CollideConnected = false;
             world.AddJoint(jLeftLegBody);
 
-            jRightLeg = new RevoluteJoint(_lowerRightLeg.Body, _upperRightLeg.Body,
+            jRightLeg = new RevoluteJoint(_lowerRightLeg, _upperRightLeg,
                                                         new Vector2(0, 1.1f), new Vector2(0, -1));
             jRightLeg.CollideConnected = false;
             world.AddJoint(jRightLeg);
 
-            jRightLegBody = new RevoluteJoint(_upperRightLeg.Body, _body.Body,
+            jRightLegBody = new RevoluteJoint(_upperRightLeg, _body,
                                                             new Vector2(0, 1.1f), new Vector2(0.8f, -1.9f));
             jRightLegBody.CollideConnected = false;
             world.AddJoint(jRightLegBody);
@@ -374,23 +384,23 @@ namespace KinectRagdoll.Ragdoll
 
         protected virtual void CreateArmJoints(World world)
         {
-             jLeftArm = new RevoluteJoint(_lowerLeftArm.Body, _upperLeftArm.Body,
+             jLeftArm = new RevoluteJoint(_lowerLeftArm, _upperLeftArm,
                                                        new Vector2(0, 1), new Vector2(0, -1));
 
             jLeftArm.CollideConnected = false;
             world.AddJoint(jLeftArm);
 
-             jLeftArmBody = new RevoluteJoint(_upperLeftArm.Body, _body.Body,
+             jLeftArmBody = new RevoluteJoint(_upperLeftArm, _body,
                                                            new Vector2(0, 1), new Vector2(-1, 1.5f));
             jLeftArmBody.CollideConnected = false;
             world.AddJoint(jLeftArmBody);
 
-            jRightArm = new RevoluteJoint(_lowerRightArm.Body, _upperRightArm.Body,
+            jRightArm = new RevoluteJoint(_lowerRightArm, _upperRightArm,
                                                         new Vector2(0, 1), new Vector2(0, -1));
             jRightArm.CollideConnected = false;
             world.AddJoint(jRightArm);
 
-            jRightArmBody = new RevoluteJoint(_upperRightArm.Body, _body.Body,
+            jRightArmBody = new RevoluteJoint(_upperRightArm, _body,
                                                             new Vector2(0, 1), new Vector2(1, 1.5f));
 
             jRightArmBody.CollideConnected = false;
@@ -399,7 +409,7 @@ namespace KinectRagdoll.Ragdoll
 
         protected virtual void CreateHeadJoint(World world)
         {
-            RevoluteJoint jHeadBody = new RevoluteJoint(_head.Body, _body.Body,
+            RevoluteJoint jHeadBody = new RevoluteJoint(_head, _body,
                                                         new Vector2(0, -1), new Vector2(0, 2));
             jHeadBody.CollideConnected = true;
             world.AddJoint(jHeadBody);
@@ -407,16 +417,17 @@ namespace KinectRagdoll.Ragdoll
 
         public bool OwnsFixture(Fixture f)
         {
-            return _allFixtures.Contains(f);
-        }
-
-        internal bool OwnsBody(FarseerPhysics.Dynamics.Body b)
-        {
-            foreach (Fixture f in _allFixtures)
+            foreach (Body b in _allBodies)
             {
-                if (f.Body == b) return true;
+                if (b.FixtureList.Contains(f))
+                    return true;
             }
             return false;
+        }
+
+        internal bool OwnsBody(Body b)
+        {
+            return _allBodies.Contains(b);
         }
 
         public Vector2 Position { get { return Body.Position; } }

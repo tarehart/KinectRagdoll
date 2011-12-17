@@ -117,6 +117,7 @@ namespace FarseerPhysics.Dynamics
 
         public Body(World world,DebugMaterial userData)
         {
+            JointList = new List<Joint>();
             FixtureList = new List<Fixture>(32);
             BodyId = _bodyIdCounter++;
 
@@ -432,7 +433,7 @@ namespace FarseerPhysics.Dynamics
         /// Get the list of all joints attached to this body.
         /// </summary>
         /// <value>The joint list.</value>
-        public JointEdge JointList { get; internal set; }
+        public List<Joint> JointList { get; internal set; }
 
         /// <summary>
         /// Get the list of all contacts attached to this body.
@@ -766,10 +767,10 @@ namespace FarseerPhysics.Dynamics
             Debug.Assert(fixture.Body == this);
 
             // Remove the fixture from this body's singly linked list.
-            Debug.Assert(FixtureList.Count > 0);
+            //Debug.Assert(FixtureList.Count > 0);
 
             // You tried to remove a fixture that not present in the fixturelist.
-            Debug.Assert(FixtureList.Contains(fixture));
+            //Debug.Assert(FixtureList.Contains(fixture));
 
             // Destroy any contacts associated with the fixture.
             ContactEdge edge = ContactList;
@@ -1308,22 +1309,15 @@ namespace FarseerPhysics.Dynamics
             }
 
             // Does a joint prevent collision?
-            for (JointEdge jn = JointList; jn != null; jn = jn.Next)
+            foreach (Joint j in JointList)
             {
-                if (jn.Other == other)
+                if (j.other(this) == other)
                 {
-                    if (jn.Joint.CollideConnected == false)
-                    {
-                        return false;
-                    }
-                }
-                if (jn.Next == JointList)
-                {
-                    return true;
+                    if (j.CollideConnected == false) return false;
                 }
             }
-
             return true;
+
         }
 
         internal void Advance(float alpha)

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using KinectRagdoll.Kinect;
 using KinectRagdoll.Ragdoll;
 using System.Runtime.Serialization;
+using KinectRagdoll.Sandbox;
 
 namespace KinectRagdoll.Equipment
 {
@@ -99,13 +100,21 @@ namespace KinectRagdoll.Equipment
 
         private void DrawStoppingThruster(Microsoft.Xna.Framework.Graphics.SpriteBatch sb)
         {
+            if (stoppingThrustVector.X != 0 && stoppingThrustVector.Y != 0)
+            {
+                Vector2 particleAngle = new Vector2(-stoppingThrustVector.X, stoppingThrustVector.Y);
+                //float rot = (float) Math.Atan2(stoppingThrustVector.Y, stoppingThrustVector.X) + (float)Math.PI / 2;;
+                //SpriteEffects effect = SpriteEffects.None;
+                //if (rand.Next(2) == 0) effect = SpriteEffects.FlipHorizontally;
+                //Vector2 nozzle = Vector2.Normalize(ragdoll.Body.LinearVelocity) * 5 + ragdoll.Body.Position;
 
-            float rot = (float) Math.Atan2(stoppingThrustVector.Y, stoppingThrustVector.X) + (float)Math.PI / 2;;
-            SpriteEffects effect = SpriteEffects.None;
-            if (rand.Next(2) == 0) effect = SpriteEffects.FlipHorizontally;
-            Vector2 nozzle = Vector2.Normalize(ragdoll.Body.LinearVelocity) * 5 + ragdoll.Body.Position;
+                //sb.Draw(RagdollManager.thrustTex, nozzle, null, Color.Orange, rot, new Vector2(64, 64), .001f * stoppingThrustVector.Length(), effect, 0);
 
-            sb.Draw(RagdollManager.thrustTex, nozzle, null, Color.Orange, rot, new Vector2(64, 64), .001f * stoppingThrustVector.Length(), effect, 0);
+                Vector2 screenLoc = ProjectionHelper.FarseerToPixel(ragdoll.Body.Position);
+                ParticleEffectManager.flameEffect[0].ReleaseImpulse = particleAngle * 10;
+                ParticleEffectManager.flameEffect[0].ReleaseScale.Value = particleAngle.Length() * 5;
+                ParticleEffectManager.flameEffect.Trigger(screenLoc);
+            }
         }
 
         

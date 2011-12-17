@@ -165,6 +165,8 @@ namespace FarseerPhysics.Common.PolygonManipulation
         public static void Cut(World world, Vector2 start, Vector2 end, float thickness)
         {
 
+            // The left side of the cut will remain part of the existing body;
+            // the right side will be made into a new body
 
             List<Fixture> fixtures = new List<Fixture>();
             List<Vector2> entryPoints = new List<Vector2>();
@@ -188,12 +190,14 @@ namespace FarseerPhysics.Common.PolygonManipulation
             //Reverse the ray to get the exitpoints
             world.RayCast((f, p, n, fr) =>
                               {
-                                  if (!f.TestPoint(ref start))
+                                  if (fixtures.Contains(f))
                                   {
                                       exitPoints.Add(p);
                                   }
                                   return 1;
                               }, end, start);
+
+            Debug.Assert(entryPoints.Count == exitPoints.Count && entryPoints.Count == fixtures.Count);
 
             //Fixture containsEnd = world.TestPoint(end);
             //if (containsEnd != null)
@@ -219,61 +223,83 @@ namespace FarseerPhysics.Common.PolygonManipulation
             foreach (Body b in query) 
             {
 
-                if (b.BodyType == BodyType.Static)
+                if (b == null || b.BodyType == BodyType.Static)
                     continue;
 
                 List<Body> leftBodies = new List<Body>();
                 List<Body> rightBodies = new List<Body>();
                 //Body rightBody = new Body(world);
 
-                List<Joint> joints = new List<Joint>();
+                List<Joint> leftJoints = new List<Joint>();
+                List<Joint> rightJoints = new List<Joint>();
 
-                JointEdge je = b.JointList;
-                while (je != null)
+                foreach (Joint j in b.JointList)
                 {
-                    joints.Add(je.Joint);
-                    je = je.Next;
+                    if (isLeft(start, end, j.WorldAnchorA))
+                        leftJoints.Add(j);
+                    else
+                        rightJoints.Add(j);
                 }
 
                 //List<Fixture> leftList = new List<Fixture>();
                 //List<Fixture> rightList = new List<Fixture>();
+                Fixture[] bodyFixtures = new Fixture[b.FixtureList.Count];
+                b.FixtureList.CopyTo(bodyFixtures);
+                b.FixtureList.Clear();
+                //leftBodies.Add(b);
 
-
-                foreach (Fixture fix in b.FixtureList)
+                // For each fixture that was sliced through...
+                foreach (Fixture fix in (from f in bodyFixtures where fixtures.Contains(f) select f))
                 {
+                    
+                    
+                    int i = fixtures.IndexOf(fix);
 
-                    if (fixtures.Contains(fix))
+                    // split this in half and put the halves in the over/under lists
+                    Vertices first;
+                    Vertices second;
+                    SplitShape(fix, entryPoints[i], exitPoints[i], thickness, out first, out second);
+                    if (!SanityCheck(first) || !SanityCheck(second))
                     {
-                        int i = fixtures.IndexOf(fix);
-
-                        // split this in half and put the halves in the over/under lists
-                        Vertices first;
-                        Vertices second;
-                        SplitShape(fix, entryPoints[i], exitPoints[i], thickness, out first, out second);
-
-
-                        
-
-                        //Delete the original shape and create two new. Retain the properties of the body.
-                        if (SanityCheck(first))
-                        {
-                            PolygonShape shape = new PolygonShape(first, fix.Shape.Density);
-                            Fixture f = GlomFixture(world, b, leftBodies, shape, fix.UserData, joints);
-                        }
-
-                        if (SanityCheck(second))
-                        {
-                            PolygonShape shape = new PolygonShape(second, fix.Shape.Density);
-                            Fixture f = GlomFixture(world, b, rightBodies, shape, fix.UserData, joints);
-                        }
+                        continue;
                     }
-                    else if (isLeft(start, end, fix))
+                    PolygonShape leftShape = new PolygonShape(first, fix.Shape.Density);
+                    PolygonShape rightShape = new PolygonShape(second, fix.Shape.Density);
+
+                    if (!b.FixtureList.Any())
                     {
-                        GlomFixture(world, b, leftBodies, fix.Shape, fix.UserData, joints);
+                        if (leftShape.MassData.Area > rightShape.MassData.Area)
+                        {
+                            b.CreateFixture(leftShape, fix.UserData);
+                            leftBodies.Add(b);
+                            GlomFixture(world, b, rightBodies, rightShape, fix.UserData, rightJoints);
+                        }
+                        else
+                        {
+                            b.CreateFixture(rightShape, fix.UserData);
+                            rightBodies.Add(b);
+                            GlomFixture(world, b, leftBodies, leftShape, fix.UserData, leftJoints);
+                        }
                     }
                     else
                     {
-                        GlomFixture(world, b, rightBodies, fix.Shape, fix.UserData, joints);
+                        GlomFixture(world, b, leftBodies, leftShape, fix.UserData, leftJoints);
+                        GlomFixture(world, b, rightBodies, rightShape, fix.UserData, rightJoints);
+                    }
+
+                                      
+                }
+
+                // for each fixture that was NOT sliced through...
+                foreach (Fixture fix in (from f in bodyFixtures where !fixtures.Contains(f) select f)) {
+
+                    if (isLeft(start, end, fix))
+                    {
+                        GlomFixture(world, b, leftBodies, fix.Shape, fix.UserData, leftJoints);
+                    }
+                    else
+                    {
+                        GlomFixture(world, b, rightBodies, fix.Shape, fix.UserData, rightJoints);
                         //rightBody.CreateFixture(fix.Shape.Clone(), fix.UserData);
                     }
 
@@ -290,8 +316,13 @@ namespace FarseerPhysics.Common.PolygonManipulation
                     bod.Position = b.Position;
                 }
 
-                b.JointList = null;
-                world.RemoveBody(b);
+                //b.JointList = null;
+                //world.RemoveBody(b);
+
+                foreach (Fixture f in bodyFixtures)
+                {
+                    b.DestroyFixture(f);
+                }
                 world.ProcessChanges();
             }
 
@@ -319,7 +350,14 @@ namespace FarseerPhysics.Common.PolygonManipulation
                 }
             }
 
+            
+
             Body lb2 = new Body(world);
+            if (!thisSideBodies.Any())
+            {
+                transferJoints(oldBody, joints, lb2, null);
+            }
+
             lb2.Position = oldBody.Position;
             lb2.Rotation = oldBody.Rotation;
             thisSideBodies.Add(lb2);
@@ -330,16 +368,19 @@ namespace FarseerPhysics.Common.PolygonManipulation
 
         private static void transferJoints(Body oldBody, List<Joint> joints, Body lb, Fixture glommed)
         {
+            if (oldBody == lb) return;
+
             for (int i = joints.Count - 1; i >= 0; i--)
             {
                 Joint j = joints[i];
                 if (j.BodyA == oldBody)
                 {
                     Vector2 testPoint = new Vector2(j.WorldAnchorA.X, j.WorldAnchorA.Y);
-                    if (glommed.TestPoint(ref testPoint))
+                    if (glommed == null || glommed.TestPoint(ref testPoint))
                     {
-                        
+                        oldBody.JointList.Remove(j);
                         j.BodyA = lb;
+                        lb.JointList.Add(j);
                         //joints.RemoveAt(i);
 
                     }
@@ -347,9 +388,11 @@ namespace FarseerPhysics.Common.PolygonManipulation
                 else
                 {
                     Vector2 testPoint = new Vector2(j.WorldAnchorB.X, j.WorldAnchorB.Y);
-                    if (glommed.TestPoint(ref testPoint))
+                    if (glommed == null || glommed.TestPoint(ref testPoint))
                     {
+                        oldBody.JointList.Remove(j);
                         j.BodyB = lb;
+                        lb.JointList.Add(j);
                         //joints.RemoveAt(i);
                     }
                 }

@@ -82,7 +82,7 @@ namespace KinectRagdoll.Ragdoll
         public void Init(World w)
         {
             this.world = w;
-            _head.AfterCollision += HeadCollision;
+            _head.FixtureList[0].AfterCollision += HeadCollision;
             rand = new Random();
 
             foreach (AbstractEquipment e in equipment)
@@ -111,7 +111,7 @@ namespace KinectRagdoll.Ragdoll
             tick();
 
             //depthTexLoc = new Vector2(info.torso.X, info.torso.Y - .13f) * depthTex.Height * .5f + new Vector2(depthTex.Width / 2, depthTex.Height / 2); // this will need to be more complex
-            //depthTexRot = _body.Body.Rotation - info.Rotation;
+            //depthTexRot = _body.Rotation - info.Rotation;
             //depthTexScale = info.torso.Z * .035f;
 
             
@@ -170,9 +170,9 @@ namespace KinectRagdoll.Ragdoll
                 wakeTimer++;
                 if (wakeTimer == WAKE_TIME)
                 {
-                    foreach (Fixture f in _allFixtures)
+                    foreach (Body b in _allBodies)
                     {
-                        f.CollisionGroup = 0;
+                        b.CollisionGroup = 0;
                     }
                 }
             }
@@ -227,10 +227,10 @@ namespace KinectRagdoll.Ragdoll
             
 
             wakeTimer = 0;
-            foreach (Fixture f in _allFixtures)
+            foreach (Body b in _allBodies)
             {
-                if (f != _head)
-                    f.CollisionGroup = -1;
+                if (b != _head)
+                    b.CollisionGroup = -1;
             }
 
         }
@@ -242,13 +242,13 @@ namespace KinectRagdoll.Ragdoll
             if (asleep) return;
 
             float personAngle = (float)(Math.Atan2(vec.Y, vec.X) - Math.PI / 2);
-            float ragdollAngle = _body.Body.Rotation;
+            float ragdollAngle = _body.Rotation;
             float diff = MathHelp.getRadDiff(ragdollAngle, personAngle);
             float torque = 500;
             if (diff < 0) torque *= -1;
 
-            _body.Body.ApplyTorque(torque);
-            _body.Body.AngularDamping = 10f;
+            _body.ApplyTorque(torque);
+            _body.AngularDamping = 10f;
 
         }
 
@@ -310,28 +310,28 @@ namespace KinectRagdoll.Ragdoll
         {
             
             jLeftArm = new RevoluteJoint(
-                _lowerLeftArm.Body, _upperLeftArm.Body, new Vector2(0, 1), new Vector2(0, -1));
+                _lowerLeftArm, _upperLeftArm, new Vector2(0, 1), new Vector2(0, -1));
             jLeftArm.CollideConnected = false;
             jLeftArm.MotorEnabled = true;
             jLeftArm.ReferenceAngle = (float)Math.PI;
             world.AddJoint(jLeftArm);
 
             jLeftArmBody = new RevoluteJoint(
-                _upperLeftArm.Body, _body.Body, new Vector2(0, 1), new Vector2(-1, 1.5f));
+                _upperLeftArm, _body, new Vector2(0, 1), new Vector2(-1, 1.5f));
             jLeftArmBody.CollideConnected = false;
             jLeftArmBody.MotorEnabled = true;
             jLeftArmBody.ReferenceAngle = (float)Math.PI / 2;
             world.AddJoint(jLeftArmBody);
 
             jRightArm = new RevoluteJoint(
-                _lowerRightArm.Body, _upperRightArm.Body, new Vector2(0, 1), new Vector2(0, -1));
+                _lowerRightArm, _upperRightArm, new Vector2(0, 1), new Vector2(0, -1));
             jRightArm.CollideConnected = false;
             jRightArm.MotorEnabled = true;
             jRightArm.ReferenceAngle = (float)Math.PI;
             world.AddJoint(jRightArm);
 
             jRightArmBody = new RevoluteJoint(
-                _upperRightArm.Body, _body.Body, new Vector2(0, 1), new Vector2(1, 1.5f));
+                _upperRightArm, _body, new Vector2(0, 1), new Vector2(1, 1.5f));
             jRightArmBody.CollideConnected = false;
             jRightArmBody.MotorEnabled = true;
             jRightArmBody.ReferenceAngle = -(float)Math.PI / 2;
@@ -343,28 +343,28 @@ namespace KinectRagdoll.Ragdoll
 
         protected override void CreateLegJoints(World world)
         {
-            jLeftLeg = new RevoluteJoint(_lowerLeftLeg.Body, _upperLeftLeg.Body,
+            jLeftLeg = new RevoluteJoint(_lowerLeftLeg, _upperLeftLeg,
                                                        new Vector2(0, 1.1f), new Vector2(0, -1));
             jLeftLeg.CollideConnected = false;
             jLeftLeg.MotorEnabled = true;
             jLeftLeg.ReferenceAngle = (float)Math.PI;
             world.AddJoint(jLeftLeg);
 
-            jLeftLegBody = new RevoluteJoint(_upperLeftLeg.Body, _body.Body,
+            jLeftLegBody = new RevoluteJoint(_upperLeftLeg, _body,
                                                            new Vector2(0, 1.1f), new Vector2(-0.8f, -1.9f));
             jLeftLegBody.CollideConnected = false;
             jLeftLegBody.MotorEnabled = true;
             jLeftLegBody.ReferenceAngle = -(float)Math.PI / 2;
             world.AddJoint(jLeftLegBody);
 
-            jRightLeg = new RevoluteJoint(_lowerRightLeg.Body, _upperRightLeg.Body,
+            jRightLeg = new RevoluteJoint(_lowerRightLeg, _upperRightLeg,
                                                         new Vector2(0, 1.1f), new Vector2(0, -1));
             jRightLeg.CollideConnected = false;
             jRightLeg.MotorEnabled = true;
             jRightLeg.ReferenceAngle = (float)Math.PI;
             world.AddJoint(jRightLeg);
 
-            jRightLegBody = new RevoluteJoint(_upperRightLeg.Body, _body.Body,
+            jRightLegBody = new RevoluteJoint(_upperRightLeg, _body,
                                                             new Vector2(0, 1.1f), new Vector2(0.8f, -1.9f));
             jRightLegBody.CollideConnected = false;
             jRightLegBody.MotorEnabled = true;
@@ -403,7 +403,7 @@ namespace KinectRagdoll.Ragdoll
             //if (depthTex != null && !asleep)
             //{
                 
-            //    sb.Draw(depthTex, _body.Body.Position, null, new Color(1, 1, 1, .1f), depthTexRot, depthTexLoc, depthTexScale, SpriteEffects.FlipVertically, 0);
+            //    sb.Draw(depthTex, _body.Position, null, new Color(1, 1, 1, .1f), depthTexRot, depthTexLoc, depthTexScale, SpriteEffects.FlipVertically, 0);
 
                
             //}

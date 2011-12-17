@@ -105,8 +105,8 @@ namespace KinectRagdoll.Rules
         {
             
 
-            ragdollPixel = game.projectionHelper.FarseerToPixel(game.ragdollManager.ragdoll.Body.Position);
-            mePixel = game.projectionHelper.FarseerToPixel(fixture.Body.Position);
+            ragdollPixel = ProjectionHelper.FarseerToPixel(game.ragdollManager.ragdoll.Body.Position);
+            mePixel = ProjectionHelper.FarseerToPixel(fixture.Body.Position);
 
             //if (RagdollToMe().Length() < radius)
             //{

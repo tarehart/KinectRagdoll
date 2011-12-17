@@ -89,7 +89,7 @@ namespace KinectRagdoll.Sandbox
 
             if (inputHelper.IsNewKeyPress(Keys.V) && inputHelper.IsKeyDown(Keys.LeftControl))
             {
-                FormManager.Property.PasteSelected(game.projectionHelper.PixelToFarseer(inputHelper.MousePosition));
+                FormManager.Property.PasteSelected(ProjectionHelper.PixelToFarseer(inputHelper.MousePosition));
             }
 
             if (inputHelper.IsNewKeyPress(Keys.Space))
@@ -132,7 +132,7 @@ namespace KinectRagdoll.Sandbox
 
             if (inputHelper.IsNewKeyPress(Keys.I))
             {
-                game.farseerManager.Explosion(game.projectionHelper.PixelToFarseer(inputHelper.MousePosition));
+                game.farseerManager.Explosion(ProjectionHelper.PixelToFarseer(inputHelper.MousePosition));
             }
 
             if (inputHelper.IsNewKeyPress(Keys.F11))

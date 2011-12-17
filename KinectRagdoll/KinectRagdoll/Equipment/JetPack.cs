@@ -10,6 +10,8 @@ using KinectRagdoll.MyMath;
 using KinectRagdoll.Ragdoll;
 using System.Timers;
 using System.Runtime.Serialization;
+using ProjectMercury.Emitters;
+using KinectRagdoll.Sandbox;
 
 namespace KinectRagdoll.Equipment
 {
@@ -74,14 +76,14 @@ namespace KinectRagdoll.Equipment
 
         protected virtual void ragdoll_KnockOut(object sender, EventArgs e)
         {
-            //ragdoll._body.Body.LinearDamping = 0;
+            //ragdoll._body.LinearDamping = 0;
             StopThrust();
-            //ragdoll._body.Body.AngularDamping = 0;
+            //ragdoll._body.AngularDamping = 0;
         }
 
         //void ragdoll_WakeUp(object sender, EventArgs e)
         //{
-        //    ragdoll._body.Body.LinearDamping = slowDamping;
+        //    ragdoll._body.LinearDamping = slowDamping;
         //}
 
         
@@ -116,11 +118,13 @@ namespace KinectRagdoll.Equipment
         {
             if (thrustOn && !ragdoll.asleep)
             {
+
+            
                 drawLimbThrust(ragdoll._lowerLeftLeg, sb, thrust);
                 drawLimbThrust(ragdoll._lowerRightLeg, sb, thrust);
                 drawLimbThrust(ragdoll._lowerLeftArm, sb, thrust);
                 drawLimbThrust(ragdoll._lowerRightArm, sb, thrust);
-
+                
             }
         }
 
@@ -135,24 +139,30 @@ namespace KinectRagdoll.Equipment
             applyLimbThrust(ragdoll._lowerLeftArm, Math.PI / 2, 4f * armThrust);
         }
 
-        private void applyLimbThrust(Fixture limb, double angleOffset, float thrustFactor)
+        private void applyLimbThrust(Body limb, double angleOffset, float thrustFactor)
         {
-            float rot = limb.Body.Rotation + (float)angleOffset;
+            float rot = limb.Rotation + (float)angleOffset;
             Vector2 vec = new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot));
-            limb.Body.ApplyLinearImpulse(vec * thrustFactor);
+            limb.ApplyLinearImpulse(vec * thrustFactor);
 
         }
 
-        public void drawLimbThrust(Fixture limb, SpriteBatch sb, float thrustFactor)
+        public void drawLimbThrust(Body limb, SpriteBatch sb, float thrustFactor)
         {
 
-            Vector2 limbLoc = limb.Body.Position;
-            float rot = limb.Body.Rotation + (float)Math.PI / 2;
+            Vector2 limbLoc = limb.Position;
+            float rot = limb.Rotation + (float)Math.PI / 2;
             Vector2 vec = new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot));
-            SpriteEffects effect = SpriteEffects.None;
-            if (rand.Next(2) == 0) effect = SpriteEffects.FlipHorizontally;
-            sb.Draw(RagdollManager.thrustTex, limbLoc - vec * 1.5f, null, Color.White, limb.Body.Rotation + (float)Math.PI, new Vector2(64, 64), .012f * thrustFactor, effect, 0);
+            //SpriteEffects effect = SpriteEffects.None;
+            //if (rand.Next(2) == 0) effect = SpriteEffects.FlipHorizontally;
+            //sb.Draw(RagdollManager.thrustTex, limbLoc - vec * 1.5f, null, Color.White, limb.Body.Rotation + (float)Math.PI, new Vector2(64, 64), .012f * thrustFactor, effect, 0);
 
+            Vector2 screenLoc = ProjectionHelper.FarseerToPixel(limbLoc - vec * 1.5f);
+            vec.X *= -1;
+            ParticleEffectManager.flameEffect[0].ReleaseImpulse = vec * 500 * thrustFactor;
+            ParticleEffectManager.flameEffect[0].ReleaseScale.Value = 70 * thrustFactor + 30;
+            ParticleEffectManager.flameEffect.Trigger(screenLoc);
+            
         }
 
         protected virtual void StartThrust()
@@ -164,7 +174,7 @@ namespace KinectRagdoll.Equipment
 
 
             //postThrustTimer = POST_THRUST_TIME;
-            //ragdoll._body.Body.LinearDamping = slowDamping;
+            //ragdoll._body.LinearDamping = slowDamping;
 
         }
 
@@ -184,7 +194,7 @@ namespace KinectRagdoll.Equipment
 
 
         //    postThrustTimer = POST_THRUST_TIME;
-        //    ragdoll._body.Body.LinearDamping = slowDamping;
+        //    ragdoll._body.LinearDamping = slowDamping;
         //}
 
         protected virtual void StopThrust()

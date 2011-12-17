@@ -134,10 +134,10 @@ namespace FarseerPhysics.Dynamics.Joints
         [DataMember()]
         public float Breakpoint = float.MaxValue;
 
-        [DataMember()]
-        internal JointEdge EdgeA = new JointEdge();
-        [DataMember()]
-        internal JointEdge EdgeB = new JointEdge();
+        //[DataMember()]
+        //internal JointEdge EdgeA = new JointEdge();
+        //[DataMember()]
+        //internal JointEdge EdgeB = new JointEdge();
         
         [DataMember()]
         public bool Enabled = true;
@@ -254,6 +254,13 @@ namespace FarseerPhysics.Dynamics.Joints
             {
                 BodyB.Awake = true;
             }
+        }
+
+        public Body other(Body b)
+        {
+            if (b == BodyA) return BodyB;
+            if (b == BodyB) return BodyA;
+            return null;
         }
 
         /// <summary>

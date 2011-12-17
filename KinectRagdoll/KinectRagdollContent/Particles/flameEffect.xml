@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="ProjectMercury.ParticleEffect">
+    <Item>
+      <Name>flame</Name>
+      <Budget>5000</Budget>
+      <Term>0.3</Term>
+      <ReleaseQuantity>3</ReleaseQuantity>
+      <Enabled>True</Enabled>
+      <ReleaseSpeed>
+        <Value>70</Value>
+        <Variation>50</Variation>
+      </ReleaseSpeed>
+      <ReleaseColour>
+        <Value>1 0.5019608 0</Value>
+        <Variation>0 0 0</Variation>
+      </ReleaseColour>
+      <ReleaseOpacity>
+        <Value>1</Value>
+        <Variation>0</Variation>
+      </ReleaseOpacity>
+      <ReleaseScale>
+        <Value>50</Value>
+        <Variation>20</Variation>
+      </ReleaseScale>
+      <ReleaseRotation>
+        <Value>0</Value>
+        <Variation>0</Variation>
+      </ReleaseRotation>
+      <ReleaseImpulse>0 500</ReleaseImpulse>
+      <ParticleTextureAssetName>Particle005</ParticleTextureAssetName>
+      <Modifiers>
+        <Item Type="ProjectMercury.Modifiers.ColourInterpolatorModifier">
+          <InitialColour>0.3 0.3 1</InitialColour>
+          <MiddleColour>1 0.5019608 0</MiddleColour>
+          <MiddlePosition>0.5</MiddlePosition>
+          <FinalColour>0.2509804 0.2509804 0.2509804</FinalColour>
+        </Item>
+      </Modifiers>
+      <BlendMode>Add</BlendMode>
+      <TriggerOffset>0 0</TriggerOffset>
+      <MinimumTriggerPeriod>0</MinimumTriggerPeriod>
+    </Item>
+    <Name>Particle Effect</Name>
+    <Author />
+    <Description />
+  </Asset>
+</XnaContent>

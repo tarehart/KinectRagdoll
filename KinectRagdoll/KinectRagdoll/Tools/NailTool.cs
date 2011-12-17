@@ -28,7 +28,7 @@ namespace KinectRagdoll.Tools
 
             if (input.IsNewButtonPress(MouseButtons.LeftButton))
             {
-                Vector2 position = game.projectionHelper.PixelToFarseer(input.MousePosition);
+                Vector2 position = ProjectionHelper.PixelToFarseer(input.MousePosition);
 
 
 

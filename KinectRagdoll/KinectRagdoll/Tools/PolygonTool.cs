@@ -35,7 +35,7 @@ namespace KinectRagdoll.Tools
             if (input.IsNewButtonPress(MouseButtons.LeftButton))
             {
 
-                Vector2 position = game.projectionHelper.PixelToFarseer(input.MousePosition);
+                Vector2 position = ProjectionHelper.PixelToFarseer(input.MousePosition);
 
                 if (polyPoints.Count > 1) // see if this closes the loop
                 {
@@ -103,13 +103,13 @@ namespace KinectRagdoll.Tools
 
                 while (b != null)
                 {
-                    SpriteHelper.DrawLine(sb, game.projectionHelper.FarseerToPixel(a.Value), game.projectionHelper.FarseerToPixel(b.Value), 2f, Color.Black);
+                    SpriteHelper.DrawLine(sb, ProjectionHelper.FarseerToPixel(a.Value), ProjectionHelper.FarseerToPixel(b.Value), 2f, Color.Black);
 
                     a = b;
                     b = b.Next;
                 }
 
-                SpriteHelper.DrawLine(sb, game.projectionHelper.FarseerToPixel(a.Value), game.inputManager.inputHelper.MousePosition, 2f, Color.Blue);
+                SpriteHelper.DrawLine(sb, ProjectionHelper.FarseerToPixel(a.Value), game.inputManager.inputHelper.MousePosition, 2f, Color.Blue);
             }
 
             
