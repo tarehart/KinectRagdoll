@@ -28,19 +28,30 @@ namespace KinectRagdoll.Music
             playlist.Add("Amazing Plan", Content.Load<Song>("Music\\AmazingPlan"));
             playlist.Add("Fig Leaf Rag", Content.Load<Song>("Music\\FigLeafRag"));
             playlist.Add("Dark Hallway", Content.Load<Song>("Music\\DarkHallway"));
+            playlist.Add("Clay", Content.Load<Song>("Music\\madeofclay"));
 
 
         }
 
         public static void Play(String song)
         {
+            StartMusic(song, false);
+        }
+
+        public static void Loop(String song)
+        {
+            StartMusic(song, true);
+        }
+
+        private static void StartMusic(String song, bool loop)
+        {
             Song newSong;
+            MediaPlayer.Stop();
             if (playlist.TryGetValue(song, out newSong))
             {
-                MediaPlayer.Stop();
+                MediaPlayer.IsRepeating = loop;
                 MediaPlayer.Play(newSong);
             }
-
         }
 
         internal static void Stop()

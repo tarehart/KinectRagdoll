@@ -98,6 +98,12 @@ namespace KinectRagdoll.Kinect
 
         public void LoadWorld(String filename)
         {
+            foreach (Body b in world.BodyList)
+            {
+                b.Dispose();
+            }
+            world.ProcessChanges();
+
 
             SaveFile sf = Serializer.readFromDataContract(filename);
             world = new World(sf.gravity);
@@ -179,7 +185,7 @@ namespace KinectRagdoll.Kinect
             
         }
 
-        public void DrawBasics(ref Matrix view)
+        public void DrawPhysicsObjects(ref Matrix view)
         {
 
             if (world.Enabled)
@@ -221,7 +227,8 @@ namespace KinectRagdoll.Kinect
 
         internal void setProjection(Matrix farseerProjection)
         {
-            projection = farseerProjection * Matrix.CreateScale(1, -1, 1);
+            //projection = farseerProjection * Matrix.CreateScale(1, -1, 1);
+            projection = farseerProjection;
         }
 
         internal void Pause()

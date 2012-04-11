@@ -22,8 +22,8 @@ namespace KinectRagdoll.Music
         public static SoundEffect guitarLoop;
         private SoundEffectInstance guitarInstance;
 
-        public static SoundEffect scratchLoop;
-        private SoundEffectInstance scratchInstance;
+        //public static SoundEffect scratchLoop;
+        //private SoundEffectInstance scratchInstance;
 
         private List<SoundEffectInstance> instances = new List<SoundEffectInstance>();
 
@@ -40,7 +40,7 @@ namespace KinectRagdoll.Music
             drumLoop = content.Load<SoundEffect>("Music\\drumloop");
             drumLoop2 = content.Load<SoundEffect>("Music\\drumloop2");
             guitarLoop = content.Load<SoundEffect>("Music\\guitarloop");
-            scratchLoop = content.Load<SoundEffect>("Music\\scratchloop");
+            //scratchLoop = content.Load<SoundEffect>("Music\\scratchloop");
 
         }
 
@@ -58,8 +58,8 @@ namespace KinectRagdoll.Music
             guitarInstance = guitarLoop.CreateInstance();
             instances.Add(guitarInstance);
 
-            scratchInstance = scratchLoop.CreateInstance();
-            instances.Add(scratchInstance);
+            //scratchInstance = scratchLoop.CreateInstance();
+            //instances.Add(scratchInstance);
 
             foreach (SoundEffectInstance ins in instances)
             {
@@ -85,12 +85,12 @@ namespace KinectRagdoll.Music
 
             Vector3 rightHand = info.LocationToGestureSpace(info.rightHand);
             Vector3 lefthand = info.LocationToGestureSpace(info.leftHand);
-            Vector3 rightFoot = info.LocationToGestureSpace(info.rightFoot);
+            //Vector3 rightFoot = info.LocationToGestureSpace(info.rightFoot);
             
             drumInstance.Volume = MathHelper.Clamp(info.rightWristVel.Length() * .8f - .2f, 0, 1);
             drumInstance2.Volume = MathHelper.Clamp(info.leftWristVel.Length() * .8f - .2f, 0, 1);
             guitarInstance.Volume = MathHelper.Clamp(rightHand.Y + lefthand.Y + .3f, 0, 1);
-            scratchInstance.Volume = MathHelper.Clamp((rightFoot.Y + .6f) * 2, 0, 1);
+            //scratchInstance.Volume = MathHelper.Clamp((rightFoot.Y + .6f) * 2, 0, 1);
 
         }
 

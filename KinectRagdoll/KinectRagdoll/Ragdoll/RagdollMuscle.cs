@@ -38,7 +38,6 @@ namespace KinectRagdoll.Ragdoll
         private const int WAKE_TIME = 40;
         private const int KNOCK_OUT_HIT = 120;
 
-        public BodySound bodySound;
 
         
         private World world;
@@ -79,7 +78,7 @@ namespace KinectRagdoll.Ragdoll
 
        
 
-        public void Init(World w)
+        public virtual void Init(World w)
         {
             this.world = w;
             _head.FixtureList[0].AfterCollision += HeadCollision;
@@ -90,8 +89,7 @@ namespace KinectRagdoll.Ragdoll
                 e.Init(this);
             }
 
-            bodySound = new BodySound();
-            bodySound.Start();
+            
             //equipment = new List<AbstractEquipment>();
             //equipment.Add(new StabilizedJetpack(this));
             //equipment.Add(new PunchGuns(world, 20, this));
@@ -105,8 +103,6 @@ namespace KinectRagdoll.Ragdoll
         {
 
             base.Update(info);
-
-            bodySound.Update(info);
 
             tick();
 
@@ -170,7 +166,7 @@ namespace KinectRagdoll.Ragdoll
                 wakeTimer++;
                 if (wakeTimer == WAKE_TIME)
                 {
-                    foreach (Body b in _allBodies)
+                    foreach (Body b in AllBodies)
                     {
                         b.CollisionGroup = 0;
                     }
@@ -185,7 +181,7 @@ namespace KinectRagdoll.Ragdoll
         public event EventHandler KnockOut;
         public event EventHandler WakeUp;
 
-        private void knockOut()
+        protected virtual void knockOut()
         {
             if (!asleep)
                 RagdollManager.crackSound.Play();
@@ -204,11 +200,9 @@ namespace KinectRagdoll.Ragdoll
             if (KnockOut != null)
                 KnockOut(this, null);
 
-            bodySound.Stop();
-           
         }
 
-        private void wakeUp()
+        protected virtual void wakeUp()
         {
             asleep = false;
             jRightArm.MotorEnabled = true;
@@ -223,11 +217,8 @@ namespace KinectRagdoll.Ragdoll
             if (WakeUp != null)
                 WakeUp(this, null);
 
-            bodySound.Start();
-            
-
             wakeTimer = 0;
-            foreach (Body b in _allBodies)
+            foreach (Body b in AllBodies)
             {
                 if (b != _head)
                     b.CollisionGroup = -1;
@@ -244,11 +235,11 @@ namespace KinectRagdoll.Ragdoll
             float personAngle = (float)(Math.Atan2(vec.Y, vec.X) - Math.PI / 2);
             float ragdollAngle = _body.Rotation;
             float diff = MathHelp.getRadDiff(ragdollAngle, personAngle);
-            float torque = 500;
+            float torque = 800;
             if (diff < 0) torque *= -1;
 
             _body.ApplyTorque(torque);
-            _body.AngularDamping = 10f;
+            _body.AngularDamping = 20f;
 
         }
 

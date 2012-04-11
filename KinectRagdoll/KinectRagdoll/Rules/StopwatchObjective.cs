@@ -17,17 +17,11 @@ namespace KinectRagdoll.Rules
     [DataContract(Name = "StopwatchObjective", Namespace = "http://www.imcool.com")]
     public class StopwatchObjective : Objective
     {
-
-        //private Vector2 location;
-        //private float radius;
-        //private Color color;
         private Stopwatch stopwatch;
         private Vector2 ragdollPixel;
         private Vector2 mePixel;
         [DataMember()]
         internal Fixture fixture;
-        //public DebugMaterial oldMaterial;
-
 
         public override Objective.ObjectiveState State
         {
@@ -54,8 +48,6 @@ namespace KinectRagdoll.Rules
             : base(g)
         {
             this.fixture = f;
-            //oldMaterial = f.UserData;
-            
 
             FarseerTextures.ApplyTexture(f, FarseerTextures.TextureType.Objective);
 
@@ -89,6 +81,7 @@ namespace KinectRagdoll.Rules
 
         public override void Begin()
         {
+            if (fixture.Body == null || fixture.Body.FixtureList == null) return;
             stopwatch.Start();
             State = ObjectiveState.Running;
  	        base.Begin();
@@ -108,12 +101,6 @@ namespace KinectRagdoll.Rules
             ragdollPixel = ProjectionHelper.FarseerToPixel(game.ragdollManager.ragdoll.Body.Position);
             mePixel = ProjectionHelper.FarseerToPixel(fixture.Body.Position);
 
-            //if (RagdollToMe().Length() < radius)
-            //{
-            //    stopwatch.Stop();
-            //    Complete = true;
-            //}
-
             base.Update();
         }
 
@@ -124,8 +111,6 @@ namespace KinectRagdoll.Rules
             {
                 DrawArrowToSelf(sb);
             }
-
-            //DrawTargetArea(sb);
 
             base.Draw(sb);
         }
@@ -142,13 +127,7 @@ namespace KinectRagdoll.Rules
             if (State == ObjectiveState.Running) c = Color.Orange;
 
             SpriteHelper.DrawArrow(sb, ragdollPixel + toMeNorm * 100, ragdollPixel + toMeNorm * 200, c);
-                
-            
 
-            //if (stopwatch.IsRunning || Complete)
-            //{
-            //    SpriteHelper.DrawText(sb, ragdollPixel + toMeNorm * 200 + new Vector2(-100, -30), "" + stopwatch.ElapsedMilliseconds / 1000f, c);
-            //}
         }
 
         private Vector2 RagdollToMe()
@@ -157,9 +136,10 @@ namespace KinectRagdoll.Rules
             return mePixel - ragdollPixel;
         }
 
-        //private void DrawTargetArea(SpriteBatch sb)
-        //{
-        //    SpriteHelper.DrawCircle(sb, mePixel, radius, color);
-        //}
+        public override bool IsDead()
+        {
+            return fixture.Body == null || fixture.Body.FixtureList == null;
+        }
+
     }
 }

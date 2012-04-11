@@ -9,7 +9,7 @@ namespace KinectRagdoll.Rules
 {
     [DataContract(Name = "Objective", Namespace = "http://www.imcool.com")]
     [KnownType(typeof(StopwatchObjective))] 
-    public class Objective
+    public abstract class Objective
     {
         protected KinectRagdollGame game;
         //public State state = State.Off;
@@ -62,6 +62,8 @@ namespace KinectRagdoll.Rules
         {
 
         }
+
+        public abstract bool IsDead();
 
         //public bool Complete { get; set; }
     }

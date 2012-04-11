@@ -4,12 +4,12 @@
     <Item>
       <Name>flame</Name>
       <Budget>5000</Budget>
-      <Term>0.3</Term>
+      <Term>0.2</Term>
       <ReleaseQuantity>3</ReleaseQuantity>
       <Enabled>True</Enabled>
       <ReleaseSpeed>
-        <Value>70</Value>
-        <Variation>50</Variation>
+        <Value>0</Value>
+        <Variation>1</Variation>
       </ReleaseSpeed>
       <ReleaseColour>
         <Value>1 0.5019608 0</Value>
@@ -20,8 +20,8 @@
         <Variation>0</Variation>
       </ReleaseOpacity>
       <ReleaseScale>
-        <Value>50</Value>
-        <Variation>20</Variation>
+        <Value>5</Value>
+        <Variation>2</Variation>
       </ReleaseScale>
       <ReleaseRotation>
         <Value>0</Value>

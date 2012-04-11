@@ -154,6 +154,13 @@ namespace FarseerPhysics.Common.PolygonManipulation
             return Vector2.Dot(MathUtils.Cross(b - a, 1), c - a) > Settings.Epsilon;
         }
 
+        public struct RayCastResult
+        {
+            public Fixture f;
+            public float fr;
+            public Vector2 p;
+        }
+
         /// <summary>
         /// This is a high-level function to cuts fixtures inside the given world, using the start and end points.
         /// Note: We don't support cutting when the start or end is inside a shape.
@@ -162,7 +169,7 @@ namespace FarseerPhysics.Common.PolygonManipulation
         /// <param name="start">The startpoint.</param>
         /// <param name="end">The endpoint.</param>
         /// <param name="thickness">The thickness of the cut</param>
-        public static void Cut(World world, Vector2 start, Vector2 end, float thickness)
+        public static Vector2 Cut(World world, Vector2 start, Vector2 end, float thickness, Category collisionCategories = Category.None)
         {
 
             // The left side of the cut will remain part of the existing body;
@@ -172,6 +179,12 @@ namespace FarseerPhysics.Common.PolygonManipulation
             List<Vector2> entryPoints = new List<Vector2>();
             List<Vector2> exitPoints = new List<Vector2>();
 
+
+
+            List<RayCastResult> results = new List<RayCastResult>();
+            //float blockingFraction = float.MaxValue;
+            Vector2 stoppingPoint = end;
+
             //We don't support cutting when the start or end is inside a shape.
             //if (world.TestPoint(start) != null || world.TestPoint(end) != null)
             //    return;
@@ -179,13 +192,35 @@ namespace FarseerPhysics.Common.PolygonManipulation
             //Get the entry points
             world.RayCast((f, p, n, fr) =>
                               {
-                                  if (!f.TestPoint(ref end))
-                                  {
-                                      fixtures.Add(f);
-                                      entryPoints.Add(p);
-                                  }
+                                  RayCastResult r = new RayCastResult();
+                                  r.f = f;
+                                  r.p = p;
+                                  r.fr = fr;
+                                  results.Add(r);
+
                                   return 1;
+                                 
                               }, start, end);
+
+
+            results = results.OrderBy(p => p.fr).ToList();
+
+            foreach (RayCastResult r in results)
+            {
+                if ((r.f.CollisionCategories & collisionCategories) != Category.None)
+                {
+                    stoppingPoint = r.p;
+                    break;
+                }
+                if (!r.f.TestPoint(ref end))
+                {
+                    if (world.FixtureCut != null)
+                        world.FixtureCut(r.f);
+                    fixtures.Add(r.f);
+                    entryPoints.Add(r.p);
+                }
+            }
+
 
             //Reverse the ray to get the exitpoints
             world.RayCast((f, p, n, fr) =>
@@ -214,7 +249,7 @@ namespace FarseerPhysics.Common.PolygonManipulation
 
             //We only have a single point. We need at least 2
             if (entryPoints.Count + exitPoints.Count < 2)
-                return;
+                return stoppingPoint;
 
             var query =
                 (from fix in fixtures
@@ -325,6 +360,8 @@ namespace FarseerPhysics.Common.PolygonManipulation
                 }
                 world.ProcessChanges();
             }
+
+            return stoppingPoint;
 
         }
 

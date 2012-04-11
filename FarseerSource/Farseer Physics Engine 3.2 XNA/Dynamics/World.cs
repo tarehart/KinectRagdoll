@@ -190,6 +190,8 @@ namespace FarseerPhysics.Dynamics
         /// </summary>
         public FixtureDelegate FixtureRemoved;
 
+        public FixtureDelegate FixtureCut;
+
         internal WorldFlags Flags;
 
         /// <summary>

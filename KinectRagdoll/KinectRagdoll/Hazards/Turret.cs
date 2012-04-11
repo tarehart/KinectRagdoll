@@ -88,6 +88,7 @@ namespace KinectRagdoll.Hazards
         {
             world = w;
             target = r.ragdoll;
+            body.setWorld(w);
 
 
             IsOperational = true;
@@ -104,7 +105,7 @@ namespace KinectRagdoll.Hazards
         public override void Update()
         {
 
-            if (pivot.Body == null)
+            if (body == null || body.FixtureList == null)
             {
                 IsOperational = false;
             } 

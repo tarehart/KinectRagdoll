@@ -110,7 +110,8 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
-    <Reference Include="ProjectMercury">
+    <Reference Include="ProjectMercury, Version=3.1.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ProjectMercury.dll</HintPath>
     </Reference>
     <Reference Include="System">
@@ -137,6 +138,7 @@
   <ItemGroup>
     <Compile Include="Drawing\SpriteHelper.cs" />
     <Compile Include="Equipment\AbstractEquipment.cs" />
+    <Compile Include="Equipment\BubbleShield.cs" />
     <Compile Include="Equipment\Flappers.cs" />
     <Compile Include="Equipment\GrabHands.cs" />
     <Compile Include="Equipment\JetPack.cs" />
@@ -156,6 +158,7 @@
     <Compile Include="Equipment\WristVelocityEquipment.cs" />
     <Compile Include="MyMath\MathHelp.cs" />
     <Compile Include="Powerups\PowerupManager.cs" />
+    <Compile Include="Ragdoll\RagdollSound.cs" />
     <Compile Include="Rules\Objective.cs" />
     <Compile Include="Rules\ObjectiveManager.cs" />
     <Compile Include="Rules\StopwatchObjective.cs" />

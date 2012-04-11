@@ -63,7 +63,7 @@ namespace KinectRagdoll.Ragdoll
         internal RevoluteJoint jLeftLegBody;
 
         [DataMember()]
-        protected List<Body> _allBodies;
+        public List<Body> AllBodies;
 
         //protected World world;
 
@@ -182,7 +182,7 @@ namespace KinectRagdoll.Ragdoll
 
         public void Throw(Vector2 velocity)
         {
-            foreach (Body b in _allBodies)
+            foreach (Body b in AllBodies)
             {
                 b.LinearVelocity = velocity;
             }
@@ -327,17 +327,17 @@ namespace KinectRagdoll.Ragdoll
             
 
 
-            _allBodies = new List<Body>();
-            _allBodies.Add(_body);
-            _allBodies.Add(_head);
-            _allBodies.Add(_lowerLeftArm);
-            _allBodies.Add(_lowerLeftLeg);
-            _allBodies.Add(_lowerRightArm);
-            _allBodies.Add(_lowerRightLeg);
-            _allBodies.Add(_upperLeftArm);
-            _allBodies.Add(_upperLeftLeg);
-            _allBodies.Add(_upperRightArm);
-            _allBodies.Add(_upperRightLeg);
+            AllBodies = new List<Body>();
+            AllBodies.Add(_body);
+            AllBodies.Add(_head);
+            AllBodies.Add(_lowerLeftArm);
+            AllBodies.Add(_lowerLeftLeg);
+            AllBodies.Add(_lowerRightArm);
+            AllBodies.Add(_lowerRightLeg);
+            AllBodies.Add(_upperLeftArm);
+            AllBodies.Add(_upperLeftLeg);
+            AllBodies.Add(_upperRightArm);
+            AllBodies.Add(_upperRightLeg);
 
            
         }
@@ -417,7 +417,7 @@ namespace KinectRagdoll.Ragdoll
 
         public bool OwnsFixture(Fixture f)
         {
-            foreach (Body b in _allBodies)
+            foreach (Body b in AllBodies)
             {
                 if (b.FixtureList.Contains(f))
                     return true;
@@ -427,7 +427,7 @@ namespace KinectRagdoll.Ragdoll
 
         internal bool OwnsBody(Body b)
         {
-            return _allBodies.Contains(b);
+            return AllBodies.Contains(b);
         }
 
         public Vector2 Position { get { return Body.Position; } }

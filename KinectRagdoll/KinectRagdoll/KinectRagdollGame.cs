@@ -29,7 +29,6 @@ namespace KinectRagdoll
         public ActionCenter actionCenter;
         public RagdollManager ragdollManager;
         public Toolbox toolbox;
-        //public SpriteHelper spriteHelper;
         public ObjectiveManager objectiveManager;
         public PowerupManager powerupManager;
         public Jukebox jukebox;
@@ -39,15 +38,11 @@ namespace KinectRagdoll
         GraphicsDeviceManager graphics;
         Color bkColor;
         SpriteBatch spriteBatch;
-        Matrix viewMatrix;
-        Matrix projectionMatrix;
         Matrix worldMatrix;
         Matrix farseerProjection;
         Matrix farseerView;
-        BasicEffect basicEffect;
-        BasicEffect farseerEffect;
-        VertexDeclaration vertexDeclaration;
-
+        Matrix spriteBatchProjection;
+        Matrix spriteBatchTransformation;
 
         public static List<Action> pendingUpdates = new List<Action>();
 
@@ -87,7 +82,7 @@ namespace KinectRagdoll
             powerupManager = new PowerupManager(ragdollManager, farseerManager);
             jukebox = new Jukebox();
             hazardManager = new HazardManager(farseerManager, ragdollManager);
-            particleEffectManager = new ParticleEffectManager(graphics);
+            particleEffectManager = new ParticleEffectManager(graphics, ref farseerProjection);
 
             toolbox = new Toolbox(this);
 
@@ -113,69 +108,18 @@ namespace KinectRagdoll
 
         private void InitializeTransform()
         {
-
             worldMatrix = Matrix.Identity;
-            viewMatrix = Matrix.CreateLookAt(new Vector3(5, 5, 5), Vector3.Zero, Vector3.Up);
-
-
-
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
-                MathHelper.ToRadians(45),  // 45 degree angle
-                (float)GraphicsDevice.Viewport.Width /
-                (float)GraphicsDevice.Viewport.Height,
-                1.0f, 100.0f);
-
-
             farseerView = Matrix.Identity;
-            farseerProjection = Matrix.CreateOrthographicOffCenter(-25 * GraphicsDevice.Viewport.AspectRatio,
-                                                            25 * GraphicsDevice.Viewport.AspectRatio, 25, -25, 0, 1);
-
-            
-            farseerManager.setProjection(farseerProjection);
-            ProjectionHelper.Init(GraphicsDevice.Viewport, farseerProjection * Matrix.CreateScale(1, -1, 1));
-
-        
-
-
+            ResetTransform();
         }
 
-        private void InitializeEffect()
-        {
+        private void ResetTransform() {
 
-            vertexDeclaration = new VertexDeclaration(new VertexElement[]
-                {
-                    new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
-                    new VertexElement(12, VertexElementFormat.Vector3, VertexElementUsage.Normal, 0),
-                    new VertexElement(24, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0)
-                }
-            );
+            farseerProjection = getFarseerProjection();
+            spriteBatchProjection = farseerProjection * Matrix.Invert(getScreenProjection());
 
-            farseerEffect = new BasicEffect(graphics.GraphicsDevice);
-            
-
-
-            farseerEffect.Projection = farseerProjection;
-            farseerEffect.View = farseerView;
-
-            
-            basicEffect = new BasicEffect(graphics.GraphicsDevice);
-
-
-            basicEffect.AmbientLightColor = new Vector3(0.1f, 0.1f, 0.1f);
-            basicEffect.DiffuseColor = new Vector3(1.0f, 1.0f, 1.0f);
-            basicEffect.SpecularColor = new Vector3(0.25f, 0.25f, 0.25f);
-            basicEffect.SpecularPower = 5.0f;
-            basicEffect.Alpha = 1.0f;
-
-            basicEffect.DirectionalLight0.Enabled = true;
-            basicEffect.DirectionalLight0.Direction = new Vector3(0, 0, -1);
-
-            basicEffect.LightingEnabled = true;
-            basicEffect.TextureEnabled = false;
-
-            basicEffect.View = viewMatrix;
-            basicEffect.Projection = projectionMatrix;
-
+            farseerManager.setProjection(farseerProjection);
+            ProjectionHelper.Init(GraphicsDevice.Viewport, farseerProjection);
         }
 
         /// <summary>
@@ -199,17 +143,12 @@ namespace KinectRagdoll
             particleEffectManager.LoadContent(Content);
 
             InitializeTransform();
-            InitializeEffect();
-            
             
             kinectManager.InitKinect();
-            //kinectManager.initDepthTex();
 
-            //ragdollManager.ragdoll.setDepthTex(kinectManager.depthTex);
+            Jukebox.Loop("Clay");
 
             base.LoadContent();
-            
-            
         }
 
         /// <summary>
@@ -218,14 +157,8 @@ namespace KinectRagdoll
         /// </summary>
         protected override void UnloadContent()
         {
-            //if (farseerManager.createNew)
-            //{
-            //    Serializer.Save(farseerManager.world, this, "save.xml");
-            //}
+            
         }
-
-
-        
 
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -269,59 +202,45 @@ namespace KinectRagdoll
         protected override void Draw(GameTime gameTime)
         {
             
+            GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.DarkSlateGray, 1.0f, 0);   
             SetupRendering();
-            
 
-            RenderTarget2D renderTarget = RenderFarseerEffectsTexture();
+            farseerManager.DrawPhysicsObjects(ref farseerView);
 
-            GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.DarkSlateGray, 1.0f, 0);
+            // Draw sprites in farseer-space
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, spriteBatchTransformation);
 
-            //DrawHeadTrackingDemo(gameTime);
+            ragdollManager.Draw(spriteBatch); // this will draw equipment effects
+            powerupManager.Draw(spriteBatch); // this draws pickups
+            hazardManager.Draw(spriteBatch); // this draws laser beams
+            particleEffectManager.Draw(spriteBatchTransformation);
 
-            DrawSprites(renderTarget);
-
-            particleEffectManager.Draw();
-
-            ProjectionHelper.Update(farseerView);
-
-            base.Draw(gameTime);
-
+            spriteBatch.End();
 
             
+            // Draw sprites in screen-space
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             
-        }
-
-       
-
-        private void DrawSprites(RenderTarget2D renderTarget)
-        {
-            BlendState b = new BlendState();
-            
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            //spriteBatch.Draw(kinectManager.depthTex, new Rectangle(GraphicsDevice.PresentationParameters.BackBufferWidth - 640, 0, 640, 480), new Color(1, 1, 1, .5f));
-            farseerManager.DrawBasics(ref farseerView);
-            spriteBatch.Draw(renderTarget, new Vector2(0, 0), null, Color.White, 0, new Vector2(0, 0), 1, SpriteEffects.FlipVertically, 1);
             toolbox.Draw(spriteBatch);
             farseerManager.DrawFrontEffects(spriteBatch);
             objectiveManager.Draw(spriteBatch);
+
             spriteBatch.End();
+
+            
+
+            base.Draw(gameTime);
+
         }
+
+
 
         private void SetupRendering()
         {
-
-
             farseerView = createFarseerView();
+            ProjectionHelper.Update(farseerView);
 
-            farseerEffect.Projection = farseerProjection;
-            farseerEffect.View = farseerView;
-
-            // Make sure this is enabled!
-            farseerEffect.TextureEnabled = true;
-            farseerEffect.VertexColorEnabled = true;
-
-
-
+            spriteBatchTransformation = farseerView * spriteBatchProjection;
         }
 
         private Matrix createFarseerView()
@@ -345,9 +264,6 @@ namespace KinectRagdoll
                 verticalBound = 15;
             }
 
-            //Rectangle safeZone = new Rectangle(-20, -15, 40, 30);
-            
-
             float top = -farseerView.Translation.Y + verticalBound;
             float bottom = -farseerView.Translation.Y - verticalBound;
             float left = -farseerView.Translation.X - horizontalBound;
@@ -363,7 +279,6 @@ namespace KinectRagdoll
 
             translate.X = CurveFunc(translate.X, 20);
             translate.Y = CurveFunc(translate.Y, 20);
-
 
             Matrix m = Matrix.CreateTranslation(farseerView.Translation.X - translate.X, farseerView.Translation.Y - translate.Y, 0);
 
@@ -389,27 +304,6 @@ namespace KinectRagdoll
         }
 
 
-        private RenderTarget2D RenderFarseerEffectsTexture()
-        {
-            RenderTarget2D renderTarget;
-            PresentationParameters pp = GraphicsDevice.PresentationParameters;
-            renderTarget = new RenderTarget2D(GraphicsDevice, pp.BackBufferWidth, pp.BackBufferHeight);
-
-            GraphicsDevice.SetRenderTarget(renderTarget);
-            GraphicsDevice.Clear(Color.Transparent);
-
-            spriteBatch.Begin(SpriteSortMode.Texture, null, null, null, null, farseerEffect);
-
-            ragdollManager.Draw(spriteBatch);
-            powerupManager.Draw(spriteBatch);
-            hazardManager.Draw(spriteBatch);
-
-            spriteBatch.End();
-
-            GraphicsDevice.SetRenderTarget(null);
-            return renderTarget;
-        }
-
         public void ToggleFullscreen()
         {
 
@@ -422,16 +316,22 @@ namespace KinectRagdoll
                 graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
                 graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
             }
-       
+
             graphics.ToggleFullScreen();
 
-            farseerProjection = Matrix.CreateOrthographicOffCenter(-25 * GraphicsDevice.Viewport.AspectRatio,
-                                                            25 * GraphicsDevice.Viewport.AspectRatio, 25, -25, 0, 1);
+            ResetTransform();
+        }
 
-            farseerManager.setProjection(farseerProjection);
-            farseerEffect.Projection = farseerProjection;
+        private Matrix getFarseerProjection()
+        {
+            return Matrix.CreateOrthographicOffCenter(-25 * GraphicsDevice.Viewport.AspectRatio,
+                                                            25 * GraphicsDevice.Viewport.AspectRatio, -25, 25, -1, 1);
+        }
 
-            ProjectionHelper.Init(graphicsDevice.Viewport, farseerProjection * Matrix.CreateScale(1, -1, 1));
+        private Matrix getScreenProjection()
+        {
+            return Matrix.CreateOrthographicOffCenter(0f, graphicsDevice.Viewport.Width,
+                                                                         graphicsDevice.Viewport.Height, 0f, -1f, 1f);
         }
 
     }

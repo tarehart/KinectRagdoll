@@ -24,6 +24,7 @@ Content\circletool.xnb
 Content\Toolbox\menu.xnb
 Content\Toolbox\showtoolbox.xnb
 Content\FlowerBurst.xnb
+Content\Particle005.xnb
 Content\font.xnb
 Content\Sounds\rocket.xnb
 Content\Sounds\crack.xnb
@@ -39,5 +40,6 @@ Content\Music\FigLeafRag.xnb
 Content\Music\FigLeafRag.wma
 Content\Music\DarkHallway.xnb
 Content\Music\DarkHallway.wma
+Content\Music\madeofclay.xnb
+Content\Music\madeofclay.wma
 Content\Particles\flameEffect.xnb
-Content\Particle005.xnb

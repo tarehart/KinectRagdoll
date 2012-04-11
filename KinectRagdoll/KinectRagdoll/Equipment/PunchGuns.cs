@@ -63,6 +63,7 @@ namespace KinectRagdoll.Equipment
                 bullet.Body.LinearVelocity = vel * 70;
                 bullet.Body.IsBullet = true;
                 bullet.Body.Restitution = .3f;
+                bullet.Body.CollisionCategories = Category.Cat2;
 
                 Timer time = new Timer(4000);
                 time.AutoReset = false;

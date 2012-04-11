@@ -105,6 +105,9 @@ namespace FarseerPhysics.Dynamics
         [DataMember()]
         private float _mass;
 
+        [DataMember()]
+        private List<Joint> _jointList = new List<Joint>();
+
         internal Body()
         {
             FixtureList = new List<Fixture>(32);
@@ -433,7 +436,7 @@ namespace FarseerPhysics.Dynamics
         /// Get the list of all joints attached to this body.
         /// </summary>
         /// <value>The joint list.</value>
-        public List<Joint> JointList { get; internal set; }
+        public List<Joint> JointList { get { return _jointList; } internal set { _jointList = value; } }
 
         /// <summary>
         /// Get the list of all contacts attached to this body.

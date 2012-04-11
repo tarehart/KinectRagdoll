@@ -236,6 +236,15 @@
       <Time>2011-11-28T19:10:58.703737-05:00</Time>
     </Item>
     <Item>
+      <Source>Particle005.png</Source>
+      <Name>Particle005</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Particle005.xnb</Output>
+      <Time>2011-11-28T19:50:31.8599442-05:00</Time>
+    </Item>
+    <Item>
       <Source>font.spritefont</Source>
       <Name>font</Name>
       <Importer>FontDescriptionImporter</Importer>
@@ -347,22 +356,23 @@
       <Time>2011-07-14T23:58:28.609198-04:00</Time>
     </Item>
     <Item>
+      <Source>Music\madeofclay.mp3</Source>
+      <Name>Music\madeofclay</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\madeofclay.xnb</Output>
+      <Extra>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Music\madeofclay.wma</Extra>
+      <Time>2012-02-19T12:45:47.8060464-05:00</Time>
+    </Item>
+    <Item>
       <Source>Particles\flameEffect.xml</Source>
       <Name>Particles\flameEffect</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Particles\flameEffect.xnb</Output>
-      <Time>2011-11-28T19:54:00.7793077-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Particle005.png</Source>
-      <Name>Particle005</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Particle005.xnb</Output>
-      <Time>2011-11-28T19:50:31.8599442-05:00</Time>
+      <Time>2012-02-20T16:55:22.1905941-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -378,7 +388,7 @@
     <Assemblies>
       <Assembly>
         <Key>C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\lib\ProjectMercury.ContentPipeline.dll</Key>
-        <Value>2011-11-28T19:07:57.3158167-05:00</Value>
+        <Value>2012-02-19T13:51:50.0776383-05:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>

@@ -8,6 +8,8 @@ using KinectRagdoll.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
+using FarseerPhysics.Dynamics;
+using KinectRagdoll.Sandbox;
 
 namespace KinectRagdoll.Rules
 {
@@ -21,11 +23,14 @@ namespace KinectRagdoll.Rules
         private Stopwatch countup;
         private KinectRagdollGame game;
         private SoundEffect trumpetSound;
+        private int bleedoutSecs = 5;
+        private Stopwatch bleedout;
 
         public ObjectiveManager(KinectRagdollGame game)
         {
             countdown = new Stopwatch();
             countup = new Stopwatch();
+            bleedout = new Stopwatch();
             this.game = game;
         }
 
@@ -43,12 +48,30 @@ namespace KinectRagdoll.Rules
             }
             countdown.Reset();
             countup.Reset();
+            bleedout.Reset();
             game.ragdollManager.ragdoll.Body.BodyType = FarseerPhysics.Dynamics.BodyType.Dynamic;
+            game.farseerManager.world.FixtureCut += FixtureCut;
+
             //game.farseerManager.world.Enabled = true;
+        }
+
+        private void FixtureCut(Fixture f)
+        {
+            if (game.ragdollManager.ragdoll.OwnsFixture(f))
+            {
+                StartBleedout();
+            }
+        }
+
+        private void StartBleedout()
+        {
+            if (!bleedout.IsRunning)
+                bleedout.Restart();
         }
 
         public void Countdown(int seconds)
         {
+            objectives = objectives.Where(o => !o.IsDead()).ToList();
 
             if (objectives.Count == 0) return;
 
@@ -61,12 +84,25 @@ namespace KinectRagdoll.Rules
             countdown.Restart();
             countup.Reset();
             game.ragdollManager.ragdoll.Body.BodyType = FarseerPhysics.Dynamics.BodyType.Static;
+            game.farseerManager.world.FixtureCut += FixtureCut;
         }
 
 
         public void Update()
         {
             bool allComplete = true;
+
+            if (bleedout.IsRunning)
+            {
+                long timeremaining = bleedoutSecs * 1000 - bleedout.ElapsedMilliseconds;
+                if (timeremaining < 0)
+                {
+                    bleedout.Stop();
+                    ActionCenter.ReloadLevel(delegate() {
+                        Countdown(10);
+                    });
+                }
+            }
 
             if (countdown.IsRunning)
             {
@@ -100,7 +136,9 @@ namespace KinectRagdoll.Rules
             if (allComplete && countup.IsRunning)
             {
                 countup.Stop();
+                bleedout.Stop();
                 trumpetSound.Play();
+                StartBleedout();
             }
         }
 
@@ -114,7 +152,7 @@ namespace KinectRagdoll.Rules
             }
             else if (countup.ElapsedMilliseconds > 0)
             {
-                SpriteHelper.DrawText(sb, new Microsoft.Xna.Framework.Vector2(100, 100), "" + countup.ElapsedMilliseconds / 1000f, Color.Orange);
+                SpriteHelper.DrawText(sb, new Microsoft.Xna.Framework.Vector2(100, 20), "" + String.Format("{0:0.00}", countup.ElapsedMilliseconds / 1000f), Color.White);
             }
             
             foreach (Objective o in objectives)
@@ -133,7 +171,9 @@ namespace KinectRagdoll.Rules
                 o.Init(game);
             }
 
-            Reset();
+
+
+            //Reset();
         }
     }
 }

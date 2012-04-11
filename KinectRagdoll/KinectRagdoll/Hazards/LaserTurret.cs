@@ -19,6 +19,9 @@ namespace KinectRagdoll.Hazards
         private const int chargeTime = 100;
         private int chargeCount = chargeTime;
         protected static int reloadTime = 50;
+        protected static int glowTime = 5;
+        private int glowCount;
+        private Vector2 stoppingPoint;
 
         public LaserTurret(Vector2 farseerLoc, World w, RagdollManager r) : base(farseerLoc, w, r)
         {
@@ -52,7 +55,8 @@ namespace KinectRagdoll.Hazards
             Vector2 fireVec = new Vector2((float)Math.Cos(body.Rotation), (float)Math.Sin(body.Rotation));
             Vector2 fireLoc = body.Position + fireVec * (barrelLength);
             Vector2 endPosition = body.Position + fireVec * 20;
-            CuttingTools.Cut(world, fireLoc, endPosition, 0);
+            stoppingPoint = CuttingTools.Cut(world, fireLoc, endPosition, 0, Category.Cat3);
+            glowCount = glowTime;
         }
 
         public override void Draw(SpriteBatch sb)
@@ -62,16 +66,13 @@ namespace KinectRagdoll.Hazards
             Vector2 endPosition = body.Position + fireVec * 20;
             if (state == State.Firing)
             {
-                if (chargeCount < 5)
-                {
-                    SpriteHelper.DrawLine(sb, fireLoc, endPosition, .4f, Color.Red);
-                }
-                else
-                {
-                    Color c = new Color(1, 0, 0, (chargeTime - chargeCount) * 1.0f / chargeTime);
-                    SpriteHelper.DrawLine(sb, fireLoc, endPosition, .1f, c);
-                }
-                
+                Color c = new Color(1, 0, 0, (chargeTime - chargeCount) * 1.0f / chargeTime);
+                SpriteHelper.DrawLine(sb, fireLoc, endPosition, .1f, c);
+            }
+
+            if (glowCount > 0) {
+                glowCount--;
+                SpriteHelper.DrawLine(sb, fireLoc, stoppingPoint, .4f, Color.Red);
             }
         }
 

@@ -56,6 +56,7 @@ namespace KinectRagdoll.Equipment
             
             ragdoll.KnockOut += new EventHandler(ragdoll_KnockOut);
             soundTimer = new Timer(100);
+            soundTimer.Elapsed -= new ElapsedEventHandler(soundTimer_Elapsed);
             soundTimer.Elapsed += new ElapsedEventHandler(soundTimer_Elapsed);
         }
 
@@ -67,7 +68,7 @@ namespace KinectRagdoll.Equipment
             {
                 float intensity = -(float)Math.Pow(2, -2 * thrust) + 1;
 
-                if (thrust > 0)
+                if (thrust > 0 && ! RagdollManager.thrustSound.IsDisposed)
                     RagdollManager.thrustSound.Play(intensity, intensity, 0);
 
             }
@@ -94,7 +95,16 @@ namespace KinectRagdoll.Equipment
 
             if (ragdoll.asleep) return;
 
-            thrust = (((info.leftHand.Z + info.rightHand.Z) / 2) - info.torso.Z) * 3f;
+            if (info.Tracking)
+            {
+                thrust = (((info.leftHand.Z + info.rightHand.Z) / 2) - info.torso.Z) * 3f;
+            }
+            else
+            {
+                thrust = 0;
+            }
+
+            
             if (thrust > 0)
             {
                 if (!thrustOn)
@@ -151,17 +161,15 @@ namespace KinectRagdoll.Equipment
         {
 
             Vector2 limbLoc = limb.Position;
-            float rot = limb.Rotation + (float)Math.PI / 2;
+            float rot = limb.Rotation - (float)Math.PI / 2;
             Vector2 vec = new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot));
-            //SpriteEffects effect = SpriteEffects.None;
-            //if (rand.Next(2) == 0) effect = SpriteEffects.FlipHorizontally;
-            //sb.Draw(RagdollManager.thrustTex, limbLoc - vec * 1.5f, null, Color.White, limb.Body.Rotation + (float)Math.PI, new Vector2(64, 64), .012f * thrustFactor, effect, 0);
 
-            Vector2 screenLoc = ProjectionHelper.FarseerToPixel(limbLoc - vec * 1.5f);
-            vec.X *= -1;
-            ParticleEffectManager.flameEffect[0].ReleaseImpulse = vec * 500 * thrustFactor;
-            ParticleEffectManager.flameEffect[0].ReleaseScale.Value = 70 * thrustFactor + 30;
-            ParticleEffectManager.flameEffect.Trigger(screenLoc);
+            Vector2 farseerLoc = limbLoc + vec * 1.5f;
+
+            ParticleEffectManager.flameEffect[0].ReleaseImpulse = vec * (thrustFactor * 15 + 5) + limb.LinearVelocity;
+            ParticleEffectManager.flameEffect[0].ReleaseSpeed.Value = 2f * thrustFactor + 2f;
+            ParticleEffectManager.flameEffect[0].ReleaseScale.Value = 3f * thrustFactor + 1f;
+            ParticleEffectManager.flameEffect.Trigger(farseerLoc);
             
         }
 
@@ -201,7 +209,6 @@ namespace KinectRagdoll.Equipment
         {
             thrustOn = false;
             soundTimer.Stop();
-            //feetThrust = 0;
         }
     }
 }

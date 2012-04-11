@@ -112,7 +112,7 @@ namespace KinectRagdoll.Sandbox
                 Action a = delegate()
                 {
                     Jukebox.Stop();
-                    game.ragdollManager.ragdoll.bodySound.Stop();
+                    //game.ragdollManager.ragdoll.bodySound.Stop();
                     game.farseerManager.LoadWorld(FormManager.Open.FileName);
                 };
 
@@ -122,21 +122,30 @@ namespace KinectRagdoll.Sandbox
 
         }
 
-        private void DoReload()
+        private static void DoReload()
+        {
+            ReloadLevel(null);
+
+        }
+
+        public static void ReloadLevel(Action callback)
         {
             if (!String.IsNullOrWhiteSpace(FormManager.Open.FileName))
             {
                 Action a = delegate()
                 {
                     Jukebox.Stop();
-                    game.ragdollManager.ragdoll.bodySound.Stop();
-                    game.farseerManager.LoadWorld(FormManager.Open.FileName);
+                    //game.ragdollManager.ragdoll.bodySound.Stop();
+                    KinectRagdollGame.Main.farseerManager.LoadWorld(FormManager.Open.FileName);
+                    if (callback != null)
+                    {
+                        callback.Invoke();
+                    }
                 };
 
                 KinectRagdollGame.pendingUpdates.Add(a);
 
             }
-
         }
 
     }

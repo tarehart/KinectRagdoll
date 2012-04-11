@@ -14,6 +14,7 @@ namespace KinectRagdoll.Equipment
     [KnownType(typeof(StabilizedJetpack))]
     [KnownType(typeof(PunchGuns))]
     [KnownType(typeof(SpideySilk))]
+    [KnownType(typeof(BubbleShield))]
     public abstract class AbstractEquipment
     {
 

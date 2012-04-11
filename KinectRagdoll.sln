@@ -10,11 +10,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinectRagdollContent", "Kin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Farseer Physics 3.2 XNA", "FarseerSource\Farseer Physics Engine 3.2 XNA\Farseer Physics 3.2 XNA.csproj", "{0A850700-1ABB-4288-A391-6726B90EBEB9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5E364628-B8DE-4F0E-94E1-1425959DC0CA}"
+	ProjectSection(SolutionItems) = preProject
+		Performance1.psess = Performance1.psess
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
+		Reference|Any CPU = Reference|Any CPU
+		Reference|Mixed Platforms = Reference|Mixed Platforms
+		Reference|x86 = Reference|x86
 		Release|Any CPU = Release|Any CPU
 		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
@@ -25,6 +33,11 @@ Global
 		{F470FA3B-FD88-44CC-9B24-F0D15C9FCB48}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{F470FA3B-FD88-44CC-9B24-F0D15C9FCB48}.Debug|x86.ActiveCfg = Debug|x86
 		{F470FA3B-FD88-44CC-9B24-F0D15C9FCB48}.Debug|x86.Build.0 = Debug|x86
+		{F470FA3B-FD88-44CC-9B24-F0D15C9FCB48}.Reference|Any CPU.ActiveCfg = Release|x86
+		{F470FA3B-FD88-44CC-9B24-F0D15C9FCB48}.Reference|Mixed Platforms.ActiveCfg = Release|x86
+		{F470FA3B-FD88-44CC-9B24-F0D15C9FCB48}.Reference|Mixed Platforms.Build.0 = Release|x86
+		{F470FA3B-FD88-44CC-9B24-F0D15C9FCB48}.Reference|x86.ActiveCfg = Release|x86
+		{F470FA3B-FD88-44CC-9B24-F0D15C9FCB48}.Reference|x86.Build.0 = Release|x86
 		{F470FA3B-FD88-44CC-9B24-F0D15C9FCB48}.Release|Any CPU.ActiveCfg = Release|x86
 		{F470FA3B-FD88-44CC-9B24-F0D15C9FCB48}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{F470FA3B-FD88-44CC-9B24-F0D15C9FCB48}.Release|Mixed Platforms.Build.0 = Release|x86
@@ -33,6 +46,9 @@ Global
 		{4381BC2A-BBE5-40FF-9CEB-8BBD343757FB}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{4381BC2A-BBE5-40FF-9CEB-8BBD343757FB}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{4381BC2A-BBE5-40FF-9CEB-8BBD343757FB}.Debug|x86.ActiveCfg = Debug|x86
+		{4381BC2A-BBE5-40FF-9CEB-8BBD343757FB}.Reference|Any CPU.ActiveCfg = Release|x86
+		{4381BC2A-BBE5-40FF-9CEB-8BBD343757FB}.Reference|Mixed Platforms.ActiveCfg = Release|x86
+		{4381BC2A-BBE5-40FF-9CEB-8BBD343757FB}.Reference|x86.ActiveCfg = Release|x86
 		{4381BC2A-BBE5-40FF-9CEB-8BBD343757FB}.Release|Any CPU.ActiveCfg = Release|x86
 		{4381BC2A-BBE5-40FF-9CEB-8BBD343757FB}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{4381BC2A-BBE5-40FF-9CEB-8BBD343757FB}.Release|x86.ActiveCfg = Release|x86
@@ -41,6 +57,11 @@ Global
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Debug|x86.ActiveCfg = Debug|x86
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Debug|x86.Build.0 = Debug|x86
+		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Reference|Any CPU.ActiveCfg = Release|x86
+		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Reference|Mixed Platforms.ActiveCfg = Release|x86
+		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Reference|Mixed Platforms.Build.0 = Release|x86
+		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Reference|x86.ActiveCfg = Release|x86
+		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Reference|x86.Build.0 = Release|x86
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Release|Any CPU.ActiveCfg = Release|x86
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Release|Mixed Platforms.Build.0 = Release|x86

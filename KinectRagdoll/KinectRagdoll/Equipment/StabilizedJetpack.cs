@@ -37,7 +37,7 @@ namespace KinectRagdoll.Equipment
                 if (ticksAfterThrust < 20)
                 {
                     Vector2 bodyVel = ragdoll.Body.LinearVelocity;
-                    stoppingThrustVector = -.5f * bodyVel;
+                    stoppingThrustVector = -.6f * bodyVel;
                     ApplyStoppingForce();
                     ticksAfterThrust++;
                 }
@@ -102,7 +102,7 @@ namespace KinectRagdoll.Equipment
         {
             if (stoppingThrustVector.X != 0 && stoppingThrustVector.Y != 0)
             {
-                Vector2 particleAngle = new Vector2(-stoppingThrustVector.X, stoppingThrustVector.Y);
+                //Vector2 particleAngle = new Vector2(-stoppingThrustVector.X, stoppingThrustVector.Y);
                 //float rot = (float) Math.Atan2(stoppingThrustVector.Y, stoppingThrustVector.X) + (float)Math.PI / 2;;
                 //SpriteEffects effect = SpriteEffects.None;
                 //if (rand.Next(2) == 0) effect = SpriteEffects.FlipHorizontally;
@@ -110,10 +110,10 @@ namespace KinectRagdoll.Equipment
 
                 //sb.Draw(RagdollManager.thrustTex, nozzle, null, Color.Orange, rot, new Vector2(64, 64), .001f * stoppingThrustVector.Length(), effect, 0);
 
-                Vector2 screenLoc = ProjectionHelper.FarseerToPixel(ragdoll.Body.Position);
-                ParticleEffectManager.flameEffect[0].ReleaseImpulse = particleAngle * 10;
-                ParticleEffectManager.flameEffect[0].ReleaseScale.Value = particleAngle.Length() * 5;
-                ParticleEffectManager.flameEffect.Trigger(screenLoc);
+                //Vector2 screenLoc = ProjectionHelper.FarseerToPixel(ragdoll.Body.Position);
+                ParticleEffectManager.flameEffect[0].ReleaseImpulse = ragdoll.Body.LinearVelocity + stoppingThrustVector * -1;
+                ParticleEffectManager.flameEffect[0].ReleaseScale.Value = stoppingThrustVector.Length() * .2f;
+                ParticleEffectManager.flameEffect.Trigger(ragdoll.Body.Position);
             }
         }
 

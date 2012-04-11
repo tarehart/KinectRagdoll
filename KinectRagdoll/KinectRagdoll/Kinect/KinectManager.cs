@@ -26,7 +26,9 @@ namespace KinectRagdoll.Kinect
 
         public Microsoft.Xna.Framework.Color bkColor = new Microsoft.Xna.Framework.Color(230, 230, 230);
         Random rand = new Random();
+        private System.Timers.Timer timer = new System.Timers.Timer(1000);
         private bool trackingPlayer = false;
+        private DateTime lastSkelFrame;
         //int frame = 0;
 
 
@@ -61,6 +63,8 @@ namespace KinectRagdoll.Kinect
 
                 nui.DepthFrameReady += new EventHandler<ImageFrameReadyEventArgs>(nui_DepthFrameReady);
                 nui.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(nui_SkeletonFrameReady);
+                timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
+                timer.Start();
 
             }
             catch (InvalidOperationException)
@@ -68,6 +72,14 @@ namespace KinectRagdoll.Kinect
                 nui = null;
             }
 
+        }
+
+        void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if ((DateTime.Now - lastSkelFrame).TotalSeconds > .5)
+            {
+                skeletonInfo.Tracking = false;
+            }
         }
 
         void nui_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
@@ -82,7 +94,7 @@ namespace KinectRagdoll.Kinect
                 }
             }
 
-            skeletonInfo.Tracking = false;
+            lastSkelFrame = DateTime.Now;
             
         }
 
