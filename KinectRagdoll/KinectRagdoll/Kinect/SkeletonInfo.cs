@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
-using Microsoft.Research.Kinect.Nui;
+using Microsoft.Kinect;
 
 namespace KinectRagdoll.Kinect
 {
@@ -101,7 +101,7 @@ namespace KinectRagdoll.Kinect
             
         }
 
-        public void Update(SkeletonData data)
+        public void Update(Skeleton data)
         {
 
             Tracking = true;
@@ -110,36 +110,36 @@ namespace KinectRagdoll.Kinect
             oldRightWrist = rightWrist;
             oldLeftWrist = leftWrist;
 
-            pToV(data.Joints[JointID.HipCenter].Position, ref centerHip);
-            pToV(data.Joints[JointID.ShoulderCenter].Position, ref centerShoulder);
+            pToV(data.Joints[JointType.HipCenter].Position, ref centerHip);
+            pToV(data.Joints[JointType.ShoulderCenter].Position, ref centerShoulder);
 
-            pToV(data.Joints[JointID.Head].Position, ref head);
+            pToV(data.Joints[JointType.Head].Position, ref head);
             
 
-            pToV(data.Joints[JointID.HandRight].Position, ref rightHand);
+            pToV(data.Joints[JointType.HandRight].Position, ref rightHand);
            
 
-            pToV(data.Joints[JointID.HandLeft].Position, ref leftHand);
+            pToV(data.Joints[JointType.HandLeft].Position, ref leftHand);
             
 
-            pToV(data.Joints[JointID.Spine].Position, ref torso);
+            pToV(data.Joints[JointType.Spine].Position, ref torso);
             
 
-            pToV(data.Joints[JointID.FootLeft].Position, ref leftFoot);
+            pToV(data.Joints[JointType.FootLeft].Position, ref leftFoot);
 
-            pToV(data.Joints[JointID.FootRight].Position, ref rightFoot);
+            pToV(data.Joints[JointType.FootRight].Position, ref rightFoot);
 
-            pToV(data.Joints[JointID.ShoulderLeft].Position, ref leftShoulder);
+            pToV(data.Joints[JointType.ShoulderLeft].Position, ref leftShoulder);
 
-            pToV(data.Joints[JointID.ShoulderRight].Position, ref rightShoulder);
+            pToV(data.Joints[JointType.ShoulderRight].Position, ref rightShoulder);
 
-            pToV(data.Joints[JointID.HipLeft].Position, ref leftHip);
+            pToV(data.Joints[JointType.HipLeft].Position, ref leftHip);
 
-            pToV(data.Joints[JointID.HipRight].Position, ref rightHip);
+            pToV(data.Joints[JointType.HipRight].Position, ref rightHip);
 
-            pToV(data.Joints[JointID.WristLeft].Position, ref leftWrist);
+            pToV(data.Joints[JointType.WristLeft].Position, ref leftWrist);
 
-            pToV(data.Joints[JointID.WristRight].Position, ref rightWrist);
+            pToV(data.Joints[JointType.WristRight].Position, ref rightWrist);
 
             
  
@@ -189,7 +189,7 @@ namespace KinectRagdoll.Kinect
             return v;
         }*/
 
-        private void pToV(Vector p, ref Vector3 v)
+        private void pToV(SkeletonPoint p, ref Vector3 v)
         {
             v.X = p.X;
             v.Y = p.Y;
