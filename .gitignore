@@ -2,6 +2,7 @@
 ###################
 *.exe
 *.xnb
+*.exe.config
 
 # Debug Stuff #
 ###############
@@ -10,6 +11,12 @@
 # ??????????? #
 ###############
 *.cache
+*.cachefile
+*.pfx
+*.psess
+*.vsp
+*.user
+
 
 # Packages #
 ############
@@ -30,9 +37,21 @@
 *.sql
 *.sqlite
 
+
 # OS generated files #
 ######################
 .DS_Store?
 ehthumbs.db
 Icon?
 Thumbs.db
+
+
+# Kinect Ragdoll save files #
+#############################
+*.kr.xml
+
+
+# Folders #
+###########
+bin/
+obj/
