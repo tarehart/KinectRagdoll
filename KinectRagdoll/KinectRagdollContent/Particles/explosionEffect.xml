@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="ProjectMercury.ParticleEffect">
+    <Item>
+      <Name>Boom</Name>
+      <Budget>1000</Budget>
+      <Term>0.2</Term>
+      <ReleaseQuantity>25</ReleaseQuantity>
+      <Enabled>True</Enabled>
+      <ReleaseSpeed>
+        <Value>0</Value>
+        <Variation>1500</Variation>
+      </ReleaseSpeed>
+      <ReleaseColour>
+        <Value>0.7529412 0.2509804 0</Value>
+        <Variation>0 0 0</Variation>
+      </ReleaseColour>
+      <ReleaseOpacity>
+        <Value>1</Value>
+        <Variation>0</Variation>
+      </ReleaseOpacity>
+      <ReleaseScale>
+        <Value>64</Value>
+        <Variation>0</Variation>
+      </ReleaseScale>
+      <ReleaseRotation>
+        <Value>0</Value>
+        <Variation>0</Variation>
+      </ReleaseRotation>
+      <ReleaseImpulse>0 0</ReleaseImpulse>
+      <ParticleTextureAssetName>FlowerBurst</ParticleTextureAssetName>
+      <Modifiers>
+        <Item Type="ProjectMercury.Modifiers.ColourInterpolatorModifier">
+          <InitialColour>1 1 1</InitialColour>
+          <MiddleColour>1 1 0</MiddleColour>
+          <MiddlePosition>0.5</MiddlePosition>
+          <FinalColour>1 0.5019608 0</FinalColour>
+        </Item>
+      </Modifiers>
+      <BlendMode>Alpha</BlendMode>
+      <TriggerOffset>0 0</TriggerOffset>
+      <MinimumTriggerPeriod>0</MinimumTriggerPeriod>
+    </Item>
+    <Name>Basic Explosion</Name>
+    <Author>Matt Davey</Author>
+    <Description>A simple explosion effect.</Description>
+  </Asset>
+</XnaContent>

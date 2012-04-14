@@ -13,7 +13,7 @@
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
-    <XnaProfile>HiDef</XnaProfile>
+    <XnaProfile>Reach</XnaProfile>
     <XnaCrossPlatformGroupID>d3649bb3-1fdf-47e9-ac6e-5455996f82aa</XnaCrossPlatformGroupID>
     <XnaOutputType>Game</XnaOutputType>
     <ApplicationIcon>Game.ico</ApplicationIcon>
@@ -110,8 +110,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
-    <Reference Include="ProjectMercury, Version=3.1.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="ProjectMercury">
       <HintPath>lib\ProjectMercury.dll</HintPath>
     </Reference>
     <Reference Include="System">
@@ -146,6 +145,8 @@
     <Compile Include="Hazards\Hazard.cs" />
     <Compile Include="Hazards\HazardManager.cs" />
     <Compile Include="Hazards\LaserTurret.cs" />
+    <Compile Include="Hazards\Rocket.cs" />
+    <Compile Include="Hazards\RocketTurret.cs" />
     <Compile Include="Hazards\Turret.cs" />
     <Compile Include="Music\BodySound.cs" />
     <Compile Include="Music\Jukebox.cs" />
@@ -216,6 +217,7 @@
     <Compile Include="Sandbox\Serializer.cs" />
     <Compile Include="Tools\PolygonTool.cs" />
     <Compile Include="Tools\RectangleTool.cs" />
+    <Compile Include="Tools\RocketTurretTool.cs" />
     <Compile Include="Tools\RopeTool.cs" />
     <Compile Include="Tools\Tool.cs" />
     <Compile Include="Tools\Toolbox.cs" />

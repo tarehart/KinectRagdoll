@@ -1,3 +1,0 @@
-C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectTest2\KinectTest2Content\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdollContent\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdollContent\obj\x86\Debug\ResolveAssemblyReference.cache

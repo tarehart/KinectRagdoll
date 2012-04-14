@@ -31,12 +31,19 @@ namespace KinectRagdoll.Hazards
 
         public void Update()
         {
-
+            List<Hazard> removeList = new List<Hazard>();
 
             foreach (Hazard h in hazards)
             {
                 if (h.IsOperational)
                     h.Update();
+                else
+                    removeList.Add(h);
+            }
+
+            foreach (Hazard h in removeList)
+            {
+                hazards.Remove(h);
             }
         }
 

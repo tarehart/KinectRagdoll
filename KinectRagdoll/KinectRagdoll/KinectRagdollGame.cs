@@ -235,6 +235,7 @@ namespace KinectRagdoll
 
 
 
+            SpriteHelper.DrawText(spriteBatch, new Vector2(200, 10), kinectManager.Framerate.ToString(), Color.Black);
         private void SetupRendering()
         {
             farseerView = createFarseerView();

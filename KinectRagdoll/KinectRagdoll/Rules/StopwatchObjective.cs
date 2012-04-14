@@ -21,7 +21,7 @@ namespace KinectRagdoll.Rules
         private Vector2 ragdollPixel;
         private Vector2 mePixel;
         [DataMember()]
-        internal Fixture fixture;
+        internal Body body;
 
         public override Objective.ObjectiveState State
         {
@@ -35,21 +35,21 @@ namespace KinectRagdoll.Rules
                 switch (value)
                 {
                     case ObjectiveState.Complete:
-                        FarseerTextures.ApplyTexture(fixture, FarseerTextures.TextureType.CompletedObjective);
+                        FarseerTextures.ApplyTexture(body, FarseerTextures.TextureType.CompletedObjective);
                         break;
                     default:
-                        FarseerTextures.ApplyTexture(fixture, FarseerTextures.TextureType.Objective);
+                        FarseerTextures.ApplyTexture(body, FarseerTextures.TextureType.Objective);
                         break;
                 }
             }
         }
 
-        public StopwatchObjective(KinectRagdollGame g, Fixture f)
+        public StopwatchObjective(KinectRagdollGame g, Body b)
             : base(g)
         {
-            this.fixture = f;
+            this.body = b;
 
-            FarseerTextures.ApplyTexture(f, FarseerTextures.TextureType.Objective);
+            FarseerTextures.ApplyTexture(b, FarseerTextures.TextureType.Objective);
 
             Init(g);
         }
@@ -59,23 +59,21 @@ namespace KinectRagdoll.Rules
         {
 
             this.stopwatch = new Stopwatch();
-            fixture.AfterCollision += ObjectiveTouched;
+            body.OnCollision += ObjectiveTouched;
             
             base.Init(g);
         }
 
-        public void ObjectiveTouched(Fixture f1, Fixture f2, Contact contact)
+        public bool ObjectiveTouched(Fixture f1, Fixture f2, Contact contact)
         {
-            Fixture other;
-            if (f1 == fixture) other = f2;
-            else other = f1;
 
-            if (game.ragdollManager.ragdoll.OwnsFixture(other))
+            if (game.ragdollManager.ragdoll.OwnsFixture(f1) ||
+                game.ragdollManager.ragdoll.OwnsFixture(f2))
             {
                 stopwatch.Stop();
                 State = ObjectiveState.Complete;
-
             }
+            return true;
         }
 
 
@@ -99,7 +97,7 @@ namespace KinectRagdoll.Rules
             
 
             ragdollPixel = ProjectionHelper.FarseerToPixel(game.ragdollManager.ragdoll.Body.Position);
-            mePixel = ProjectionHelper.FarseerToPixel(fixture.Body.Position);
+            mePixel = ProjectionHelper.FarseerToPixel(body.Position);
 
             base.Update();
         }

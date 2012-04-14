@@ -34,7 +34,7 @@ namespace KinectRagdoll.Tools
                  if (list.Count > 0)
                  {
                      Fixture f = list[0];
-                     StopwatchObjective o = new StopwatchObjective(game, f);
+                     StopwatchObjective o = new StopwatchObjective(game, f.Body);
                      game.objectiveManager.objectives.Add(o);
                  }
              }
@@ -51,7 +51,7 @@ namespace KinectRagdoll.Tools
                          if (o.GetType() == typeof(StopwatchObjective))
                          {
                              StopwatchObjective so = (StopwatchObjective)o;
-                             if (so.fixture == f)
+                             if (so.body == f.Body)
                              {
                                  game.objectiveManager.objectives.Remove(o);
 
