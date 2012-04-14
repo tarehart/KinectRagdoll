@@ -1083,7 +1083,8 @@ namespace FarseerPhysics.Dynamics
                 // Center the inertia about the center of mass.
                 _inertia -= _mass * Vector2.Dot(center, center);
 
-                Debug.Assert(_inertia > 0.0f);
+                //Debug.Assert(_inertia > 0.0f);
+                if (_inertia <= 0.0f) _inertia = .00001f;
                 InvI = 1.0f / _inertia;
             }
             else

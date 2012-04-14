@@ -19,6 +19,7 @@ namespace KinectRagdoll.Hazards
     [DataContract(Name = "Turret", Namespace = "http://www.imcool.com")]
     [KnownType(typeof(GunTurret))]
     [KnownType(typeof(LaserTurret))]
+    [KnownType(typeof(RocketTurret))]
     public abstract class Turret : Hazard
     {
         
@@ -35,7 +36,7 @@ namespace KinectRagdoll.Hazards
         protected Fixture pivot;
         [DataMember()]
         protected MotorJoint motor;
-        private RagdollBase target;
+        protected RagdollBase target;
         protected State state;
 
         protected static float barrelLength = 2;
@@ -103,8 +104,7 @@ namespace KinectRagdoll.Hazards
 
         public override void Update()
         {
-
-            if (pivot.Body == null)
+            if (pivot.Body == null || !world.BodyList.Contains(pivot.Body))
             {
                 IsOperational = false;
             } 
@@ -147,15 +147,44 @@ namespace KinectRagdoll.Hazards
             }
             else
             {
-                body.Rotation += radDiff;
-                if (reloadClock <= 0)
-                {
-                    prepFireState();
-                    state = State.Firing;
+                if (hasLineOfSight()) {
+                    body.Rotation += radDiff;
+                    if (reloadClock <= 0)
+                    {
+                        prepFireState();
+                        state = State.Firing;
+                    }
                 }
             }
 
             body.Rotation = body.Rotation;
+        }
+
+        public Vector2 AimVector
+        {
+            get
+            {
+                return new Vector2((float)Math.Cos(body.Rotation), (float)Math.Sin(body.Rotation));
+            }
+        }
+
+        private bool hasLineOfSight()
+        {
+            Vector2 p1 = pivot.Body.Position + AimVector * barrelLength;
+            Vector2 p2 = pivot.Body.Position + AimVector * fireRange;
+
+            bool hasLOS = false;
+
+            world.RayCast((f, p, n, fr) =>
+            {
+                if (target.OwnsFixture(f))
+                    hasLOS = true;
+
+                return 0; // terminate the ray cast
+
+            }, p1, p2);
+
+            return hasLOS;
         }
 
         private void scan()

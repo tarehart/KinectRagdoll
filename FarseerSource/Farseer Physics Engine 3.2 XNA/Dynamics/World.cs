@@ -366,6 +366,8 @@ namespace FarseerPhysics.Dynamics
         {
             Debug.Assert(!_bodyAddList.Contains(body), "You are adding the same body more than once.");
 
+            if (body.JointList == null) body.JointList = new List<Joint>();
+
             if (!_bodyAddList.Contains(body))
                 _bodyAddList.Add(body);
         }
@@ -570,7 +572,9 @@ namespace FarseerPhysics.Dynamics
 
                     // You tried to remove a body that is not contained in the BodyList.
                     // Are you removing the body more than once?
-                    Debug.Assert(BodyList.Contains(body));
+                    //Debug.Assert(BodyList.Contains(body));
+                    if (!BodyList.Contains(body))
+                        continue;
 
                     // Delete the attached joints.
                     foreach (Joint j in body.JointList)

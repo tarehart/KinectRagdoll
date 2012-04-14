@@ -14,6 +14,7 @@ namespace KinectRagdoll.Sandbox
     {
 
         public static ParticleEffect flameEffect;
+        public static ParticleEffect explosionEffect;
         public Renderer particleRenderer;
         
         public ParticleEffectManager(GraphicsDeviceManager graphics) {
@@ -26,12 +27,17 @@ namespace KinectRagdoll.Sandbox
             flameEffect = content.Load<ParticleEffect>("Particles\\flameEffect");
             flameEffect.LoadContent(content);
             flameEffect.Initialise();
+            explosionEffect = content.Load<ParticleEffect>("Particles\\explosionEffect");
+            explosionEffect.LoadContent(content);
+            explosionEffect.Initialise();
+
             particleRenderer.LoadContent(content);
         }
 
         public void Update(float elapsed)
         {
             flameEffect.Update(elapsed);
+            explosionEffect.Update(elapsed);
         }
 
         public void Draw()
@@ -39,6 +45,7 @@ namespace KinectRagdoll.Sandbox
             if (particleRenderer != null)
             {
                 particleRenderer.RenderEffect(flameEffect);
+                particleRenderer.RenderEffect(explosionEffect);
             }
         }
 

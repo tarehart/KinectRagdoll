@@ -28,12 +28,18 @@ namespace KinectRagdoll.Kinect
         Random rand = new Random();
         private bool trackingPlayer = false;
         //int frame = 0;
+        long lastTicks = 0;
 
 
 
         public KinectManager()
         {
            
+        }
+
+        public int Framerate
+        {
+            get { return (int)(TimeSpan.TicksPerSecond / (DateTime.Now.Ticks - lastTicks)); }
         }
 
         //public void initDepthTex()
@@ -54,12 +60,14 @@ namespace KinectRagdoll.Kinect
             try
             {
 
-                nui = new Runtime();
-                nui.Initialize(RuntimeOptions.UseDepthAndPlayerIndex | RuntimeOptions.UseSkeletalTracking | RuntimeOptions.UseColor);
-                nui.VideoStream.Open(ImageStreamType.Video, 2, ImageResolution.Resolution640x480, ImageType.Color);
-                nui.DepthStream.Open(ImageStreamType.Depth, 2, ImageResolution.Resolution320x240, ImageType.DepthAndPlayerIndex);
+                nui = Runtime.Kinects[0];
+                //nui = new Runtime();
+                nui.Initialize(RuntimeOptions.UseSkeletalTracking);
+                //nui.Initialize(RuntimeOptions.UseDepthAndPlayerIndex | RuntimeOptions.UseSkeletalTracking | RuntimeOptions.UseColor);
+                //nui.VideoStream.Open(ImageStreamType.Video, 2, ImageResolution.Resolution640x480, ImageType.Color);
+                //nui.DepthStream.Open(ImageStreamType.Depth, 2, ImageResolution.Resolution320x240, ImageType.DepthAndPlayerIndex);
 
-                nui.DepthFrameReady += new EventHandler<ImageFrameReadyEventArgs>(nui_DepthFrameReady);
+                //nui.DepthFrameReady += new EventHandler<ImageFrameReadyEventArgs>(nui_DepthFrameReady);
                 nui.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(nui_SkeletonFrameReady);
 
             }
@@ -78,11 +86,13 @@ namespace KinectRagdoll.Kinect
                 if (data.TrackingState == SkeletonTrackingState.Tracked)
                 {
                     skeletonInfo.Update(data);
+                    lastTicks = DateTime.Now.Ticks;
                     return;
                 }
             }
 
             skeletonInfo.Tracking = false;
+            
             
         }
 

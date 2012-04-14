@@ -304,6 +304,7 @@ namespace KinectRagdoll
             toolbox.Draw(spriteBatch);
             farseerManager.DrawFrontEffects(spriteBatch);
             objectiveManager.Draw(spriteBatch);
+            SpriteHelper.DrawText(spriteBatch, new Vector2(200, 10), kinectManager.Framerate.ToString(), Color.Black);
             spriteBatch.End();
         }
 

@@ -9,6 +9,7 @@ using System;
 using FarseerPhysics.Collision;
 using FarseerPhysics.DebugViews;
 using FarseerPhysics.Dynamics.Joints;
+using FarseerPhysics.Dynamics.Contacts;
 
 namespace FarseerPhysics.Common.PolygonManipulation
 {
@@ -225,6 +226,14 @@ namespace FarseerPhysics.Common.PolygonManipulation
 
                 if (b == null || b.BodyType == BodyType.Static)
                     continue;
+
+                ContactEdge edge = b.ContactList;
+                while (edge != null)
+                {
+                    Contact c = edge.Contact;
+                    edge = edge.Next;
+                    world.ContactManager.Destroy(c);
+                }
 
                 List<Body> leftBodies = new List<Body>();
                 List<Body> rightBodies = new List<Body>();

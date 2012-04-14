@@ -346,6 +346,11 @@ namespace FarseerPhysics.Dynamics.Contacts
                 if (FixtureA.OnCollision != null)
                     Enabled = FixtureA.OnCollision(FixtureA, FixtureB, this);
 
+                if (FixtureA == null || FixtureB == null) // the collision handler destroyed one of the fixtures
+                {
+                    return;
+                }
+
                 //Reverse the order of the reported fixtures. The first fixture is always the one that the
                 //user subscribed to.
                 if (FixtureB.OnCollision != null)

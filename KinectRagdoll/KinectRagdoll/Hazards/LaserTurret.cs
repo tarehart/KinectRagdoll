@@ -18,17 +18,17 @@ namespace KinectRagdoll.Hazards
 
         private const int chargeTime = 100;
         private int chargeCount = chargeTime;
-        protected static int reloadTime = 50;
+        //protected static int reloadTime = 50;
 
         public LaserTurret(Vector2 farseerLoc, World w, RagdollManager r) : base(farseerLoc, w, r)
         {
-            
+            reloadTime = 50;
         }
 
         public LaserTurret(Vector2 farseerLoc, World w, RagdollManager r, Fixture f)
             : base(farseerLoc, w, r, f)
         {
-            
+            reloadTime = 50;
         }
 
 

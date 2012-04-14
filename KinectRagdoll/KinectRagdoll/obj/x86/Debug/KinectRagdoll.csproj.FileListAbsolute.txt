@@ -150,3 +150,8 @@ C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll
 C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\ProjectMercury.dll
 C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\FlowerBurst.xnb
 C:\Users\Tyler\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Particle005.xnb
+C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\FlowerBurst.xnb
+C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Particle005.xnb
+C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Particles\flameEffect.xnb
+C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\ProjectMercury.dll
+C:\Users\Arehart\Documents\Visual Studio 2010\Projects\KinectRagdoll\KinectRagdoll\KinectRagdoll\bin\x86\Debug\Content\Particles\explosionEffect.xnb
