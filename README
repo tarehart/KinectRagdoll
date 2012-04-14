@@ -1,35 +1,35 @@
 Kinect Ragdoll
 ==============
 
-This program lets you control a 2D ragdoll using a Kinect. I might develop it into an
-obstacle course / time trial type of game, plus just a physics sandbox. Windows only.
+This program lets you control a 2D ragdoll using a Kinect. Currently runs on Windows only.
 
 
 How to play
 -----------
-1. Download and install the Kinect for Windows SDK (http://research.microsoft.com/en-us/um/redmond/projects/kinectsdk/download.aspx)
+1. Download and install the Kinect for Windows SDK (http://www.microsoft.com/en-us/kinectforwindows/)
 2. Plug in a Kinect
 3. Launch the game
 4. Put your arms out and behind you to fire thrusters out of your hands and feet
-5. Punch your hands up, down, and to the sides to shoot bullets
-6. There's currently no object to the game.
+5. Use various tools to draw physics objects and set up objectives / hazards.
 
 
 
 Adding Physics Props
 --------------------
-Use the toolbar at the top. Click one of the icons to start using the tool.
+Use the toolbar on the side.
 - Pointer tool: drag on background to select objects, drag on object to move it.
 - Rectangle tool: drag to create a rectangle
 - Nail tool: click to add a nail that pivots an object on the background
 - Joint tool: click to add a joint between two objects.
+- Polygon tool: you'll figure it out.
+- Turrets: you can place auto-tracking turrets that shoot bullets / lasers / rockets.
 
 Note: nails and joints can be turned into motors via the property editor.
 
 
 Making Selections
 -----------------
-Select the pointer tool and drag a rectangle to make a selection. The selected objects will turn yellow and appear listed in the selection editor.
+Select the pointer tool and drag a rectangle to make a selection. The selected objects will turn yellow and appear listed in the selection editor. (press 'P')
 
 You can modify your selection with the checkboxes in the selection editor, and perform various operations on the selected objects.
 
@@ -48,11 +48,3 @@ Tips
 - The thrusters get stronger the more you put your hands back. The game compares the position of your hands to your 'torso'.
 - The game gently tries to rotate the ragdoll so that it's leaning at the same angle you are.
 - One player at a time for now.
-
-
-To Do
------------
-- Objectives
-- Equipment/powerups
-- Sounds
-- Alternative things to control (tank?)
