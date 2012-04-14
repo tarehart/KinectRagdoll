@@ -95,7 +95,7 @@ namespace KinectRagdoll.Kinect
             }
 
             // Init the found and connected device
-            if (kinectSensor.Status == KinectStatus.Connected)
+            if (kinectSensor != null && kinectSensor.Status == KinectStatus.Connected)
             {
                 InitializeKinect();
             }

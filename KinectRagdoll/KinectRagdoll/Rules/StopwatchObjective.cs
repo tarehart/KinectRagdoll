@@ -79,7 +79,7 @@ namespace KinectRagdoll.Rules
 
         public override void Begin()
         {
-            if (fixture.Body == null || fixture.Body.FixtureList == null) return;
+            if (body == null || body.FixtureList == null) return;
             stopwatch.Start();
             State = ObjectiveState.Running;
  	        base.Begin();
@@ -136,7 +136,7 @@ namespace KinectRagdoll.Rules
 
         public override bool IsDead()
         {
-            return fixture.Body == null || fixture.Body.FixtureList == null;
+            return body == null || body.FixtureList == null;
         }
 
     }
