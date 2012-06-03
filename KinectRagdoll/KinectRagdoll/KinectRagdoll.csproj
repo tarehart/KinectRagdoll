@@ -141,6 +141,7 @@
     <Compile Include="Equipment\Flappers.cs" />
     <Compile Include="Equipment\GrabHands.cs" />
     <Compile Include="Equipment\JetPack.cs" />
+    <Compile Include="Farseer\FarseerHelper.cs" />
     <Compile Include="Hazards\GunTurret.cs" />
     <Compile Include="Hazards\Hazard.cs" />
     <Compile Include="Hazards\HazardManager.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Hazards\Rocket.cs" />
     <Compile Include="Hazards\RocketTurret.cs" />
     <Compile Include="Hazards\Turret.cs" />
+    <Compile Include="Hazards\WallPopper.cs" />
     <Compile Include="Music\BodySound.cs" />
     <Compile Include="Music\Jukebox.cs" />
     <Compile Include="Powerups\Pickup.cs" />
@@ -165,7 +167,7 @@
     <Compile Include="Rules\StopwatchObjective.cs" />
     <Compile Include="Sandbox\ActionCenter.cs" />
     <Compile Include="Sandbox\DragArea.cs" />
-    <Compile Include="Sandbox\FarseerTextures.cs" />
+    <Compile Include="Farseer\FarseerTextures.cs" />
     <Compile Include="Sandbox\ParticleEffectManager.cs" />
     <Compile Include="Sandbox\PowerupForm.cs">
       <SubType>Form</SubType>
@@ -195,7 +197,7 @@
     <Compile Include="Sandbox\ProjectionHelper.cs" />
     <Compile Include="Sandbox\FormManager.cs" />
     <Compile Include="Sandbox\InputManager.cs" />
-    <Compile Include="Sandbox\FarseerManager.cs" />
+    <Compile Include="Farseer\FarseerManager.cs" />
     <Compile Include="Kinect\KinectManager.cs" />
     <Compile Include="Ragdoll\RagdollBase.cs" />
     <Compile Include="Ragdoll\RagdollAttractor.cs" />
@@ -222,6 +224,7 @@
     <Compile Include="Tools\Tool.cs" />
     <Compile Include="Tools\Toolbox.cs" />
     <Compile Include="Tools\ToolboxButton.cs" />
+    <Compile Include="Tools\WallPopperTool.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

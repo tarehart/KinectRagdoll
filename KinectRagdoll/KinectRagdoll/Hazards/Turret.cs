@@ -13,6 +13,7 @@ using KinectRagdoll.Equipment;
 using KinectRagdoll.Kinect;
 using System.Runtime.Serialization;
 using FarseerPhysics.Dynamics.Joints;
+using KinectRagdoll.Farseer;
 
 namespace KinectRagdoll.Hazards
 {
@@ -171,21 +172,26 @@ namespace KinectRagdoll.Hazards
 
         private bool hasLineOfSight()
         {
+
+
+
             Vector2 p1 = pivot.Body.Position + AimVector * barrelLength;
             Vector2 p2 = pivot.Body.Position + AimVector * fireRange;
 
-            bool hasLOS = false;
+            return FarseerHelper.hasLineOfSight(p1, p2, f => target.OwnsFixture(f), world);
 
-            world.RayCast((f, p, n, fr) =>
-            {
-                if (target.OwnsFixture(f))
-                    hasLOS = true;
+            //bool hasLOS = false;
 
-                return 0; // terminate the ray cast
+            //world.RayCast((f, p, n, fr) =>
+            //{
+            //    if (target.OwnsFixture(f))
+            //        hasLOS = true;
 
-            }, p1, p2);
+            //    return 0; // terminate the ray cast
 
-            return hasLOS;
+            //}, p1, p2);
+
+            //return hasLOS;
         }
 
         private void scan()

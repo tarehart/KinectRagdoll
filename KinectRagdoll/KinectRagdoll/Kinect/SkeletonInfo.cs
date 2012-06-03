@@ -246,5 +246,17 @@ namespace KinectRagdoll.Kinect
                 }
             }
         }
+
+
+        private static SkeletonInfo standard;
+        public static SkeletonInfo StandardPose
+        {
+            get
+            {
+                if (standard == null)
+                    standard = new SkeletonInfo();
+                return standard;
+            }
+        }
     }
 }

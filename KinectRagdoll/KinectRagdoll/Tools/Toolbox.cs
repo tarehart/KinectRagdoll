@@ -61,6 +61,7 @@ namespace KinectRagdoll.Sandbox
             AddToolButton(new GunTurretTool(game), new Vector2(34, 171));
             AddToolButton(new LaserTurretTool(game), new Vector2(60, 171));
             AddToolButton(new RocketTurretTool(game), new Vector2(90, 171));
+            AddToolButton(new WallPopperTool(game), new Vector2(120, 171));
 
 
             AddActionButton(new ClickAction(game.actionCenter, ActionCenter.Actions.StartTimer), new Vector2(10, 233));

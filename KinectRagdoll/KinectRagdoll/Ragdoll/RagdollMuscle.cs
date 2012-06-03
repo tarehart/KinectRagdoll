@@ -102,7 +102,16 @@ namespace KinectRagdoll.Ragdoll
         public override void Update(SkeletonInfo info)
         {
 
-            base.Update(info);
+            if (wakeTimer < WAKE_TIME)
+            {
+                base.Update(SkeletonInfo.StandardPose);
+            }
+            else
+            {
+                base.Update(info);
+            }
+
+            
 
             tick();
 
